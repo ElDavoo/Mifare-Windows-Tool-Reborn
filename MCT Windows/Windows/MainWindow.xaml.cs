@@ -6,7 +6,11 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Media;
+using System.Reactive.Linq;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
@@ -19,15 +23,39 @@ namespace MCT_Windows
     public partial class MainWindow : Window
     {
         public bool TagFound = false;
+        public bool ScanTagRunning = false;
         public string MainTitle { get; set; } = "MCT Windows";
         Tools t = null;
         enum action { ReadSource, ReadTarget, Dump }
         public List<Keys> SelectedKeys = new List<Keys>();
         action CurrentAction = action.ReadSource;
+        IObservable<long> ObservableScan = null;
+        CancellationTokenSource ScanSource = null;
         public MainWindow()
         {
             InitializeComponent();
             t = new Tools(this);
+
+            PeriodicScanTag();
+
+        }
+
+        public void PeriodicScanTag()
+        {
+            if (ScanTagRunning) return;
+            ObservableScan = Observable.Interval(TimeSpan.FromSeconds(2));
+            // Token for cancelation
+            ScanSource = new CancellationTokenSource();
+            // Subscribe the obserable to the task on execution.
+            ObservableScan.Subscribe(x =>
+            {
+                Application.Current.Dispatcher.Invoke(new Action(() =>
+                {
+                    rtbOutput.Text = "";
+                    RunNfcList();
+                }));
+            }, ScanSource.Token);
+            ScanTagRunning = true;
         }
 
         private void btnReadTag_Click(object sender, RoutedEventArgs e)
@@ -42,58 +70,55 @@ namespace MCT_Windows
 
         private void ReadTag(action act)
         {
-            rtbOutput.Text = "";
-            RunNfcList();
-
-            var retUID = rtbOutput.Text.Split('\n').Where(t => t.Contains("UID")).FirstOrDefault();
-            if (retUID != null && retUID.Contains(": "))
+            if (!string.IsNullOrWhiteSpace(t.CurrentUID))
             {
                 if (act == action.ReadSource)
                 {
-                    t.mySourceUID = retUID.Substring(retUID.IndexOf(": ") + ": ".Length).Replace(" ", "");
+                    t.mySourceUID = t.CurrentUID;
                     t.TMPFILE_UNK = $"mfc_{ t.mySourceUID}_unknownMfocSectorInfo.txt";
                     t.TMPFILESOURCE_MFD = $"mfc_{ t.mySourceUID}.dump";
                     t.TMPFILE_FND = $"mfc_{ t.mySourceUID}_foundKeys.txt";
                 }
                 else if (act == action.ReadTarget)
                 {
-                    t.myTargetUID = retUID.Substring(retUID.IndexOf(": ") + ": ".Length).Replace(" ", "");
+                    t.myTargetUID = t.CurrentUID;
                     t.TMPFILE_UNK = $"mfc_{ t.myTargetUID}_unknownMfocSectorInfo.txt";
                     t.TMPFILE_TARGETMFD = $"mfc_{ t.myTargetUID}.dump";
                     t.TMPFILE_FND = $"mfc_{ t.myTargetUID}_foundKeys.txt";
                 }
-                this.Title = $"{MainTitle} - new UID Found : { t.mySourceUID}";
-                TagFound = true;
-            }
-            else
-            {
-                TagFound = false;
-                this.Title = $"{MainTitle}: no tag found";
             }
 
             if (TagFound)
             {
-                MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(this, t);
-                mtsWin.ShowDialog();
+
                 if (act == action.ReadSource)
+                {
+                    MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(this, t);
+                    mtsWin.ShowDialog();
                     RunMfoc(SelectedKeys, t.TMPFILESOURCE_MFD);
+                }
                 else if (act == action.ReadTarget)
-                    RunMfoc(SelectedKeys, t.TMPFILE_TARGETMFD);
+                {
+                    WriteDumpWindow wdw = new WriteDumpWindow(this, t);
+                    wdw.ShowDialog();
+
+                }
 
                 TagFound = false;
+            }
+            else
+            {
+                MessageBox.Show("No Tag to read");
             }
         }
 
         public void ShowDump()
         {
-
             Application.Current.Dispatcher.Invoke((Action)delegate
-        {
-            DumpWindow dw = new DumpWindow(t.TMPFILESOURCE_MFD);
-            dw.Show();
-
-
-        });
+            {
+                DumpWindow dw = new DumpWindow(t.TMPFILESOURCE_MFD);
+                dw.Show();
+            });
 
         }
 
@@ -112,33 +137,64 @@ namespace MCT_Windows
             bgw.RunWorkerAsync();
             t.doneEvent.WaitOne();
             DoEvents();
+            var retUID = rtbOutput.Text.Split('\n').Where(t => t.Contains("UID")).FirstOrDefault();
+            if (retUID != null && retUID.Contains(": "))
+            {
+                t.CurrentUID = retUID.Substring(retUID.IndexOf(": ") + ": ".Length).Replace(" ", "").ToUpper();
+                this.Title = $"{MainTitle}: new UID Found : { t.CurrentUID}";
+                if (!TagFound)
+                {
+                    SystemSounds.Beep.Play();
+                }
+                TagFound = true;
+
+            }
+
+            else
+            {
+                t.CurrentUID = "";
+                TagFound = false;
+                this.Title = $"{MainTitle}: no tag";
+            }
+        }
+        public void StopScanTag()
+        {
+            ScanTagRunning = false;
+            ScanSource.Cancel();
         }
 
-        private void RunNfcMfcClassic()
+        public void RunNfcMfcClassic(bool bWriteBlock0)
         {
-            BackgroundWorker bgw = new BackgroundWorker();
+            StopScanTag();
+
+             BackgroundWorker bgw = new BackgroundWorker();
             bgw.DoWork += new DoWorkEventHandler(t.mf_write);
             bgw.WorkerReportsProgress = true;
             bgw.ProgressChanged += new ProgressChangedEventHandler(default_rpt);
-            bgw.RunWorkerAsync(new string[] { t.TMPFILESOURCE_MFD, t.TMPFILE_TARGETMFD });
+            bgw.RunWorkerAsync(new string[] { t.TMPFILESOURCE_MFD, t.TMPFILE_TARGETMFD, bWriteBlock0.ToString() });
 
         }
-        private void RunMfoc(List<Keys> keys, string tmpFileMfd)
+        public void RunMfoc(List<Keys> keys, string tmpFileMfd)
         {
-            BackgroundWorker bgw = new BackgroundWorker();
-            bgw.DoWork += new DoWorkEventHandler(t.mfoc);
-            bgw.WorkerReportsProgress = true;
-            bgw.ProgressChanged += new ProgressChangedEventHandler(default_rpt);
-            var parameters = keys.Select(k => "keys/" + k.FileName).ToList();
-            parameters.Add(tmpFileMfd);
-            parameters.Add(t.TMPFILE_UNK);
-            bgw.RunWorkerAsync(parameters.ToArray());
+            try
+            {
+                StopScanTag();
+                BackgroundWorker bgw = new BackgroundWorker();
+                bgw.DoWork += new DoWorkEventHandler(t.mfoc);
+                bgw.WorkerReportsProgress = true;
+                bgw.ProgressChanged += new ProgressChangedEventHandler(default_rpt);
+                var parameters = keys.Select(k => "keys/" + k.FileName).ToList();
+                parameters.Add(tmpFileMfd);
+                parameters.Add(t.TMPFILE_UNK);
+                bgw.RunWorkerAsync(parameters.ToArray());
+            }
+            catch (Exception)
+            {
+                PeriodicScanTag();
+            }
 
 
         }
-
-
-
 
         public void logAppend(string msg)
         {
@@ -161,13 +217,7 @@ namespace MCT_Windows
             (sender as TextBox).ScrollToEnd();
         }
 
-        private void btnWriteTag_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-
-
+      
         private void btnOpenExistingTag_Click(object sender, RoutedEventArgs e)
         {
             OpenTag(action.ReadSource);
@@ -188,14 +238,5 @@ namespace MCT_Windows
             }
         }
 
-        private void btnOpenExistingTargetTag_Click(object sender, RoutedEventArgs e)
-        {
-            OpenTag(action.ReadTarget);
-        }
-
-        private void btnCloneTag_Click(object sender, RoutedEventArgs e)
-        {
-            RunNfcMfcClassic();
-        }
     }
 }

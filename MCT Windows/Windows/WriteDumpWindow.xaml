@@ -3,53 +3,90 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:MCT_Windows"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:uc="clr-namespace:MCT_Windows.UserControls"
     Title="Map Key to Sector"
     Width="329.967"
     Height="366.279"
-    Background="#5A595B"
+    Background="#303030"
     WindowStyle="SingleBorderWindow"
     mc:Ignorable="d">
     <Grid>
         <Button
             x:Name="btnSelectDump"
-            Width="75"
-            Height="26"
+            Width="150"
+            Height="22"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
+            Background="#5A595B"
             Click="btnSelectDump_Click"
             Content="Select Dump"
-            Cursor="Hand" />
+            Cursor="Hand"
+            Foreground="White" />
         <Button
             x:Name="btnCancel"
-            Width="75"
+            Width="100"
             Height="26"
             Margin="20"
             HorizontalAlignment="Left"
             VerticalAlignment="Bottom"
+            Background="#5A595B"
             Click="btnCancel_Click"
             Content="Cancel"
-            Cursor="Hand" />
+            Cursor="Hand"
+            Foreground="White" />
         <Button
             x:Name="btnWriteDump"
-            Width="168"
+            Width="100"
             Height="26"
             Margin="20"
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
+            Background="#5A595B"
             Click="btnWriteDump_Click"
             Content="Write Dump"
-            Cursor="Hand" />
+            Cursor="Hand"
+            Foreground="White" />
         <RadioButton
-            Width="90"
+            Width="150"
             Margin="0,0,0,50"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Content="Clone Dump"
+            Content="Write Dump (Clone)"
             Foreground="White"
             IsChecked="True" />
+        <RadioButton
+            Width="150"
+            Margin="0,0,0,80"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Content="Factory Format"
+            Foreground="White"
+            IsChecked="False" />
+        <CheckBox
+            Margin="30,191,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="Use these Access Conditions for all sectors"
+            Foreground="White" />
+        <CheckBox
+            x:Name="ckEnableBlock0Writing"
+            Margin="30,250,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="Advanced: Enable writing to manufacturer block"
+            Foreground="White" />
+        <TextBox
+            Width="120"
+            Height="23"
+            Margin="89,220,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Background="#303030"
+            BorderThickness="0"
+            Foreground="White"
+            Text="08778F"
+            TextWrapping="Wrap" />
 
     </Grid>
 </Window>

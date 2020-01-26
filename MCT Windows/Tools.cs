@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace MCT_Windows
         public Process process = new Process();
         public bool lprocess = false;
         public bool running = false;
+        public string CurrentUID = "";
         MainWindow Main { get; set; }
         public Tools(MainWindow main)
         {
@@ -47,17 +49,21 @@ namespace MCT_Windows
                 process.OutputDataReceived += (s, _e) => b.ReportProgress(0, _e.Data);
                 process.ErrorDataReceived += (s, _e) => b.ReportProgress(0, _e.Data);
                 process.EnableRaisingEvents = true;
+                process.Exited += (s, _e) =>
+                {
+                    if (process.ExitCode == 0)
+                    {
+                        b.ReportProgress(101, "##scan finished##");
+                    }
+                    else
+                        b.ReportProgress(100, "done with errors");
+                };
                 process.BeginOutputReadLine();
                 process.BeginErrorReadLine();
                 process.WaitForExit();
                 lprocess = false;
                 running = false;
-                if (process.ExitCode == 0)
-                {
-                    b.ReportProgress(101, "##finished##");
-                }
-                else
-                    b.ReportProgress(100, "done");
+
             }
             finally
             {
@@ -70,59 +76,79 @@ namespace MCT_Windows
 
         public void mfoc(object sender, DoWorkEventArgs e)
         {
-            if (lprocess) { return; }
-
-            ProcessStartInfo psi = new ProcessStartInfo("nfctools/mfoc.exe");
-            string[] args = (string[])e.Argument;
-            if (File.Exists(TMPFILE_FND))
+            try
             {
-                if (args.Count() > 2)
+                if (lprocess) { return; }
+
+                ProcessStartInfo psi = new ProcessStartInfo("nfctools/mfoc.exe");
+                string[] args = (string[])e.Argument;
+                if (File.Exists(TMPFILE_FND))
                 {
-                    psi.Arguments += AddKeys(args);
-                    psi.Arguments += $"-O \"{args[args.Count() - 2]}\" -D \"{args[args.Count() - 1]}\"";
+                    if (args.Count() > 2)
+                    {
+                        psi.Arguments += AddKeys(args);
+                        psi.Arguments += $"-O \"{args[args.Count() - 2]}\" -D \"{args[args.Count() - 1]}\"";
+                    }
+                    else
+                        psi.Arguments = $"-f \"{TMPFILE_FND}\" -O \"{args[1]}\" -D \"{args[2]}\"";
                 }
                 else
-                    psi.Arguments = $"-f \"{TMPFILE_FND}\" -O \"{args[1]}\" -D \"{args[2]}\"";
-            }
-            else
-            {
-                if (args.Count() > 2)
                 {
-                    psi.Arguments += AddKeys(args);
-                    psi.Arguments += $" -O \"{args[args.Count() - 2]}\" -D \"{args[args.Count() - 1]}\"";
+                    if (args.Count() > 2)
+                    {
+                        psi.Arguments += AddKeys(args);
+                        psi.Arguments += $" -O \"{args[args.Count() - 2]}\" -D \"{args[args.Count() - 1]}\"";
+                    }
+                    else
+                        psi.Arguments = $"-O \"{args[1]}\" -D \"{args[2]}\"";
                 }
-                else
-                    psi.Arguments = $"-O \"{args[1]}\" -D \"{args[2]}\"";
-            }
-            psi.CreateNoWindow = true;
-            psi.UseShellExecute = false;
-            psi.RedirectStandardOutput = true;
-            psi.RedirectStandardError = true;
-            process.EnableRaisingEvents = true;
-            lprocess = true;
-            BackgroundWorker b = (BackgroundWorker)sender;
-            process = Process.Start(psi);
-            b.ReportProgress(0, "Starting MFOC decryption……");
-            running = true;
-            process.OutputDataReceived += (s, _e) => b.ReportProgress(0, _e.Data);
-            process.ErrorDataReceived += (s, _e) => b.ReportProgress(0, _e.Data);
-            process.Exited += (s, _e) => Main.ShowDump();
-            process.BeginOutputReadLine();
-            process.BeginErrorReadLine();
-            process.WaitForExit();
+                psi.CreateNoWindow = true;
+                psi.UseShellExecute = false;
+                psi.RedirectStandardOutput = true;
+                psi.RedirectStandardError = true;
+                process.EnableRaisingEvents = true;
+                lprocess = true;
+                BackgroundWorker b = (BackgroundWorker)sender;
+                process = Process.Start(psi);
+                b.ReportProgress(0, "Starting MFOC decryption……");
+                running = true;
+                process.OutputDataReceived += (s, _e) => b.ReportProgress(0, _e.Data);
+                process.ErrorDataReceived += (s, _e) =>
+                {
+                    b.ReportProgress(0, _e.Data);
+                    if (_e.Data == "nfc_initiator_mifare_cmd: Invalid argument(s)")
+                        process.Close();
 
-            if (process.ExitCode == 0)
-            {
-                b.ReportProgress(101, "##mfoc finished##");
+                };
+                process.Exited += (s, _e) =>
+                {
+                    if (process.ExitCode == 0)
+                    {
+                        b.ReportProgress(101, "##mfoc finished##");
+                        Main.ShowDump();
+                    }
+                    else
+                    {
+                        b.ReportProgress(100, "done with errors");
+                        File.Delete(args[0]);
+                    }
+                    Main.PeriodicScanTag();
+                };
+                process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
+                process.WaitForExit();
 
             }
-            else
+            catch (Exception)
             {
-                b.ReportProgress(100, "done with errors");
-                File.Delete(args[0]);
+
             }
-            lprocess = false;
-            running = false;
+            finally
+            {
+                lprocess = false;
+                running = false;
+                Main.PeriodicScanTag();
+            }
 
         }
 
@@ -141,7 +167,10 @@ namespace MCT_Windows
             if (lprocess) { return; }
             ProcessStartInfo psi = new ProcessStartInfo("nfctools/nfc-mfclassic.exe");
             string[] args = (string[])e.Argument;
-            psi.Arguments = $"W a \"{args[0]}\" \"{args[1]}\"";
+            var sourceDump = args[0];
+            var targetDump = args[1];
+            char writeMode = bool.Parse(args[2]) == true ? 'W' : 'w';
+            psi.Arguments = $"{writeMode} a \"{sourceDump}\" \"{targetDump}\"";
             psi.CreateNoWindow = true;
             psi.UseShellExecute = false;
             psi.RedirectStandardOutput = true;
@@ -154,19 +183,24 @@ namespace MCT_Windows
             process.OutputDataReceived += (s, _e) => b.ReportProgress(0, _e.Data);
             process.ErrorDataReceived += (s, _e) => b.ReportProgress(0, _e.Data);
 
+            process.Exited += (s, _e) =>
+            {
+                Main.PeriodicScanTag();
+                if (process.ExitCode == 0)
+                {
+                    b.ReportProgress(101, "##nfc-mfcclassic finished##");
+
+                }
+                else
+                {
+                    b.ReportProgress(100, "nfc-mfcclassic done with errors");
+                    File.Delete(args[0]);
+                }
+            };
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
             process.WaitForExit();
-            if (process.ExitCode == 0)
-            {
-                b.ReportProgress(101, "##mfoc finished##");
 
-            }
-            else
-            {
-                b.ReportProgress(100, "done with errors");
-                File.Delete(args[0]);
-            }
             lprocess = false;
             running = false;
 
