@@ -49,13 +49,13 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Button
-                    x:Name="btnOpenExistingTag"
+                    x:Name="btnEditDumpFile"
                     Width="125"
                     Height="100"
                     Background="#5A595B"
                     BorderBrush="White"
                     BorderThickness="1"
-                    Click="btnOpenExistingTag_Click"
+                    Click="btnEditDumpFile_Click"
                     Content="{StaticResource imgEditDump}"
                     Cursor="Hand"
                     Foreground="Wheat" />

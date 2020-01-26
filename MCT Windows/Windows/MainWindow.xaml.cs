@@ -116,8 +116,10 @@ namespace MCT_Windows
         {
             Application.Current.Dispatcher.Invoke((Action)delegate
             {
-                DumpWindow dw = new DumpWindow(t.TMPFILESOURCE_MFD);
-                dw.Show();
+                StopScanTag();
+                DumpWindow dw = new DumpWindow(t,t.TMPFILESOURCE_MFD);
+                dw.ShowDialog();
+                PeriodicScanTag();
             });
 
         }
@@ -238,5 +240,17 @@ namespace MCT_Windows
             }
         }
 
+        private void btnEditDumpFile_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Dump Files|*.dump|All Files|*.*";
+            ofd.InitialDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var dr = ofd.ShowDialog();
+            if (dr.Value)
+            {
+                t.TMPFILESOURCE_MFD = ofd.FileName;
+                ShowDump();
+            }
+        }
     }
 }
