@@ -8,15 +8,20 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <Grid>
+    <Grid Background="#303030">
         <ListBox
             x:Name="lstKeys"
             Height="100"
             MaxHeight="100"
-            VerticalAlignment="Top">
+            VerticalAlignment="Top"
+            Background="#303030"
+            Foreground="White">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <CheckBox Content="{Binding FileName}" IsChecked="{Binding IsSelected}" />
+                    <CheckBox
+                        Content="{Binding FileName}"
+                        Foreground="White"
+                        IsChecked="{Binding IsSelected}" />
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

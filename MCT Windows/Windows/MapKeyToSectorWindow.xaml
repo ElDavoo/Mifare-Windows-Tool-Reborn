@@ -5,33 +5,53 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:uc="clr-namespace:MCT_Windows.UserControls"
-    Title="Map Keys Dictionary"
+    Title="Map Keys"
     Width="329.967"
     Height="366.279"
-    Background="#5A595B"
+    Background="#303030"
     WindowStyle="SingleBorderWindow"
     mc:Ignorable="d">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="98*" />
+            <ColumnDefinition Width="225*" />
+        </Grid.ColumnDefinitions>
         <Button
             x:Name="btnCancel"
             Width="75"
             Height="26"
-            Margin="20"
+            Margin="20,0,0,19.667"
             HorizontalAlignment="Left"
             VerticalAlignment="Bottom"
+            Background="#5A595B"
             Click="btnCancel_Click"
             Content="Cancel"
-            Cursor="Hand" />
+            Cursor="Hand"
+            Foreground="White" />
         <Button
             x:Name="btnStartMappingAndReadTag"
+            Grid.Column="1"
             Width="168"
             Height="26"
-            Margin="20"
+            Margin="0,0,20.333,19.667"
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
+            Background="#5A595B"
             Click="btnStartMappingAndReadTag_Click"
             Content="Start mapping and read tag"
-            Cursor="Hand" />
-        <uc:ucListKeys x:Name="ucLK" Height="100" />
+            Cursor="Hand"
+            Foreground="White" />
+        <uc:ucListKeys
+            x:Name="ucLK"
+            Grid.ColumnSpan="2"
+            Height="100"
+            Margin="0,118,0.333,118.667" />
+        <Label
+            Grid.ColumnSpan="2"
+            Margin="10,85,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="Choose some key file(s):"
+            Foreground="White" />
     </Grid>
 </Window>
