@@ -1,0 +1,38 @@
+﻿<Window
+    x:Class="MCT_Windows.MapKeyToSectorWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:MCT_Windows"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:uc="clr-namespace:MCT_Windows.UserControls"
+    Title="Map Keys Dictionary"
+    Width="329.967"
+    Height="366.279"
+    Background="#5A595B"
+    WindowStyle="SingleBorderWindow"
+    mc:Ignorable="d">
+    <Grid>
+        <Button
+            x:Name="btnCancel"
+            Width="75"
+            Height="26"
+            Margin="20"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom"
+            Click="btnCancel_Click"
+            Content="Cancel"
+            Cursor="Hand" />
+        <Button
+            x:Name="btnStartMappingAndReadTag"
+            Width="168"
+            Height="26"
+            Margin="20"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Click="btnStartMappingAndReadTag_Click"
+            Content="Start mapping and read tag"
+            Cursor="Hand" />
+        <uc:ucListKeys x:Name="ucLK" Height="100" />
+    </Grid>
+</Window>

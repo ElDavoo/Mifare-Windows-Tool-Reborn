@@ -1,0 +1,104 @@
+﻿<Window
+    x:Class="MCT_Windows.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Mifare Tool"
+    Width="660"
+    Height="333"
+    Background="#5A595B"
+    WindowStyle="ToolWindow"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <Image x:Key="imgReadTag" Source="..\Images\read_tag.png" />
+        <Image x:Key="imgWriteTag" Source="..\Images\write_tag.png" />
+        <Image x:Key="imgEditDump" Source="..\Images\edit_analyse_dump_file.png" />
+        <Image x:Key="imgEditAddKey" Source="..\Images\edit_add_keyfile.png" />
+        <Image x:Key="imgTools" Source="..\Images\tools.png" />
+        <Image x:Key="imgHelpInfo" Source="..\Images\help_and_info.png" />
+    </Window.Resources>
+    <Grid>
+        <StackPanel
+            Width="255"
+            HorizontalAlignment="Left"
+            Orientation="Vertical">
+            <StackPanel Width="auto" Orientation="Horizontal">
+                <Button
+                    x:Name="btnReadTag"
+                    Width="125"
+                    Height="100"
+                    Background="#5A595B"
+                    BorderBrush="White"
+                    BorderThickness="1"
+                    Click="btnReadTag_Click"
+                    Content="{StaticResource imgReadTag}"
+                    Cursor="Hand"
+                    Foreground="Wheat" />
+                <Button
+                    x:Name="btnReadTargetTag"
+                    Width="125"
+                    Height="100"
+                    Background="#5A595B"
+                    BorderBrush="White"
+                    BorderThickness="1"
+                    Click="btnReadTargetTag_Click"
+                    Content="{StaticResource imgWriteTag}"
+                    Cursor="Hand"
+                    Foreground="Wheat" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button
+                    x:Name="btnOpenExistingTag"
+                    Width="125"
+                    Height="100"
+                    Background="#5A595B"
+                    BorderBrush="White"
+                    BorderThickness="1"
+                    Click="btnOpenExistingTag_Click"
+                    Content="{StaticResource imgEditDump}"
+                    Cursor="Hand"
+                    Foreground="Wheat" />
+                <Button
+                    x:Name="btnEditAddKeyFile"
+                    Width="125"
+                    Height="100"
+                    Background="#5A595B"
+                    BorderBrush="White"
+                    BorderThickness="1"
+                    Click="btnEditAddKeyFile_Click"
+                    Content="{StaticResource imgEditAddKey}"
+                    Cursor="Hand" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button
+                    Width="125"
+                    Height="100"
+                    Background="#5A595B"
+                    BorderBrush="White"
+                    BorderThickness="1"
+                    Content="{StaticResource imgTools}"
+                    Cursor="Hand" />
+                <Button
+                    Width="125"
+                    Height="100"
+                    Background="#5A595B"
+                    BorderBrush="White"
+                    BorderThickness="1"
+                    Content="{StaticResource imgHelpInfo}"
+                    Cursor="Hand" />
+            </StackPanel>
+        </StackPanel>
+        <TextBox
+            x:Name="rtbOutput"
+            Width="auto"
+            Height="300"
+            MaxHeight="300"
+            Margin="255,0,0,0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Top"
+            Background="Black"
+            Foreground="Lime"
+            TextChanged="rtbOutput_TextChanged" />
+    </Grid>
+</Window>
