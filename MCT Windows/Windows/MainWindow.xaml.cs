@@ -24,16 +24,19 @@ namespace MCT_Windows
     {
         public bool TagFound = false;
         public bool ScanTagRunning = false;
-        public string MainTitle { get; set; } = "MCT Windows";
+        string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        public string MainTitle { get; set; } = $"Mifare Dumper";
         Tools t = null;
         enum action { ReadSource, ReadTarget, Dump }
         public List<Keys> SelectedKeys = new List<Keys>();
-        action CurrentAction = action.ReadSource;
+
         IObservable<long> ObservableScan = null;
         CancellationTokenSource ScanSource = null;
         public MainWindow()
         {
             InitializeComponent();
+            MainTitle += $" v{version}";
+            this.Title = $"{MainTitle}";
             t = new Tools(this);
 
             PeriodicScanTag();
@@ -43,7 +46,7 @@ namespace MCT_Windows
         public void PeriodicScanTag()
         {
             if (ScanTagRunning) return;
-            ObservableScan = Observable.Interval(TimeSpan.FromSeconds(2));
+            ObservableScan = Observable.Interval(TimeSpan.FromSeconds(3));
             // Token for cancelation
             ScanSource = new CancellationTokenSource();
             // Subscribe the obserable to the task on execution.
@@ -116,8 +119,8 @@ namespace MCT_Windows
         {
             Application.Current.Dispatcher.Invoke((Action)delegate
             {
-                StopScanTag();
-                DumpWindow dw = new DumpWindow(t,t.TMPFILESOURCE_MFD);
+
+                DumpWindow dw = new DumpWindow(t, t.TMPFILESOURCE_MFD);
                 dw.ShowDialog();
                 PeriodicScanTag();
             });
@@ -169,7 +172,7 @@ namespace MCT_Windows
         {
             StopScanTag();
 
-             BackgroundWorker bgw = new BackgroundWorker();
+            BackgroundWorker bgw = new BackgroundWorker();
             bgw.DoWork += new DoWorkEventHandler(t.mf_write);
             bgw.WorkerReportsProgress = true;
             bgw.ProgressChanged += new ProgressChangedEventHandler(default_rpt);
@@ -211,7 +214,10 @@ namespace MCT_Windows
 
         private void btnEditAddKeyFile_Click(object sender, RoutedEventArgs e)
         {
-
+            StopScanTag();
+            SelectKeyFilesWindow ekf = new SelectKeyFilesWindow(this, t);
+            ekf.ShowDialog();
+            PeriodicScanTag();
         }
 
         private void rtbOutput_TextChanged(object sender, TextChangedEventArgs e)
@@ -219,7 +225,7 @@ namespace MCT_Windows
             (sender as TextBox).ScrollToEnd();
         }
 
-      
+
         private void btnOpenExistingTag_Click(object sender, RoutedEventArgs e)
         {
             OpenTag(action.ReadSource);
@@ -242,6 +248,7 @@ namespace MCT_Windows
 
         private void btnEditDumpFile_Click(object sender, RoutedEventArgs e)
         {
+            StopScanTag();
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "Dump Files|*.dump|All Files|*.*";
             ofd.InitialDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -251,6 +258,11 @@ namespace MCT_Windows
                 t.TMPFILESOURCE_MFD = ofd.FileName;
                 ShowDump();
             }
+        }
+
+        private void btnInfos_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://github.com/xavave/MifareDumper");
         }
     }
 }

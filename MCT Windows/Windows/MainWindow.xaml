@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="Mifare Tool"
     Width="740"
     Height="340"
     Background="#5A595B"
@@ -80,11 +79,13 @@
                     Content="{StaticResource imgTools}"
                     Cursor="Hand" />
                 <Button
+                    x:Name="btnInfos"
                     Width="125"
                     Height="100"
                     Background="#5A595B"
                     BorderBrush="White"
                     BorderThickness="1"
+                    Click="btnInfos_Click"
                     Content="{StaticResource imgHelpInfo}"
                     Cursor="Hand" />
             </StackPanel>
