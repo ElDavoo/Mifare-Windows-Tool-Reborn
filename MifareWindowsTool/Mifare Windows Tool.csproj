@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{5AC7169F-493A-4EED-8D70-49053D2D4507}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>MCT_Windows</RootNamespace>
-    <AssemblyName>MCT Windows</AssemblyName>
+    <RootNamespace>MifareWindowsTool</RootNamespace>
+    <AssemblyName>MifareWindowsTool</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -171,6 +171,9 @@
     <Resource Include="Images\write_tag.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="libnfc.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="nfctools\libnfc_crypto1_crack.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
