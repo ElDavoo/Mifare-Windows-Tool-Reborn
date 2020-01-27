@@ -25,7 +25,7 @@ namespace MCT_Windows
         public bool TagFound = false;
         public bool ScanTagRunning = false;
         string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        public string MainTitle { get; set; } = $"Mifare Dumper";
+        public string MainTitle { get; set; } = $"Mifare Windows Tool";
         Tools t = null;
         enum action { ReadSource, ReadTarget, Dump }
         public List<Keys> SelectedKeys = new List<Keys>();

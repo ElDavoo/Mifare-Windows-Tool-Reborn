@@ -69,8 +69,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Keys.cs" />
-    <Compile Include="Tools.cs" />
+    <Compile Include="Common\Keys.cs" />
+    <Compile Include="Common\Tools.cs" />
     <Page Include="UserControls\ucListKeys.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
