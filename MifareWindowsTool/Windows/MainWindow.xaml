@@ -70,14 +70,14 @@
                     Cursor="Hand" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Button
+                <Button x:Name="btnTools"
                     Width="125"
                     Height="100"
                     Background="#5A595B"
                     BorderBrush="White"
                     BorderThickness="1"
                     Content="{StaticResource imgTools}"
-                    Cursor="Hand" />
+                    Cursor="Hand" Click="btnTools_Click" />
                 <Button
                     x:Name="btnInfos"
                     Width="125"

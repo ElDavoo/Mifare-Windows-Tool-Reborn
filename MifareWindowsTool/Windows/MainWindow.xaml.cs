@@ -264,5 +264,13 @@ namespace MCT_Windows
         {
             Process.Start("https://github.com/xavave/MifareDumper");
         }
+
+        private void btnTools_Click(object sender, RoutedEventArgs e)
+        {
+            StopScanTag();
+            var dw = new DumpWindow(t, "", true);
+            dw.ShowDialog();
+            PeriodicScanTag();
+        }
     }
 }

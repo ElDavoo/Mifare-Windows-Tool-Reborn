@@ -6,45 +6,77 @@
     xmlns:local="clr-namespace:MCT_Windows.Windows"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Dump"
-    Width="365"
+    Width="375"
     Height="600"
-    Background="#5A595B"
+    Background="#303030"
     Foreground="White"
     mc:Ignorable="d">
     <Grid>
         <StackPanel Orientation="Vertical">
+            <StackPanel
+                x:Name="stkOpenDumps"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+
+                <Button
+                    x:Name="btnOpenDumpA"
+                    Width="auto"
+                    Margin="0,0,20,0"
+                    Background="#5A595B"
+                    Click="BtnOpenDumpA_Click"
+                    Content="Open Dump A"
+                    Cursor="Hand"
+                    Foreground="White" />
+                <Button
+                    x:Name="btnOpenDumpB"
+                    Width="auto"
+                    Margin="50,0,0,0"
+                    Background="#5A595B"
+                    Click="BtnOpenDumpB_Click"
+                    Content="Open Dump B"
+                    Cursor="Hand"
+                    Foreground="White" />
+            </StackPanel>
+            <RichTextBox
+                x:Name="txtOutput"
+                Width="auto"
+                Height="520"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Top"
+                Background="#5A595B"
+                FontFamily="Courier New"
+                FontSize="16"
+                Foreground="White"
+                ScrollViewer.VerticalScrollBarVisibility="Auto" />
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <Button
                     x:Name="btnSaveDump"
                     Width="85"
+                    Background="#5A595B"
                     Click="btnSaveDump_Click"
-                    Content="Save Dump as" />
+                    Content="Save Dump as"
+                    Cursor="Hand"
+                    Foreground="White" />
 
                 <Button
                     x:Name="btnShowAsAscii"
                     Width="85"
                     Margin="20,0,0,0"
+                    Background="#5A595B"
                     Click="btnShowAsAscii_Click"
-                    Content="Show as ASCII" />
+                    Content="Show as ASCII"
+                    Cursor="Hand"
+                    Foreground="White" />
                 <Button
                     x:Name="btnClose"
                     Width="85"
                     Margin="20,0,0,0"
+                    Background="#5A595B"
                     Click="btnClose_Click"
-                    Content="Close" />
+                    Content="Close"
+                    Cursor="Hand"
+                    Foreground="White" />
             </StackPanel>
-            <TextBox
-                x:Name="txtOutput"
-                Width="auto"
-                Height="550"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Bottom"
-                Background="#5A595B"
-                FontFamily="Courier New"
-                FontSize="16"
-                Foreground="White"
-                ScrollViewer.VerticalScrollBarVisibility="Auto"
-                TextWrapping="Wrap" />
         </StackPanel>
     </Grid>
 </Window>

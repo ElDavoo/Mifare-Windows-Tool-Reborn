@@ -69,6 +69,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\Keys.cs" />
     <Compile Include="Common\Tools.cs" />
     <Page Include="UserControls\ucListKeys.xaml">
