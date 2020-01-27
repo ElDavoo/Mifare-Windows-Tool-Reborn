@@ -65,7 +65,7 @@ namespace MCT_Windows.Windows
             {
                 if (line == 1)
                     txtOutput.AppendText(LinesA[line], VioletBrush, false);
-                else if (line > 0 && (line % (split + 5 * cptOffset)) == 0)
+                else if (line > 0 && (line % (split + (split + 1) * cptOffset)) == 0)
                 {
                     for (int c = 0; c < LinesA[line].Length; c++)
                     {
