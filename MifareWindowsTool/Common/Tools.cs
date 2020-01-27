@@ -185,7 +185,7 @@ namespace MCT_Windows
 
             process.Exited += (s, _e) =>
             {
-                Main.PeriodicScanTag();
+               
                 if (process.ExitCode == 0)
                 {
                     b.ReportProgress(101, "##nfc-mfcclassic finished##");
@@ -194,8 +194,9 @@ namespace MCT_Windows
                 else
                 {
                     b.ReportProgress(100, "nfc-mfcclassic done with errors");
-                    File.Delete(args[0]);
+                    //File.Delete(args[0]);
                 }
+                Main.PeriodicScanTag();
             };
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();

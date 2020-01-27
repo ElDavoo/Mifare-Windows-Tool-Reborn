@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:uc="clr-namespace:MCT_Windows.UserControls"
-    Title="Map Key to Sector"
+    Title="Write Tag"
     Width="329.967"
     Height="366.279"
     Background="#303030"
@@ -57,29 +57,31 @@
             IsChecked="True" />
         <RadioButton
             Width="150"
-            Margin="0,0,0,80"
+            Margin="0,0,0,100"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Content="Factory Format"
             Foreground="White"
-            IsChecked="False" />
+            IsChecked="False"
+            IsEnabled="False" />
         <CheckBox
             Margin="30,191,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Content="Use these Access Conditions for all sectors"
-            Foreground="White" />
+            Foreground="White"
+            IsEnabled="False" />
         <CheckBox
             x:Name="ckEnableBlock0Writing"
-            Margin="30,250,0,0"
+            Margin="30,230,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Content="Advanced: Enable writing to manufacturer block"
             Foreground="White" />
         <TextBox
-            Width="120"
+            Width="80"
             Height="23"
-            Margin="89,220,0,0"
+            Margin="135,210,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Background="#303030"
