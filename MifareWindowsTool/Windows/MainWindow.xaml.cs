@@ -234,7 +234,7 @@ namespace MCT_Windows
         private void OpenTag(action act)
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Dump Files|*.dump|All Files|*.*";
+            ofd.Filter = "Dump Files|*.dump;*.mfd|All Files|*.*";
             ofd.InitialDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var dr = ofd.ShowDialog();
             if (dr.Value)
@@ -250,7 +250,7 @@ namespace MCT_Windows
         {
             StopScanTag();
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Dump Files|*.dump|All Files|*.*";
+            ofd.Filter = "Dump Files|*.dump;*.mfd|All Files|*.*";
             ofd.InitialDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var dr = ofd.ShowDialog();
             if (dr.Value)

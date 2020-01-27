@@ -44,7 +44,7 @@ namespace MCT_Windows
         private void btnSelectDump_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Dump Files|*.dump";
+            ofd.Filter = "Dump Files|*.dump;*.mfd";
             var dr = ofd.ShowDialog();
             if (dr.Value)
             {

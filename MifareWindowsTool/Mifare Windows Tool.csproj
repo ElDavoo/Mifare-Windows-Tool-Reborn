@@ -173,7 +173,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="libnfc.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="nfctools\libnfc_crypto1_crack.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
