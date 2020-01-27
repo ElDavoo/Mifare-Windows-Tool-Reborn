@@ -111,7 +111,7 @@ namespace MCT_Windows
             }
             else
             {
-                MessageBox.Show("No Tag to read");
+                MessageBox.Show("No Tag on reader");
             }
         }
 

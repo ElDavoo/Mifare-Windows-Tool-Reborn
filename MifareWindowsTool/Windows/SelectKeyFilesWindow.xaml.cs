@@ -67,6 +67,7 @@ namespace MCT_Windows.Windows
         private void btnNewKeyFile_Click(object sender, RoutedEventArgs e)
         {
             EditKeyFileWindow ekf = new EditKeyFileWindow(Main, tools, this);
+
             ekf.ShowDialog();
         }
     }

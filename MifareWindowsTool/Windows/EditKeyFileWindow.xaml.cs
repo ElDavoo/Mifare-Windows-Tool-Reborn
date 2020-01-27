@@ -24,7 +24,7 @@ namespace MCT_Windows.Windows
             Main = main;
             Skf = skf;
             Tools = t;
-            if (!string.IsNullOrWhiteSpace(FileName))
+            if (!string.IsNullOrWhiteSpace(fileName))
             {
                 FileName = $"keys/{fileName}";
                 Data = File.ReadAllText(FileName);
