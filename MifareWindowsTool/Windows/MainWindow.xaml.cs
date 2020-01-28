@@ -60,7 +60,7 @@ namespace MCT_Windows
             {
                 Application.Current.Dispatcher.Invoke(new Action(() =>
                 {
-                    logAppend($"{DateTime.Now} -  Auto scan Tag running...");
+                    rtbOutput.AppendText($"{DateTime.Now} -  Auto scan Tag running...");
                     RunNfcList();
                 }));
             }, ScanSource.Token);
