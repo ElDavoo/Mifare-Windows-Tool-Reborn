@@ -9,9 +9,18 @@ using System.Media;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace MCT_Windows
 {
+    public enum TagAction
+    {
+        ReadSource,
+        ReadTarget,
+        Clone,
+        Format_PassA,
+        Format_PassB,
+    }
     public class Tools
     {
         public AutoResetEvent doneEvent { get; set; } = new AutoResetEvent(false);
@@ -44,19 +53,20 @@ namespace MCT_Windows
                 lprocess = true;
                 BackgroundWorker b = (BackgroundWorker)sender;
                 process = Process.Start(psi);
-                b.ReportProgress(0, "nfc-list running");
+                b.ReportProgress(0, "nfc-list started");
                 running = true;
                 process.OutputDataReceived += (s, _e) => b.ReportProgress(0, _e.Data);
                 process.ErrorDataReceived += (s, _e) => b.ReportProgress(0, _e.Data);
                 process.EnableRaisingEvents = true;
                 process.Exited += (s, _e) =>
                 {
-                    if (process.ExitCode == 0)
-                    {
-                        b.ReportProgress(101, "##scan finished##");
-                    }
-                    else
-                        b.ReportProgress(100, "done with errors");
+                    if (b.IsBusy)
+                        if (process.ExitCode == 0)
+                        {
+                            b.ReportProgress(101, "##scan finished##");
+                        }
+                        else
+                            b.ReportProgress(100, "done with errors");
                 };
                 process.BeginOutputReadLine();
                 process.BeginErrorReadLine();
@@ -90,7 +100,7 @@ namespace MCT_Windows
                         psi.Arguments += $"-O \"{args[args.Count() - 2]}\" -D \"{args[args.Count() - 1]}\"";
                     }
                     else
-                        psi.Arguments = $"-f \"{TMPFILE_FND}\" -O \"{args[1]}\" -D \"{args[2]}\"";
+                        psi.Arguments = $"-f \"{TMPFILE_FND}\" -O \"{args[0]}\" -D \"{args[1]}\"";
                 }
                 else
                 {
@@ -100,7 +110,7 @@ namespace MCT_Windows
                         psi.Arguments += $" -O \"{args[args.Count() - 2]}\" -D \"{args[args.Count() - 1]}\"";
                     }
                     else
-                        psi.Arguments = $"-O \"{args[1]}\" -D \"{args[2]}\"";
+                        psi.Arguments = $"-O \"{args[0]}\" -D \"{args[1]}\"";
                 }
                 psi.CreateNoWindow = true;
                 psi.UseShellExecute = false;
@@ -122,32 +132,35 @@ namespace MCT_Windows
                 };
                 process.Exited += (s, _e) =>
                 {
-                    if (process.ExitCode == 0)
-                    {
-                        b.ReportProgress(101, "##mfoc finished##");
-                        Main.ShowDump();
-                    }
-                    else
-                    {
-                        b.ReportProgress(100, "done with errors");
-                        File.Delete(args[0]);
-                    }
+                    if (b.IsBusy)
+                        if (process.ExitCode == 0)
+                        {
+                            b.ReportProgress(101, "##mfoc finished##");
+                            Main.ShowDump();
+                        }
+                        else
+                        {
+                            b.ReportProgress(100, "done with errors");
+                            File.Delete(args[0]);
+                        }
                     Main.PeriodicScanTag();
                 };
                 process.BeginOutputReadLine();
                 process.BeginErrorReadLine();
                 process.WaitForExit();
-
+               
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                MessageBox.Show(ex.Message);
             }
             finally
             {
                 lprocess = false;
                 running = false;
-                Main.PeriodicScanTag(4000);
+                process.Close();
+             
+                Main.PeriodicScanTag(3000);
             }
 
         }
@@ -161,49 +174,121 @@ namespace MCT_Windows
             }
             return ret;
         }
+        public void classic_format(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                if (lprocess) { return; }
+                ProcessStartInfo psi = new ProcessStartInfo("nfctools/mifare-classic-format.exe");
+                string[] args = (string[])e.Argument;
 
+                var dumpFile = args[0];
+
+                psi.Arguments = $"-y";
+                if (File.Exists(dumpFile))
+                    psi.Arguments += $" \"{dumpFile}\"";
+
+                psi.CreateNoWindow = true;
+                psi.UseShellExecute = false;
+                psi.RedirectStandardOutput = true;
+                psi.RedirectStandardError = true;
+                lprocess = true;
+                BackgroundWorker b = (BackgroundWorker)sender;
+                process = Process.Start(psi);
+
+                b.ReportProgress(0, "formatting...");
+
+                running = true;
+                process.OutputDataReceived += (s, _e) => b.ReportProgress(0, _e.Data);
+                process.ErrorDataReceived += (s, _e) => b.ReportProgress(0, _e.Data);
+
+                process.Exited += (s, _e) =>
+                {
+                    if (b.IsBusy)
+                        if (process.ExitCode == 0)
+                        {
+                            b.ReportProgress(101, "##mifare-classic-format finished##");
+
+                        }
+                        else
+                        {
+                            b.ReportProgress(100, "mifare-classic-format done with errors");
+                            //File.Delete(args[0]);
+                        }
+                    Main.PeriodicScanTag(5000);
+                };
+                process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
+                process.WaitForExit();
+
+                lprocess = false;
+                running = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+        }
         public void mf_write(object sender, DoWorkEventArgs e)
         {
-            if (lprocess) { return; }
-            ProcessStartInfo psi = new ProcessStartInfo("nfctools/nfc-mfclassic.exe");
-            string[] args = (string[])e.Argument;
-            var sourceDump = args[0];
-            var targetDump = args[1];
-            char writeMode = bool.Parse(args[2]) == true ? 'W' : 'w';
-            psi.Arguments = $"{writeMode} a \"{sourceDump}\" \"{targetDump}\"";
-            psi.CreateNoWindow = true;
-            psi.UseShellExecute = false;
-            psi.RedirectStandardOutput = true;
-            psi.RedirectStandardError = true;
-            lprocess = true;
-            BackgroundWorker b = (BackgroundWorker)sender;
-            process = Process.Start(psi);
-            b.ReportProgress(0, "cloning...");
-            running = true;
-            process.OutputDataReceived += (s, _e) => b.ReportProgress(0, _e.Data);
-            process.ErrorDataReceived += (s, _e) => b.ReportProgress(0, _e.Data);
-
-            process.Exited += (s, _e) =>
+            try
             {
-               
-                if (process.ExitCode == 0)
-                {
-                    b.ReportProgress(101, "##nfc-mfcclassic finished##");
+                if (lprocess) { return; }
+                ProcessStartInfo psi = new ProcessStartInfo("nfctools/nfc-mfclassic.exe");
+                string[] args = (string[])e.Argument;
 
-                }
-                else
-                {
-                    b.ReportProgress(100, "nfc-mfcclassic done with errors");
-                    //File.Delete(args[0]);
-                }
-                Main.PeriodicScanTag(5000);
-            };
-            process.BeginOutputReadLine();
-            process.BeginErrorReadLine();
-            process.WaitForExit();
+                TagAction tAction = (TagAction)Enum.Parse(typeof(TagAction), args[0]);
 
-            lprocess = false;
-            running = false;
+                var sourceDump = args[1];
+                var targetDump = args[2];
+                char writeMode = bool.Parse(args[3]) == true ? 'W' : 'w';
+                char useKey = bool.Parse(args[4]) == true ? 'A' : 'B';
+                if (tAction == TagAction.Clone)
+                {
+                    psi.Arguments = $"{writeMode} {useKey} u \"{sourceDump}\" \"{targetDump}\"";
+                }
+
+                psi.CreateNoWindow = true;
+                psi.UseShellExecute = false;
+                psi.RedirectStandardOutput = true;
+                psi.RedirectStandardError = true;
+                lprocess = true;
+                BackgroundWorker b = (BackgroundWorker)sender;
+                process = Process.Start(psi);
+                if (tAction == TagAction.Clone)
+                    b.ReportProgress(0, "cloning...");
+
+                running = true;
+                process.OutputDataReceived += (s, _e) => b.ReportProgress(0, _e.Data);
+                process.ErrorDataReceived += (s, _e) => b.ReportProgress(0, _e.Data);
+
+                process.Exited += (s, _e) =>
+                {
+                    if (b.IsBusy)
+                        if (process.ExitCode == 0)
+                        {
+                            b.ReportProgress(101, "##nfc-mfcclassic finished##");
+
+                        }
+                        else
+                        {
+                            b.ReportProgress(100, "nfc-mfcclassic done with errors");
+                            //File.Delete(args[0]);
+                        }
+                    Main.PeriodicScanTag(5000);
+                };
+                process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
+                process.WaitForExit();
+
+                lprocess = false;
+                running = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
         }
         public string ConvertHex(String hexString)

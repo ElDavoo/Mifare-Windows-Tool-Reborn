@@ -31,13 +31,15 @@
                     Content="Close"
                     Foreground="White" />
             </StackPanel>
-            <TextBox CharacterCasing="Upper"
+            <TextBox
                 x:Name="txtOutput"
                 Width="auto"
                 Height="550"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Bottom"
+                AcceptsReturn="True"
                 Background="#5A595B"
+                CharacterCasing="Upper"
                 FontFamily="Courier New"
                 FontSize="16"
                 Foreground="White"

@@ -4,8 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Width="740"
-    Height="340"
+    Width="770"
+    Height="355"
     Background="#5A595B"
     WindowStyle="ToolWindow"
     mc:Ignorable="d">
@@ -41,7 +41,7 @@
                     Background="#5A595B"
                     BorderBrush="White"
                     BorderThickness="1"
-                    Click="btnReadTargetTag_Click"
+                    Click="btnWriteTag_Click"
                     Content="{StaticResource imgWriteTag}"
                     Cursor="Hand"
                     Foreground="Wheat" />
@@ -70,14 +70,16 @@
                     Cursor="Hand" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Button x:Name="btnTools"
+                <Button
+                    x:Name="btnTools"
                     Width="125"
                     Height="100"
                     Background="#5A595B"
                     BorderBrush="White"
                     BorderThickness="1"
+                    Click="btnTools_Click"
                     Content="{StaticResource imgTools}"
-                    Cursor="Hand" Click="btnTools_Click" />
+                    Cursor="Hand" />
                 <Button
                     x:Name="btnInfos"
                     Width="125"
@@ -89,8 +91,16 @@
                     Content="{StaticResource imgHelpInfo}"
                     Cursor="Hand" />
             </StackPanel>
+            <CheckBox
+                x:Name="ckEnablePeriodicTagScan"
+                VerticalContentAlignment="Bottom"
+                Checked="ckEnablePeriodicTagScan_Checked"
+                Content="Enable Periodic Tag AutoScan"
+                FontSize="10"
+                Foreground="White"
+                IsChecked="False" />
         </StackPanel>
-        <TextBox  ScrollViewer.VerticalScrollBarVisibility="Auto"
+        <TextBox
             x:Name="rtbOutput"
             Width="auto"
             Height="300"
@@ -100,6 +110,7 @@
             VerticalAlignment="Top"
             Background="Black"
             Foreground="Lime"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
             TextChanged="rtbOutput_TextChanged" />
     </Grid>
 </Window>

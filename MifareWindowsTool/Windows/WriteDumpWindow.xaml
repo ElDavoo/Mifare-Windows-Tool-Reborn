@@ -16,6 +16,7 @@
             x:Name="btnSelectDump"
             Width="150"
             Height="22"
+            Margin="0,0,0,100"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Background="#5A595B"
@@ -48,47 +49,81 @@
             Cursor="Hand"
             Foreground="White" />
         <RadioButton
+            x:Name="rbClone"
             Width="150"
-            Margin="0,0,0,50"
+            Margin="0,0,0,150"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
+            Checked="rbClone_Checked"
             Content="Write Dump (Clone)"
             Foreground="White"
-            IsChecked="True" />
+            GroupName="choices"
+            IsChecked="false" />
         <RadioButton
+            x:Name="rbFactoryFormat"
             Width="150"
-            Margin="0,0,0,100"
+            Margin="0,0,0,200"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
+            Checked="rbFactoryFormat_Checked"
             Content="Factory Format"
             Foreground="White"
-            IsChecked="False"
-            IsEnabled="False" />
+            GroupName="choices"
+            IsChecked="False" />
         <CheckBox
-            Margin="30,191,0,0"
+            x:Name="ckACs"
+            Margin="30,135,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Content="Use these Access Conditions for all sectors"
             Foreground="White"
+            IsChecked="True"
             IsEnabled="False" />
         <CheckBox
             x:Name="ckEnableBlock0Writing"
-            Margin="30,230,0,0"
+            Margin="30,180,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Content="Advanced: Enable writing to manufacturer block"
             Foreground="White" />
         <TextBox
+            x:Name="txtACsValue"
             Width="80"
             Height="23"
-            Margin="135,210,0,0"
+            Margin="135,155,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Background="#303030"
             BorderThickness="0"
             Foreground="White"
-            Text="08778F"
+            IsReadOnly="True"
+            Text="FF0780"
             TextWrapping="Wrap" />
+
+        <StackPanel
+            Width="auto"
+            Margin="0,0,35,50"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Orientation="Vertical">
+            <RadioButton
+                x:Name="rbUseKeyA"
+                Width="auto"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Content="Use Key A"
+                Foreground="White"
+                GroupName="keys"
+                IsChecked="True" />
+            <RadioButton
+                x:Name="rbUseKeyB"
+                Width="auto"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Content="Use Key B"
+                Foreground="White"
+                GroupName="keys" />
+        </StackPanel>
 
     </Grid>
 </Window>

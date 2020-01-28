@@ -16,12 +16,13 @@ namespace MCT_Windows
         Tools tools;
         MainWindow main;
         OpenFileDialog ofd = new OpenFileDialog();
-      
+
         public WriteDumpWindow(MainWindow mainw, Tools t)
         {
             tools = t;
             main = mainw;
             InitializeComponent();
+            rbClone.IsChecked = true;
             ofd.Filter = "Dump Files|*.dump;*.mfd;*.dmp;*.img|All Files|*.*";
             ofd.InitialDirectory = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "dumps");
         }
@@ -40,23 +41,61 @@ namespace MCT_Windows
 
         private void btnWriteDump_Click(object sender, RoutedEventArgs e)
         {
-            if (main.SelectedKeys.Any())
-                main.RunNfcMfcClassic(ckEnableBlock0Writing.IsChecked.HasValue && ckEnableBlock0Writing.IsChecked.Value == true);
-            else
-                MessageBox.Show("You need to select at least one key file");
+            if (rbFactoryFormat.IsChecked.HasValue && rbFactoryFormat.IsChecked.Value)
+            {
+                main.RunMifareClassicFormat();
+                this.DialogResult = true;
+                this.Close();
+            }
+            else if (rbClone.IsChecked.HasValue && rbClone.IsChecked.Value)
+            {
+                if (main.SelectedKeys.Any())
+                {
+                    main.RunNfcMfcClassic(TagAction.Clone, ckEnableBlock0Writing.IsChecked.HasValue && ckEnableBlock0Writing.IsChecked.Value, rbUseKeyA.IsChecked.HasValue && rbUseKeyA.IsChecked.Value);
+                    this.DialogResult = true;
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("You need to select at least one key file");
+                }
+            }
         }
 
         private void btnSelectDump_Click(object sender, RoutedEventArgs e)
         {
-           
+
             var dr = ofd.ShowDialog();
             if (dr.Value)
             {
                 tools.TMPFILESOURCE_MFD = $"mfc_{ tools.mySourceUID}.dump";
             }
             MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(main, tools);
-            mtsWin.ShowDialog();
-            main.RunMfoc(main.SelectedKeys, tools.TMPFILESOURCE_MFD);
+            var ret = mtsWin.ShowDialog();
+            if (ret.HasValue && ret.Value)
+                main.RunMfoc(main.SelectedKeys, tools.TMPFILESOURCE_MFD);
+        }
+
+        private void rbFactoryFormat_Checked(object sender, RoutedEventArgs e)
+        {
+            btnWriteDump.Content = "Factory Format";
+            btnSelectDump.Visibility = Visibility.Hidden;
+            ckACs.Visibility = Visibility.Hidden;
+            ckEnableBlock0Writing.Visibility = Visibility.Hidden;
+            txtACsValue.Visibility = Visibility.Hidden;
+            rbUseKeyA.Visibility = Visibility.Hidden;
+            rbUseKeyB.Visibility = Visibility.Hidden;
+        }
+
+        private void rbClone_Checked(object sender, RoutedEventArgs e)
+        {
+            btnWriteDump.Content = "Write Dump";
+            btnSelectDump.Visibility = Visibility.Visible;
+            ckACs.Visibility = Visibility.Visible;
+            ckEnableBlock0Writing.Visibility = Visibility.Visible;
+            txtACsValue.Visibility = Visibility.Visible;
+            rbUseKeyA.Visibility = Visibility.Visible;
+            rbUseKeyB.Visibility = Visibility.Visible;
         }
     }
 }

@@ -44,7 +44,10 @@ namespace MCT_Windows
         {
             main.SelectedKeys = ucLK.lstKeys.Items.OfType<Keys>().Where(c => c.IsSelected).ToList();
             if (main.SelectedKeys.Any())
+            {
+                this.DialogResult = true;
                 this.Close();
+            }
             else
                 MessageBox.Show("You need to select at least one key file");
         }

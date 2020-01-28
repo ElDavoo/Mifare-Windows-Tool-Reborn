@@ -89,8 +89,12 @@ namespace MCT_Windows.Windows
 
 
         }
-
-        static List<string> Split(string str, int chunkSize)
+        public byte[] StringToByteArray(string hex)
+        {
+            return Enumerable.Range(0, hex.Length).Where(x => x % 2 == 0)
+                             .Select(x => Convert.ToByte(hex.Substring(x, 2), 16)).ToArray();
+        }
+        private List<string> Split(string str, int chunkSize)
         {
             return Enumerable.Range(0, str.Length / chunkSize)
                 .Select(i => str.Substring(i * chunkSize, chunkSize) + "\r").ToList();

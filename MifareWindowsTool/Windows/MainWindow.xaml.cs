@@ -29,7 +29,7 @@ namespace MCT_Windows
         Tools t = null;
         OpenFileDialog ofd = new OpenFileDialog();
 
-        enum action { ReadSource, ReadTarget, Dump }
+
         public List<Keys> SelectedKeys = new List<Keys>();
 
         IObservable<long> ObservableScan = null;
@@ -60,7 +60,8 @@ namespace MCT_Windows
             {
                 Application.Current.Dispatcher.Invoke(new Action(() =>
                 {
-                    rtbOutput.AppendText($"{DateTime.Now} -  Auto scan Tag running...");
+                    if (!ckEnablePeriodicTagScan.IsChecked.HasValue || ckEnablePeriodicTagScan.IsChecked.Value == false) return;
+                    rtbOutput.Text = $"{DateTime.Now} -  Auto scan Tag is running...\n";
                     RunNfcList();
                 }));
             }, ScanSource.Token);
@@ -69,26 +70,35 @@ namespace MCT_Windows
 
         private void btnReadTag_Click(object sender, RoutedEventArgs e)
         {
-            ReadTag(action.ReadSource);
+            ReadTag(TagAction.ReadSource);
 
         }
-        private void btnReadTargetTag_Click(object sender, RoutedEventArgs e)
+        private void btnWriteTag_Click(object sender, RoutedEventArgs e)
         {
-            ReadTag(action.ReadTarget);
+            ReadTag(TagAction.ReadTarget);
         }
 
-        private void ReadTag(action act)
+        private void ReadTag(TagAction act)
         {
+            if (t.running) return;
+            if (Title.Contains("no tag") && !ScanTagRunning)
+                PeriodicScanTag();
+
+            if (!ckEnablePeriodicTagScan.IsChecked.HasValue || !ckEnablePeriodicTagScan.IsChecked.Value)
+            {
+                RunNfcList();
+            }
+
             if (!string.IsNullOrWhiteSpace(t.CurrentUID))
             {
-                if (act == action.ReadSource)
+                if (act == TagAction.ReadSource)
                 {
                     t.mySourceUID = t.CurrentUID;
                     t.TMPFILE_UNK = $"mfc_{ t.mySourceUID}_unknownMfocSectorInfo.txt";
                     t.TMPFILESOURCE_MFD = $"mfc_{ t.mySourceUID}.dump";
                     t.TMPFILE_FND = $"mfc_{ t.mySourceUID}_foundKeys.txt";
                 }
-                else if (act == action.ReadTarget)
+                else if (act == TagAction.ReadTarget)
                 {
                     t.myTargetUID = t.CurrentUID;
                     t.TMPFILE_UNK = $"mfc_{ t.myTargetUID}_unknownMfocSectorInfo.txt";
@@ -99,26 +109,32 @@ namespace MCT_Windows
 
             if (TagFound)
             {
-
-                if (act == action.ReadSource)
+                StopScanTag();
+                if (act == TagAction.ReadSource)
                 {
                     MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(this, t);
-                    mtsWin.ShowDialog();
-                    RunMfoc(SelectedKeys, t.TMPFILESOURCE_MFD);
+                    var ret = mtsWin.ShowDialog();
+                    if (ret.HasValue && ret.Value)
+                        RunMfoc(SelectedKeys, t.TMPFILESOURCE_MFD);
+                    else
+                        PeriodicScanTag();
                 }
-                else if (act == action.ReadTarget)
+                else if (act == TagAction.ReadTarget)
                 {
                     WriteDumpWindow wdw = new WriteDumpWindow(this, t);
-                    wdw.ShowDialog();
+                    var ret = wdw.ShowDialog();
+                    if (!ret.HasValue || !ret.Value)
+                        PeriodicScanTag();
 
                 }
 
-                TagFound = false;
+                TagFound = !Title.Contains("no tag");
             }
             else
             {
                 logAppend("No Tag detected on reader");
             }
+
         }
 
         public void ShowDump()
@@ -157,7 +173,6 @@ namespace MCT_Windows
                     SystemSounds.Beep.Play();
                 }
                 TagFound = true;
-
             }
 
             else
@@ -169,12 +184,25 @@ namespace MCT_Windows
         }
         public void StopScanTag()
         {
-            ScanTagRunning = false;
-            ScanSource.Cancel();
-            logAppend("Auto scan tag stopped");
+            if (ScanTagRunning)
+            {
+                ScanTagRunning = false;
+                ScanSource.Cancel();
+                logAppend("Auto scan tag stopped");
+            }
         }
+        public void RunMifareClassicFormat()
+        {
+            StopScanTag();
 
-        public void RunNfcMfcClassic(bool bWriteBlock0)
+            BackgroundWorker bgw = new BackgroundWorker();
+            bgw.DoWork += new DoWorkEventHandler(t.classic_format);
+            bgw.WorkerReportsProgress = true;
+            bgw.ProgressChanged += new ProgressChangedEventHandler(default_rpt);
+            bgw.RunWorkerAsync(new string[] { "dumps/" + t.TMPFILE_TARGETMFD });
+
+        }
+        public void RunNfcMfcClassic(TagAction act, bool bWriteBlock0, bool useKeyA)
         {
             StopScanTag();
 
@@ -182,7 +210,7 @@ namespace MCT_Windows
             bgw.DoWork += new DoWorkEventHandler(t.mf_write);
             bgw.WorkerReportsProgress = true;
             bgw.ProgressChanged += new ProgressChangedEventHandler(default_rpt);
-            bgw.RunWorkerAsync(new string[] { t.TMPFILESOURCE_MFD, t.TMPFILE_TARGETMFD, bWriteBlock0.ToString() });
+            bgw.RunWorkerAsync(new string[] { act.ToString(), "dumps/" + t.TMPFILESOURCE_MFD, "dumps/" + t.TMPFILE_TARGETMFD, bWriteBlock0.ToString(), useKeyA.ToString() });
 
         }
         public void RunMfoc(List<Keys> keys, string tmpFileMfd)
@@ -195,17 +223,14 @@ namespace MCT_Windows
                 bgw.WorkerReportsProgress = true;
                 bgw.ProgressChanged += new ProgressChangedEventHandler(default_rpt);
                 var parameters = keys.Select(k => "keys/" + k.FileName).ToList();
-                parameters.Add(tmpFileMfd);
+                parameters.Add("dumps/" + tmpFileMfd);
                 parameters.Add(t.TMPFILE_UNK);
                 bgw.RunWorkerAsync(parameters.ToArray());
             }
             catch (Exception ex)
             {
-                logAppend(ex.Message);
-            }
-            finally
-            {
-                PeriodicScanTag(4000);
+                MessageBox.Show(ex.Message);
+                PeriodicScanTag();
             }
 
 
@@ -238,17 +263,17 @@ namespace MCT_Windows
 
         private void btnOpenExistingTag_Click(object sender, RoutedEventArgs e)
         {
-            OpenTag(action.ReadSource);
+            OpenTag(TagAction.ReadSource);
         }
 
-        private void OpenTag(action act)
+        private void OpenTag(TagAction act)
         {
             var dr = ofd.ShowDialog();
             if (dr.Value)
             {
-                if (act == action.ReadSource)
+                if (act == TagAction.ReadSource)
                     t.TMPFILESOURCE_MFD = ofd.FileName;
-                else if (act == action.ReadTarget)
+                else if (act == TagAction.ReadTarget)
                     t.TMPFILE_TARGETMFD = ofd.FileName;
             }
         }
@@ -279,6 +304,12 @@ namespace MCT_Windows
             var dw = new DumpWindow(t, "", true);
             dw.ShowDialog();
             PeriodicScanTag();
+        }
+
+        private void ckEnablePeriodicTagScan_Checked(object sender, RoutedEventArgs e)
+        {
+            if (ckEnablePeriodicTagScan.IsChecked.HasValue && ckEnablePeriodicTagScan.IsChecked.Value)
+                PeriodicScanTag();
         }
     }
 }
