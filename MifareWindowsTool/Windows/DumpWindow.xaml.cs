@@ -26,11 +26,16 @@ namespace MCT_Windows.Windows
         Tools Tools { get; set; }
         int split = 8;
         OpenFileDialog ofd = new OpenFileDialog();
+        SaveFileDialog sfd = new SaveFileDialog();
+
         public DumpWindow(Tools t, string fileName, bool bCompareDumpsMode = false)
         {
             InitializeComponent();
-            ofd.Filter = "Dump Files|*.dump;*.mfd|All Files|*.*";
-            ofd.InitialDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            ofd.Filter = "Dump Files|*.dump;*.mfd;*.dmp;*.img|All Files|*.*";
+            var initialDumpDir = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "dumps");
+            ofd.InitialDirectory = initialDumpDir;
+            sfd.Filter = "Dump Files|*.dump;*.mfd";
+            sfd.InitialDirectory = initialDumpDir;
             Tools = t;
             if (bCompareDumpsMode)
             {
@@ -93,8 +98,7 @@ namespace MCT_Windows.Windows
 
         private void btnSaveDump_Click(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "Dump Files|*.dump;*.mfd";
+
             var dr = sfd.ShowDialog();
             if (dr.Value)
                 File.WriteAllBytes(sfd.FileName, bytesDataA);

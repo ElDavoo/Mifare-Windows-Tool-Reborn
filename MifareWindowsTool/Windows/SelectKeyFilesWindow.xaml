@@ -14,13 +14,13 @@
 
     <Grid Background="#303030">
         <StackPanel Orientation="Vertical">
-            <ListBox
+            <ListBox  ScrollViewer.VerticalScrollBarVisibility="Auto"
                 x:Name="lstKeys"
                 Height="300"
                 MaxHeight="300"
                 VerticalAlignment="Top"
                 Background="#303030"
-                Foreground="White">
+                Foreground="White"  >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <RadioButton

@@ -31,7 +31,7 @@
                     Content="Close"
                     Foreground="White" />
             </StackPanel>
-            <TextBox
+            <TextBox CharacterCasing="Upper"
                 x:Name="txtOutput"
                 Width="auto"
                 Height="550"

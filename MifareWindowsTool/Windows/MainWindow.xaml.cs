@@ -27,6 +27,8 @@ namespace MCT_Windows
         string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         public string MainTitle { get; set; } = $"Mifare Windows Tool";
         Tools t = null;
+        OpenFileDialog ofd = new OpenFileDialog();
+
         enum action { ReadSource, ReadTarget, Dump }
         public List<Keys> SelectedKeys = new List<Keys>();
 
@@ -37,15 +39,19 @@ namespace MCT_Windows
             InitializeComponent();
             MainTitle += $" v{version}";
             this.Title = $"{MainTitle}";
+            ofd.Filter = "Dump Files|*.dump;*.mfd;*.dmp;*.img|All Files|*.*";
+            ofd.InitialDirectory = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "dumps");
             t = new Tools(this);
-
             PeriodicScanTag();
 
         }
 
-        public void PeriodicScanTag()
+        public void PeriodicScanTag(int delay = 0)
         {
             if (ScanTagRunning) return;
+
+            Task.Delay(delay);
+
             ObservableScan = Observable.Interval(TimeSpan.FromSeconds(3));
             // Token for cancelation
             ScanSource = new CancellationTokenSource();
@@ -54,7 +60,7 @@ namespace MCT_Windows
             {
                 Application.Current.Dispatcher.Invoke(new Action(() =>
                 {
-                    rtbOutput.Text = "";
+                    logAppend($"{DateTime.Now} -  Auto scan Tag running...");
                     RunNfcList();
                 }));
             }, ScanSource.Token);
@@ -111,7 +117,7 @@ namespace MCT_Windows
             }
             else
             {
-                MessageBox.Show("No Tag on reader");
+                logAppend("No Tag detected on reader");
             }
         }
 
@@ -119,7 +125,6 @@ namespace MCT_Windows
         {
             Application.Current.Dispatcher.Invoke((Action)delegate
             {
-
                 DumpWindow dw = new DumpWindow(t, t.TMPFILESOURCE_MFD);
                 dw.ShowDialog();
                 PeriodicScanTag();
@@ -166,6 +171,7 @@ namespace MCT_Windows
         {
             ScanTagRunning = false;
             ScanSource.Cancel();
+            logAppend("Auto scan tag stopped");
         }
 
         public void RunNfcMfcClassic(bool bWriteBlock0)
@@ -193,9 +199,13 @@ namespace MCT_Windows
                 parameters.Add(t.TMPFILE_UNK);
                 bgw.RunWorkerAsync(parameters.ToArray());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                PeriodicScanTag();
+                logAppend(ex.Message);
+            }
+            finally
+            {
+                PeriodicScanTag(4000);
             }
 
 
@@ -233,9 +243,6 @@ namespace MCT_Windows
 
         private void OpenTag(action act)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Dump Files|*.dump;*.mfd|All Files|*.*";
-            ofd.InitialDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var dr = ofd.ShowDialog();
             if (dr.Value)
             {
@@ -249,20 +256,21 @@ namespace MCT_Windows
         private void btnEditDumpFile_Click(object sender, RoutedEventArgs e)
         {
             StopScanTag();
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Dump Files|*.dump;*.mfd|All Files|*.*";
-            ofd.InitialDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var dr = ofd.ShowDialog();
             if (dr.Value)
             {
+
                 t.TMPFILESOURCE_MFD = ofd.FileName;
                 ShowDump();
             }
+            else
+                PeriodicScanTag();
+
         }
 
         private void btnInfos_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("https://github.com/xavave/MifareDumper");
+            Process.Start("https://github.com/xavave/MifareWindowsTool/wiki");
         }
 
         private void btnTools_Click(object sender, RoutedEventArgs e)

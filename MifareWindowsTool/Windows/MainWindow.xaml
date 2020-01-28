@@ -90,7 +90,7 @@
                     Cursor="Hand" />
             </StackPanel>
         </StackPanel>
-        <TextBox
+        <TextBox  ScrollViewer.VerticalScrollBarVisibility="Auto"
             x:Name="rtbOutput"
             Width="auto"
             Height="300"

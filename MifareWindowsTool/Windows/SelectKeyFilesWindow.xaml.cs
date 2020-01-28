@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace MCT_Windows.Windows
 {
     /// <summary>
-    /// Logique d'interaction pour EditKeyFilesWindow.xaml
+    /// Logique d'interaction pour SelectKeyFilesWindow.xaml
     /// </summary>
     public partial class SelectKeyFilesWindow : Window
     {
@@ -27,6 +27,7 @@ namespace MCT_Windows.Windows
             tools = t;
             Main = mainw;
             InitializeComponent();
+            mainw.StopScanTag();
             RefreshKeyFiles();
         }
 

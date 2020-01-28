@@ -3,22 +3,27 @@
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 
 namespace MCT_Windows
 {
     /// <summary>
-    /// Logique d'interaction pour MapKeyToSectorWindow.xaml
+    /// Logique d'interaction pour WriteDumpWindow.xaml
     /// </summary>
     public partial class WriteDumpWindow : Window
     {
         Tools tools;
         MainWindow main;
+        OpenFileDialog ofd = new OpenFileDialog();
+      
         public WriteDumpWindow(MainWindow mainw, Tools t)
         {
             tools = t;
             main = mainw;
             InitializeComponent();
+            ofd.Filter = "Dump Files|*.dump;*.mfd;*.dmp;*.img|All Files|*.*";
+            ofd.InitialDirectory = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "dumps");
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -43,8 +48,7 @@ namespace MCT_Windows
 
         private void btnSelectDump_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Dump Files|*.dump;*.mfd";
+           
             var dr = ofd.ShowDialog();
             if (dr.Value)
             {

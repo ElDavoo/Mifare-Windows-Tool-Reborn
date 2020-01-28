@@ -44,7 +44,7 @@ namespace MCT_Windows
                 lprocess = true;
                 BackgroundWorker b = (BackgroundWorker)sender;
                 process = Process.Start(psi);
-                b.ReportProgress(0, "running");
+                b.ReportProgress(0, "nfc-list running");
                 running = true;
                 process.OutputDataReceived += (s, _e) => b.ReportProgress(0, _e.Data);
                 process.ErrorDataReceived += (s, _e) => b.ReportProgress(0, _e.Data);
@@ -147,7 +147,7 @@ namespace MCT_Windows
             {
                 lprocess = false;
                 running = false;
-                Main.PeriodicScanTag();
+                Main.PeriodicScanTag(4000);
             }
 
         }
@@ -196,7 +196,7 @@ namespace MCT_Windows
                     b.ReportProgress(100, "nfc-mfcclassic done with errors");
                     //File.Delete(args[0]);
                 }
-                Main.PeriodicScanTag();
+                Main.PeriodicScanTag(5000);
             };
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
