@@ -115,6 +115,16 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
+        ///   Recherche une ressource localisée de type System.Byte[].
+        /// </summary>
+        public static byte[] Beep_ACR122U {
+            get {
+                object obj = ResourceManager.GetObject("Beep_ACR122U", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Delete Key File.
         /// </summary>
         public static string BtnDeleteKeyFileContent {
@@ -463,6 +473,24 @@ namespace MifareWindowsTool.Properties {
         public static string OpenDump {
             get {
                 return ResourceManager.GetString("OpenDump", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Halt on errors.
+        /// </summary>
+        public static string rbHaltOnErrorContent {
+            get {
+                return ResourceManager.GetString("rbHaltOnErrorContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Tolerate errors.
+        /// </summary>
+        public static string rbTolerateOnErrorContent {
+            get {
+                return ResourceManager.GetString("rbTolerateOnErrorContent", resourceCulture);
             }
         }
         

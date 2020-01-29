@@ -10,6 +10,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
+using System.Windows.Navigation;
 
 namespace MCT_Windows
 {
@@ -25,6 +27,8 @@ namespace MCT_Windows
     {
         public AutoResetEvent doneEvent { get; set; } = new AutoResetEvent(false);
         public Process process = new Process();
+
+        MediaPlayer Player = null;
         public bool lprocess = false;
         public bool running = false;
         public string CurrentUID = "";
@@ -32,6 +36,12 @@ namespace MCT_Windows
         public Tools(MainWindow main)
         {
             Main = main;
+
+        }
+
+        private void Player_MediaEnded(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         public string mySourceUID { get; set; } = "";
@@ -67,13 +77,14 @@ namespace MCT_Windows
                         }
                         else
                             b.ReportProgress(100, MifareWindowsTool.Properties.Resources.DoneWithErrors);
+                    doneEvent.Set();
                 };
                 process.BeginOutputReadLine();
                 process.BeginErrorReadLine();
                 process.WaitForExit();
                 lprocess = false;
                 running = false;
-                doneEvent.Set();
+
                 Main.ValidateActions();
                 Main.HideAbortButton();
             }
@@ -82,7 +93,19 @@ namespace MCT_Windows
 
             }
         }
+        public void PlayBeep(Uri baseUri)
+        {
+            try
+            {
+                Player = new MediaPlayer();
+                Player.Open(new Uri("Beep_ACR122U.m4a", UriKind.RelativeOrAbsolute));
+                Player.Play();
 
+            }
+            catch (Exception)
+            {
+            }
+        }
 
         public void mfoc(object sender, DoWorkEventArgs e)
         {
@@ -260,6 +283,7 @@ namespace MCT_Windows
                 var targetDump = args[2];
                 char writeMode = bool.Parse(args[3]) == true ? 'W' : 'w';
                 char useKey = bool.Parse(args[4]) == true ? 'A' : 'B';
+                char haltOnError = bool.Parse(args[5]) == true ? useKey = char.ToLower(useKey) : char.ToUpper(useKey);
                 if (tAction == TagAction.Clone)
                 {
                     psi.Arguments = $"{writeMode} {useKey} u \"{sourceDump}\" \"{targetDump}\"";
@@ -282,7 +306,7 @@ namespace MCT_Windows
 
                 process.Exited += (s, _e) =>
                 {
-
+                    b.CancelAsync();
                     if (process.ExitCode == 0)
                     {
                         b.ReportProgress(101, $"##nfc-mfcclassic {MifareWindowsTool.Properties.Resources.Finished}##");

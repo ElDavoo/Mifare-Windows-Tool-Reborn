@@ -1,12 +1,12 @@
 ﻿<Window
     x:Class="MCT_Windows.WriteDumpWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Width="350"
     xmlns:resx="clr-namespace:MifareWindowsTool.Properties"
-       Title="{x:Static resx:Resources.WriteDumpWindowTitle}"
+    Title="{x:Static resx:Resources.WriteDumpWindowTitle}"
+    Width="350"
     Height="367"
     Background="#303030"
     WindowStyle="SingleBorderWindow"
@@ -14,8 +14,9 @@
     <Grid>
         <Button
             x:Name="btnSelectDump"
-            Width="150"
+            Width="auto"
             Height="22"
+            MinWidth="150"
             Margin="0,0,0,100"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
@@ -26,8 +27,9 @@
             Foreground="White" />
         <Button
             x:Name="btnCancel"
-            Width="100"
+            Width="auto"
             Height="26"
+            MinWidth="100"
             Margin="10"
             HorizontalAlignment="Left"
             VerticalAlignment="Bottom"
@@ -38,8 +40,9 @@
             Foreground="White" />
         <Button
             x:Name="btnWriteDump"
-            Width="100"
+            Width="auto"
             Height="26"
+            MinWidth="100"
             Margin="10"
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
@@ -50,7 +53,8 @@
             Foreground="White" />
         <RadioButton
             x:Name="rbClone"
-            Width="150"
+            Width="auto"
+            MinWidth="150"
             Margin="0,0,0,150"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
@@ -86,15 +90,21 @@
             VerticalAlignment="Top"
             Content="{x:Static resx:Resources.CkEnableBlock0WritingContent}"
             Foreground="White" />
-        <GroupBox BorderThickness="1" BorderBrush="Wheat" x:Name="gbSrcTgtDumps"  VerticalAlignment="Center" Margin="10,120,15,5" Height="55">
+        <GroupBox
+            x:Name="gbSrcTgtDumps"
+            Height="55"
+            Margin="10,120,15,5"
+            VerticalAlignment="Center"
+            BorderBrush="Wheat"
+            BorderThickness="1">
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal">
-                    <Label Foreground="White"   Content="{x:Static resx:Resources.SourceDump}" ></Label>
-                    <Label Foreground="Wheat" x:Name="lblSrcDumpValue"  ></Label>
+                    <Label Content="{x:Static resx:Resources.SourceDump}" Foreground="White" />
+                    <Label x:Name="lblSrcDumpValue" Foreground="Wheat" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label Foreground="White" Content="{x:Static resx:Resources.TargetDump}"  ></Label>
-                    <Label Foreground="Wheat" x:Name="lblTargetDumpValue"  ></Label>
+                    <Label Content="{x:Static resx:Resources.TargetDump}" Foreground="White" />
+                    <Label x:Name="lblTargetDumpValue" Foreground="Wheat" />
                 </StackPanel>
             </StackPanel>
         </GroupBox>
@@ -111,27 +121,59 @@
             IsReadOnly="True"
             Text="FF0780"
             TextWrapping="Wrap" />
-        <GroupBox  x:Name="gbSelectKey" Margin="0,0,15,40" HorizontalAlignment="Right" BorderThickness="1" 
-            VerticalAlignment="Bottom" Height="40">
-        <StackPanel
-            Width="auto" 
-            Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <RadioButton
-                x:Name="rbUseKeyA"
+        <GroupBox
+            x:Name="gbSelectKey"
+            Height="40"
+            Margin="0,0,15,40"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            BorderThickness="1">
+            <StackPanel
                 Width="auto"
-               
-                Content="{x:Static resx:Resources.RbUseKeyAContent}"
-                Foreground="White"
-                GroupName="keys"
-                IsChecked="True" />
-            <RadioButton
-                x:Name="rbUseKeyB"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Vertical">
+                <RadioButton
+                    x:Name="rbUseKeyA"
+                    Width="auto"
+                    Content="{x:Static resx:Resources.RbUseKeyAContent}"
+                    Foreground="White"
+                    GroupName="keys"
+                    IsChecked="True" />
+                <RadioButton
+                    x:Name="rbUseKeyB"
+                    Width="auto"
+                    Content="{x:Static resx:Resources.RbUseKeyBContent}"
+                    Foreground="White"
+                    GroupName="keys" />
+            </StackPanel>
+        </GroupBox>
+        <GroupBox
+            x:Name="gbHaltTolerateError"
+            Height="40"
+            Margin="10,0,15,40"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom"
+            BorderThickness="1">
+            <StackPanel
                 Width="auto"
-               
-                Content="{x:Static resx:Resources.RbUseKeyBContent}"
-                Foreground="White"
-                GroupName="keys" />
-        </StackPanel>
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Vertical">
+                <RadioButton
+                    x:Name="rbTolerateError"
+                    Width="auto"
+                    Content="{x:Static resx:Resources.rbTolerateOnErrorContent}"
+                    Foreground="White"
+                    GroupName="err"
+                    IsChecked="True" />
+                <RadioButton
+                    x:Name="rbHaltOnError"
+                    Width="auto"
+                    Content="{x:Static resx:Resources.rbHaltOnErrorContent}"
+                    Foreground="White"
+                    GroupName="err" />
+            </StackPanel>
         </GroupBox>
     </Grid>
 </Window>

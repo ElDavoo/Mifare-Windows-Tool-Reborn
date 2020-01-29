@@ -229,7 +229,7 @@
     <value>Sélectionner un ou des fichier(s) de clés</value>
   </data>
   <data name="MapKeyToSectorWindowTitle" xml:space="preserve">
-    <value>Schemas de clés</value>
+    <value>Schémas de clés</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="MWT" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -252,6 +252,12 @@
   </data>
   <data name="OpenDump" xml:space="preserve">
     <value>Ouvrir un dump</value>
+  </data>
+  <data name="rbHaltOnErrorContent" xml:space="preserve">
+    <value>Stopper si erreurs</value>
+  </data>
+  <data name="rbTolerateOnErrorContent" xml:space="preserve">
+    <value>Tolérer les erreurs</value>
   </data>
   <data name="RbUseKeyAContent" xml:space="preserve">
     <value>Utiliser la clé A</value>

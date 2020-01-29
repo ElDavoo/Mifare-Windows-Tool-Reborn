@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Threading;
 
 namespace MCT_Windows
@@ -29,16 +30,15 @@ namespace MCT_Windows
         public string MainTitle { get; set; } = $"Mifare Windows Tool";
         Tools t = null;
         OpenFileDialog ofd = new OpenFileDialog();
-
-
         public List<Keys> SelectedKeys = new List<Keys>();
-
+        Uri BaseUri = null;
         IObservable<long> ObservableScan = null;
         CancellationTokenSource ScanSource = null;
         public MainWindow()
         {
             InitializeComponent();
             Uri iconUri = new Uri("pack://application:,,,/Resources/MWT.ico", UriKind.RelativeOrAbsolute);
+            BaseUri = BaseUriHelper.GetBaseUri(this);
             this.Icon = BitmapFrame.Create(iconUri);
             MainTitle += $" v{version}";
             this.Title = $"{MainTitle}";
@@ -213,13 +213,16 @@ namespace MCT_Windows
             var retUID = rtbOutput.Text.Split('\n').Where(t => t.Contains("UID")).LastOrDefault();
             if (retUID != null && retUID.Contains(": "))
             {
-                t.CurrentUID = retUID.Substring(retUID.IndexOf(": ") + ": ".Length).Replace(" ", "").ToUpper();
-                this.Title = $"{MainTitle}: {MifareWindowsTool.Properties.Resources.NewUIDFound}: { t.CurrentUID}";
-                if (!TagFound)
+                var newUID = retUID.Substring(retUID.IndexOf(": ") + ": ".Length).Replace(" ", "").ToUpper();
+                if (t.CurrentUID != newUID)
                 {
-                    SystemSounds.Beep.Play();
+                    t.CurrentUID = newUID;
+                    this.Title = $"{MainTitle}: {MifareWindowsTool.Properties.Resources.NewUIDFound}: { t.CurrentUID}";
+
+                    t.PlayBeep(BaseUri);
+
+                    TagFound = true;
                 }
-                TagFound = true;
             }
 
             else
@@ -249,7 +252,7 @@ namespace MCT_Windows
             bgw.RunWorkerAsync(new string[] { "dumps/" + t.TMPFILE_TARGETMFD });
 
         }
-        public void RunNfcMfcClassic(TagAction act, bool bWriteBlock0, bool useKeyA)
+        public void RunNfcMfcClassic(TagAction act, bool bWriteBlock0, bool useKeyA, bool haltOnError)
         {
             StopScanTag();
 
@@ -257,7 +260,7 @@ namespace MCT_Windows
             bgw.DoWork += new DoWorkEventHandler(t.mf_write);
             bgw.WorkerReportsProgress = true;
             bgw.ProgressChanged += new ProgressChangedEventHandler(default_rpt);
-            bgw.RunWorkerAsync(new string[] { act.ToString(), "dumps/" + t.TMPFILESOURCE_MFD, "dumps/" + t.TMPFILE_TARGETMFD, bWriteBlock0.ToString(), useKeyA.ToString() });
+            bgw.RunWorkerAsync(new string[] { act.ToString(), "dumps/" + t.TMPFILESOURCE_MFD, "dumps/" + t.TMPFILE_TARGETMFD, bWriteBlock0.ToString(), useKeyA.ToString(),haltOnError.ToString() });
 
         }
         public void RunMfoc(List<Keys> keys, string tmpFileMfd)

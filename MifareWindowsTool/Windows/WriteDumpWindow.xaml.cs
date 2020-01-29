@@ -56,7 +56,8 @@ namespace MCT_Windows
             {
                 if (main.SelectedKeys.Any() || DumpsExist())
                 {
-                    main.RunNfcMfcClassic(TagAction.Clone, ckEnableBlock0Writing.IsChecked.HasValue && ckEnableBlock0Writing.IsChecked.Value, rbUseKeyA.IsChecked.HasValue && rbUseKeyA.IsChecked.Value);
+                    main.RunNfcMfcClassic(TagAction.Clone, ckEnableBlock0Writing.IsChecked.HasValue && ckEnableBlock0Writing.IsChecked.Value,
+                        rbUseKeyA.IsChecked.HasValue && rbUseKeyA.IsChecked.Value, rbHaltOnError.IsChecked.HasValue && rbHaltOnError.IsChecked.Value);
                     this.DialogResult = true;
                     this.Close();
                 }
@@ -120,6 +121,7 @@ namespace MCT_Windows
             txtACsValue.Visibility = visibility;
             gbSelectKey.Visibility = visibility;
             gbSrcTgtDumps.Visibility = visibility;
+            gbHaltTolerateError.Visibility = visibility;
         }
     }
 }
