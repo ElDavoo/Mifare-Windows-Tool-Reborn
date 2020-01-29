@@ -21,14 +21,14 @@
             VerticalAlignment="Center"
             Background="#5A595B"
             Click="btnSelectDump_Click"
-            Content="Select Dump"
+            Content="Select Source Dump"
             Cursor="Hand"
             Foreground="White" />
         <Button
             x:Name="btnCancel"
             Width="100"
             Height="26"
-            Margin="20"
+            Margin="10"
             HorizontalAlignment="Left"
             VerticalAlignment="Bottom"
             Background="#5A595B"
@@ -40,7 +40,7 @@
             x:Name="btnWriteDump"
             Width="100"
             Height="26"
-            Margin="20"
+            Margin="10"
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
             Background="#5A595B"
@@ -81,11 +81,23 @@
             IsEnabled="False" />
         <CheckBox
             x:Name="ckEnableBlock0Writing"
-            Margin="30,180,0,0"
+            Margin="30,175,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Content="Advanced: Enable writing to manufacturer block"
             Foreground="White" />
+        <GroupBox BorderThickness="1" BorderBrush="Wheat" x:Name="gbSrcTgtDumps"  VerticalAlignment="Center" Margin="10,120,15,5" Height="55">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Label Foreground="White"   Content="Source dump:" ></Label>
+                    <Label Foreground="Wheat" x:Name="lblSrcDumpValue"  ></Label>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Foreground="White" Content="Target dump:"  ></Label>
+                    <Label Foreground="Wheat" x:Name="lblTargetDumpValue"  ></Label>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
         <TextBox
             x:Name="txtACsValue"
             Width="80"
@@ -99,18 +111,15 @@
             IsReadOnly="True"
             Text="FF0780"
             TextWrapping="Wrap" />
-
+        <GroupBox  x:Name="gbSelectKey" Margin="0,0,15,40" HorizontalAlignment="Right" BorderThickness="1" 
+            VerticalAlignment="Bottom" Height="40">
         <StackPanel
-            Width="auto"
-            Margin="0,0,35,50"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Bottom"
-            Orientation="Vertical">
+            Width="auto" 
+            Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
             <RadioButton
                 x:Name="rbUseKeyA"
                 Width="auto"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
+               
                 Content="Use Key A"
                 Foreground="White"
                 GroupName="keys"
@@ -118,12 +127,11 @@
             <RadioButton
                 x:Name="rbUseKeyB"
                 Width="auto"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
+               
                 Content="Use Key B"
                 Foreground="White"
                 GroupName="keys" />
         </StackPanel>
-
+        </GroupBox>
     </Grid>
 </Window>

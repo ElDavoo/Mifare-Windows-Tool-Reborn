@@ -83,7 +83,9 @@ namespace MCT_Windows
 
         private void ReadTag(TagAction act)
         {
+
             if (t.running) return;
+
             if (Title.Contains("no tag") && !ScanTagRunning)
                 PeriodicScanTag();
 
@@ -100,6 +102,11 @@ namespace MCT_Windows
                     t.TMPFILE_UNK = $"mfc_{ t.mySourceUID}_unknownMfocSectorInfo.txt";
                     t.TMPFILESOURCE_MFD = $"mfc_{ t.mySourceUID}.dump";
                     t.TMPFILE_FND = $"mfc_{ t.mySourceUID}_foundKeys.txt";
+                    if (t.CheckAndUseDumpIfExists(t.TMPFILESOURCE_MFD))
+                    {
+                        TagFound = true;
+                        return;
+                    }
                 }
                 else if (act == TagAction.ReadTarget)
                 {
@@ -107,6 +114,10 @@ namespace MCT_Windows
                     t.TMPFILE_UNK = $"mfc_{ t.myTargetUID}_unknownMfocSectorInfo.txt";
                     t.TMPFILE_TARGETMFD = $"mfc_{ t.myTargetUID}.dump";
                     t.TMPFILE_FND = $"mfc_{ t.myTargetUID}_foundKeys.txt";
+                    if (t.CheckAndUseDumpIfExists(t.TMPFILE_TARGETMFD))
+                    {
+                        TagFound = true;
+                    }
                 }
             }
 
@@ -115,7 +126,7 @@ namespace MCT_Windows
                 StopScanTag();
                 if (act == TagAction.ReadSource)
                 {
-                    MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(this, t);
+                    MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(this, t, "(used for source tag mapping)");
                     var ret = mtsWin.ShowDialog();
                     if (ret.HasValue && ret.Value)
                         RunMfoc(SelectedKeys, t.TMPFILESOURCE_MFD);
@@ -138,6 +149,37 @@ namespace MCT_Windows
                 logAppend("No Tag detected on reader");
             }
 
+        }
+
+
+
+        public void ValidateActions()
+        {
+            Application.Current.Dispatcher.BeginInvoke((Action)delegate
+            {
+                btnReadTag.IsEnabled = !t.running;
+                btnWriteTag.IsEnabled = !t.running;
+                ckEnablePeriodicTagScan.IsEnabled = !t.running;
+            });
+        }
+
+        public void ShowAbortButton()
+        {
+            if (!t.process.HasExited)
+            {
+                Application.Current.Dispatcher.Invoke((Action)delegate
+                {
+                    btnAbortCurrentTask.Content = $"Abort {t.process.ProcessName}";
+                    btnAbortCurrentTask.Visibility = Visibility.Visible;
+                });
+            }
+        }
+        public void HideAbortButton()
+        {
+            Application.Current.Dispatcher.BeginInvoke((Action)delegate
+            {
+                btnAbortCurrentTask.Visibility = Visibility.Hidden;
+            });
         }
 
         public void ShowDump()
@@ -163,9 +205,11 @@ namespace MCT_Windows
             bgw.DoWork += new DoWorkEventHandler(t.list_tag);
             bgw.WorkerReportsProgress = true;
             bgw.ProgressChanged += new ProgressChangedEventHandler(default_rpt);
+
             bgw.RunWorkerAsync();
             t.doneEvent.WaitOne();
             DoEvents();
+
             var retUID = rtbOutput.Text.Split('\n').Where(t => t.Contains("UID")).LastOrDefault();
             if (retUID != null && retUID.Contains(": "))
             {
@@ -313,6 +357,27 @@ namespace MCT_Windows
         {
             if (ckEnablePeriodicTagScan.IsChecked.HasValue && ckEnablePeriodicTagScan.IsChecked.Value)
                 PeriodicScanTag();
+        }
+
+        private void btnAbortCurrentTask_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (t.process != null && !t.process.HasExited)
+                {
+                    string processName = t.process.ProcessName;
+                    t.process.Kill();
+                    t.process.Dispose();
+                    t.running = false;
+                    rtbOutput.AppendText($"{processName} aborted!\n");
+                    HideAbortButton();
+                    ValidateActions();
+                }
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
         }
     }
 }

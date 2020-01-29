@@ -4,9 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Width="770" 
-    Height="355"
-    Background="#5A595B"
+    Width="800" 
+    Height="365"
+    Background="#303030"
     WindowStyle="SingleBorderWindow"
     mc:Ignorable="d">
     <Window.Resources>
@@ -91,26 +91,28 @@
                     Content="{StaticResource imgHelpInfo}"
                     Cursor="Hand" />
             </StackPanel>
-            <CheckBox
-                x:Name="ckEnablePeriodicTagScan"
-                VerticalContentAlignment="Bottom"
-                Checked="ckEnablePeriodicTagScan_Checked"
-                Content="Enable Periodic Tag AutoScan"
-                FontSize="10"
-                Foreground="White"
-                IsChecked="False" />
+            
         </StackPanel>
         <TextBox
             x:Name="rtbOutput"
             Width="auto"
-            Height="300"
+            Height="auto"
             MaxHeight="300"
-            Margin="255,0,0,0"
+            Margin="255,0,0,10"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Top"
             Background="Black"
             Foreground="Lime"
             ScrollViewer.VerticalScrollBarVisibility="Auto"
             TextChanged="rtbOutput_TextChanged" />
+        <CheckBox ToolTip="checks if there is a new tag on the tag reader every 3 seconds"
+                x:Name="ckEnablePeriodicTagScan" Width="auto" Height="20"
+                VerticalAlignment="Bottom" HorizontalAlignment="Left"
+                Checked="ckEnablePeriodicTagScan_Checked"
+                Content="Enable Periodic Tag AutoScan"
+                FontSize="10" Margin="5,0,0,0"
+                Foreground="White"
+                IsChecked="False" />
+        <Button x:Name="btnAbortCurrentTask" Visibility="Collapsed" FontSize="11" HorizontalAlignment="Right" Content="Abort Current Task" Margin="5,0,0,0" Background="#5A595B" Foreground="White" VerticalAlignment="Bottom" Height="20" Width="auto" Click="btnAbortCurrentTask_Click"/>
     </Grid>
 </Window>

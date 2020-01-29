@@ -73,15 +73,15 @@ namespace MCT_Windows
                 process.WaitForExit();
                 lprocess = false;
                 running = false;
-
+                doneEvent.Set();
+                Main.ValidateActions();
+                Main.HideAbortButton();
             }
             finally
             {
-                doneEvent.Set();
+
             }
-
         }
-
 
 
         public void mfoc(object sender, DoWorkEventArgs e)
@@ -132,23 +132,27 @@ namespace MCT_Windows
                 };
                 process.Exited += (s, _e) =>
                 {
-                    if (b.IsBusy)
-                        if (process.ExitCode == 0)
-                        {
-                            b.ReportProgress(101, "##mfoc finished##");
-                            Main.ShowDump();
-                        }
-                        else
-                        {
-                            b.ReportProgress(100, "done with errors");
-                            File.Delete(args[0]);
-                        }
+                    if (process.ExitCode == 0)
+                    {
+                        b.ReportProgress(101, "##mfoc finished##");
+                        //Main.ShowDump();
+                    }
+                    else
+                    {
+                        b.ReportProgress(100, "done with errors");
+                        //File.Delete(args[0]);
+                    }
                     Main.PeriodicScanTag();
                 };
                 process.BeginOutputReadLine();
                 process.BeginErrorReadLine();
+                Main.ValidateActions();
+                Main.ShowAbortButton();
                 process.WaitForExit();
-               
+                running = false;
+                lprocess = false;
+                Main.ValidateActions();
+                Main.HideAbortButton();
             }
             catch (Exception ex)
             {
@@ -156,10 +160,10 @@ namespace MCT_Windows
             }
             finally
             {
+                doneEvent.Set();
                 lprocess = false;
-                running = false;
                 process.Close();
-             
+
                 Main.PeriodicScanTag(3000);
             }
 
@@ -192,6 +196,7 @@ namespace MCT_Windows
                 psi.UseShellExecute = false;
                 psi.RedirectStandardOutput = true;
                 psi.RedirectStandardError = true;
+                process.EnableRaisingEvents = true;
                 lprocess = true;
                 BackgroundWorker b = (BackgroundWorker)sender;
                 process = Process.Start(psi);
@@ -204,29 +209,40 @@ namespace MCT_Windows
 
                 process.Exited += (s, _e) =>
                 {
-                    if (b.IsBusy)
-                        if (process.ExitCode == 0)
-                        {
-                            b.ReportProgress(101, "##mifare-classic-format finished##");
 
-                        }
-                        else
-                        {
-                            b.ReportProgress(100, "mifare-classic-format done with errors");
-                            //File.Delete(args[0]);
-                        }
+                    if (process.ExitCode == 0)
+                    {
+                        b.ReportProgress(101, "##mifare-classic-format finished##");
+
+                    }
+                    else
+                    {
+                        b.ReportProgress(100, "mifare-classic-format done with errors");
+                        //File.Delete(args[0]);
+                    }
+
+
                     Main.PeriodicScanTag(5000);
                 };
                 process.BeginOutputReadLine();
                 process.BeginErrorReadLine();
+                Main.ValidateActions();
+                Main.ShowAbortButton();
                 process.WaitForExit();
-
-                lprocess = false;
                 running = false;
+                lprocess = false;
+                Main.ValidateActions();
+                Main.HideAbortButton();
+
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                doneEvent.Set();
             }
 
         }
@@ -253,6 +269,7 @@ namespace MCT_Windows
                 psi.UseShellExecute = false;
                 psi.RedirectStandardOutput = true;
                 psi.RedirectStandardError = true;
+                process.EnableRaisingEvents = true;
                 lprocess = true;
                 BackgroundWorker b = (BackgroundWorker)sender;
                 process = Process.Start(psi);
@@ -265,32 +282,55 @@ namespace MCT_Windows
 
                 process.Exited += (s, _e) =>
                 {
-                    if (b.IsBusy)
-                        if (process.ExitCode == 0)
-                        {
-                            b.ReportProgress(101, "##nfc-mfcclassic finished##");
 
-                        }
-                        else
-                        {
-                            b.ReportProgress(100, "nfc-mfcclassic done with errors");
-                            //File.Delete(args[0]);
-                        }
+                    if (process.ExitCode == 0)
+                    {
+                        b.ReportProgress(101, "##nfc-mfcclassic finished##");
+
+                    }
+                    else
+                    {
+                        b.ReportProgress(100, "nfc-mfcclassic done with errors");
+                        //File.Delete(args[0]);
+                    }
+                    Main.HideAbortButton();
                     Main.PeriodicScanTag(5000);
                 };
                 process.BeginOutputReadLine();
                 process.BeginErrorReadLine();
-                process.WaitForExit();
 
+                Main.ValidateActions();
+                Main.ShowAbortButton();
+                process.WaitForExit();
                 lprocess = false;
                 running = false;
+                Main.HideAbortButton();
+                Main.ValidateActions();
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-
+            finally
+            {
+                doneEvent.Set();
+            }
         }
+
+        public bool CheckAndUseDumpIfExists(string MFDFile)
+        {
+            if (File.Exists("dumps/" + MFDFile))
+            {
+                long fileLength = new System.IO.FileInfo("dumps/" + MFDFile).Length;
+                if (fileLength == 0) return false;
+                var dr = MessageBox.Show($"A dump file ({Path.GetFileName("dumps/" + MFDFile)}) already exists, Do you want to re-use this dump ?", "Dump existing", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                return (dr == MessageBoxResult.Yes);
+            }
+            return false;
+        }
+
         public string ConvertHex(String hexString)
         {
             try

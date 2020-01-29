@@ -46,7 +46,7 @@
             Grid.ColumnSpan="2"
             Height="100"
             Margin="0,118,0.333,118.667" />
-        <Label
+        <Label x:Name="lblChooseKeyFile"
             Grid.ColumnSpan="2"
             Margin="10,85,0,0"
             HorizontalAlignment="Left"

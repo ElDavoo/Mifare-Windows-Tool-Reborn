@@ -28,6 +28,8 @@ namespace MCT_Windows
             rbClone.IsChecked = true;
             ofd.Filter = "Dump Files|*.dump;*.mfd;*.dmp;*.img|All Files|*.*";
             ofd.InitialDirectory = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "dumps");
+            lblSrcDumpValue.Content = Path.GetFileName(tools.TMPFILESOURCE_MFD);
+            lblTargetDumpValue.Content = Path.GetFileName(tools.TMPFILE_TARGETMFD);
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -52,7 +54,7 @@ namespace MCT_Windows
             }
             else if (rbClone.IsChecked.HasValue && rbClone.IsChecked.Value)
             {
-                if (main.SelectedKeys.Any())
+                if (main.SelectedKeys.Any() || DumpsExist())
                 {
                     main.RunNfcMfcClassic(TagAction.Clone, ckEnableBlock0Writing.IsChecked.HasValue && ckEnableBlock0Writing.IsChecked.Value, rbUseKeyA.IsChecked.HasValue && rbUseKeyA.IsChecked.Value);
                     this.DialogResult = true;
@@ -60,9 +62,23 @@ namespace MCT_Windows
                 }
                 else
                 {
-                    MessageBox.Show("You need to select at least one key file");
+                    MessageBox.Show("You need to select at least one dump and one key file");
                 }
             }
+        }
+
+        bool DumpsExist()
+        {
+            if (File.Exists("dumps/" + tools.TMPFILESOURCE_MFD) && File.Exists("dumps/" + tools.TMPFILE_TARGETMFD))
+            {
+                long fileLength = new System.IO.FileInfo("dumps/" + tools.TMPFILESOURCE_MFD).Length;
+                if (fileLength > 0)
+                {
+                    fileLength = new System.IO.FileInfo("dumps/" + tools.TMPFILE_TARGETMFD).Length;
+                    return fileLength > 0;
+                }
+            }
+            return false;
         }
 
         private void btnSelectDump_Click(object sender, RoutedEventArgs e)
@@ -71,34 +87,39 @@ namespace MCT_Windows
             var dr = ofd.ShowDialog();
             if (dr.Value)
             {
-                tools.TMPFILESOURCE_MFD = $"mfc_{ tools.mySourceUID}.dump";
+                tools.TMPFILESOURCE_MFD = Path.GetFileName(ofd.FileName);
+                lblSrcDumpValue.Content = Path.GetFileName(tools.TMPFILESOURCE_MFD);
+                lblTargetDumpValue.Content = Path.GetFileName(tools.TMPFILE_TARGETMFD);
             }
-            MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(main, tools);
-            var ret = mtsWin.ShowDialog();
-            if (ret.HasValue && ret.Value)
-                main.RunMfoc(main.SelectedKeys, tools.TMPFILESOURCE_MFD);
+            if (string.IsNullOrWhiteSpace(lblTargetDumpValue.Content?.ToString()))
+            {
+                MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(main, tools, "(used for target tag mapping)");
+                var ret = mtsWin.ShowDialog();
+                if (ret.HasValue && ret.Value)
+                    main.RunMfoc(main.SelectedKeys, tools.TMPFILESOURCE_MFD);
+            }
         }
 
         private void rbFactoryFormat_Checked(object sender, RoutedEventArgs e)
         {
             btnWriteDump.Content = "Factory Format";
-            btnSelectDump.Visibility = Visibility.Hidden;
-            ckACs.Visibility = Visibility.Hidden;
-            ckEnableBlock0Writing.Visibility = Visibility.Hidden;
-            txtACsValue.Visibility = Visibility.Hidden;
-            rbUseKeyA.Visibility = Visibility.Hidden;
-            rbUseKeyB.Visibility = Visibility.Hidden;
+            ShowHideElements(Visibility.Hidden);
         }
 
         private void rbClone_Checked(object sender, RoutedEventArgs e)
         {
-            btnWriteDump.Content = "Write Dump";
-            btnSelectDump.Visibility = Visibility.Visible;
-            ckACs.Visibility = Visibility.Visible;
-            ckEnableBlock0Writing.Visibility = Visibility.Visible;
-            txtACsValue.Visibility = Visibility.Visible;
-            rbUseKeyA.Visibility = Visibility.Visible;
-            rbUseKeyB.Visibility = Visibility.Visible;
+            btnWriteDump.Content = "Start Cloning";
+            ShowHideElements(Visibility.Visible);
+        }
+
+        private void ShowHideElements(Visibility visibility)
+        {
+            btnSelectDump.Visibility = visibility;
+            ckACs.Visibility = visibility;
+            ckEnableBlock0Writing.Visibility = visibility;
+            txtACsValue.Visibility = visibility;
+            gbSelectKey.Visibility = visibility;
+            gbSrcTgtDumps.Visibility = visibility;
         }
     }
 }
