@@ -53,7 +53,7 @@ namespace MCT_Windows
                 lprocess = true;
                 BackgroundWorker b = (BackgroundWorker)sender;
                 process = Process.Start(psi);
-                b.ReportProgress(0, "nfc-list started");
+                b.ReportProgress(0, $"nfc-list {MifareWindowsTool.Properties.Resources.Started}");
                 running = true;
                 process.OutputDataReceived += (s, _e) => b.ReportProgress(0, _e.Data);
                 process.ErrorDataReceived += (s, _e) => b.ReportProgress(0, _e.Data);
@@ -63,10 +63,10 @@ namespace MCT_Windows
                     if (b.IsBusy)
                         if (process.ExitCode == 0)
                         {
-                            b.ReportProgress(101, "##scan finished##");
+                            b.ReportProgress(101, $"##{MifareWindowsTool.Properties.Resources.ScanFinished}##");
                         }
                         else
-                            b.ReportProgress(100, "done with errors");
+                            b.ReportProgress(100, MifareWindowsTool.Properties.Resources.DoneWithErrors);
                 };
                 process.BeginOutputReadLine();
                 process.BeginErrorReadLine();
@@ -120,7 +120,7 @@ namespace MCT_Windows
                 lprocess = true;
                 BackgroundWorker b = (BackgroundWorker)sender;
                 process = Process.Start(psi);
-                b.ReportProgress(0, "Starting MFOC decryption……");
+                b.ReportProgress(0, $"mfoc {MifareWindowsTool.Properties.Resources.Started}…");
                 running = true;
                 process.OutputDataReceived += (s, _e) => b.ReportProgress(0, _e.Data);
                 process.ErrorDataReceived += (s, _e) =>
@@ -134,12 +134,12 @@ namespace MCT_Windows
                 {
                     if (process.ExitCode == 0)
                     {
-                        b.ReportProgress(101, "##mfoc finished##");
+                        b.ReportProgress(101, $"##mfoc {MifareWindowsTool.Properties.Resources.Finished}##");
                         //Main.ShowDump();
                     }
                     else
                     {
-                        b.ReportProgress(100, "done with errors");
+                        b.ReportProgress(100, $"mfoc {MifareWindowsTool.Properties.Resources.DoneWithErrors}");
                         //File.Delete(args[0]);
                     }
                     Main.PeriodicScanTag();
@@ -212,12 +212,12 @@ namespace MCT_Windows
 
                     if (process.ExitCode == 0)
                     {
-                        b.ReportProgress(101, "##mifare-classic-format finished##");
+                        b.ReportProgress(101, $"##mifare-classic-format {MifareWindowsTool.Properties.Resources.Finished}##");
 
                     }
                     else
                     {
-                        b.ReportProgress(100, "mifare-classic-format done with errors");
+                        b.ReportProgress(100, $"mifare-classic-format {MifareWindowsTool.Properties.Resources.DoneWithErrors}");
                         //File.Delete(args[0]);
                     }
 

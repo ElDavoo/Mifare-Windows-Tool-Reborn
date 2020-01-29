@@ -118,199 +118,199 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Abort" xml:space="preserve">
-    <value>Abort</value>
+    <value>Arrêter</value>
   </data>
   <data name="Aborted" xml:space="preserve">
-    <value>aborted</value>
+    <value>arrêté</value>
   </data>
   <data name="ADumpFile" xml:space="preserve">
-    <value>A dump file</value>
+    <value>Un fichier de dump</value>
   </data>
   <data name="AlreadyExists" xml:space="preserve">
-    <value>already exists</value>
+    <value>existe déjà</value>
   </data>
   <data name="AutoScanTagRunning" xml:space="preserve">
-    <value>Auto scan Tag is running</value>
+    <value>La détection automatique de badges est démarrée</value>
   </data>
   <data name="AutoScanTagStopped" xml:space="preserve">
-    <value>Auto scan tag stopped</value>
+    <value>La détection automatique de badges est arrêtée</value>
   </data>
   <data name="BtnDeleteKeyFileContent" xml:space="preserve">
-    <value>Delete Key File</value>
+    <value>Supprimer le fichier de clés</value>
   </data>
   <data name="BtnEditKeyFileContent" xml:space="preserve">
-    <value>Edit Key File</value>
+    <value>Editer le fichier de clés</value>
   </data>
   <data name="BtnNewKeyFileContent" xml:space="preserve">
-    <value>New Key File</value>
+    <value>Nouveau fichier de clés</value>
   </data>
   <data name="btnOpenDumpAContent" xml:space="preserve">
-    <value>Open Dump A</value>
+    <value>Ouvrir le dump A</value>
   </data>
   <data name="btnOpenDumpBContent" xml:space="preserve">
-    <value>Open Dump B</value>
+    <value>Ouvrir le dump B</value>
   </data>
   <data name="BtnSelectDumpContent" xml:space="preserve">
-    <value>Select Source Dump</value>
+    <value>Sélectionner le dump Source</value>
   </data>
   <data name="btnStartMappingAndReadTagContent" xml:space="preserve">
-    <value>Start mapping and read tag</value>
+    <value>Démarrer le mapping et lire le badge</value>
   </data>
   <data name="BtnWriteDumpContent" xml:space="preserve">
-    <value>Write Dump</value>
+    <value>Ecrire sur le badge</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Annuler</value>
   </data>
   <data name="CkACsContent" xml:space="preserve">
-    <value>Use these Access Conditions for all sectors</value>
+    <value>Utiliser ces conditions d'accès pour tous les secteurs</value>
   </data>
   <data name="CkEnableBlock0WritingContent" xml:space="preserve">
-    <value>Advanced: Enable writing to manufacturer block</value>
+    <value>Avançé : Autoriser l'écriture sur le bloc 0</value>
   </data>
   <data name="ckEnablePeriodicTagScanContent" xml:space="preserve">
-    <value>Enable Periodic Tag AutoScan</value>
+    <value>Activer la détection périodique de badge</value>
   </data>
   <data name="ckEnablePeriodicTagScanTooltip" xml:space="preserve">
-    <value>checks if there is a new tag on the tag reader every 3 seconds</value>
+    <value>Vérifie toutes les 3 secondes si un nouveau badge est posé sur le lecteur</value>
   </data>
   <data name="Cloning" xml:space="preserve">
-    <value>cloning</value>
+    <value>Duplication en cours</value>
   </data>
   <data name="Close" xml:space="preserve">
-    <value>Close</value>
+    <value>Fermer</value>
   </data>
   <data name="CompareDumps" xml:space="preserve">
-    <value>Compare Dumps</value>
+    <value>Comparer les dumps</value>
   </data>
   <data name="Different" xml:space="preserve">
-    <value>Different</value>
+    <value>Différent</value>
   </data>
   <data name="DoneWithErrors" xml:space="preserve">
-    <value>done with errors</value>
+    <value>Terminé avec des erreurs</value>
   </data>
   <data name="DoYouWantToReUseThisDump" xml:space="preserve">
-    <value>Do you want to re-use this dump ?</value>
+    <value>Voulez-vous réutiliser ce dump ?</value>
   </data>
   <data name="DumpExisting" xml:space="preserve">
-    <value>Dump existing</value>
+    <value>Dump existant</value>
   </data>
   <data name="DumpFileFilter" xml:space="preserve">
-    <value>Dump Files|*.dump;*.mfd;*.dmp;*.img|All Files|*.*</value>
+    <value>Fichiers de Dump|*.dump;*.mfd;*.dmp;*.img|Tous les fichiers|*.*</value>
   </data>
   <data name="DumpWindowTitle" xml:space="preserve">
     <value>Dump</value>
   </data>
   <data name="EditAddKeyFile" xml:space="preserve">
-    <value>EDIT/ADD KEY FILE</value>
+    <value>EDITER/AJOUTER FICHIER DE CLES</value>
   </data>
   <data name="EditAnalyzeDumpFile" xml:space="preserve">
-    <value>EDIT/ANALYSE DUMP FILE</value>
+    <value>EDITER/ANALYSER FICHIER DUMP</value>
   </data>
   <data name="EditKeyFileWindowTitle" xml:space="preserve">
-    <value>Edit Key File</value>
+    <value>Edition des fichiers de clés</value>
   </data>
   <data name="FactoryFormat" xml:space="preserve">
-    <value>Factory Format</value>
+    <value>Formatage d'usine</value>
   </data>
   <data name="Finished" xml:space="preserve">
-    <value>finished</value>
+    <value>terminé</value>
   </data>
   <data name="HelpAndInfo" xml:space="preserve">
-    <value>HELP/INFO</value>
+    <value>AIDE/INFOS</value>
   </data>
   <data name="Identical" xml:space="preserve">
-    <value>Identical</value>
+    <value>Identique</value>
   </data>
   <data name="KeyFilesFilter" xml:space="preserve">
-    <value>Key Files|*.keys</value>
+    <value>Fichiers de clés|*.keys</value>
   </data>
   <data name="lblChooseKeyFileContent" xml:space="preserve">
-    <value>Choose some key file(s):</value>
+    <value>Sélectionner un ou des fichier(s) de clés</value>
   </data>
   <data name="MapKeyToSectorWindowTitle" xml:space="preserve">
-    <value>Map Keys</value>
+    <value>Schemas de clés</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="MWT" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MWT.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="NeedSelectDumpKeyFile" xml:space="preserve">
-    <value>You need to select at least one dump / key file</value>
+    <value>Vous devez selectionner au moins un fichier de dump/clés</value>
   </data>
   <data name="NeedToSelectOneKeyFile" xml:space="preserve">
-    <value>You need to select at least one key file</value>
+    <value>Vous devez selectionner au moins un fichier de clés</value>
   </data>
   <data name="NewUIDFound" xml:space="preserve">
-    <value>new UID Found</value>
+    <value>Nouvel UID trouvé</value>
   </data>
   <data name="NoTag" xml:space="preserve">
-    <value>no tag</value>
+    <value>Aucun badge</value>
   </data>
   <data name="NoTagDetectedOnReader" xml:space="preserve">
-    <value>No Tag detected on reader</value>
+    <value>Aucun badge détecté sur le lecteur</value>
   </data>
   <data name="OpenDump" xml:space="preserve">
-    <value>Open Dump</value>
+    <value>Ouvrir un dump</value>
   </data>
   <data name="RbUseKeyAContent" xml:space="preserve">
-    <value>Use Key A</value>
+    <value>Utiliser la clé A</value>
   </data>
   <data name="RbUseKeyBContent" xml:space="preserve">
-    <value>Use Key B</value>
+    <value>Utiliser la clé B</value>
   </data>
   <data name="ReadTag" xml:space="preserve">
-    <value>READ TAG</value>
+    <value>LIRE BADGE</value>
   </data>
   <data name="SaveDumpAs" xml:space="preserve">
-    <value>Save Dump as</value>
+    <value>Enregistrer le dump sous...</value>
   </data>
   <data name="SaveKeyFile" xml:space="preserve">
-    <value>Save Key File</value>
+    <value>Enregistrer le dump</value>
   </data>
   <data name="ScanFinished" xml:space="preserve">
-    <value>scan finished</value>
+    <value>Détection terminée</value>
   </data>
   <data name="Sector" xml:space="preserve">
-    <value>Sector</value>
+    <value>Secteur</value>
   </data>
   <data name="SelectKeyFilesWindowTitle" xml:space="preserve">
-    <value>Key Files</value>
+    <value>Fichiers de clés</value>
   </data>
   <data name="ShowAsASCII" xml:space="preserve">
-    <value>Show as ASCII</value>
+    <value>Afficher en ASCII</value>
   </data>
   <data name="ShowAsHex" xml:space="preserve">
-    <value>Show as Hex</value>
+    <value>Afficher en Hexa</value>
   </data>
   <data name="SourceDump" xml:space="preserve">
-    <value>Source dump:</value>
+    <value>dump Source :</value>
   </data>
   <data name="StartCloning" xml:space="preserve">
-    <value>Start Cloning</value>
+    <value>Démarrer la copie</value>
   </data>
   <data name="Started" xml:space="preserve">
-    <value>started</value>
+    <value>démarré</value>
   </data>
   <data name="TargetDump" xml:space="preserve">
-    <value>Target dump:</value>
+    <value>dump Cible :</value>
   </data>
   <data name="Tools" xml:space="preserve">
-    <value>TOOLS</value>
+    <value>OUTILS</value>
   </data>
   <data name="UsedForSourceMapping" xml:space="preserve">
-    <value>(used for source tag mapping)</value>
+    <value>(utilisé pour le schéma du badge source)</value>
   </data>
   <data name="UsedForTargetMapping" xml:space="preserve">
-    <value>(used for target tag mapping)</value>
+    <value>(utilisé pour le schéma du badge cible)</value>
   </data>
   <data name="WriteDumpClone" xml:space="preserve">
-    <value>Write Dump (Clone)</value>
+    <value>Ecrire le dump (dupliquer)</value>
   </data>
   <data name="WriteDumpWindowTitle" xml:space="preserve">
-    <value>Write Tag</value>
+    <value>Ecrire sur le badge</value>
   </data>
   <data name="WriteTag" xml:space="preserve">
-    <value>WRITE TAG</value>
+    <value>ECRIRE BADGE</value>
   </data>
 </root>

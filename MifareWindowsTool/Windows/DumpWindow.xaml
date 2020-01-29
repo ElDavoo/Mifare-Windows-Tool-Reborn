@@ -67,7 +67,7 @@
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <Button
                     x:Name="btnSaveDump"
-                    Width="85"
+                    Width="auto"
                     Background="#5A595B"
                     Click="btnSaveDump_Click"
                     Content="{x:Static resx:Resources.SaveDumpAs}"
@@ -76,7 +76,7 @@
 
                 <Button
                     x:Name="btnShowAsAscii"
-                    Width="85"
+                    Width="auto"
                     Margin="20,0,0,0"
                     Background="#5A595B"
                     Click="btnShowAsAscii_Click"
@@ -85,7 +85,7 @@
                     Foreground="White" />
                 <Button
                     x:Name="btnClose"
-                    Width="85"
+                    Width="auto" MinWidth="100"
                     Margin="20,0,0,0"
                     Background="#5A595B"
                     Click="btnClose_Click"

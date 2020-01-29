@@ -33,7 +33,7 @@
             <StackPanel Orientation="Horizontal">
                 <Button
                     x:Name="btnCancel"
-                    Width="100"
+                    Width="auto" MinWidth="100"
                     Height="26"
                     Margin="220,10,10,10"
                     Background="#5A595B"
@@ -43,7 +43,7 @@
                     Foreground="White" />
                 <Button
                     x:Name="btnEditKeyFile"
-                    Width="100"
+                    Width="auto"
                     Height="26"
                     Margin="10"
                     Background="#5A595B"
@@ -53,7 +53,7 @@
                     Foreground="White" />
                 <Button
                     x:Name="btnDeleteKeyFile"
-                    Width="100"
+                    Width="auto"
                     Height="26"
                     Margin="10"
                     Background="#5A595B"
@@ -63,7 +63,7 @@
                     Foreground="White" />
                 <Button
                     x:Name="btnNewKeyFile"
-                    Width="100"
+                    Width="auto"
                     Height="26"
                     Margin="10"
                     Background="#5A595B"

@@ -241,7 +241,7 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Fermer.
+        ///   Recherche une chaîne localisée semblable à Close.
         /// </summary>
         public static string Close {
             get {
@@ -313,6 +313,24 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à EDIT/ADD KEY FILE.
+        /// </summary>
+        public static string EditAddKeyFile {
+            get {
+                return ResourceManager.GetString("EditAddKeyFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à EDIT/ANALYSE DUMP FILE.
+        /// </summary>
+        public static string EditAnalyzeDumpFile {
+            get {
+                return ResourceManager.GetString("EditAnalyzeDumpFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Edit Key File.
         /// </summary>
         public static string EditKeyFileWindowTitle {
@@ -336,6 +354,15 @@ namespace MifareWindowsTool.Properties {
         public static string Finished {
             get {
                 return ResourceManager.GetString("Finished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à HELP/INFO.
+        /// </summary>
+        public static string HelpAndInfo {
+            get {
+                return ResourceManager.GetString("HelpAndInfo", resourceCulture);
             }
         }
         
@@ -458,6 +485,15 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à READ TAG.
+        /// </summary>
+        public static string ReadTag {
+            get {
+                return ResourceManager.GetString("ReadTag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Save Dump as.
         /// </summary>
         public static string SaveDumpAs {
@@ -472,6 +508,15 @@ namespace MifareWindowsTool.Properties {
         public static string SaveKeyFile {
             get {
                 return ResourceManager.GetString("SaveKeyFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à scan finished.
+        /// </summary>
+        public static string ScanFinished {
+            get {
+                return ResourceManager.GetString("ScanFinished", resourceCulture);
             }
         }
         
@@ -530,11 +575,29 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à started.
+        /// </summary>
+        public static string Started {
+            get {
+                return ResourceManager.GetString("Started", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Target dump:.
         /// </summary>
         public static string TargetDump {
             get {
                 return ResourceManager.GetString("TargetDump", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à TOOLS.
+        /// </summary>
+        public static string Tools {
+            get {
+                return ResourceManager.GetString("Tools", resourceCulture);
             }
         }
         
@@ -571,6 +634,15 @@ namespace MifareWindowsTool.Properties {
         public static string WriteDumpWindowTitle {
             get {
                 return ResourceManager.GetString("WriteDumpWindowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à WRITE TAG.
+        /// </summary>
+        public static string WriteTag {
+            get {
+                return ResourceManager.GetString("WriteTag", resourceCulture);
             }
         }
     }

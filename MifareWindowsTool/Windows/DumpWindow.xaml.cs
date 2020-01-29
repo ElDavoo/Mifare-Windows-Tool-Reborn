@@ -67,7 +67,7 @@ namespace MCT_Windows.Windows
             LinesA = Split(hex, 32);
             int sector = (LinesA.Count - split) / split;
             for (int i = LinesA.Count - split; i >= 0; i -= split)
-                LinesA.Insert(i, $"+Sector: {sector--}\r");
+                LinesA.Insert(i, $"+{MifareWindowsTool.Properties.Resources.Sector}: {sector--}\r");
 
             for (int line = 0; line < LinesA.Count; line++)
             {
