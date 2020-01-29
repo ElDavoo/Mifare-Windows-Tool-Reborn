@@ -29,7 +29,7 @@ namespace MCT_Windows.Windows
             Main = main;
             Skf = skf;
             Tools = t;
-            sfd.Filter = "Key Files|*.keys";
+            sfd.Filter = MifareWindowsTool.Properties.Resources.KeyFilesFilter;
             sfd.InitialDirectory = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "keys");
 
             if (!string.IsNullOrWhiteSpace(fileName))

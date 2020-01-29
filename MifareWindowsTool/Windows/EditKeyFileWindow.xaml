@@ -1,11 +1,11 @@
 ﻿<Window
     x:Class="MCT_Windows.Windows.EditKeyFileWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:MCT_Windows.Windows"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:resx="clr-namespace:MifareWindowsTool.Properties"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="Edit Key File"
+    Title="{x:Static resx:Resources.EditKeyFileWindowTitle}"
     Width="365"
     Height="600"
     Background="#303030"
@@ -19,7 +19,7 @@
                     Width="85"
                     Background="#5A595B"
                     Click="btnSaveKeyFile_Click"
-                    Content="Save Key File"
+                    Content="{x:Static resx:Resources.SaveKeyFile}"
                     Foreground="White" />
 
                 <Button
@@ -28,7 +28,7 @@
                     Margin="20,0,0,0"
                     Background="#5A595B"
                     Click="btnClose_Click"
-                    Content="Close"
+                    Content="{x:Static resx:Resources.Close}"
                     Foreground="White" />
             </StackPanel>
             <TextBox

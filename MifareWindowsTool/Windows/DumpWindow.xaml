@@ -1,11 +1,11 @@
 ﻿<Window
     x:Class="MCT_Windows.Windows.DumpWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:MCT_Windows.Windows"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:resx="clr-namespace:MifareWindowsTool.Properties"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="Dump"
+    Title="{x:Static resx:Resources.DumpWindowTitle}"
     Width="400"
     Height="600"
     Background="#303030"
@@ -24,7 +24,7 @@
                     Margin="0,0,20,0"
                     Background="#5A595B"
                     Click="BtnOpenDumpA_Click"
-                    Content="Open Dump A"
+                    Content="{x:Static resx:Resources.btnOpenDumpAContent}"
                     Cursor="Hand"
                     Foreground="White" />
                 <Button
@@ -33,7 +33,7 @@
                     Margin="50,0,0,0"
                     Background="#5A595B"
                     Click="BtnOpenDumpB_Click"
-                    Content="Open Dump B"
+                    Content="{x:Static resx:Resources.btnOpenDumpBContent}"
                     Cursor="Hand"
                     Foreground="White" />
             </StackPanel>
@@ -70,7 +70,7 @@
                     Width="85"
                     Background="#5A595B"
                     Click="btnSaveDump_Click"
-                    Content="Save Dump as"
+                    Content="{x:Static resx:Resources.SaveDumpAs}"
                     Cursor="Hand"
                     Foreground="White" />
 
@@ -80,7 +80,7 @@
                     Margin="20,0,0,0"
                     Background="#5A595B"
                     Click="btnShowAsAscii_Click"
-                    Content="Show as ASCII"
+                    Content="{x:Static resx:Resources.ShowAsASCII}"
                     Cursor="Hand"
                     Foreground="White" />
                 <Button
@@ -89,7 +89,7 @@
                     Margin="20,0,0,0"
                     Background="#5A595B"
                     Click="btnClose_Click"
-                    Content="Close"
+                    Content="{x:Static resx:Resources.Close}"
                     Cursor="Hand"
                     Foreground="White" />
             </StackPanel>

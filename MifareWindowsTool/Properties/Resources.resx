@@ -117,8 +117,176 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Abort" xml:space="preserve">
+    <value>Abort</value>
+  </data>
+  <data name="Aborted" xml:space="preserve">
+    <value>aborted</value>
+  </data>
+  <data name="ADumpFile" xml:space="preserve">
+    <value>A dump file</value>
+  </data>
+  <data name="AlreadyExists" xml:space="preserve">
+    <value>already exists</value>
+  </data>
+  <data name="AutoScanTagRunning" xml:space="preserve">
+    <value>Auto scan Tag is running</value>
+  </data>
+  <data name="AutoScanTagStopped" xml:space="preserve">
+    <value>Auto scan tag stopped</value>
+  </data>
+  <data name="BtnDeleteKeyFileContent" xml:space="preserve">
+    <value>Delete Key File</value>
+  </data>
+  <data name="BtnEditKeyFileContent" xml:space="preserve">
+    <value>Edit Key File</value>
+  </data>
+  <data name="BtnNewKeyFileContent" xml:space="preserve">
+    <value>New Key File</value>
+  </data>
+  <data name="btnOpenDumpAContent" xml:space="preserve">
+    <value>Open Dump A</value>
+  </data>
+  <data name="btnOpenDumpBContent" xml:space="preserve">
+    <value>Open Dump B</value>
+  </data>
+  <data name="BtnSelectDumpContent" xml:space="preserve">
+    <value>Select Source Dump</value>
+  </data>
+  <data name="btnStartMappingAndReadTagContent" xml:space="preserve">
+    <value>Start mapping and read tag</value>
+  </data>
+  <data name="BtnWriteDumpContent" xml:space="preserve">
+    <value>Write Dump</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CkACsContent" xml:space="preserve">
+    <value>Use these Access Conditions for all sectors</value>
+  </data>
+  <data name="CkEnableBlock0WritingContent" xml:space="preserve">
+    <value>Advanced: Enable writing to manufacturer block</value>
+  </data>
+  <data name="ckEnablePeriodicTagScanContent" xml:space="preserve">
+    <value>Enable Periodic Tag AutoScan</value>
+  </data>
+  <data name="ckEnablePeriodicTagScanTooltip" xml:space="preserve">
+    <value>checks if there is a new tag on the tag reader every 3 seconds</value>
+  </data>
+  <data name="Cloning" xml:space="preserve">
+    <value>cloning</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Fermer</value>
+  </data>
+  <data name="CompareDumps" xml:space="preserve">
+    <value>Compare Dumps</value>
+  </data>
+  <data name="Different" xml:space="preserve">
+    <value>Different</value>
+  </data>
+  <data name="DoneWithErrors" xml:space="preserve">
+    <value>done with errors</value>
+  </data>
+  <data name="DoYouWantToReUseThisDump" xml:space="preserve">
+    <value>Do you want to re-use this dump ?</value>
+  </data>
+  <data name="DumpExisting" xml:space="preserve">
+    <value>Dump existing</value>
+  </data>
+  <data name="DumpFileFilter" xml:space="preserve">
+    <value>Dump Files|*.dump;*.mfd;*.dmp;*.img|All Files|*.*</value>
+  </data>
+  <data name="DumpWindowTitle" xml:space="preserve">
+    <value>Dump</value>
+  </data>
+  <data name="EditKeyFileWindowTitle" xml:space="preserve">
+    <value>Edit Key File</value>
+  </data>
+  <data name="FactoryFormat" xml:space="preserve">
+    <value>Factory Format</value>
+  </data>
+  <data name="Finished" xml:space="preserve">
+    <value>finished</value>
+  </data>
+  <data name="Identical" xml:space="preserve">
+    <value>Identical</value>
+  </data>
+  <data name="KeyFilesFilter" xml:space="preserve">
+    <value>Key Files|*.keys</value>
+  </data>
+  <data name="lblChooseKeyFileContent" xml:space="preserve">
+    <value>Choose some key file(s):</value>
+  </data>
+  <data name="MapKeyToSectorWindowTitle" xml:space="preserve">
+    <value>Map Keys</value>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="MWT" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MWT.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="NeedSelectDumpKeyFile" xml:space="preserve">
+    <value>You need to select at least one dump / key file</value>
+  </data>
+  <data name="NeedToSelectOneKeyFile" xml:space="preserve">
+    <value>You need to select at least one key file</value>
+  </data>
+  <data name="NewUIDFound" xml:space="preserve">
+    <value>new UID Found</value>
+  </data>
+  <data name="NoTag" xml:space="preserve">
+    <value>no tag</value>
+  </data>
+  <data name="NoTagDetectedOnReader" xml:space="preserve">
+    <value>No Tag detected on reader</value>
+  </data>
+  <data name="OpenDump" xml:space="preserve">
+    <value>Open Dump</value>
+  </data>
+  <data name="RbUseKeyAContent" xml:space="preserve">
+    <value>Use Key A</value>
+  </data>
+  <data name="RbUseKeyBContent" xml:space="preserve">
+    <value>Use Key B</value>
+  </data>
+  <data name="SaveDumpAs" xml:space="preserve">
+    <value>Save Dump as</value>
+  </data>
+  <data name="SaveKeyFile" xml:space="preserve">
+    <value>Save Key File</value>
+  </data>
+  <data name="Sector" xml:space="preserve">
+    <value>Sector</value>
+  </data>
+  <data name="SelectKeyFilesWindowTitle" xml:space="preserve">
+    <value>Key Files</value>
+  </data>
+  <data name="ShowAsASCII" xml:space="preserve">
+    <value>Show as ASCII</value>
+  </data>
+  <data name="ShowAsHex" xml:space="preserve">
+    <value>Show as Hex</value>
+  </data>
+  <data name="SourceDump" xml:space="preserve">
+    <value>Source dump:</value>
+  </data>
+  <data name="StartCloning" xml:space="preserve">
+    <value>Start Cloning</value>
+  </data>
+  <data name="TargetDump" xml:space="preserve">
+    <value>Target dump:</value>
+  </data>
+  <data name="UsedForSourceMapping" xml:space="preserve">
+    <value>(used for source tag mapping)</value>
+  </data>
+  <data name="UsedForTargetMapping" xml:space="preserve">
+    <value>(used for target tag mapping)</value>
+  </data>
+  <data name="WriteDumpClone" xml:space="preserve">
+    <value>Write Dump (Clone)</value>
+  </data>
+  <data name="WriteDumpWindowTitle" xml:space="preserve">
+    <value>Write Tag</value>
   </data>
 </root>

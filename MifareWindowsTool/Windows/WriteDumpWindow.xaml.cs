@@ -26,7 +26,7 @@ namespace MCT_Windows
             Uri iconUri = new Uri("pack://application:,,,/Resources/MWT.ico", UriKind.RelativeOrAbsolute);
             this.Icon = BitmapFrame.Create(iconUri);
             rbClone.IsChecked = true;
-            ofd.Filter = "Dump Files|*.dump;*.mfd;*.dmp;*.img|All Files|*.*";
+            ofd.Filter = MifareWindowsTool.Properties.Resources.DumpFileFilter;
             ofd.InitialDirectory = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "dumps");
             lblSrcDumpValue.Content = Path.GetFileName(tools.TMPFILESOURCE_MFD);
             lblTargetDumpValue.Content = Path.GetFileName(tools.TMPFILE_TARGETMFD);
@@ -62,7 +62,7 @@ namespace MCT_Windows
                 }
                 else
                 {
-                    MessageBox.Show("You need to select at least one dump and one key file");
+                    MessageBox.Show(MifareWindowsTool.Properties.Resources.NeedSelectDumpKeyFile);
                 }
             }
         }
@@ -93,7 +93,7 @@ namespace MCT_Windows
             }
             if (string.IsNullOrWhiteSpace(lblTargetDumpValue.Content?.ToString()))
             {
-                MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(main, tools, "(used for target tag mapping)");
+                MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(main, tools, MifareWindowsTool.Properties.Resources.UsedForTargetMapping);
                 var ret = mtsWin.ShowDialog();
                 if (ret.HasValue && ret.Value)
                     main.RunMfoc(main.SelectedKeys, tools.TMPFILESOURCE_MFD);
@@ -102,13 +102,13 @@ namespace MCT_Windows
 
         private void rbFactoryFormat_Checked(object sender, RoutedEventArgs e)
         {
-            btnWriteDump.Content = "Factory Format";
+            btnWriteDump.Content = MifareWindowsTool.Properties.Resources.FactoryFormat;
             ShowHideElements(Visibility.Hidden);
         }
 
         private void rbClone_Checked(object sender, RoutedEventArgs e)
         {
-            btnWriteDump.Content = "Start Cloning";
+            btnWriteDump.Content = MifareWindowsTool.Properties.Resources.StartCloning;
             ShowHideElements(Visibility.Visible);
         }
 

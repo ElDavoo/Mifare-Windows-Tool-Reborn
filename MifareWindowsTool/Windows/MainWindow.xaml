@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Width="800" 
     Height="365"
+    xmlns:resx="clr-namespace:MifareWindowsTool.Properties"
     Background="#303030"
     WindowStyle="SingleBorderWindow"
     mc:Ignorable="d">
@@ -105,11 +106,11 @@
             Foreground="Lime"
             ScrollViewer.VerticalScrollBarVisibility="Auto"
             TextChanged="rtbOutput_TextChanged" />
-        <CheckBox ToolTip="checks if there is a new tag on the tag reader every 3 seconds"
+        <CheckBox ToolTip="{x:Static resx:Resources.ckEnablePeriodicTagScanTooltip}"
                 x:Name="ckEnablePeriodicTagScan" Width="auto" Height="20"
                 VerticalAlignment="Bottom" HorizontalAlignment="Left"
                 Checked="ckEnablePeriodicTagScan_Checked"
-                Content="Enable Periodic Tag AutoScan"
+                Content="{x:Static resx:Resources.ckEnablePeriodicTagScanContent}"
                 FontSize="10" Margin="5,0,0,0"
                 Foreground="White"
                 IsChecked="False" />

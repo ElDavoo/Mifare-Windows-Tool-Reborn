@@ -53,7 +53,7 @@ namespace MCT_Windows
                 this.Close();
             }
             else
-                MessageBox.Show("You need to select at least one key file");
+                MessageBox.Show(MifareWindowsTool.Properties.Resources.NeedToSelectOneKeyFile);
         }
 
 

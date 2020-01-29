@@ -5,8 +5,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:uc="clr-namespace:MCT_Windows.UserControls"
-    Title="Map Keys"
     Width="329.967"
+     xmlns:resx="clr-namespace:MifareWindowsTool.Properties"
+       Title="{x:Static resx:Resources.MapKeyToSectorWindowTitle}"
     Height="366.279"
     Background="#303030"
     WindowStyle="SingleBorderWindow"
@@ -25,7 +26,7 @@
             VerticalAlignment="Bottom"
             Background="#5A595B"
             Click="btnCancel_Click"
-            Content="Cancel"
+            Content="{x:Static resx:Resources.Cancel}"
             Cursor="Hand"
             Foreground="White" />
         <Button
@@ -38,7 +39,7 @@
             VerticalAlignment="Bottom"
             Background="#5A595B"
             Click="btnStartMappingAndReadTag_Click"
-            Content="Start mapping and read tag"
+            Content="{x:Static resx:Resources.btnStartMappingAndReadTagContent}"
             Cursor="Hand"
             Foreground="White" />
         <uc:ucListKeys
@@ -51,7 +52,7 @@
             Margin="10,85,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            Content="Choose some key file(s):"
+            Content="{x:Static resx:Resources.lblChooseKeyFileContent}"
             Foreground="White" />
     </Grid>
 </Window>

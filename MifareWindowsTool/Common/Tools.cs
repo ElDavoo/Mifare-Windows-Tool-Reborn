@@ -274,7 +274,7 @@ namespace MCT_Windows
                 BackgroundWorker b = (BackgroundWorker)sender;
                 process = Process.Start(psi);
                 if (tAction == TagAction.Clone)
-                    b.ReportProgress(0, "cloning...");
+                    b.ReportProgress(0, $"{MifareWindowsTool.Properties.Resources.Cloning}...");
 
                 running = true;
                 process.OutputDataReceived += (s, _e) => b.ReportProgress(0, _e.Data);
@@ -285,12 +285,12 @@ namespace MCT_Windows
 
                     if (process.ExitCode == 0)
                     {
-                        b.ReportProgress(101, "##nfc-mfcclassic finished##");
+                        b.ReportProgress(101, $"##nfc-mfcclassic {MifareWindowsTool.Properties.Resources.Finished}##");
 
                     }
                     else
                     {
-                        b.ReportProgress(100, "nfc-mfcclassic done with errors");
+                        b.ReportProgress(100, $"nfc-mfcclassic {MifareWindowsTool.Properties.Resources.DoneWithErrors}");
                         //File.Delete(args[0]);
                     }
                     Main.HideAbortButton();
@@ -324,7 +324,7 @@ namespace MCT_Windows
             {
                 long fileLength = new System.IO.FileInfo("dumps/" + MFDFile).Length;
                 if (fileLength == 0) return false;
-                var dr = MessageBox.Show($"A dump file ({Path.GetFileName("dumps/" + MFDFile)}) already exists, Do you want to re-use this dump ?", "Dump existing", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var dr = MessageBox.Show($"{MifareWindowsTool.Properties.Resources.ADumpFile} ({Path.GetFileName("dumps/" + MFDFile)}) {MifareWindowsTool.Properties.Resources.AlreadyExists}, {MifareWindowsTool.Properties.Resources.DoYouWantToReUseThisDump}", MifareWindowsTool.Properties.Resources.DumpExisting, MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 return (dr == MessageBoxResult.Yes);
             }

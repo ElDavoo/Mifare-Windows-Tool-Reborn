@@ -42,7 +42,7 @@ namespace MCT_Windows
             this.Icon = BitmapFrame.Create(iconUri);
             MainTitle += $" v{version}";
             this.Title = $"{MainTitle}";
-            ofd.Filter = "Dump Files|*.dump;*.mfd;*.dmp;*.img|All Files|*.*";
+            ofd.Filter = MifareWindowsTool.Properties.Resources.DumpFileFilter;
             ofd.InitialDirectory = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "dumps");
             t = new Tools(this);
             PeriodicScanTag();
@@ -64,7 +64,7 @@ namespace MCT_Windows
                 Application.Current.Dispatcher.Invoke(new Action(() =>
                 {
                     if (!ckEnablePeriodicTagScan.IsChecked.HasValue || ckEnablePeriodicTagScan.IsChecked.Value == false) return;
-                    rtbOutput.Text = $"{DateTime.Now} -  Auto scan Tag is running...\n";
+                    rtbOutput.Text = $"{DateTime.Now} -  {MifareWindowsTool.Properties.Resources.AutoScanTagRunning}...\n";
                     RunNfcList();
                 }));
             }, ScanSource.Token);
@@ -126,7 +126,7 @@ namespace MCT_Windows
                 StopScanTag();
                 if (act == TagAction.ReadSource)
                 {
-                    MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(this, t, "(used for source tag mapping)");
+                    MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(this, t, MifareWindowsTool.Properties.Resources.UsedForSourceMapping);
                     var ret = mtsWin.ShowDialog();
                     if (ret.HasValue && ret.Value)
                         RunMfoc(SelectedKeys, t.TMPFILESOURCE_MFD);
@@ -142,11 +142,11 @@ namespace MCT_Windows
 
                 }
 
-                TagFound = !Title.Contains("no tag");
+                TagFound = !Title.Contains(MifareWindowsTool.Properties.Resources.NoTag);
             }
             else
             {
-                logAppend("No Tag detected on reader");
+                logAppend(MifareWindowsTool.Properties.Resources.NoTagDetectedOnReader);
             }
 
         }
@@ -169,7 +169,7 @@ namespace MCT_Windows
             {
                 Application.Current.Dispatcher.Invoke((Action)delegate
                 {
-                    btnAbortCurrentTask.Content = $"Abort {t.process.ProcessName}";
+                    btnAbortCurrentTask.Content = $"{MifareWindowsTool.Properties.Resources.Abort} {t.process.ProcessName}";
                     btnAbortCurrentTask.Visibility = Visibility.Visible;
                 });
             }
@@ -214,7 +214,7 @@ namespace MCT_Windows
             if (retUID != null && retUID.Contains(": "))
             {
                 t.CurrentUID = retUID.Substring(retUID.IndexOf(": ") + ": ".Length).Replace(" ", "").ToUpper();
-                this.Title = $"{MainTitle}: new UID Found : { t.CurrentUID}";
+                this.Title = $"{MainTitle}: {MifareWindowsTool.Properties.Resources.NewUIDFound}: { t.CurrentUID}";
                 if (!TagFound)
                 {
                     SystemSounds.Beep.Play();
@@ -226,7 +226,7 @@ namespace MCT_Windows
             {
                 t.CurrentUID = "";
                 TagFound = false;
-                this.Title = $"{MainTitle}: no tag";
+                this.Title = $"{MainTitle}: {MifareWindowsTool.Properties.Resources.NoTag}";
             }
         }
         public void StopScanTag()
@@ -235,7 +235,7 @@ namespace MCT_Windows
             {
                 ScanTagRunning = false;
                 ScanSource.Cancel();
-                logAppend("Auto scan tag stopped");
+                logAppend(MifareWindowsTool.Properties.Resources.AutoScanTagStopped);
             }
         }
         public void RunMifareClassicFormat()
@@ -369,7 +369,7 @@ namespace MCT_Windows
                     t.process.Kill();
                     t.process.Dispose();
                     t.running = false;
-                    rtbOutput.AppendText($"{processName} aborted!\n");
+                    rtbOutput.AppendText($"{processName} {MifareWindowsTool.Properties.Resources.Aborted}!\n");
                     HideAbortButton();
                     ValidateActions();
                 }
