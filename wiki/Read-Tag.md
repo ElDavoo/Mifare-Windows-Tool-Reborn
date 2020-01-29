@@ -1,5 +1,3 @@
-# Read Tag
-
 Place a tag on reader and click on 
 
 ![image](https://user-images.githubusercontent.com/3501675/73281824-d2094200-41f0-11ea-9918-91f196709a8c.png)

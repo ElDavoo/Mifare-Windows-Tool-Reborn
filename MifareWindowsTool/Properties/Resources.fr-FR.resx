@@ -253,6 +253,9 @@
   <data name="OpenDump" xml:space="preserve">
     <value>Ouvrir un dump</value>
   </data>
+  <data name="PleaseRestartAsAdmin" xml:space="preserve">
+    <value>Pour un fonctionnement optimal, veuillez redémarrer Mifare Windows Tool en tant qu'administrateur</value>
+  </data>
   <data name="rbHaltOnErrorContent" xml:space="preserve">
     <value>Stopper si erreurs</value>
   </data>

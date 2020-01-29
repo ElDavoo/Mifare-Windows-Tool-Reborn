@@ -477,6 +477,15 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Please restart Mifare Windows Tool as Administrator.
+        /// </summary>
+        public static string PleaseRestartAsAdmin {
+            get {
+                return ResourceManager.GetString("PleaseRestartAsAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Halt on errors.
         /// </summary>
         public static string rbHaltOnErrorContent {

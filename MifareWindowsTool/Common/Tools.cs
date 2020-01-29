@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Media;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,6 +26,7 @@ namespace MCT_Windows
     }
     public class Tools
     {
+        public string DefaultWorkingDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         public AutoResetEvent doneEvent { get; set; } = new AutoResetEvent(false);
         public Process process = new Process();
 
@@ -55,9 +57,10 @@ namespace MCT_Windows
             try
             {
                 if (lprocess) { return; }
-                ProcessStartInfo psi = new ProcessStartInfo(@"nfctools/nfc-list.exe");
+                ProcessStartInfo psi = new ProcessStartInfo(@"nfctools\\nfc-list.exe");
                 psi.CreateNoWindow = true;
                 psi.UseShellExecute = false;
+                psi.WorkingDirectory = DefaultWorkingDir;
                 psi.RedirectStandardOutput = true;
                 psi.RedirectStandardError = true;
                 lprocess = true;
@@ -93,6 +96,31 @@ namespace MCT_Windows
 
             }
         }
+
+        internal bool TestWritePermission(string dirPath, bool throwIfFails = false)
+        {
+            try
+            {
+                using (FileStream fs = File.Create(
+                    Path.Combine(
+                        dirPath,
+                        Path.GetRandomFileName()
+                    ),
+                    1,
+                    FileOptions.DeleteOnClose)
+                )
+                { }
+                return true;
+            }
+            catch
+            {
+                if (throwIfFails)
+                    throw;
+                else
+                    return false;
+            }
+        }
+
         public void PlayBeep(Uri baseUri)
         {
             try
@@ -113,7 +141,7 @@ namespace MCT_Windows
             {
                 if (lprocess) { return; }
 
-                ProcessStartInfo psi = new ProcessStartInfo("nfctools/mfoc.exe");
+                ProcessStartInfo psi = new ProcessStartInfo("nfctools\\mfoc.exe");
                 string[] args = (string[])e.Argument;
                 if (File.Exists(TMPFILE_FND))
                 {
@@ -139,7 +167,9 @@ namespace MCT_Windows
                 psi.UseShellExecute = false;
                 psi.RedirectStandardOutput = true;
                 psi.RedirectStandardError = true;
+                psi.WorkingDirectory = DefaultWorkingDir;
                 process.EnableRaisingEvents = true;
+
                 lprocess = true;
                 BackgroundWorker b = (BackgroundWorker)sender;
                 process = Process.Start(psi);
@@ -206,7 +236,7 @@ namespace MCT_Windows
             try
             {
                 if (lprocess) { return; }
-                ProcessStartInfo psi = new ProcessStartInfo("nfctools/mifare-classic-format.exe");
+                ProcessStartInfo psi = new ProcessStartInfo("nfctools\\mifare-classic-format.exe");
                 string[] args = (string[])e.Argument;
 
                 var dumpFile = args[0];
@@ -214,7 +244,7 @@ namespace MCT_Windows
                 psi.Arguments = $"-y";
                 if (File.Exists(dumpFile))
                     psi.Arguments += $" \"{dumpFile}\"";
-
+                psi.WorkingDirectory = DefaultWorkingDir;
                 psi.CreateNoWindow = true;
                 psi.UseShellExecute = false;
                 psi.RedirectStandardOutput = true;
@@ -274,7 +304,7 @@ namespace MCT_Windows
             try
             {
                 if (lprocess) { return; }
-                ProcessStartInfo psi = new ProcessStartInfo("nfctools/nfc-mfclassic.exe");
+                ProcessStartInfo psi = new ProcessStartInfo("nfctools\\nfc-mfclassic.exe");
                 string[] args = (string[])e.Argument;
 
                 TagAction tAction = (TagAction)Enum.Parse(typeof(TagAction), args[0]);
@@ -288,7 +318,7 @@ namespace MCT_Windows
                 {
                     psi.Arguments = $"{writeMode} {useKey} u \"{sourceDump}\" \"{targetDump}\"";
                 }
-
+                psi.WorkingDirectory = DefaultWorkingDir;
                 psi.CreateNoWindow = true;
                 psi.UseShellExecute = false;
                 psi.RedirectStandardOutput = true;
@@ -344,11 +374,11 @@ namespace MCT_Windows
 
         public bool CheckAndUseDumpIfExists(string MFDFile)
         {
-            if (File.Exists("dumps/" + MFDFile))
+            if (File.Exists("dumps\\" + MFDFile))
             {
-                long fileLength = new System.IO.FileInfo("dumps/" + MFDFile).Length;
+                long fileLength = new System.IO.FileInfo("dumps\\" + MFDFile).Length;
                 if (fileLength == 0) return false;
-                var dr = MessageBox.Show($"{MifareWindowsTool.Properties.Resources.ADumpFile} ({Path.GetFileName("dumps/" + MFDFile)}) {MifareWindowsTool.Properties.Resources.AlreadyExists}, {MifareWindowsTool.Properties.Resources.DoYouWantToReUseThisDump}", MifareWindowsTool.Properties.Resources.DumpExisting, MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var dr = MessageBox.Show($"{MifareWindowsTool.Properties.Resources.ADumpFile} ({Path.GetFileName("dumps\\" + MFDFile)}) {MifareWindowsTool.Properties.Resources.AlreadyExists}, {MifareWindowsTool.Properties.Resources.DoYouWantToReUseThisDump}", MifareWindowsTool.Properties.Resources.DumpExisting, MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 return (dr == MessageBoxResult.Yes);
             }

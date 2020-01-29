@@ -43,8 +43,16 @@ namespace MCT_Windows
             MainTitle += $" v{version}";
             this.Title = $"{MainTitle}";
             ofd.Filter = MifareWindowsTool.Properties.Resources.DumpFileFilter;
-            ofd.InitialDirectory = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "dumps");
+
             t = new Tools(this);
+
+            ofd.InitialDirectory = Path.Combine(t.DefaultWorkingDir, "dumps");
+
+            if (!t.TestWritePermission(ofd.InitialDirectory))
+            {
+                MessageBox.Show(MifareWindowsTool.Properties.Resources.PleaseRestartAsAdmin);
+                Application.Current.Shutdown();
+            }
             PeriodicScanTag();
 
         }
@@ -249,7 +257,7 @@ namespace MCT_Windows
             bgw.DoWork += new DoWorkEventHandler(t.classic_format);
             bgw.WorkerReportsProgress = true;
             bgw.ProgressChanged += new ProgressChangedEventHandler(default_rpt);
-            bgw.RunWorkerAsync(new string[] { "dumps/" + t.TMPFILE_TARGETMFD });
+            bgw.RunWorkerAsync(new string[] { "dumps\\" + t.TMPFILE_TARGETMFD });
 
         }
         public void RunNfcMfcClassic(TagAction act, bool bWriteBlock0, bool useKeyA, bool haltOnError)
@@ -260,7 +268,7 @@ namespace MCT_Windows
             bgw.DoWork += new DoWorkEventHandler(t.mf_write);
             bgw.WorkerReportsProgress = true;
             bgw.ProgressChanged += new ProgressChangedEventHandler(default_rpt);
-            bgw.RunWorkerAsync(new string[] { act.ToString(), "dumps/" + t.TMPFILESOURCE_MFD, "dumps/" + t.TMPFILE_TARGETMFD, bWriteBlock0.ToString(), useKeyA.ToString(),haltOnError.ToString() });
+            bgw.RunWorkerAsync(new string[] { act.ToString(), "dumps\\" + t.TMPFILESOURCE_MFD, "dumps\\" + t.TMPFILE_TARGETMFD, bWriteBlock0.ToString(), useKeyA.ToString(), haltOnError.ToString() });
 
         }
         public void RunMfoc(List<Keys> keys, string tmpFileMfd)
@@ -273,7 +281,7 @@ namespace MCT_Windows
                 bgw.WorkerReportsProgress = true;
                 bgw.ProgressChanged += new ProgressChangedEventHandler(default_rpt);
                 var parameters = keys.Select(k => "keys/" + k.FileName).ToList();
-                parameters.Add("dumps/" + tmpFileMfd);
+                parameters.Add("dumps\\" + tmpFileMfd);
                 parameters.Add(t.TMPFILE_UNK);
                 bgw.RunWorkerAsync(parameters.ToArray());
             }

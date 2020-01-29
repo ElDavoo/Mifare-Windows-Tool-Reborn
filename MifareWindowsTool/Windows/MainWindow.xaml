@@ -181,13 +181,15 @@
             x:Name="btnAbortCurrentTask"
             Width="auto"
             Height="20"
-            Margin="5,0,0,0"
+            Margin="5,0,20,0"
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
             Background="#5A595B"
             Click="btnAbortCurrentTask_Click"
             Content="Abort Current Task"
+            Cursor="Hand"
             FontSize="11"
+            FontWeight="Bold"
             Foreground="Yellow"
             Visibility="Collapsed" />
     </Grid>

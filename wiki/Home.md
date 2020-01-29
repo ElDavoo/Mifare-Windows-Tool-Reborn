@@ -1,5 +1,3 @@
-# Home
-
 ![image](https://user-images.githubusercontent.com/3501675/73281041-acc80400-41ef-11ea-85da-819ec52c21fd.png)
 
 ## Main Window

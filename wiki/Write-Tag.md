@@ -1,5 +1,3 @@
-# Write Tag
-
 Put a tag on your tag reader then click on 
 
 ![image](https://user-images.githubusercontent.com/3501675/73281868-e8170280-41f0-11ea-951c-f377949d47e6.png)

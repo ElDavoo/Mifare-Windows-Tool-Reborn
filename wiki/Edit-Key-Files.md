@@ -1,5 +1,3 @@
-# # Editing key files
-
 To view/edit a key file, click on 
 
 ![image](https://user-images.githubusercontent.com/3501675/73280829-5e1a6a00-41ef-11ea-8abf-16e0a3e1d971.png)

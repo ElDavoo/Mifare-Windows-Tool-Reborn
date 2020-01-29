@@ -70,12 +70,12 @@ namespace MCT_Windows
 
         bool DumpsExist()
         {
-            if (File.Exists("dumps/" + tools.TMPFILESOURCE_MFD) && File.Exists("dumps/" + tools.TMPFILE_TARGETMFD))
+            if (File.Exists("dumps\\" + tools.TMPFILESOURCE_MFD) && File.Exists("dumps\\" + tools.TMPFILE_TARGETMFD))
             {
-                long fileLength = new System.IO.FileInfo("dumps/" + tools.TMPFILESOURCE_MFD).Length;
+                long fileLength = new System.IO.FileInfo("dumps\\" + tools.TMPFILESOURCE_MFD).Length;
                 if (fileLength > 0)
                 {
-                    fileLength = new System.IO.FileInfo("dumps/" + tools.TMPFILE_TARGETMFD).Length;
+                    fileLength = new System.IO.FileInfo("dumps\\" + tools.TMPFILE_TARGETMFD).Length;
                     return fileLength > 0;
                 }
             }
