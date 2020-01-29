@@ -1,4 +1,5 @@
-github: [xavave]
+# These are supported funding model platforms
+
+github: xavave
 patreon: xavave
-tidelift: npm/xavave-package
-custom: ["https://www.paypal.me/xavave", averbouch.biz]
+custom: https://www.paypal.me/xavave/5eur
