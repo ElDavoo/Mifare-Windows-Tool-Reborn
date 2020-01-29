@@ -1,10 +1,11 @@
 ﻿using Microsoft.Win32;
-
+using System;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace MCT_Windows
 {
@@ -22,6 +23,8 @@ namespace MCT_Windows
             tools = t;
             main = mainw;
             InitializeComponent();
+            Uri iconUri = new Uri("pack://application:,,,/Resources/MWT.ico", UriKind.RelativeOrAbsolute);
+            this.Icon = BitmapFrame.Create(iconUri);
             rbClone.IsChecked = true;
             ofd.Filter = "Dump Files|*.dump;*.mfd;*.dmp;*.img|All Files|*.*";
             ofd.InitialDirectory = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "dumps");

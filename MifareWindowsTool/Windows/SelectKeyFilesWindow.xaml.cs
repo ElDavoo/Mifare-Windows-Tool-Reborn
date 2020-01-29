@@ -27,16 +27,25 @@ namespace MCT_Windows.Windows
             tools = t;
             Main = mainw;
             InitializeComponent();
+            Uri iconUri = new Uri("pack://application:,,,/Resources/MWT.ico", UriKind.RelativeOrAbsolute);
+            this.Icon = BitmapFrame.Create(iconUri);
             mainw.StopScanTag();
             RefreshKeyFiles();
         }
 
         public void RefreshKeyFiles()
         {
-            lstKeys.Items.Clear();
-            foreach (var f in Directory.GetFiles("Keys", "*.keys", SearchOption.AllDirectories))
+            try
             {
-                lstKeys.Items.Add(new Keys() { FileName = System.IO.Path.GetFileName(f), IsSelected = false });
+                lstKeys.Items.Clear();
+                foreach (var f in Directory.GetFiles("Keys", "*.keys", SearchOption.AllDirectories))
+                {
+                    lstKeys.Items.Add(new Keys() { FileName = System.IO.Path.GetFileName(f), IsSelected = false });
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 

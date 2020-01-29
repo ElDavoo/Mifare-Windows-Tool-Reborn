@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace MCT_Windows.Windows
 {
@@ -23,6 +24,8 @@ namespace MCT_Windows.Windows
         public EditKeyFileWindow(MainWindow main, Tools t, SelectKeyFilesWindow skf, string fileName = "")
         {
             InitializeComponent();
+            Uri iconUri = new Uri("pack://application:,,,/Resources/MWT.ico", UriKind.RelativeOrAbsolute);
+            this.Icon = BitmapFrame.Create(iconUri);
             Main = main;
             Skf = skf;
             Tools = t;

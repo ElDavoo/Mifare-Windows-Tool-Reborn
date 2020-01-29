@@ -13,6 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
 namespace MCT_Windows
@@ -37,6 +38,8 @@ namespace MCT_Windows
         public MainWindow()
         {
             InitializeComponent();
+            Uri iconUri = new Uri("pack://application:,,,/Resources/MWT.ico", UriKind.RelativeOrAbsolute);
+            this.Icon = BitmapFrame.Create(iconUri);
             MainTitle += $" v{version}";
             this.Title = $"{MainTitle}";
             ofd.Filter = "Dump Files|*.dump;*.mfd;*.dmp;*.img|All Files|*.*";
@@ -295,7 +298,7 @@ namespace MCT_Windows
 
         private void btnInfos_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("https://github.com/xavave/MifareWindowsTool/wiki");
+            Process.Start("https://github.com/xavave/Mifare-Windows-Tool");
         }
 
         private void btnTools_Click(object sender, RoutedEventArgs e)

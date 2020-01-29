@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace MCT_Windows.Windows
 {
@@ -31,6 +32,8 @@ namespace MCT_Windows.Windows
         public DumpWindow(Tools t, string fileName, bool bCompareDumpsMode = false)
         {
             InitializeComponent();
+            Uri iconUri = new Uri("pack://application:,,,/Resources/MWT.ico", UriKind.RelativeOrAbsolute);
+            this.Icon = BitmapFrame.Create(iconUri);
             ofd.Filter = "Dump Files|*.dump;*.mfd;*.dmp;*.img|All Files|*.*";
             var initialDumpDir = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "dumps");
             ofd.InitialDirectory = initialDumpDir;
