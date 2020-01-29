@@ -18,7 +18,9 @@ More information in <a href="https://github.com/xavave/Mifare-Windows-Tool/wiki"
 
 #### INSTALLATION
 
-Windows x64 : With MSI Setup provided here : https://github.com/xavave/Mifare-Windows-Tool/releases  
+Windows x64 : With MSI Setup provided here : https://github.com/xavave/Mifare-Windows-Tool/releases
+
+Important : Run Mifare Windows Tool as Administrator or it may not be able to write in folder c:\program Files\MWT\ and you would see error : "Cannot open: dumps\mfc_....dump, exiting" when reading a tag
  
 #### LANGUAGES / LANGUES
 
