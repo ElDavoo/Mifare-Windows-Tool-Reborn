@@ -1,4 +1,6 @@
-﻿# Mifare Windows Tool - MWT
+﻿# Mifare Windows Tool - MWT 
+ ![MWT_small](https://user-images.githubusercontent.com/3501675/73345370-3cb78d80-4284-11ea-8c17-e67fa8b54adc.png)
+ 
 ### This is a Windows NFC-App for reading, writing, analyzing, etc. MIFARE® Classic RFID-Tags
 
 #### GENERAL INFORMATION
