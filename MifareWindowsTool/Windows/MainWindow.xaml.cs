@@ -166,7 +166,7 @@ namespace MCT_Windows
             bgw.RunWorkerAsync();
             t.doneEvent.WaitOne();
             DoEvents();
-            var retUID = rtbOutput.Text.Split('\n').Where(t => t.Contains("UID")).FirstOrDefault();
+            var retUID = rtbOutput.Text.Split('\n').Where(t => t.Contains("UID")).LastOrDefault();
             if (retUID != null && retUID.Contains(": "))
             {
                 t.CurrentUID = retUID.Substring(retUID.IndexOf(": ") + ": ".Length).Replace(" ", "").ToUpper();
