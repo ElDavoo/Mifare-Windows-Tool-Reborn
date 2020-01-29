@@ -4,13 +4,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Width="800" 
-    Height="365"
     xmlns:resx="clr-namespace:MifareWindowsTool.Properties"
+    Width="800"
+    Height="365"
     Background="#303030"
     WindowStyle="SingleBorderWindow"
     mc:Ignorable="d">
-    
+
     <Grid>
         <StackPanel
             Width="255"
@@ -25,11 +25,17 @@
                     BorderBrush="White"
                     BorderThickness="1"
                     Click="btnReadTag_Click"
-                    Cursor="Hand"
-                 >
+                    Cursor="Hand">
                     <StackPanel>
-                        <Image Source="..\Images\read_tag.png" Stretch="Uniform" Height="80" VerticalAlignment="Top" />
-                        <TextBlock Foreground="White" HorizontalAlignment="Center" Text="{x:Static resx:Resources.ReadTag}"></TextBlock>
+                        <Image
+                            Height="80"
+                            VerticalAlignment="Top"
+                            Source="..\Images\read_tag.png"
+                            Stretch="Uniform" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            Foreground="White"
+                            Text="{x:Static resx:Resources.ReadTag}" />
                     </StackPanel>
                 </Button>
                 <Button
@@ -40,11 +46,17 @@
                     BorderBrush="White"
                     BorderThickness="1"
                     Click="btnWriteTag_Click"
-                    Cursor="Hand"
-                    >
+                    Cursor="Hand">
                     <StackPanel>
-                        <Image Source="..\Images\write_tag.png" Stretch="Uniform" Height="auto" VerticalAlignment="Top" />
-                        <TextBlock Foreground="White" HorizontalAlignment="Center" Text="{x:Static resx:Resources.WriteTag}"></TextBlock>
+                        <Image
+                            Height="auto"
+                            VerticalAlignment="Top"
+                            Source="..\Images\write_tag.png"
+                            Stretch="Uniform" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            Foreground="White"
+                            Text="{x:Static resx:Resources.WriteTag}" />
                     </StackPanel>
                 </Button>
             </StackPanel>
@@ -57,11 +69,18 @@
                     BorderBrush="White"
                     BorderThickness="1"
                     Click="btnEditDumpFile_Click"
-                    Cursor="Hand"
-                   >
+                    Cursor="Hand">
                     <StackPanel>
-                        <Image Source="..\Images\edit_analyse_dump_file.png" Stretch="Uniform" Height="60" VerticalAlignment="Top" />
-                        <TextBlock Foreground="White" TextWrapping="WrapWithOverflow" HorizontalAlignment="Center" Text="{x:Static resx:Resources.EditAnalyzeDumpFile}"></TextBlock>
+                        <Image
+                            Height="60"
+                            VerticalAlignment="Top"
+                            Source="..\Images\edit_analyse_dump_file.png"
+                            Stretch="Uniform" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            Foreground="White"
+                            Text="{x:Static resx:Resources.EditAnalyzeDumpFile}"
+                            TextWrapping="WrapWithOverflow" />
                     </StackPanel>
                 </Button>
                 <Button
@@ -72,11 +91,18 @@
                     BorderBrush="White"
                     BorderThickness="1"
                     Click="btnEditAddKeyFile_Click"
-                  
                     Cursor="Hand">
                     <StackPanel>
-                        <Image Source="..\Images\edit_add_keyfile.png" Stretch="Uniform" Height="60" VerticalAlignment="Top" />
-                        <TextBlock Foreground="White" TextWrapping="WrapWithOverflow" HorizontalAlignment="Center" Text="{x:Static resx:Resources.EditAddKeyFile}"></TextBlock>
+                        <Image
+                            Height="60"
+                            VerticalAlignment="Top"
+                            Source="..\Images\edit_add_keyfile.png"
+                            Stretch="Uniform" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            Foreground="White"
+                            Text="{x:Static resx:Resources.EditAddKeyFile}"
+                            TextWrapping="WrapWithOverflow" />
                     </StackPanel>
                 </Button>
             </StackPanel>
@@ -89,10 +115,17 @@
                     BorderBrush="White"
                     BorderThickness="1"
                     Click="btnTools_Click"
-                    Cursor="Hand" >
+                    Cursor="Hand">
                     <StackPanel>
-                        <Image Source="..\Images\tools.png" Stretch="Uniform" Height="auto" VerticalAlignment="Top" />
-                        <TextBlock Foreground="White" HorizontalAlignment="Center" Text="{x:Static resx:Resources.Tools}"></TextBlock>
+                        <Image
+                            Height="auto"
+                            VerticalAlignment="Top"
+                            Source="..\Images\tools.png"
+                            Stretch="Uniform" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            Foreground="White"
+                            Text="{x:Static resx:Resources.Tools}" />
                     </StackPanel>
                 </Button>
                 <Button
@@ -103,10 +136,17 @@
                     BorderBrush="White"
                     BorderThickness="1"
                     Click="btnInfos_Click"
-                    Cursor="Hand"  >
+                    Cursor="Hand">
                     <StackPanel>
-                        <Image Source="..\Images\help_and_info.png" Stretch="Uniform" Height="auto" VerticalAlignment="Top" />
-                        <TextBlock Foreground="White" HorizontalAlignment="Center" Text="{x:Static resx:Resources.HelpAndInfo}"></TextBlock>
+                        <Image
+                            Height="auto"
+                            VerticalAlignment="Top"
+                            Source="..\Images\help_and_info.png"
+                            Stretch="Uniform" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            Foreground="White"
+                            Text="{x:Static resx:Resources.HelpAndInfo}" />
                     </StackPanel>
                 </Button>
             </StackPanel>
@@ -116,7 +156,7 @@
             x:Name="rtbOutput"
             Width="auto"
             Height="auto"
-            MaxHeight="300"
+            MaxHeight="500"
             Margin="255,0,0,10"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Top"
@@ -124,14 +164,31 @@
             Foreground="Lime"
             ScrollViewer.VerticalScrollBarVisibility="Auto"
             TextChanged="rtbOutput_TextChanged" />
-        <CheckBox ToolTip="{x:Static resx:Resources.ckEnablePeriodicTagScanTooltip}"
-                x:Name="ckEnablePeriodicTagScan" Width="auto" Height="20"
-                VerticalAlignment="Bottom" HorizontalAlignment="Left"
-                Checked="ckEnablePeriodicTagScan_Checked"
-                Content="{x:Static resx:Resources.ckEnablePeriodicTagScanContent}"
-                FontSize="10" Margin="5,0,0,0"
-                Foreground="White"
-                IsChecked="False" />
-        <Button x:Name="btnAbortCurrentTask" Visibility="Collapsed" FontSize="11" HorizontalAlignment="Right" Content="Abort Current Task" Margin="5,0,0,0" Background="#5A595B" Foreground="White" VerticalAlignment="Bottom" Height="20" Width="auto" Click="btnAbortCurrentTask_Click"/>
+        <CheckBox
+            x:Name="ckEnablePeriodicTagScan"
+            Width="auto"
+            Height="20"
+            Margin="5,0,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom"
+            Checked="ckEnablePeriodicTagScan_Checked"
+            Content="{x:Static resx:Resources.ckEnablePeriodicTagScanContent}"
+            FontSize="10"
+            Foreground="White"
+            IsChecked="False"
+            ToolTip="{x:Static resx:Resources.ckEnablePeriodicTagScanTooltip}" />
+        <Button
+            x:Name="btnAbortCurrentTask"
+            Width="auto"
+            Height="20"
+            Margin="5,0,0,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Background="#5A595B"
+            Click="btnAbortCurrentTask_Click"
+            Content="Abort Current Task"
+            FontSize="11"
+            Foreground="Yellow"
+            Visibility="Collapsed" />
     </Grid>
 </Window>

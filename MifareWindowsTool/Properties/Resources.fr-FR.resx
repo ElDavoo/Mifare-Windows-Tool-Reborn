@@ -242,7 +242,7 @@
     <value>Vous devez selectionner au moins un fichier de clés</value>
   </data>
   <data name="NewUIDFound" xml:space="preserve">
-    <value>Nouvel UID trouvé</value>
+    <value>Nouvel UID détecté</value>
   </data>
   <data name="NoTag" xml:space="preserve">
     <value>Aucun badge</value>

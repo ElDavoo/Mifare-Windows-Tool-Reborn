@@ -170,9 +170,9 @@
     <Content Include="keys\std.keys">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="dumps\blank_tag.dump">
+    <Content Include="dumps\blank_tag.dump">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
