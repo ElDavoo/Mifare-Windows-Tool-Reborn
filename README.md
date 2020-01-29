@@ -10,6 +10,15 @@ This tool provides several features to interact with MIFARE Classic RFID-Tags wi
 It is designed for users who have at least basic familiarity with the MIFARE Classic technology.
 
 More information in <a href="https://github.com/xavave/Mifare-Windows-Tool/wiki">WIKI<a/> 
+
+#### PREREQUISITES
+
+- An ACR122U Tag Reader
+- Installed drivers (Native + LibusbK) : documentation here : http://legacy.averbouch.biz/libnfc-and-nfc-utils-binaries-on-windows-10/
+
+#### INSTALLATION
+
+Windows x64 : With MSI Setup provided here : https://github.com/xavave/Mifare-Windows-Tool/releases  
  
 #### IMPORTANT NOTES
 
