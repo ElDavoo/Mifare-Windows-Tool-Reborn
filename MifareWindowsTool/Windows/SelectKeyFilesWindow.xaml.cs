@@ -40,7 +40,7 @@ namespace MCT_Windows.Windows
                 lstKeys.Items.Clear();
                 foreach (var f in Directory.GetFiles("Keys", "*.keys", SearchOption.AllDirectories))
                 {
-                    lstKeys.Items.Add(new Keys() { FileName = System.IO.Path.GetFileName(f), IsSelected = false });
+                    lstKeys.Items.Add(new File() { FileName = System.IO.Path.GetFileName(f), IsSelected = false });
                 }
             }
             catch (Exception ex)
@@ -56,7 +56,7 @@ namespace MCT_Windows.Windows
 
         private void btnEditKeyFile_Click(object sender, RoutedEventArgs e)
         {
-            var selectedKeyFile = lstKeys.Items.OfType<Keys>().Where(k => k.IsSelected).FirstOrDefault();
+            var selectedKeyFile = lstKeys.Items.OfType<File>().Where(k => k.IsSelected).FirstOrDefault();
             if (selectedKeyFile != null)
             {
                 EditKeyFileWindow ekf = new EditKeyFileWindow(Main, tools, this, selectedKeyFile.FileName);
@@ -66,10 +66,10 @@ namespace MCT_Windows.Windows
 
         private void btnDeleteKeyFile_Click(object sender, RoutedEventArgs e)
         {
-            var selectedKeyFile = lstKeys.Items.OfType<Keys>().Where(k => k.IsSelected).FirstOrDefault();
+            var selectedKeyFile = lstKeys.Items.OfType<File>().Where(k => k.IsSelected).FirstOrDefault();
             if (selectedKeyFile != null)
             {
-                File.Delete($"keys/{selectedKeyFile.FileName}");
+                System.IO.File.Delete($"keys/{selectedKeyFile.FileName}");
                 RefreshKeyFiles();
             }
         }

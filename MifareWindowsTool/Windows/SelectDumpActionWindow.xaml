@@ -1,0 +1,80 @@
+﻿<Window
+    x:Class="MCT_Windows.Windows.SelectDumpActionWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:resx="clr-namespace:MifareWindowsTool.Properties"
+    Title="{x:Static resx:Resources.SelectKeyFilesWindowTitle}"
+    Width="800"
+    Height="450"
+    Background="#303030"
+    mc:Ignorable="d">
+
+    <Grid Background="#303030">
+        <StackPanel Orientation="Vertical">
+            <ListBox
+                x:Name="lstDumps"
+                Height="300"
+                MaxHeight="300"
+                VerticalAlignment="Top"
+                Background="#303030"
+                Foreground="White"
+                ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <RadioButton
+                            Content="{Binding FileName}"
+                            Foreground="White"
+                            GroupName="dumps"
+                            IsChecked="{Binding IsSelected}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <StackPanel Orientation="Horizontal">
+                <Button
+                    x:Name="btnCancel"
+                    Width="auto"
+                    Height="26"
+                    MinWidth="100"
+                    Margin="220,10,10,10"
+                    Background="#5A595B"
+                    Click="btnCancel_Click"
+                    Content="{x:Static resx:Resources.Close}"
+                    Cursor="Hand"
+                    Foreground="White" />
+                <Button
+                    x:Name="btnShowDumpFile"
+                    Width="auto"
+                    Height="26"
+                    Margin="10"
+                    Background="#5A595B"
+                    Click="btnShowDumpFile_Click"
+                    Content="{x:Static resx:Resources.BtnNewKeyFileContent}"
+                    Cursor="Hand"
+                    Foreground="White" />
+                <Button
+                    x:Name="btnEditDumpFile"
+                    Width="auto"
+                    Height="26"
+                    Margin="10"
+                    Background="#5A595B"
+                    Click="btnEditDumpFile_Click"
+                    Content="{x:Static resx:Resources.BtnEditKeyFileContent}"
+                    Cursor="Hand"
+                    Foreground="White" />
+                <Button
+                    x:Name="btnDeleteDumpFile"
+                    Width="auto"
+                    Height="26"
+                    Margin="10"
+                    Background="#5A595B"
+                    Click="btnDeleteDumpFile_Click"
+                    Content="{x:Static resx:Resources.BtnDeleteKeyFileContent}"
+                    Cursor="Hand"
+                    Foreground="White" />
+               
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

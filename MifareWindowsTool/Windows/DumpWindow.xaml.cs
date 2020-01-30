@@ -20,41 +20,53 @@ namespace MCT_Windows.Windows
         public List<string> LinesA { get; set; } = new List<string>();
         public List<string> LinesB { get; set; } = new List<string>();
         byte[] bytesDataA = null;
+        public string dFileName { get; set; }
         byte[] bytesDataB = null;
         bool bConvertoAscii = true;
         Brush PaleBlueBrush = new SolidColorBrush(Color.FromArgb(255, (byte)0x60, (byte)0x8D, (byte)0x88));
         Brush VioletBrush = new SolidColorBrush(Color.FromArgb(255, (byte)0x95, (byte)0x33, (byte)0xF9));
-        Tools Tools { get; set; }
+        Tools Tools { get; }
         int split = 8;
         OpenFileDialog ofd = new OpenFileDialog();
         SaveFileDialog sfd = new SaveFileDialog();
 
         public DumpWindow(Tools t, string fileName, bool bCompareDumpsMode = false)
         {
-            InitializeComponent();
-            Uri iconUri = new Uri("pack://application:,,,/Resources/MWT.ico", UriKind.RelativeOrAbsolute);
-            this.Icon = BitmapFrame.Create(iconUri);
-            ofd.Filter = MifareWindowsTool.Properties.Resources.DumpFileFilter;
-            var initialDumpDir = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "dumps");
-            ofd.InitialDirectory = initialDumpDir;
-            sfd.Filter = MifareWindowsTool.Properties.Resources.DumpFileFilter;
-            sfd.InitialDirectory = initialDumpDir;
-            Tools = t;
-            if (bCompareDumpsMode)
+            try
             {
-                Title = MifareWindowsTool.Properties.Resources.CompareDumps;
-                btnSaveDump.Visibility = Visibility.Hidden;
-                btnShowAsAscii.Visibility = Visibility.Hidden;
-                stkOpenDumps.Visibility = Visibility.Visible;
-                stkInfos.Visibility = Visibility.Collapsed;
+                InitializeComponent();
+                Uri iconUri = new Uri("pack://application:,,,/Resources/MWT.ico", UriKind.RelativeOrAbsolute);
+                this.Icon = BitmapFrame.Create(iconUri);
+                ofd.Filter = MifareWindowsTool.Properties.Resources.DumpFileFilter;
+                var initialDumpDir = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "dumps");
+                ofd.InitialDirectory = initialDumpDir;
+                sfd.Filter = MifareWindowsTool.Properties.Resources.DumpFileFilter;
+                sfd.InitialDirectory = initialDumpDir;
+                Tools = t;
+                dFileName = fileName;
+
+                if (bCompareDumpsMode)
+                {
+                    Title = MifareWindowsTool.Properties.Resources.CompareDumps;
+                    btnSaveDump.Visibility = Visibility.Hidden;
+                    btnShowAsAscii.Visibility = Visibility.Hidden;
+                    stkOpenDumps.Visibility = Visibility.Visible;
+                    stkInfos.Visibility = Visibility.Collapsed;
+                    btnEdit.Visibility= Visibility.Collapsed;
+                }
+                else
+                {
+                    btnEdit.Visibility = Visibility.Visible;
+                  btnSaveDump.Visibility = Visibility.Visible;
+                    stkOpenDumps.Visibility = Visibility.Collapsed;
+                    bytesDataA = System.IO.File.ReadAllBytes(fileName);
+                    if (bytesDataA.Length == 1024) split = 4;
+                    ShowHex();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                btnSaveDump.Visibility = Visibility.Visible;
-                stkOpenDumps.Visibility = Visibility.Collapsed;
-                bytesDataA = File.ReadAllBytes(fileName);
-                if (bytesDataA.Length == 1024) split = 4;
-                ShowHex();
+                MessageBox.Show(ex.Message);
             }
 
         }
@@ -108,12 +120,13 @@ namespace MCT_Windows.Windows
 
             var dr = sfd.ShowDialog();
             if (dr.Value)
-                File.WriteAllBytes(sfd.FileName, bytesDataA);
+                System.IO.File.WriteAllBytes(sfd.FileName, bytesDataA);
 
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
+            this.DialogResult = true;
             this.Close();
         }
 
@@ -150,7 +163,7 @@ namespace MCT_Windows.Windows
             if (dr.Value)
             {
                 btnOpenDumpA.Content = $"{MifareWindowsTool.Properties.Resources.OpenDump} A: {Path.GetFileNameWithoutExtension(ofd.FileName)}";
-                bytesDataA = File.ReadAllBytes(ofd.FileName);
+                bytesDataA = System.IO.File.ReadAllBytes(ofd.FileName);
                 ShowCompareDumps();
             }
 
@@ -162,7 +175,7 @@ namespace MCT_Windows.Windows
             if (dr.Value)
             {
                 btnOpenDumpB.Content = $"{MifareWindowsTool.Properties.Resources.OpenDump} B: {Path.GetFileNameWithoutExtension(ofd.FileName)}";
-                bytesDataB = File.ReadAllBytes(ofd.FileName);
+                bytesDataB = System.IO.File.ReadAllBytes(ofd.FileName);
                 ShowCompareDumps();
             }
         }
@@ -225,6 +238,14 @@ namespace MCT_Windows.Windows
 
         }
 
-
+        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            var edw = new EditDumpWindow(Tools, dFileName);
+            Mouse.OverrideCursor = Cursors.Wait;
+          
+            edw.Show();
+         
+            
+        }
     }
 }

@@ -6,7 +6,7 @@
     xmlns:resx="clr-namespace:MifareWindowsTool.Properties"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="{x:Static resx:Resources.DumpWindowTitle}"
-    Width="400"
+    Width="500"
     Height="600"
     Background="#303030"
     Foreground="White"
@@ -38,10 +38,10 @@
                     Foreground="White" />
             </StackPanel>
             <RichTextBox
-                x:Name="txtOutput"
+                x:Name="txtOutput" BorderThickness="1" BorderBrush="Wheat"
                 Width="auto"
                 Height="500"
-                Margin="20,0,0,0"
+                Margin="50,0,50,0"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Top"
                 Background="#303030"
@@ -84,6 +84,15 @@
                     Cursor="Hand"
                     Foreground="White" />
                 <Button
+                    x:Name="btnEdit"
+                    Width="auto" MinWidth="100"
+                    Margin="20,0,0,0"
+                    Background="#5A595B"
+                    Click="btnEdit_Click"
+                    Content="{x:Static resx:Resources.EditDump}"
+                    Cursor="Hand"
+                    Foreground="White" />
+                <Button
                     x:Name="btnClose"
                     Width="auto" MinWidth="100"
                     Margin="20,0,0,0"
@@ -92,6 +101,7 @@
                     Content="{x:Static resx:Resources.Close}"
                     Cursor="Hand"
                     Foreground="White" />
+               
             </StackPanel>
         </StackPanel>
     </Grid>

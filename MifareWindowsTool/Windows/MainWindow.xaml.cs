@@ -30,7 +30,7 @@ namespace MCT_Windows
         public string MainTitle { get; set; } = $"Mifare Windows Tool";
         Tools t = null;
         OpenFileDialog ofd = new OpenFileDialog();
-        public List<Keys> SelectedKeys = new List<Keys>();
+        public List<File> SelectedKeys = new List<File>();
         Uri BaseUri = null;
         IObservable<long> ObservableScan = null;
         CancellationTokenSource ScanSource = null;
@@ -195,8 +195,9 @@ namespace MCT_Windows
             Application.Current.Dispatcher.Invoke((Action)delegate
             {
                 DumpWindow dw = new DumpWindow(t, t.TMPFILESOURCE_MFD);
-                dw.ShowDialog();
-                PeriodicScanTag();
+                var dr = dw.ShowDialog();
+                if (dr.HasValue && dr.Value)
+                    PeriodicScanTag();
             });
 
         }
@@ -271,7 +272,7 @@ namespace MCT_Windows
             bgw.RunWorkerAsync(new string[] { act.ToString(), "dumps\\" + t.TMPFILESOURCE_MFD, "dumps\\" + t.TMPFILE_TARGETMFD, bWriteBlock0.ToString(), useKeyA.ToString(), haltOnError.ToString() });
 
         }
-        public void RunMfoc(List<Keys> keys, string tmpFileMfd)
+        public void RunMfoc(List<File> keys, string tmpFileMfd)
         {
             try
             {

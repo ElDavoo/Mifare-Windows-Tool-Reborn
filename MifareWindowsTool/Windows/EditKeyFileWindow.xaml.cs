@@ -35,7 +35,7 @@ namespace MCT_Windows.Windows
             if (!string.IsNullOrWhiteSpace(fileName))
             {
                 FileName = $"keys/{fileName}";
-                Data = File.ReadAllText(FileName);
+                Data = System.IO.File.ReadAllText(FileName);
             }
 
             else
@@ -71,7 +71,7 @@ namespace MCT_Windows.Windows
             }
 
             Data = txtOutput.Text;
-            File.WriteAllText(FileName, Data);
+            System.IO.File.WriteAllText(FileName, Data);
 
             Skf.RefreshKeyFiles();
             this.Close();

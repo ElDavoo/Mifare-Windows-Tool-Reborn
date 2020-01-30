@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MCT_Windows
 {
-   public class Keys
+   public class File
     {
         public string FileName { get; set; }
         public bool IsSelected { get; set; }

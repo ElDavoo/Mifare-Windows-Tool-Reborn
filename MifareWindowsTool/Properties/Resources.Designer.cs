@@ -341,6 +341,15 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Edit Dump.
+        /// </summary>
+        public static string EditDump {
+            get {
+                return ResourceManager.GetString("EditDump", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Edit Key File.
         /// </summary>
         public static string EditKeyFileWindowTitle {

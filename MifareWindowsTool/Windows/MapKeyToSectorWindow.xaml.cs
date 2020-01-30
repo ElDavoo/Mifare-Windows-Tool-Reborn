@@ -35,7 +35,7 @@ namespace MCT_Windows
             this.Icon = BitmapFrame.Create(iconUri);
             foreach (var f in Directory.GetFiles("Keys", "*.keys", SearchOption.AllDirectories))
             {
-                ucLK.lstKeys.Items.Add(new Keys() { FileName = System.IO.Path.GetFileName(f), IsSelected = false });
+                ucLK.lstKeys.Items.Add(new File() { FileName = System.IO.Path.GetFileName(f), IsSelected = false });
             }
         }
 
@@ -46,7 +46,7 @@ namespace MCT_Windows
 
         private void btnStartMappingAndReadTag_Click(object sender, RoutedEventArgs e)
         {
-            main.SelectedKeys = ucLK.lstKeys.Items.OfType<Keys>().Where(c => c.IsSelected).ToList();
+            main.SelectedKeys = ucLK.lstKeys.Items.OfType<File>().Where(c => c.IsSelected).ToList();
             if (main.SelectedKeys.Any())
             {
                 this.DialogResult = true;

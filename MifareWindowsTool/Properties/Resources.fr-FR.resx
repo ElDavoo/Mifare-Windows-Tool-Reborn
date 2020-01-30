@@ -207,6 +207,9 @@
   <data name="EditAnalyzeDumpFile" xml:space="preserve">
     <value>EDITER/ANALYSER FICHIER DUMP</value>
   </data>
+  <data name="EditDump" xml:space="preserve">
+    <value>Editer</value>
+  </data>
   <data name="EditKeyFileWindowTitle" xml:space="preserve">
     <value>Edition des fichiers de clés</value>
   </data>

@@ -101,7 +101,7 @@ namespace MCT_Windows
         {
             try
             {
-                using (FileStream fs = File.Create(
+                using (FileStream fs = System.IO.File.Create(
                     Path.Combine(
                         dirPath,
                         Path.GetRandomFileName()
@@ -143,7 +143,7 @@ namespace MCT_Windows
 
                 ProcessStartInfo psi = new ProcessStartInfo("nfctools\\mfoc.exe");
                 string[] args = (string[])e.Argument;
-                if (File.Exists(TMPFILE_FND))
+                if (System.IO.File.Exists(TMPFILE_FND))
                 {
                     if (args.Count() > 2)
                     {
@@ -242,7 +242,7 @@ namespace MCT_Windows
                 var dumpFile = args[0];
 
                 psi.Arguments = $"-y";
-                if (File.Exists(dumpFile))
+                if (System.IO.File.Exists(dumpFile))
                     psi.Arguments += $" \"{dumpFile}\"";
                 psi.WorkingDirectory = DefaultWorkingDir;
                 psi.CreateNoWindow = true;
@@ -374,7 +374,7 @@ namespace MCT_Windows
 
         public bool CheckAndUseDumpIfExists(string MFDFile)
         {
-            if (File.Exists("dumps\\" + MFDFile))
+            if (System.IO.File.Exists("dumps\\" + MFDFile))
             {
                 long fileLength = new System.IO.FileInfo("dumps\\" + MFDFile).Length;
                 if (fileLength == 0) return false;
