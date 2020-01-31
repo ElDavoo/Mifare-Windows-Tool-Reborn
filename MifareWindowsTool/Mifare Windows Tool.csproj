@@ -203,16 +203,16 @@
     <Resource Include="Images\write_tag.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="libfreefare.dll">
+    <Content Include="nfctools\libfreefare.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="libnfc.dll">
+    <Content Include="nfctools\libnfc.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="libusb0.dll">
+    <Content Include="nfctools\libusb0.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="libwinpthread-1.dll">
+    <Content Include="nfctools\libwinpthread-1.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\MWT.ico">

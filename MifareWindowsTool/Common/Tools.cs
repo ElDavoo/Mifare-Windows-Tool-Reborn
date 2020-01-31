@@ -173,7 +173,7 @@ namespace MCT_Windows
                 lprocess = true;
                 BackgroundWorker b = (BackgroundWorker)sender;
                 process = Process.Start(psi);
-                b.ReportProgress(0, $"mfoc {MifareWindowsTool.Properties.Resources.Started}…");
+                b.ReportProgress(0, $"mfoc {psi.Arguments}");
                 running = true;
                 process.OutputDataReceived += (s, _e) => b.ReportProgress(0, _e.Data);
                 process.ErrorDataReceived += (s, _e) =>
@@ -254,7 +254,7 @@ namespace MCT_Windows
                 BackgroundWorker b = (BackgroundWorker)sender;
                 process = Process.Start(psi);
 
-                b.ReportProgress(0, "formatting...");
+                b.ReportProgress(0, $"mifare-classic-format {psi.Arguments}");
 
                 running = true;
                 process.OutputDataReceived += (s, _e) => b.ReportProgress(0, _e.Data);
@@ -328,7 +328,7 @@ namespace MCT_Windows
                 BackgroundWorker b = (BackgroundWorker)sender;
                 process = Process.Start(psi);
                 if (tAction == TagAction.Clone)
-                    b.ReportProgress(0, $"{MifareWindowsTool.Properties.Resources.Cloning}...");
+                    b.ReportProgress(0, $"nfc-mfclassic {psi.Arguments}...");
 
                 running = true;
                 process.OutputDataReceived += (s, _e) => b.ReportProgress(0, _e.Data);

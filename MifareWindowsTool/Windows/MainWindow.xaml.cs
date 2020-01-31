@@ -25,6 +25,7 @@ namespace MCT_Windows
     public partial class MainWindow : Window
     {
         public bool TagFound = false;
+        public bool DumpFound = false;
         public bool ScanTagRunning = false;
         string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         public string MainTitle { get; set; } = $"Mifare Windows Tool";
@@ -94,14 +95,14 @@ namespace MCT_Windows
 
             if (t.running) return;
 
-            if (Title.Contains("no tag") && !ScanTagRunning)
+            if (Title.Contains(MifareWindowsTool.Properties.Resources.NoTag) && !ScanTagRunning)
                 PeriodicScanTag();
 
             if (!ckEnablePeriodicTagScan.IsChecked.HasValue || !ckEnablePeriodicTagScan.IsChecked.Value)
             {
                 RunNfcList();
             }
-
+           
             if (!string.IsNullOrWhiteSpace(t.CurrentUID))
             {
                 if (act == TagAction.ReadSource)
@@ -112,7 +113,7 @@ namespace MCT_Windows
                     t.TMPFILE_FND = $"mfc_{ t.mySourceUID}_foundKeys.txt";
                     if (t.CheckAndUseDumpIfExists(t.TMPFILESOURCE_MFD))
                     {
-                        TagFound = true;
+                        DumpFound = true;
                         return;
                     }
                 }
@@ -124,8 +125,9 @@ namespace MCT_Windows
                     t.TMPFILE_FND = $"mfc_{ t.myTargetUID}_foundKeys.txt";
                     if (t.CheckAndUseDumpIfExists(t.TMPFILE_TARGETMFD))
                     {
-                        TagFound = true;
+                        DumpFound = true;
                     }
+
                 }
             }
 
@@ -134,23 +136,43 @@ namespace MCT_Windows
                 StopScanTag();
                 if (act == TagAction.ReadSource)
                 {
-                    MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(this, t, MifareWindowsTool.Properties.Resources.UsedForSourceMapping);
-                    var ret = mtsWin.ShowDialog();
-                    if (ret.HasValue && ret.Value)
-                        RunMfoc(SelectedKeys, t.TMPFILESOURCE_MFD);
+                    if (!DumpFound)
+                    {
+                        MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(this, t, MifareWindowsTool.Properties.Resources.UsedForSourceMapping);
+                        var ret = mtsWin.ShowDialog();
+                        if (ret.HasValue && ret.Value)
+                            RunMfoc(SelectedKeys, t.TMPFILESOURCE_MFD);
+                        else
+                            PeriodicScanTag();
+                    }
                     else
-                        PeriodicScanTag();
+                    {
+                        //
+                    }
                 }
                 else if (act == TagAction.ReadTarget)
                 {
-                    WriteDumpWindow wdw = new WriteDumpWindow(this, t);
-                    var ret = wdw.ShowDialog();
-                    if (!ret.HasValue || !ret.Value)
-                        PeriodicScanTag();
+                    if (!DumpFound)
+                    {
+                        MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(this, t, MifareWindowsTool.Properties.Resources.UsedForTargetMapping);
+                        var ret = mtsWin.ShowDialog();
+                        if (ret.HasValue && ret.Value)
+                            RunMfoc(SelectedKeys, t.TMPFILE_TARGETMFD);
+                        else
+                            PeriodicScanTag();
+                       
+                    }
+                    else
+                    {
+                        WriteDumpWindow wdw = new WriteDumpWindow(this, t);
+                        var ret = wdw.ShowDialog();
+                        if (!ret.HasValue || !ret.Value)
+                            PeriodicScanTag();
+                    }
 
                 }
 
-                TagFound = !Title.Contains(MifareWindowsTool.Properties.Resources.NoTag);
+                //TagFound = !Title.Contains(MifareWindowsTool.Properties.Resources.NoTag);
             }
             else
             {
