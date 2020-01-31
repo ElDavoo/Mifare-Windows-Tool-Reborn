@@ -130,7 +130,7 @@ namespace MCT_Windows
 
                 }
             }
-
+            rtbOutput.Text = string.Empty;
             if (TagFound)
             {
                 StopScanTag();
@@ -141,7 +141,7 @@ namespace MCT_Windows
                         MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(this, t, MifareWindowsTool.Properties.Resources.UsedForSourceMapping);
                         var ret = mtsWin.ShowDialog();
                         if (ret.HasValue && ret.Value)
-                            RunMfoc(SelectedKeys, t.TMPFILESOURCE_MFD);
+                            RunMfoc(SelectedKeys, t.TMPFILESOURCE_MFD, act);
                         else
                             PeriodicScanTag();
                     }
@@ -157,17 +157,20 @@ namespace MCT_Windows
                         MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(this, t, MifareWindowsTool.Properties.Resources.UsedForTargetMapping);
                         var ret = mtsWin.ShowDialog();
                         if (ret.HasValue && ret.Value)
-                            RunMfoc(SelectedKeys, t.TMPFILE_TARGETMFD);
+                        {
+                            RunMfoc(SelectedKeys, t.TMPFILE_TARGETMFD, act);
+                            if (rtbOutput.Text.Contains($"##mfoc {MifareWindowsTool.Properties.Resources.Finished}##"))
+                            {
+                                OpenWriteDumpWindow();
+                            }
+                        }
                         else
                             PeriodicScanTag();
-                       
+
                     }
                     else
                     {
-                        WriteDumpWindow wdw = new WriteDumpWindow(this, t);
-                        var ret = wdw.ShowDialog();
-                        if (!ret.HasValue || !ret.Value)
-                            PeriodicScanTag();
+                        OpenWriteDumpWindow();
                     }
 
                 }
@@ -181,7 +184,13 @@ namespace MCT_Windows
 
         }
 
-
+        private void OpenWriteDumpWindow()
+        {
+            WriteDumpWindow wdw = new WriteDumpWindow(this, t);
+            var ret = wdw.ShowDialog();
+            if (!ret.HasValue || !ret.Value)
+                PeriodicScanTag();
+        }
 
         public void ValidateActions()
         {
@@ -294,7 +303,7 @@ namespace MCT_Windows
             bgw.RunWorkerAsync(new string[] { act.ToString(), "dumps\\" + t.TMPFILESOURCE_MFD, "dumps\\" + t.TMPFILE_TARGETMFD, bWriteBlock0.ToString(), useKeyA.ToString(), haltOnError.ToString() });
 
         }
-        public void RunMfoc(List<File> keys, string tmpFileMfd)
+        public void RunMfoc(List<File> keys, string tmpFileMfd, TagAction act)
         {
             try
             {
@@ -304,9 +313,12 @@ namespace MCT_Windows
                 bgw.WorkerReportsProgress = true;
                 bgw.ProgressChanged += new ProgressChangedEventHandler(default_rpt);
                 var parameters = keys.Select(k => "keys/" + k.FileName).ToList();
+                parameters.Insert(0, act.ToString());
                 parameters.Add("dumps\\" + tmpFileMfd);
                 parameters.Add(t.TMPFILE_UNK);
                 bgw.RunWorkerAsync(parameters.ToArray());
+
+                DoEvents();
             }
             catch (Exception ex)
             {

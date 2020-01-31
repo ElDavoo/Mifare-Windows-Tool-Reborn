@@ -18,6 +18,7 @@ namespace MCT_Windows
 {
     public enum TagAction
     {
+        None,
         ReadSource,
         ReadTarget,
         Clone,
@@ -137,31 +138,42 @@ namespace MCT_Windows
 
         public void mfoc(object sender, DoWorkEventArgs e)
         {
+            TagAction ta = TagAction.None;
             try
             {
                 if (lprocess) { return; }
 
                 ProcessStartInfo psi = new ProcessStartInfo("nfctools\\mfoc.exe");
                 string[] args = (string[])e.Argument;
+                ta = (TagAction)Enum.Parse(typeof(TagAction), args[0]);
+                string outputfilepath = "";
                 if (System.IO.File.Exists(TMPFILE_FND))
                 {
-                    if (args.Count() > 2)
+                    if (args.Count() > 3)
                     {
                         psi.Arguments += AddKeys(args);
-                        psi.Arguments += $"-O \"{args[args.Count() - 2]}\" -D \"{args[args.Count() - 1]}\"";
+                        outputfilepath = args[args.Count() - 2];
+                        psi.Arguments += $"-O \"{outputfilepath}\" -D \"{args[args.Count() - 1]}\"";
                     }
                     else
-                        psi.Arguments = $"-f \"{TMPFILE_FND}\" -O \"{args[0]}\" -D \"{args[1]}\"";
+                    {
+                        outputfilepath = args[1];
+                        psi.Arguments = $"-f \"{TMPFILE_FND}\" -O \"{outputfilepath}\" -D \"{args[2]}\"";
+                    }
                 }
                 else
                 {
-                    if (args.Count() > 2)
+                    if (args.Count() > 3)
                     {
                         psi.Arguments += AddKeys(args);
-                        psi.Arguments += $" -O \"{args[args.Count() - 2]}\" -D \"{args[args.Count() - 1]}\"";
+                        outputfilepath = args[args.Count() - 2];
+                        psi.Arguments += $" -O \"{outputfilepath}\" -D \"{args[args.Count() - 1]}\"";
                     }
                     else
-                        psi.Arguments = $"-O \"{args[0]}\" -D \"{args[1]}\"";
+                    {
+                        outputfilepath = args[1];
+                        psi.Arguments = $"-O \"{args[1]}\" -D \"{args[2]}\"";
+                    }
                 }
                 psi.CreateNoWindow = true;
                 psi.UseShellExecute = false;
@@ -188,6 +200,7 @@ namespace MCT_Windows
                     if (process.ExitCode == 0)
                     {
                         b.ReportProgress(101, $"##mfoc {MifareWindowsTool.Properties.Resources.Finished}##");
+                        b.ReportProgress(102, $"dump: {outputfilepath} saved!");
                         //Main.ShowDump();
                     }
                     else
@@ -216,8 +229,11 @@ namespace MCT_Windows
                 doneEvent.Set();
                 lprocess = false;
                 process.Close();
-
-                Main.PeriodicScanTag(3000);
+                if (ta != TagAction.ReadTarget)
+                {
+                    Main.PeriodicScanTag(3000);
+                }
+               
             }
 
         }
@@ -225,7 +241,7 @@ namespace MCT_Windows
         private string AddKeys(string[] args)
         {
             var ret = "";
-            for (int i = 0; i < args.Count() - 2; i++)
+            for (int i = 1; i < args.Count() - 2; i++)
             {
                 ret += $"  -f \"{args[i]}\"";
             }

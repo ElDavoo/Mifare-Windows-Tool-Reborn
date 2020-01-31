@@ -97,7 +97,7 @@ namespace MCT_Windows
                 MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(main, tools, MifareWindowsTool.Properties.Resources.UsedForTargetMapping);
                 var ret = mtsWin.ShowDialog();
                 if (ret.HasValue && ret.Value)
-                    main.RunMfoc(main.SelectedKeys, tools.TMPFILESOURCE_MFD);
+                    main.RunMfoc(main.SelectedKeys, tools.TMPFILESOURCE_MFD, TagAction.ReadSource);
             }
         }
 
