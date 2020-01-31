@@ -130,7 +130,7 @@ namespace MCT_Windows
 
                 }
             }
-            rtbOutput.Text = string.Empty;
+           
             if (TagFound)
             {
                 StopScanTag();
@@ -162,6 +162,7 @@ namespace MCT_Windows
                             if (rtbOutput.Text.Contains($"##mfoc {MifareWindowsTool.Properties.Resources.Finished}##"))
                             {
                                 OpenWriteDumpWindow();
+                                rtbOutput.Text = string.Empty;
                             }
                         }
                         else
