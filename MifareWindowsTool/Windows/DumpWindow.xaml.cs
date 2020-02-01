@@ -147,8 +147,8 @@ namespace MCT_Windows.Windows
 
         private void ShowAscii()
         {
-            string hex = BitConverter.ToString(bytesDataA).Replace("-", string.Empty);
-            var ascii = Tools.ConvertHex(hex);
+            string hexString = BitConverter.ToString(bytesDataA).Replace("-", string.Empty);
+            var ascii = hexString.HexStrToAscii();
             LinesA = Split(ascii, 32);
             int sector = (LinesA.Count - 4) / 4;
             for (int i = LinesA.Count - 4; i >= 0; i -= 4)

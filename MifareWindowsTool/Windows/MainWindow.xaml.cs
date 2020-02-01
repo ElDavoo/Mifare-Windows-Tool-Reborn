@@ -1,12 +1,14 @@
-﻿using MCT_Windows.Windows;
+﻿using CliWrap;
+using MCT_Windows.Windows;
+
 using Microsoft.Win32;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Media;
 using System.Reactive.Linq;
 using System.Reflection;
 using System.Threading;
@@ -34,7 +36,8 @@ namespace MCT_Windows
         public List<File> SelectedKeys = new List<File>();
         Uri BaseUri = null;
         IObservable<long> ObservableScan = null;
-        CancellationTokenSource ScanSource = null;
+        CancellationTokenSource ScanCTS = null;
+        CancellationTokenSource ProcessCTS = null;
         public MainWindow()
         {
             InitializeComponent();
@@ -54,55 +57,55 @@ namespace MCT_Windows
                 MessageBox.Show(MifareWindowsTool.Properties.Resources.PleaseRestartAsAdmin);
                 Application.Current.Shutdown();
             }
-            PeriodicScanTag();
+            Task.Run(() => PeriodicScanTag());
 
         }
 
-        public void PeriodicScanTag(int delay = 0)
+        public async Task PeriodicScanTag(int delay = 0)
         {
             if (ScanTagRunning) return;
 
-            Task.Delay(delay);
+            await Task.Delay(delay);
 
             ObservableScan = Observable.Interval(TimeSpan.FromSeconds(3));
             // Token for cancelation
-            ScanSource = new CancellationTokenSource();
+            ScanCTS = new CancellationTokenSource();
             // Subscribe the obserable to the task on execution.
             ObservableScan.Subscribe(x =>
             {
-                Application.Current.Dispatcher.Invoke(new Action(() =>
+                Application.Current.Dispatcher.Invoke(async () =>
                 {
                     if (!ckEnablePeriodicTagScan.IsChecked.HasValue || ckEnablePeriodicTagScan.IsChecked.Value == false) return;
                     rtbOutput.Text = $"{DateTime.Now} -  {MifareWindowsTool.Properties.Resources.AutoScanTagRunning}...\n";
-                    RunNfcList();
-                }));
-            }, ScanSource.Token);
+                    await RunNfcList();
+                });
+            }, ScanCTS.Token);
             ScanTagRunning = true;
         }
 
-        private void btnReadTag_Click(object sender, RoutedEventArgs e)
+        private async void btnReadTag_Click(object sender, RoutedEventArgs e)
         {
-            ReadTag(TagAction.ReadSource);
+            await ReadTag(TagAction.ReadSource);
 
         }
-        private void btnWriteTag_Click(object sender, RoutedEventArgs e)
+        private async void btnWriteTag_Click(object sender, RoutedEventArgs e)
         {
-            ReadTag(TagAction.ReadTarget);
+            await ReadTag(TagAction.ReadTarget);
         }
 
-        private void ReadTag(TagAction act)
+        private async Task ReadTag(TagAction act)
         {
 
             if (t.running) return;
-
+            DumpFound = false;
             if (Title.Contains(MifareWindowsTool.Properties.Resources.NoTag) && !ScanTagRunning)
-                PeriodicScanTag();
+                await PeriodicScanTag();
 
             if (!ckEnablePeriodicTagScan.IsChecked.HasValue || !ckEnablePeriodicTagScan.IsChecked.Value)
             {
-                RunNfcList();
+                await RunNfcList();
             }
-           
+
             if (!string.IsNullOrWhiteSpace(t.CurrentUID))
             {
                 if (act == TagAction.ReadSource)
@@ -130,7 +133,7 @@ namespace MCT_Windows
 
                 }
             }
-           
+
             if (TagFound)
             {
                 StopScanTag();
@@ -141,9 +144,9 @@ namespace MCT_Windows
                         MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(this, t, MifareWindowsTool.Properties.Resources.UsedForSourceMapping);
                         var ret = mtsWin.ShowDialog();
                         if (ret.HasValue && ret.Value)
-                            RunMfoc(SelectedKeys, t.TMPFILESOURCE_MFD, act);
+                            await RunMfoc(SelectedKeys, t.TMPFILESOURCE_MFD, act);
                         else
-                            PeriodicScanTag();
+                            await PeriodicScanTag();
                     }
                     else
                     {
@@ -158,25 +161,24 @@ namespace MCT_Windows
                         var ret = mtsWin.ShowDialog();
                         if (ret.HasValue && ret.Value)
                         {
-                            RunMfoc(SelectedKeys, t.TMPFILE_TARGETMFD, act);
+                            await RunMfoc(SelectedKeys, t.TMPFILE_TARGETMFD, act);
                             if (rtbOutput.Text.Contains($"##mfoc {MifareWindowsTool.Properties.Resources.Finished}##"))
                             {
-                                OpenWriteDumpWindow();
+                                await OpenWriteDumpWindow();
                                 rtbOutput.Text = string.Empty;
                             }
                         }
                         else
-                            PeriodicScanTag();
+                            await PeriodicScanTag();
 
                     }
                     else
                     {
-                        OpenWriteDumpWindow();
+                        await OpenWriteDumpWindow();
                     }
 
                 }
 
-                //TagFound = !Title.Contains(MifareWindowsTool.Properties.Resources.NoTag);
             }
             else
             {
@@ -185,51 +187,44 @@ namespace MCT_Windows
 
         }
 
-        private void OpenWriteDumpWindow()
+        private async Task OpenWriteDumpWindow()
         {
             WriteDumpWindow wdw = new WriteDumpWindow(this, t);
             var ret = wdw.ShowDialog();
             if (!ret.HasValue || !ret.Value)
-                PeriodicScanTag();
+                await PeriodicScanTag();
         }
 
-        public void ValidateActions()
+        public void ValidateActions(bool enable)
         {
-            Application.Current.Dispatcher.BeginInvoke((Action)delegate
-            {
-                btnReadTag.IsEnabled = !t.running;
-                btnWriteTag.IsEnabled = !t.running;
-                ckEnablePeriodicTagScan.IsEnabled = !t.running;
-            });
+
+            btnReadTag.IsEnabled = enable;
+            btnWriteTag.IsEnabled = enable;
+            ckEnablePeriodicTagScan.IsEnabled = enable;
+
         }
 
-        public void ShowAbortButton()
+        public void ShowAbortButton(bool show = true)
         {
-            if (!t.process.HasExited)
+            if (show)
             {
-                Application.Current.Dispatcher.Invoke((Action)delegate
-                {
-                    btnAbortCurrentTask.Content = $"{MifareWindowsTool.Properties.Resources.Abort} {t.process.ProcessName}";
-                    btnAbortCurrentTask.Visibility = Visibility.Visible;
-                });
+                btnAbortCurrentTask.Content = $"{MifareWindowsTool.Properties.Resources.Abort}";
+                btnAbortCurrentTask.Visibility = Visibility.Visible;
             }
-        }
-        public void HideAbortButton()
-        {
-            Application.Current.Dispatcher.BeginInvoke((Action)delegate
-            {
+            else
                 btnAbortCurrentTask.Visibility = Visibility.Hidden;
-            });
+
         }
+
 
         public void ShowDump()
         {
-            Application.Current.Dispatcher.Invoke((Action)delegate
+            Application.Current.Dispatcher.Invoke(async () =>
             {
                 DumpWindow dw = new DumpWindow(t, t.TMPFILESOURCE_MFD);
                 var dr = dw.ShowDialog();
                 if (dr.HasValue && dr.Value)
-                    PeriodicScanTag();
+                    await PeriodicScanTag();
             });
 
         }
@@ -240,18 +235,22 @@ namespace MCT_Windows
                                                   new Action(delegate { }));
         }
 
-        private void RunNfcList()
+        private async Task RunNfcList()
         {
-            BackgroundWorker bgw = new BackgroundWorker();
-            bgw.DoWork += new DoWorkEventHandler(t.list_tag);
-            bgw.WorkerReportsProgress = true;
-            bgw.ProgressChanged += new ProgressChangedEventHandler(default_rpt);
 
-            bgw.RunWorkerAsync();
-            t.doneEvent.WaitOne();
-            DoEvents();
+            var result = await Cli.Wrap(@"nfctools\\nfc-list.exe")
+   .SetStandardOutputCallback(l => logAppend(l))
+   .SetStandardErrorCallback(l => logAppend(l))
+   .ExecuteAsync();
 
-            var retUID = rtbOutput.Text.Split('\n').Where(t => t.Contains("UID")).LastOrDefault();
+            var exitCode = result.ExitCode;
+            var stdOut = result.StandardOutput;
+            var stdErr = result.StandardError;
+            var startTime = result.StartTime;
+            var exitTime = result.ExitTime;
+            var runTime = result.RunTime;
+
+            var retUID = stdOut.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Where(t => t.Contains("UID")).LastOrDefault();
             if (retUID != null && retUID.Contains(": "))
             {
                 var newUID = retUID.Substring(retUID.IndexOf(": ") + ": ".Length).Replace(" ", "").ToUpper();
@@ -278,75 +277,144 @@ namespace MCT_Windows
             if (ScanTagRunning)
             {
                 ScanTagRunning = false;
-                ScanSource.Cancel();
+                ScanCTS.Cancel();
                 logAppend(MifareWindowsTool.Properties.Resources.AutoScanTagStopped);
             }
         }
-        public void RunMifareClassicFormat()
+        public async Task RunMifareClassicFormat()
         {
             StopScanTag();
+            ValidateActions(false);
+            ShowAbortButton();
+            try
+            {
+                string args = "";
+                if (System.IO.File.Exists("dumps\\" + t.TMPFILE_TARGETMFD))
+                    args += $" \"{"dumps\\" + t.TMPFILE_TARGETMFD}\"";
+                ProcessCTS = new CancellationTokenSource();
+                var result = await Cli.Wrap("nfctools\\mifare-classic-format.exe").SetArguments($"-y {args}")
+      .SetStandardOutputCallback(l => logAppend(l))
+      .SetStandardErrorCallback(l => logAppend(l))
+      .SetCancellationToken(ProcessCTS.Token)
+      .ExecuteAsync();
 
-            BackgroundWorker bgw = new BackgroundWorker();
-            bgw.DoWork += new DoWorkEventHandler(t.classic_format);
-            bgw.WorkerReportsProgress = true;
-            bgw.ProgressChanged += new ProgressChangedEventHandler(default_rpt);
-            bgw.RunWorkerAsync(new string[] { "dumps\\" + t.TMPFILE_TARGETMFD });
+                var exitCode = result.ExitCode;
+                var stdOut = result.StandardOutput;
+                var stdErr = result.StandardError;
+                var startTime = result.StartTime;
+                var exitTime = result.ExitTime;
+                var runTime = result.RunTime;
+            }
+            catch (OperationCanceledException)
+            {
+            }
+            finally
+            {
+                ProcessCTS.Dispose();
+                ValidateActions(true);
+                ShowAbortButton(false);
+            }
+
+
 
         }
-        public void RunNfcMfcClassic(TagAction act, bool bWriteBlock0, bool useKeyA, bool haltOnError)
-        {
-            StopScanTag();
-
-            BackgroundWorker bgw = new BackgroundWorker();
-            bgw.DoWork += new DoWorkEventHandler(t.mf_write);
-            bgw.WorkerReportsProgress = true;
-            bgw.ProgressChanged += new ProgressChangedEventHandler(default_rpt);
-            bgw.RunWorkerAsync(new string[] { act.ToString(), "dumps\\" + t.TMPFILESOURCE_MFD, "dumps\\" + t.TMPFILE_TARGETMFD, bWriteBlock0.ToString(), useKeyA.ToString(), haltOnError.ToString() });
-
-        }
-        public void RunMfoc(List<File> keys, string tmpFileMfd, TagAction act)
+        public async Task RunNfcMfclassic(TagAction act, bool bWriteBlock0, bool useKeyA, bool haltOnError)
         {
             try
             {
                 StopScanTag();
-                BackgroundWorker bgw = new BackgroundWorker();
-                bgw.DoWork += new DoWorkEventHandler(t.mfoc);
-                bgw.WorkerReportsProgress = true;
-                bgw.ProgressChanged += new ProgressChangedEventHandler(default_rpt);
-                var parameters = keys.Select(k => "keys/" + k.FileName).ToList();
-                parameters.Insert(0, act.ToString());
-                parameters.Add("dumps\\" + tmpFileMfd);
-                parameters.Add(t.TMPFILE_UNK);
-                bgw.RunWorkerAsync(parameters.ToArray());
+                ValidateActions(false);
+                ShowAbortButton();
+                var sourceDump = "dumps\\" + t.TMPFILESOURCE_MFD;
+                var targetDump = "dumps\\" + t.TMPFILE_TARGETMFD;
+                char writeMode = bWriteBlock0 == true ? 'W' : 'w';
+                char useKey = useKeyA == true ? 'A' : 'B';
+                char cHaltOnError = haltOnError == true ? useKey = char.ToLower(useKey) : char.ToUpper(useKey);
+                ProcessCTS = new CancellationTokenSource();
+                var result = await Cli.Wrap("nfctools\\nfc-mfclassic.exe").SetArguments($"{writeMode} {cHaltOnError} u \"{sourceDump}\" \"{targetDump}\"")
+       .SetStandardOutputCallback(l => logAppend(l))
+       .SetStandardErrorCallback(l => logAppend(l))
+       .SetCancellationToken(ProcessCTS.Token)
+       .ExecuteAsync();
+            }
+            catch (OperationCanceledException)
+            {
+            }
+            catch (Exception)
+            {
 
-                DoEvents();
+                throw;
+            }
+            finally
+            {
+                ProcessCTS.Dispose();
+                ValidateActions(true);
+                ShowAbortButton(false);
+            }
+
+
+        }
+        public async Task RunMfoc(List<File> keys, string tmpFileMfd, TagAction act)
+        {
+            try
+            {
+                StopScanTag();
+                ValidateActions(false);
+                ShowAbortButton();
+                string arguments = "";
+                tmpFileMfd = "dumps\\" + tmpFileMfd;
+
+                var tmpFileUnk = "dumps\\" + t.TMPFILE_UNK;
+
+                if (System.IO.File.Exists(tmpFileUnk))
+                    arguments += $" -D \"{tmpFileUnk}\"";
+
+                foreach (var key in keys.Select(k => k.FileName))
+                {
+                    arguments += $" -f \"keys\\{key}\"";
+
+                }
+                arguments += $" -O\"{tmpFileMfd}\"";
+                ProcessCTS = new CancellationTokenSource();
+
+                var result = await Cli.Wrap("nfctools\\mfoc.exe").SetArguments(arguments).SetWorkingDirectory(t.DefaultWorkingDir)
+    .SetStandardOutputCallback(l => logAppend(l))
+    .SetStandardErrorCallback(l => logAppend(l))
+    .SetCancellationToken(ProcessCTS.Token)
+    .ExecuteAsync();
+
+            }
+            catch (OperationCanceledException)
+            {
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                PeriodicScanTag();
+                await PeriodicScanTag();
             }
-
+            finally
+            {
+                ValidateActions(true);
+                ShowAbortButton(false);
+                ProcessCTS.Dispose();
+            }
 
         }
 
         public void logAppend(string msg)
         {
-            rtbOutput.AppendText(msg + "\n");
-
-        }
-        private void default_rpt(object sender, ProgressChangedEventArgs e)
-        {
-            logAppend((string)e.UserState);
-
+            Dispatcher.Invoke(new Action(() =>
+            {
+                rtbOutput.AppendText(msg + "\n");
+            }));
         }
 
-        private void btnEditAddKeyFile_Click(object sender, RoutedEventArgs e)
+        private async void btnEditAddKeyFile_Click(object sender, RoutedEventArgs e)
         {
             StopScanTag();
             SelectKeyFilesWindow ekf = new SelectKeyFilesWindow(this, t);
             ekf.ShowDialog();
-            PeriodicScanTag();
+            await PeriodicScanTag();
         }
 
         private void rtbOutput_TextChanged(object sender, TextChangedEventArgs e)
@@ -355,24 +423,7 @@ namespace MCT_Windows
         }
 
 
-        private void btnOpenExistingTag_Click(object sender, RoutedEventArgs e)
-        {
-            OpenTag(TagAction.ReadSource);
-        }
-
-        private void OpenTag(TagAction act)
-        {
-            var dr = ofd.ShowDialog();
-            if (dr.Value)
-            {
-                if (act == TagAction.ReadSource)
-                    t.TMPFILESOURCE_MFD = ofd.FileName;
-                else if (act == TagAction.ReadTarget)
-                    t.TMPFILE_TARGETMFD = ofd.FileName;
-            }
-        }
-
-        private void btnEditDumpFile_Click(object sender, RoutedEventArgs e)
+        private async void btnEditDumpFile_Click(object sender, RoutedEventArgs e)
         {
             StopScanTag();
             var dr = ofd.ShowDialog();
@@ -383,7 +434,7 @@ namespace MCT_Windows
                 ShowDump();
             }
             else
-                PeriodicScanTag();
+                await PeriodicScanTag();
 
         }
 
@@ -392,39 +443,28 @@ namespace MCT_Windows
             Process.Start("https://github.com/xavave/Mifare-Windows-Tool");
         }
 
-        private void btnTools_Click(object sender, RoutedEventArgs e)
+        private async void btnTools_Click(object sender, RoutedEventArgs e)
         {
             StopScanTag();
             var dw = new DumpWindow(t, "", true);
             dw.ShowDialog();
-            PeriodicScanTag();
+            await PeriodicScanTag();
         }
 
-        private void ckEnablePeriodicTagScan_Checked(object sender, RoutedEventArgs e)
-        {
-            if (ckEnablePeriodicTagScan.IsChecked.HasValue && ckEnablePeriodicTagScan.IsChecked.Value)
-                PeriodicScanTag();
-        }
-
+        
         private void btnAbortCurrentTask_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                if (t.process != null && !t.process.HasExited)
-                {
-                    string processName = t.process.ProcessName;
-                    t.process.Kill();
-                    t.process.Dispose();
-                    t.running = false;
-                    rtbOutput.AppendText($"{processName} {MifareWindowsTool.Properties.Resources.Aborted}!\n");
-                    HideAbortButton();
-                    ValidateActions();
-                }
-            }
-            catch (InvalidOperationException)
-            {
-
-            }
+            ProcessCTS.Cancel();
+            ShowAbortButton(false);
+            ValidateActions(true);
         }
+        private async void ckEnablePeriodicTagScan_Checked(object sender, RoutedEventArgs e)
+        {
+
+
+            if (ckEnablePeriodicTagScan.IsChecked.HasValue && ckEnablePeriodicTagScan.IsChecked.Value)
+                await PeriodicScanTag();
+        }
+
     }
 }

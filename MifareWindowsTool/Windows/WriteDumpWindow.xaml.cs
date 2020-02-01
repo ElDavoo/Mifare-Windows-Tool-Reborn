@@ -37,18 +37,11 @@ namespace MCT_Windows
             this.Close();
         }
 
-
-        private void default_rpt(object sender, ProgressChangedEventArgs e)
-        {
-            main.logAppend((string)e.UserState);
-
-        }
-
-        private void btnWriteDump_Click(object sender, RoutedEventArgs e)
+        private async void btnWriteDump_Click(object sender, RoutedEventArgs e)
         {
             if (rbFactoryFormat.IsChecked.HasValue && rbFactoryFormat.IsChecked.Value)
             {
-                main.RunMifareClassicFormat();
+                await main.RunMifareClassicFormat();
                 this.DialogResult = true;
                 this.Close();
             }
@@ -56,8 +49,8 @@ namespace MCT_Windows
             {
                 if (main.SelectedKeys.Any() || DumpsExist())
                 {
-                    main.RunNfcMfcClassic(TagAction.Clone, ckEnableBlock0Writing.IsChecked.HasValue && ckEnableBlock0Writing.IsChecked.Value,
-                        rbUseKeyA.IsChecked.HasValue && rbUseKeyA.IsChecked.Value, rbHaltOnError.IsChecked.HasValue && rbHaltOnError.IsChecked.Value);
+                    await main.RunNfcMfclassic(TagAction.Clone, ckEnableBlock0Writing.IsChecked.HasValue && ckEnableBlock0Writing.IsChecked.Value,
+                          rbUseKeyA.IsChecked.HasValue && rbUseKeyA.IsChecked.Value, rbHaltOnError.IsChecked.HasValue && rbHaltOnError.IsChecked.Value);
                     this.DialogResult = true;
                     this.Close();
                 }
@@ -82,7 +75,7 @@ namespace MCT_Windows
             return false;
         }
 
-        private void btnSelectDump_Click(object sender, RoutedEventArgs e)
+        private async void btnSelectDump_Click(object sender, RoutedEventArgs e)
         {
 
             var dr = ofd.ShowDialog();
@@ -97,7 +90,7 @@ namespace MCT_Windows
                 MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(main, tools, MifareWindowsTool.Properties.Resources.UsedForTargetMapping);
                 var ret = mtsWin.ShowDialog();
                 if (ret.HasValue && ret.Value)
-                    main.RunMfoc(main.SelectedKeys, tools.TMPFILESOURCE_MFD, TagAction.ReadSource);
+                    await main.RunMfoc(main.SelectedKeys, tools.TMPFILESOURCE_MFD, TagAction.ReadSource);
             }
         }
 
