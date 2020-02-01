@@ -1,8 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -47,32 +45,48 @@ namespace MCT_Windows
             }
             else if (rbClone.IsChecked.HasValue && rbClone.IsChecked.Value)
             {
-                if (main.SelectedKeys.Any() || DumpsExist())
+                var de = DumpsExist();
+                if (de == DumpExists.Both)
                 {
+                    TagType tt = TagType.Not0Writable;
+                    if (rbtagGen1.IsChecked.Value) tt = TagType.UnlockedGen1;
+                    else if (rbtagGen2.IsChecked.Value) tt = TagType.DirectCUIDgen2;
+
                     await main.RunNfcMfclassic(TagAction.Clone, ckEnableBlock0Writing.IsChecked.HasValue && ckEnableBlock0Writing.IsChecked.Value,
-                          rbUseKeyA.IsChecked.HasValue && rbUseKeyA.IsChecked.Value, rbHaltOnError.IsChecked.HasValue && rbHaltOnError.IsChecked.Value);
+                          rbUseKeyA.IsChecked.HasValue && rbUseKeyA.IsChecked.Value, rbHaltOnError.IsChecked.HasValue && rbHaltOnError.IsChecked.Value, tt);
                     this.DialogResult = true;
                     this.Close();
                 }
                 else
                 {
-                    MessageBox.Show(MifareWindowsTool.Properties.Resources.NeedSelectDumpKeyFile);
+                    if (de ==  DumpExists.Source)
+                        MessageBox.Show(MifareWindowsTool.Properties.Resources.NeedSelectDumpKeyFileTarget);
+                    else if (de == DumpExists.Target)
+                        MessageBox.Show(MifareWindowsTool.Properties.Resources.NeedSelectDumpKeyFileSource);
+                    else
+                        if (de == DumpExists.None)
+                        MessageBox.Show(MifareWindowsTool.Properties.Resources.NeedSelectDumpKeyFileSourceAndTarget);
+
                 }
             }
         }
 
-        bool DumpsExist()
+        DumpExists DumpsExist()
         {
-            if (System.IO.File.Exists("dumps\\" + tools.TMPFILESOURCE_MFD) && System.IO.File.Exists("dumps\\" + tools.TMPFILE_TARGETMFD))
+            DumpExists de = DumpExists.None;
+            if (System.IO.File.Exists("dumps\\" + tools.TMPFILESOURCE_MFD))
             {
                 long fileLength = new System.IO.FileInfo("dumps\\" + tools.TMPFILESOURCE_MFD).Length;
-                if (fileLength > 0)
-                {
-                    fileLength = new System.IO.FileInfo("dumps\\" + tools.TMPFILE_TARGETMFD).Length;
-                    return fileLength > 0;
-                }
+                if (fileLength > 0) de = DumpExists.Source;
+
             }
-            return false;
+            if (System.IO.File.Exists("dumps\\" + tools.TMPFILE_TARGETMFD))
+            {
+                long fileLength = new System.IO.FileInfo("dumps\\" + tools.TMPFILE_TARGETMFD).Length;
+                if (fileLength > 0)
+                    if (de == DumpExists.Source) de = DumpExists.Both; else de = DumpExists.Target;
+            }
+            return de;
         }
 
         private async void btnSelectDump_Click(object sender, RoutedEventArgs e)
@@ -102,19 +116,33 @@ namespace MCT_Windows
 
         private void rbClone_Checked(object sender, RoutedEventArgs e)
         {
+
             btnWriteDump.Content = MifareWindowsTool.Properties.Resources.StartCloning;
             ShowHideElements(Visibility.Visible);
         }
 
-        private void ShowHideElements(Visibility visibility)
+        private void ShowHideElements(Visibility vis)
         {
-            btnSelectDump.Visibility = visibility;
-            ckACs.Visibility = visibility;
-            ckEnableBlock0Writing.Visibility = visibility;
-            txtACsValue.Visibility = visibility;
-            gbSelectKey.Visibility = visibility;
-            gbSrcTgtDumps.Visibility = visibility;
-            gbHaltTolerateError.Visibility = visibility;
+            gbWriteOptions.Visibility = vis;
+            gbSrcTgtDumps.Visibility = vis;
+        }
+
+        private void CkEnableBlock0Writing_Checked(object sender, RoutedEventArgs e)
+        {
+            rbtagGen1.IsChecked = true;
+        }
+
+        private void RbtagGen_Checked(object sender, RoutedEventArgs e)
+        {
+
+            ckEnableBlock0Writing.IsChecked = (rbtagGen1 != null && rbtagGen1.IsChecked.HasValue && rbtagGen1.IsChecked.Value);
+
+        }
+
+        private void CkEnableBlock0Writing_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (rbtagGen1.IsChecked.Value)
+                rbtagGen0.IsChecked = true;
         }
     }
 }

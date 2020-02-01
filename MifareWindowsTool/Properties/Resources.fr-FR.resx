@@ -154,7 +154,7 @@
     <value>Sélectionner le dump Source</value>
   </data>
   <data name="btnStartMappingAndReadTagContent" xml:space="preserve">
-    <value>Démarrer le mapping et lire le badge</value>
+    <value>Démarrer le décryptage du badge</value>
   </data>
   <data name="BtnWriteDumpContent" xml:space="preserve">
     <value>Ecrire sur le badge</value>
@@ -238,8 +238,8 @@
   <data name="MWT" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MWT.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="NeedSelectDumpKeyFile" xml:space="preserve">
-    <value>Vous devez selectionner au moins un fichier de dump/clés</value>
+  <data name="NeedSelectDumpKeyFileSource" xml:space="preserve">
+    <value>Vous devez selectionner un fichier de dump source</value>
   </data>
   <data name="NeedToSelectOneKeyFile" xml:space="preserve">
     <value>Vous devez selectionner au moins un fichier de clés</value>
@@ -299,7 +299,7 @@
     <value>dump Source :</value>
   </data>
   <data name="StartCloning" xml:space="preserve">
-    <value>Démarrer la copie</value>
+    <value>Démarrer le transfert (duplication)</value>
   </data>
   <data name="Started" xml:space="preserve">
     <value>démarré</value>
@@ -324,5 +324,29 @@
   </data>
   <data name="WriteTag" xml:space="preserve">
     <value>ECRIRE BADGE</value>
+  </data>
+  <data name="DecryptTagTitle" xml:space="preserve">
+    <value>Décryptage du badge</value>
+  </data>
+  <data name="ErrorHandling" xml:space="preserve">
+    <value>Gestion des erreurs</value>
+  </data>
+  <data name="Keys" xml:space="preserve">
+    <value>Clés</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Badge</value>
+  </data>
+  <data name="TagType" xml:space="preserve">
+    <value>Type de badge</value>
+  </data>
+  <data name="ttAcsDefaultValue" xml:space="preserve">
+    <value>FF078069 est la valeur par défaut</value>
+  </data>
+  <data name="NeedSelectDumpKeyFileTarget" xml:space="preserve">
+    <value>Vous devez selectionner un fichier de dump cible</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value>Vous devez selectionner un fichier de dump source et un fichier de dump cible</value>
   </data>
 </root>

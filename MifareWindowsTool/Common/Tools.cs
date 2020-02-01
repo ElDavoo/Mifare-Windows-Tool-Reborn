@@ -26,6 +26,20 @@ namespace MCT_Windows
         Format_PassA,
         Format_PassB,
     }
+    public enum TagType
+    {
+        Not0Writable,
+        UnlockedGen1,
+        DirectCUIDgen2
+    }
+    public enum DumpExists
+    {
+        None,
+        Source,
+        Target,
+        Both
+    }
+
     public class Tools
     {
         public string DefaultWorkingDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);

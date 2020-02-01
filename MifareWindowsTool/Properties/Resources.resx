@@ -158,7 +158,7 @@
     <value>Select Source Dump</value>
   </data>
   <data name="btnStartMappingAndReadTagContent" xml:space="preserve">
-    <value>Start mapping and read tag</value>
+    <value>Start decrypt tag</value>
   </data>
   <data name="BtnWriteDumpContent" xml:space="preserve">
     <value>Write Dump</value>
@@ -241,8 +241,8 @@
   <data name="MWT" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MWT.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="NeedSelectDumpKeyFile" xml:space="preserve">
-    <value>You need to select at least one dump / key file</value>
+  <data name="NeedSelectDumpKeyFileSource" xml:space="preserve">
+    <value>You need to select one source dump</value>
   </data>
   <data name="NeedToSelectOneKeyFile" xml:space="preserve">
     <value>You need to select at least one key file</value>
@@ -327,5 +327,29 @@
   </data>
   <data name="WriteTag" xml:space="preserve">
     <value>WRITE TAG</value>
+  </data>
+  <data name="DecryptTagTitle" xml:space="preserve">
+    <value>Decrypt tag</value>
+  </data>
+  <data name="ErrorHandling" xml:space="preserve">
+    <value>Error Handling</value>
+  </data>
+  <data name="Keys" xml:space="preserve">
+    <value>Keys</value>
+  </data>
+  <data name="NeedSelectDumpKeyFileSourceAndTarget" xml:space="preserve">
+    <value>You need to select one source dump and one target dump</value>
+  </data>
+  <data name="NeedSelectDumpKeyFileTarget" xml:space="preserve">
+    <value>You need to select one target dump</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Tag</value>
+  </data>
+  <data name="TagType" xml:space="preserve">
+    <value>Tag Type</value>
+  </data>
+  <data name="ttAcsDefaultValue" xml:space="preserve">
+    <value>FF078069 is the default value</value>
   </data>
 </root>

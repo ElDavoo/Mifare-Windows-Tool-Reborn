@@ -56,6 +56,7 @@ namespace MCT_Windows.Windows
                 }
                 else
                 {
+                    Title += " " + Path.GetFileName(dFileName);
                     btnEdit.Visibility = Visibility.Visible;
                   btnSaveDump.Visibility = Visibility.Visible;
                     stkOpenDumps.Visibility = Visibility.Collapsed;

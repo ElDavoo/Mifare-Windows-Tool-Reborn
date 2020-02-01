@@ -6,174 +6,218 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:resx="clr-namespace:MifareWindowsTool.Properties"
     Title="{x:Static resx:Resources.WriteDumpWindowTitle}"
-    Width="350"
-    Height="367"
+    Width="560"
+    Height="400"
     Background="#303030"
     WindowStyle="SingleBorderWindow"
     mc:Ignorable="d">
     <Grid>
-        <Button
-            x:Name="btnSelectDump"
-            Width="auto"
-            Height="22"
-            MinWidth="150"
-            Margin="0,0,0,100"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Background="#5A595B"
-            Click="btnSelectDump_Click"
-            Content="{x:Static resx:Resources.BtnSelectDumpContent}"
-            Cursor="Hand"
-            Foreground="White" />
-        <Button
-            x:Name="btnCancel"
-            Width="auto"
-            Height="26"
-            MinWidth="100"
-            Margin="10"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Bottom"
-            Background="#5A595B"
-            Click="btnCancel_Click"
-            Content="{x:Static resx:Resources.Cancel}"
-            Cursor="Hand"
-            Foreground="White" />
-        <Button
-            x:Name="btnWriteDump"
-            Width="auto"
-            Height="26"
-            MinWidth="100"
-            Margin="10"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Bottom"
-            Background="#5A595B"
-            Click="btnWriteDump_Click"
-            Content="{x:Static resx:Resources.BtnWriteDumpContent}"
-            Cursor="Hand"
-            Foreground="White" />
-        <RadioButton
-            x:Name="rbClone"
-            Width="auto"
-            MinWidth="150"
-            Margin="0,0,0,150"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Checked="rbClone_Checked"
-            Content="{x:Static resx:Resources.WriteDumpClone}"
-            Foreground="White"
-            GroupName="choices"
-            IsChecked="false" />
-        <RadioButton
+        <StackPanel Orientation="Vertical">
+
+            <GroupBox Foreground="Wheat"
+            x:Name="gbActions" Header="Actions"
+            Height="auto"
+            BorderBrush="White"
+            BorderThickness="1">
+                <StackPanel Orientation="Vertical">
+                    <RadioButton
             x:Name="rbFactoryFormat"
             Width="150"
-            Margin="0,0,0,200"
+            Margin="0,5"
             HorizontalAlignment="Center"
-            VerticalAlignment="Center"
+            VerticalAlignment="Top"
             Checked="rbFactoryFormat_Checked"
             Content="{x:Static resx:Resources.FactoryFormat}"
             Foreground="White"
             GroupName="choices"
             IsChecked="False" />
-        <CheckBox
-            x:Name="ckACs"
-            Margin="30,135,0,0"
-            HorizontalAlignment="Left"
+                    <RadioButton
+            x:Name="rbClone"
+            Width="auto"
+            MinWidth="150"
+         
+            HorizontalAlignment="Center"
             VerticalAlignment="Top"
+            Checked="rbClone_Checked"
+            Content="{x:Static resx:Resources.WriteDumpClone}"
+            Foreground="White"
+            GroupName="choices"
+            IsChecked="false" />
+                   
+
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Foreground="Wheat"
+            x:Name="gbWriteOptions" Header="Options"
+            Height="auto"
+            BorderBrush="White"
+            BorderThickness="1">
+                <StackPanel Orientation="Vertical">
+                    <CheckBox
+            x:Name="ckACs"
+            Margin="30,5,0,0"
             Content="{x:Static resx:Resources.CkACsContent}"
             Foreground="White"
             IsChecked="True"
             IsEnabled="False" />
-        <CheckBox
-            x:Name="ckEnableBlock0Writing"
-            Margin="30,175,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Content="{x:Static resx:Resources.CkEnableBlock0WritingContent}"
-            Foreground="White" />
-        <GroupBox
-            x:Name="gbSrcTgtDumps"
-            Height="55"
-            Margin="10,120,15,5"
-            VerticalAlignment="Center"
-            BorderBrush="Wheat"
-            BorderThickness="1">
-            <StackPanel Orientation="Vertical">
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="{x:Static resx:Resources.SourceDump}" Foreground="White" />
-                    <Label x:Name="lblSrcDumpValue" Foreground="Wheat" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="{x:Static resx:Resources.TargetDump}" Foreground="White" />
-                    <Label x:Name="lblTargetDumpValue" Foreground="Wheat" />
-                </StackPanel>
-            </StackPanel>
-        </GroupBox>
-        <TextBox
+                    <TextBox
             x:Name="txtACsValue"
             Width="80"
-            Height="23"
-            Margin="135,155,0,0"
+            Height="auto"
+            Margin="50,5,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Background="#303030"
             BorderThickness="0"
             Foreground="White"
             IsReadOnly="True"
-            Text="FF0780"
+            Text="FF078069" ToolTip="{x:Static resx:Resources.ttAcsDefaultValue}"
             TextWrapping="Wrap" />
-        <GroupBox
+                    <CheckBox
+            x:Name="ckEnableBlock0Writing"
+            Margin="30,5"
+            Content="{x:Static resx:Resources.CkEnableBlock0WritingContent}"
+            Foreground="White" Checked="CkEnableBlock0Writing_Checked" Unchecked="CkEnableBlock0Writing_Unchecked" />
+                    <StackPanel Orientation="Horizontal" Margin="25,0,0,0">
+                        <GroupBox Header="{x:Static resx:Resources.Keys}" Foreground="Wheat"
             x:Name="gbSelectKey"
-            Height="40"
-            Margin="0,0,15,40"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Bottom"
+            Height="auto"
+         
             BorderThickness="1">
-            <StackPanel
+                            <StackPanel
                 Width="auto"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Orientation="Vertical">
-                <RadioButton
+                                <RadioButton
                     x:Name="rbUseKeyA"
                     Width="auto"
                     Content="{x:Static resx:Resources.RbUseKeyAContent}"
                     Foreground="White"
                     GroupName="keys"
                     IsChecked="True" />
-                <RadioButton
+                                <RadioButton
                     x:Name="rbUseKeyB"
                     Width="auto"
                     Content="{x:Static resx:Resources.RbUseKeyBContent}"
                     Foreground="White"
                     GroupName="keys" />
-            </StackPanel>
-        </GroupBox>
-        <GroupBox
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Header="{x:Static resx:Resources.ErrorHandling}"
             x:Name="gbHaltTolerateError"
-            Height="40"
-            Margin="10,0,15,40"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Bottom"
+            Height="auto"
+          Margin="20,0"
             BorderThickness="1">
-            <StackPanel
+                            <StackPanel
                 Width="auto"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Orientation="Vertical">
-                <RadioButton
+                                <RadioButton
                     x:Name="rbTolerateError"
                     Width="auto"
                     Content="{x:Static resx:Resources.rbTolerateOnErrorContent}"
                     Foreground="White"
                     GroupName="err"
                     IsChecked="True" />
-                <RadioButton
+                                <RadioButton
                     x:Name="rbHaltOnError"
                     Width="auto"
                     Content="{x:Static resx:Resources.rbHaltOnErrorContent}"
                     Foreground="White"
                     GroupName="err" />
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Header="{x:Static resx:Resources.TagType}"
+            x:Name="gbTags"
+            Height="auto" 
+            BorderThickness="1">
+                            <StackPanel
+                Width="auto"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Vertical">
+                                <RadioButton
+                    x:Name="rbtagGen0"
+                    Width="auto"
+                    Content="Not 0 writable (w)"
+                    Foreground="White"
+                    GroupName="tags"
+                    IsChecked="True" Checked="RbtagGen_Checked"
+                                    />
+                                <RadioButton
+                    x:Name="rbtagGen1"
+                    Width="auto"
+                    Content="chinese magic unlocked/gen1 (W)"
+                    Foreground="White"
+                    GroupName="tags" Checked="RbtagGen_Checked" />
+                                <RadioButton
+                    x:Name="rbtagGen2"
+                    Width="auto" Checked="RbtagGen_Checked"
+                    Content="chinese magic direct/CUID/gen 2 (C)"
+                    Foreground="White"
+                    GroupName="tags" />
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="Dumps" Foreground="Wheat"
+            x:Name="gbSrcTgtDumps"
+            Height="auto"
+            BorderBrush="White"
+            BorderThickness="1">
+                <StackPanel Orientation="Vertical">
+                    <Button
+            x:Name="btnSelectDump"
+            Width="auto"
+            Height="22"
+            MinWidth="150"
+           Margin="0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Background="#5A595B"
+            Click="btnSelectDump_Click"
+            Content="{x:Static resx:Resources.BtnSelectDumpContent}"
+            Cursor="Hand"
+            Foreground="White" />
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="{x:Static resx:Resources.SourceDump}" Foreground="White" />
+                        <Label x:Name="lblSrcDumpValue" Foreground="Wheat" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="{x:Static resx:Resources.TargetDump}" Foreground="White" />
+                        <Label x:Name="lblTargetDumpValue" Foreground="Wheat" />
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button
+            x:Name="btnCancel"
+            Width="auto"
+            Height="26"
+            MinWidth="100"
+            Margin="40,0"
+           
+            Background="#5A595B"
+            Click="btnCancel_Click"
+            Content="{x:Static resx:Resources.Cancel}"
+            Cursor="Hand"
+            Foreground="White" />
+                <Button
+            x:Name="btnWriteDump"
+            Width="auto"
+            Height="26"
+            MinWidth="100"
+            Margin="10"
+            Background="#5A595B"
+            Click="btnWriteDump_Click"
+            Content="{x:Static resx:Resources.BtnWriteDumpContent}"
+            Cursor="Hand"
+            Foreground="White" />
             </StackPanel>
-        </GroupBox>
+        </StackPanel>
+        
     </Grid>
 </Window>
