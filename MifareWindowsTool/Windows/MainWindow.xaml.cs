@@ -450,7 +450,7 @@ namespace MCT_Windows
 
         private void btnInfos_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("https://github.com/xavave/Mifare-Windows-Tool");
+            Process.Start("https://github.com/xavave/Mifare-Windows-Tool/wiki");
         }
 
         private async void btnTools_Click(object sender, RoutedEventArgs e)
