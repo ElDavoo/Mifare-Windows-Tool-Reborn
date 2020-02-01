@@ -47,6 +47,8 @@ Plus d'infos sur le wiki ici : https://github.com/xavave/Mifare-Windows-Tool/wik
 
 #### LANGUAGES / LANGUES
 
+![image](https://user-images.githubusercontent.com/3501675/73600638-85589a80-4553-11ea-9637-1ede0cd8856c.png)
+
 [EN] This tool is natively in english but, a french translation exists (automatic loading of french locale if your windows is in french)
 
 [FR] Cet outil se lancera automatiquement en français si votre windows est en français
