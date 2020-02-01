@@ -300,7 +300,9 @@ namespace MCT_Windows
                 if (System.IO.File.Exists("dumps\\" + t.TMPFILE_TARGETMFD))
                     args += $" \"{"dumps\\" + t.TMPFILE_TARGETMFD}\"";
                 ProcessCTS = new CancellationTokenSource();
-                var result = await Cli.Wrap("nfctools\\mifare-classic-format.exe").SetArguments($"-y {args}")
+                var arguments = $"-y {args}";
+                logAppend($"nfc-mfclassic {arguments}");
+                var result = await Cli.Wrap("nfctools\\mifare-classic-format.exe").SetArguments(arguments)
       .SetStandardOutputCallback(l => logAppend(l))
       .SetStandardErrorCallback(l => logAppend(l))
       .SetCancellationToken(ProcessCTS.Token)
@@ -340,7 +342,9 @@ namespace MCT_Windows
                 char cHaltOnError = haltOnError == true ? useKey = char.ToLower(useKey) : char.ToUpper(useKey);
                 if (tagType == TagType.UnlockedGen1) writeMode = 'W'; else if (tagType == TagType.DirectCUIDgen2) writeMode = 'C';
                 ProcessCTS = new CancellationTokenSource();
-                var result = await Cli.Wrap("nfctools\\nfc-mfclassic.exe").SetArguments($"{writeMode} {cHaltOnError} u \"{sourceDump}\" \"{targetDump}\"")
+                var arguments = $"{writeMode} {cHaltOnError} u \"{sourceDump}\" \"{targetDump}\"";
+                logAppend($"nfc-mfclassic {arguments}");
+                var result = await Cli.Wrap("nfctools\\nfc-mfclassic.exe").SetArguments(arguments)
        .SetStandardOutputCallback(l => logAppend(l))
        .SetStandardErrorCallback(l => logAppend(l))
        .SetCancellationToken(ProcessCTS.Token)
@@ -385,7 +389,7 @@ namespace MCT_Windows
                 }
                 arguments += $" -O\"{tmpFileMfd}\"";
                 ProcessCTS = new CancellationTokenSource();
-
+                logAppend($"mfoc {arguments}");
                 var result = await Cli.Wrap("nfctools\\mfoc.exe").SetArguments(arguments).SetWorkingDirectory(t.DefaultWorkingDir)
     .SetStandardOutputCallback(l => logAppend(l))
     .SetStandardErrorCallback(l => logAppend(l))
