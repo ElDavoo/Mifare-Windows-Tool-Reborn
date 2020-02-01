@@ -155,8 +155,8 @@
         <TextBox
             x:Name="rtbOutput"
             Width="auto"
-            Height="auto" MinHeight="250"
-            MaxHeight="500"
+            Height="auto" MinHeight="300"
+            MaxHeight="600"
             Margin="255,0,0,10"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Top"
