@@ -14,7 +14,7 @@ More information in <a href="https://github.com/xavave/Mifare-Windows-Tool/wiki"
 #### PREREQUISITES / PREREQUIS
 
 - An ACR122U Tag Reader
-- Installed drivers (Native + LibusbK) : documentation here : http://legacy.averbouch.biz/libnfc-and-nfc-utils-binaries-on-windows-10/
+- #### You need to install these drivers (Native + LibusbK) : documentation here : http://legacy.averbouch.biz/libnfc-and-nfc-utils-binaries-on-windows-10/
 
 #### INSTALLATION
 
