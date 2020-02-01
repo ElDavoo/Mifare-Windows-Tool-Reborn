@@ -8,13 +8,14 @@ using System.Windows;
 // l'ensemble d'attributs suivant. Pour modifier les informations
 // associées à un assembly.
 [assembly: AssemblyTitle("MCT Windows")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Mifare Windows Tool")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("AVXTEC")]
 [assembly: AssemblyProduct("MCT Windows")]
-[assembly: AssemblyCopyright("Copyright ©  2020")]
+[assembly: AssemblyCopyright("Copyright ©AVXTEC 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
+[assembly: NeutralResourcesLanguage("en")]
 
 // L'affectation de la valeur false à ComVisible rend les types invisibles dans cet assembly
 // aux composants COM. Si vous devez accéder à un type dans cet assembly à partir de

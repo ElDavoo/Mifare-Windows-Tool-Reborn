@@ -3,10 +3,11 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:localize="http://gu.se/Localization"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:resx="clr-namespace:MifareWindowsTool.Properties"
     xmlns:uc="clr-namespace:MCT_Windows.UserControls"
-    Title="{x:Static resx:Resources.DecryptTagTitle}"
+    Title="{localize:Static resx:Resources.DecryptTagTitle}"
     Width="500"
     Height="367"
     Background="#303030"
@@ -26,7 +27,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Bottom"
             Click="btnCancel_Click"
-            Content="{x:Static resx:Resources.Cancel}"
+            Content="{localize:Static resx:Resources.Cancel}"
             Style="{StaticResource buttonStyle}" />
         <Button
             x:Name="btnStartMappingAndReadTag"
@@ -37,7 +38,7 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
             Click="btnStartMappingAndReadTag_Click"
-            Content="{x:Static resx:Resources.btnStartMappingAndReadTagContent}"
+            Content="{localize:Static resx:Resources.btnStartMappingAndReadTagContent}"
             Style="{StaticResource buttonStyle}" />
         <uc:ucListKeys x:Name="ucLK" Height="100" />
         <Label
@@ -46,7 +47,7 @@
             Margin="10,85,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            Content="{x:Static resx:Resources.lblChooseKeyFileContent}"
+            Content="{localize:Static resx:Resources.lblChooseKeyFileContent}"
             Foreground="White" />
     </Grid>
 </Window>

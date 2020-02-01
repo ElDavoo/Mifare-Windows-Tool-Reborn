@@ -29,9 +29,7 @@ namespace MCT_Windows.Windows
             InitializeComponent();
             Uri iconUri = new Uri("pack://application:,,,/Resources/MWT.ico", UriKind.RelativeOrAbsolute);
             this.Icon = BitmapFrame.Create(iconUri);
-
         }
-
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
@@ -52,6 +50,16 @@ namespace MCT_Windows.Windows
             var suw = new SetUIDWindow(Main, tools);
             suw.ShowDialog();
             await Main.PeriodicScanTag();
+        }
+
+        private void btnLangFR_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnLangEN_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

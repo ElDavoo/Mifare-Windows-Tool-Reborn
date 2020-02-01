@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:localize="http://gu.se/Localization"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:resx="clr-namespace:MifareWindowsTool.Properties"
     Width="800"
@@ -12,6 +13,7 @@
     mc:Ignorable="d">
 
     <Grid>
+
         <StackPanel
             Width="255"
             HorizontalAlignment="Left"
@@ -35,7 +37,7 @@
                         <TextBlock
                             HorizontalAlignment="Center"
                             Foreground="White"
-                            Text="{x:Static resx:Resources.ReadTag}" />
+                            Text="{localize:Static resx:Resources.ReadTag}" />
                     </StackPanel>
                 </Button>
                 <Button
@@ -56,7 +58,7 @@
                         <TextBlock
                             HorizontalAlignment="Center"
                             Foreground="White"
-                            Text="{x:Static resx:Resources.WriteTag}" />
+                            Text="{localize:Static resx:Resources.WriteTag}" />
                     </StackPanel>
                 </Button>
             </StackPanel>
@@ -79,7 +81,7 @@
                         <TextBlock
                             HorizontalAlignment="Center"
                             Foreground="White"
-                            Text="{x:Static resx:Resources.EditAnalyzeDumpFile}"
+                            Text="{localize:Static resx:Resources.EditAnalyzeDumpFile}"
                             TextWrapping="WrapWithOverflow" />
                     </StackPanel>
                 </Button>
@@ -101,7 +103,7 @@
                         <TextBlock
                             HorizontalAlignment="Center"
                             Foreground="White"
-                            Text="{x:Static resx:Resources.EditAddKeyFile}"
+                            Text="{localize:Static resx:Resources.EditAddKeyFile}"
                             TextWrapping="WrapWithOverflow" />
                     </StackPanel>
                 </Button>
@@ -125,7 +127,7 @@
                         <TextBlock
                             HorizontalAlignment="Center"
                             Foreground="White"
-                            Text="{x:Static resx:Resources.Tools}" />
+                            Text="{localize:Static resx:Resources.Tools}" />
                     </StackPanel>
                 </Button>
                 <Button
@@ -146,7 +148,7 @@
                         <TextBlock
                             HorizontalAlignment="Center"
                             Foreground="White"
-                            Text="{x:Static resx:Resources.HelpAndInfo}" />
+                            Text="{localize:Static resx:Resources.HelpAndInfo}" />
                     </StackPanel>
                 </Button>
             </StackPanel>
@@ -173,11 +175,11 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Bottom"
             Checked="ckEnablePeriodicTagScan_Checked"
-            Content="{x:Static resx:Resources.ckEnablePeriodicTagScanContent}"
+            Content="{localize:Static resx:Resources.ckEnablePeriodicTagScanContent}"
             FontSize="10"
             Foreground="White"
             IsChecked="False"
-            ToolTip="{x:Static resx:Resources.ckEnablePeriodicTagScanTooltip}" />
+            ToolTip="{localize:Static resx:Resources.ckEnablePeriodicTagScanTooltip}" />
         <Button
             x:Name="btnAbortCurrentTask"
             Width="auto"

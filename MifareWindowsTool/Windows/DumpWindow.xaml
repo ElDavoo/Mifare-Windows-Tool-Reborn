@@ -3,9 +3,10 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:localize="http://gu.se/Localization"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:resx="clr-namespace:MifareWindowsTool.Properties"
-    Title="{x:Static resx:Resources.DumpWindowTitle}"
+    Title="{localize:Static resx:Resources.DumpWindowTitle}"
     Width="500"
     Height="600"
     Background="#303030"
@@ -23,14 +24,14 @@
                     Width="auto"
                     Margin="0,0,20,0"
                     Click="BtnOpenDumpA_Click"
-                    Content="{x:Static resx:Resources.btnOpenDumpAContent}"
+                    Content="{localize:Static resx:Resources.btnOpenDumpAContent}"
                     Style="{StaticResource buttonStyle}" />
                 <Button
                     x:Name="btnOpenDumpB"
                     Width="auto"
                     Margin="50,0,0,0"
                     Click="BtnOpenDumpB_Click"
-                    Content="{x:Static resx:Resources.btnOpenDumpBContent}"
+                    Content="{localize:Static resx:Resources.btnOpenDumpBContent}"
                     Style="{StaticResource buttonStyle}" />
             </StackPanel>
             <RichTextBox
@@ -67,7 +68,7 @@
                     x:Name="btnSaveDump"
                     Width="auto"
                     Click="btnSaveDump_Click"
-                    Content="{x:Static resx:Resources.SaveDumpAs}"
+                    Content="{localize:Static resx:Resources.SaveDumpAs}"
                     Style="{StaticResource buttonStyle}" />
 
                 <Button
@@ -75,7 +76,7 @@
                     Width="auto"
                     Margin="20,0,0,0"
                     Click="btnShowAsAscii_Click"
-                    Content="{x:Static resx:Resources.ShowAsASCII}"
+                    Content="{localize:Static resx:Resources.ShowAsASCII}"
                     Style="{StaticResource buttonStyle}" />
                 <Button
                     x:Name="btnEdit"
@@ -83,7 +84,7 @@
                     MinWidth="100"
                     Margin="20,0,0,0"
                     Click="btnEdit_Click"
-                    Content="{x:Static resx:Resources.EditDump}"
+                    Content="{localize:Static resx:Resources.EditDump}"
                     Style="{StaticResource buttonStyle}" />
                 <Button
                     x:Name="btnClose"
@@ -91,7 +92,7 @@
                     MinWidth="100"
                     Margin="20,0,0,0"
                     Click="btnClose_Click"
-                    Content="{x:Static resx:Resources.Close}"
+                    Content="{localize:Static resx:Resources.Close}"
                     Style="{StaticResource buttonStyle}" />
 
             </StackPanel>

@@ -308,7 +308,7 @@
     <value>dump Cible :</value>
   </data>
   <data name="Tools" xml:space="preserve">
-    <value>OUTILS</value>
+    <value>OUTILS / OPTIONS</value>
   </data>
   <data name="UsedForSourceMapping" xml:space="preserve">
     <value>(utilisé pour le schéma du badge source)</value>
@@ -350,7 +350,7 @@
     <value>Vous devez selectionner un fichier de dump source et un fichier de dump cible</value>
   </data>
   <data name="SelectToolWindowTitle" xml:space="preserve">
-    <value>Outils</value>
+    <value>Outils/Options</value>
   </data>
   <data name="btnChangeUID" xml:space="preserve">
     <value>Changer l'UID du badge</value>
@@ -381,5 +381,11 @@
   </data>
   <data name="String2" xml:space="preserve">
     <value>Formater le badge</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>Anglais</value>
+  </data>
+  <data name="French" xml:space="preserve">
+    <value>Français</value>
   </data>
 </root>

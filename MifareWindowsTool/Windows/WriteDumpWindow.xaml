@@ -3,9 +3,10 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:localize="http://gu.se/Localization"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:resx="clr-namespace:MifareWindowsTool.Properties"
-    Title="{x:Static resx:Resources.WriteDumpWindowTitle}"
+    Title="{localize:Static resx:Resources.WriteDumpWindowTitle}"
     Width="560"
     Height="400"
     Background="#303030"
@@ -29,7 +30,7 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Top"
                         Checked="rbFactoryFormat_Checked"
-                        Content="{x:Static resx:Resources.FactoryFormat}"
+                        Content="{localize:Static resx:Resources.FactoryFormat}"
                         Foreground="White"
                         GroupName="choices"
                         IsChecked="False" />
@@ -40,7 +41,7 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Top"
                         Checked="rbClone_Checked"
-                        Content="{x:Static resx:Resources.WriteDumpClone}"
+                        Content="{localize:Static resx:Resources.WriteDumpClone}"
                         Foreground="White"
                         GroupName="choices"
                         IsChecked="false" />
@@ -59,7 +60,7 @@
                     <CheckBox
                         x:Name="ckACs"
                         Margin="20,5,0,0"
-                        Content="{x:Static resx:Resources.CkACsContent}"
+                        Content="{localize:Static resx:Resources.CkACsContent}"
                         Foreground="White"
                         IsChecked="True"
                         IsEnabled="False" />
@@ -76,12 +77,12 @@
                         IsReadOnly="True"
                         Text="FF078069"
                         TextWrapping="Wrap"
-                        ToolTip="{x:Static resx:Resources.ttAcsDefaultValue}" />
+                        ToolTip="{localize:Static resx:Resources.ttAcsDefaultValue}" />
                     <CheckBox
                         x:Name="ckEnableBlock0Writing"
                         Margin="30,5"
                         Checked="CkEnableBlock0Writing_Checked"
-                        Content="{x:Static resx:Resources.CkEnableBlock0WritingContent}"
+                        Content="{localize:Static resx:Resources.CkEnableBlock0WritingContent}"
                         Foreground="White"
                         Unchecked="CkEnableBlock0Writing_Unchecked" />
                     <StackPanel Margin="10,0,0,0" Orientation="Horizontal">
@@ -90,7 +91,7 @@
                             Height="auto"
                             BorderThickness="1"
                             Foreground="Wheat"
-                            Header="{x:Static resx:Resources.Keys}">
+                            Header="{localize:Static resx:Resources.Keys}">
                             <StackPanel
                                 Width="auto"
                                 HorizontalAlignment="Center"
@@ -99,14 +100,14 @@
                                 <RadioButton
                                     x:Name="rbUseKeyA"
                                     Width="auto"
-                                    Content="{x:Static resx:Resources.RbUseKeyAContent}"
+                                    Content="{localize:Static resx:Resources.RbUseKeyAContent}"
                                     Foreground="White"
                                     GroupName="keys"
                                     IsChecked="True" />
                                 <RadioButton
                                     x:Name="rbUseKeyB"
                                     Width="auto"
-                                    Content="{x:Static resx:Resources.RbUseKeyBContent}"
+                                    Content="{localize:Static resx:Resources.RbUseKeyBContent}"
                                     Foreground="White"
                                     GroupName="keys" />
                             </StackPanel>
@@ -116,7 +117,7 @@
                             Height="auto"
                             Margin="20,0"
                             BorderThickness="1"
-                            Header="{x:Static resx:Resources.ErrorHandling}">
+                            Header="{localize:Static resx:Resources.ErrorHandling}">
                             <StackPanel
                                 Width="auto"
                                 HorizontalAlignment="Center"
@@ -125,14 +126,14 @@
                                 <RadioButton
                                     x:Name="rbTolerateError"
                                     Width="auto"
-                                    Content="{x:Static resx:Resources.rbTolerateOnErrorContent}"
+                                    Content="{localize:Static resx:Resources.rbTolerateOnErrorContent}"
                                     Foreground="White"
                                     GroupName="err"
                                     IsChecked="True" />
                                 <RadioButton
                                     x:Name="rbHaltOnError"
                                     Width="auto"
-                                    Content="{x:Static resx:Resources.rbHaltOnErrorContent}"
+                                    Content="{localize:Static resx:Resources.rbHaltOnErrorContent}"
                                     Foreground="White"
                                     GroupName="err" />
                             </StackPanel>
@@ -141,7 +142,7 @@
                             x:Name="gbTags"
                             Height="auto"
                             BorderThickness="1"
-                            Header="{x:Static resx:Resources.TagType}">
+                            Header="{localize:Static resx:Resources.TagType}">
                             <StackPanel
                                 Width="auto"
                                 HorizontalAlignment="Center"
@@ -191,14 +192,14 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Top"
                         Click="btnSelectDump_Click"
-                        Content="{x:Static resx:Resources.BtnSelectDumpContent}"
+                        Content="{localize:Static resx:Resources.BtnSelectDumpContent}"
                         Style="{StaticResource buttonStyle}" />
                     <StackPanel Orientation="Horizontal">
-                        <Label Content="{x:Static resx:Resources.SourceDump}" Foreground="White" />
+                        <Label Content="{localize:Static resx:Resources.SourceDump}" Foreground="White" />
                         <Label x:Name="lblSrcDumpValue" Foreground="Wheat" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <Label Content="{x:Static resx:Resources.TargetDump}" Foreground="White" />
+                        <Label Content="{localize:Static resx:Resources.TargetDump}" Foreground="White" />
                         <Label x:Name="lblTargetDumpValue" Foreground="Wheat" />
                     </StackPanel>
                 </StackPanel>
@@ -211,7 +212,7 @@
                     MinWidth="100"
                     Margin="40,0"
                     Click="btnCancel_Click"
-                    Content="{x:Static resx:Resources.Cancel}"
+                    Content="{localize:Static resx:Resources.Cancel}"
                     Style="{StaticResource buttonStyle}" />
                 <Button
                     x:Name="btnWriteDump"
@@ -220,7 +221,7 @@
                     MinWidth="100"
                     Margin="10"
                     Click="btnWriteDump_Click"
-                    Content="{x:Static resx:Resources.BtnWriteDumpContent}"
+                    Content="{localize:Static resx:Resources.BtnWriteDumpContent}"
                     Style="{StaticResource buttonStyle}" />
             </StackPanel>
         </StackPanel>

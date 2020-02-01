@@ -41,6 +41,12 @@
     <Reference Include="CliWrap, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\CliWrap.2.5.0\lib\net45\CliWrap.dll</HintPath>
     </Reference>
+    <Reference Include="Gu.Localization, Version=6.4.3.0, Culture=neutral, PublicKeyToken=63b557f19697202e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Gu.Localization.6.4.3.0\lib\net45\Gu.Localization.dll</HintPath>
+    </Reference>
+    <Reference Include="Gu.Wpf.Localization, Version=6.4.3.0, Culture=neutral, PublicKeyToken=63b557f19697202e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Gu.Wpf.Localization.6.4.3.0\lib\net45\Gu.Wpf.Localization.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -256,6 +262,11 @@
     <Content Include="nfctools\nfc-mfclassic.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\Gu.Localization.Analyzers.0.2.2.6\analyzers\dotnet\cs\Gu.Localization.Analyzers.dll" />
+    <Analyzer Include="..\packages\Gu.Localization.Analyzers.0.2.2.6\analyzers\dotnet\cs\Gu.Roslyn.AnalyzerExtensions.dll" />
+    <Analyzer Include="..\packages\Gu.Localization.Analyzers.0.2.2.6\analyzers\dotnet\cs\Gu.Roslyn.CodeFixExtensions.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -386,6 +386,15 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à English.
+        /// </summary>
+        public static string English {
+            get {
+                return ResourceManager.GetString("English", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Error Handling.
         /// </summary>
         public static string ErrorHandling {
@@ -418,6 +427,15 @@ namespace MifareWindowsTool.Properties {
         public static string FormatTag {
             get {
                 return ResourceManager.GetString("FormatTag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à French.
+        /// </summary>
+        public static string French {
+            get {
+                return ResourceManager.GetString("French", resourceCulture);
             }
         }
         
@@ -693,7 +711,7 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Tools.
+        ///   Recherche une chaîne localisée semblable à Tools / Options.
         /// </summary>
         public static string SelectToolWindowTitle {
             get {
@@ -801,7 +819,7 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à TOOLS.
+        ///   Recherche une chaîne localisée semblable à TOOLS / OPTIONS.
         /// </summary>
         public static string Tools {
             get {

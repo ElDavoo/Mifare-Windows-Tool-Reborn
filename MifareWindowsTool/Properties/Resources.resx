@@ -311,7 +311,7 @@
     <value>Target dump:</value>
   </data>
   <data name="Tools" xml:space="preserve">
-    <value>TOOLS</value>
+    <value>TOOLS / OPTIONS</value>
   </data>
   <data name="UsedForSourceMapping" xml:space="preserve">
     <value>(used for source tag mapping)</value>
@@ -362,7 +362,7 @@
     <value>Invalid dump file</value>
   </data>
   <data name="SelectToolWindowTitle" xml:space="preserve">
-    <value>Tools</value>
+    <value>Tools / Options</value>
   </data>
   <data name="SetUIDWindowTitle" xml:space="preserve">
     <value>Set new tag UID</value>
@@ -382,7 +382,13 @@
   <data name="Target" xml:space="preserve">
     <value>target</value>
   </data>
+  <data name="English" xml:space="preserve">
+    <value>English</value>
+  </data>
   <data name="FormatTag" xml:space="preserve">
     <value>Format tag</value>
+  </data>
+  <data name="French" xml:space="preserve">
+    <value>French</value>
   </data>
 </root>

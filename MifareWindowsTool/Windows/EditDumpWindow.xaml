@@ -4,9 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:control="clr-namespace:WpfHexaEditor;assembly=WPFHexaEditor"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:localize="http://gu.se/Localization"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:resx="clr-namespace:MifareWindowsTool.Properties"
-    Title="{x:Static resx:Resources.DumpWindowTitle}"
+    Title="{localize:Static resx:Resources.DumpWindowTitle}"
     Width="660"
     Height="700"
     Background="#303030"
@@ -25,7 +26,7 @@
                     Width="auto"
                     MinWidth="100"
                     Click="btnOpenDump_Click"
-                    Content="{x:Static resx:Resources.OpenDump}"
+                    Content="{localize:Static resx:Resources.OpenDump}"
                     Style="{StaticResource buttonStyle}" />
                 <Button
                     x:Name="btnSaveDump"
@@ -33,7 +34,7 @@
                     MinWidth="100"
                     Margin="20,0,0,0"
                     Click="btnSaveDump_Click"
-                    Content="{x:Static resx:Resources.SaveDumpAs}"
+                    Content="{localize:Static resx:Resources.SaveDumpAs}"
                     Style="{StaticResource buttonStyle}" />
 
 
@@ -44,7 +45,7 @@
                     MinWidth="100"
                     Margin="20,0,0,0"
                     Click="btnClose_Click"
-                    Content="{x:Static resx:Resources.Close}"
+                    Content="{localize:Static resx:Resources.Close}"
                     Style="{StaticResource buttonStyle}" />
             </StackPanel>
             <control:HexEditor
