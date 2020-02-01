@@ -349,4 +349,37 @@
   <data name="String1" xml:space="preserve">
     <value>Vous devez selectionner un fichier de dump source et un fichier de dump cible</value>
   </data>
+  <data name="SelectToolWindowTitle" xml:space="preserve">
+    <value>Outils</value>
+  </data>
+  <data name="btnChangeUID" xml:space="preserve">
+    <value>Changer l'UID du badge</value>
+  </data>
+  <data name="btnCompareDumps" xml:space="preserve">
+    <value>Comparer 2 dumps</value>
+  </data>
+  <data name="InvalidDumpFile" xml:space="preserve">
+    <value>Fichier de dump non valide</value>
+  </data>
+  <data name="SetUIDWindowTitle" xml:space="preserve">
+    <value>Changer l'UID du badge</value>
+  </data>
+  <data name="InvalidUID" xml:space="preserve">
+    <value>UID non valide (UID valide : 8 caractères hexadécimaux)</value>
+  </data>
+  <data name="NewUID" xml:space="preserve">
+    <value>Nouvel UID</value>
+  </data>
+  <data name="OldUID" xml:space="preserve">
+    <value>Ancien UID</value>
+  </data>
+  <data name="Source" xml:space="preserve">
+    <value>source</value>
+  </data>
+  <data name="Target" xml:space="preserve">
+    <value>cible</value>
+  </data>
+  <data name="String2" xml:space="preserve">
+    <value>Formater le badge</value>
+  </data>
 </root>

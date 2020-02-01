@@ -1,0 +1,44 @@
+﻿<Window
+    x:Class="MCT_Windows.Windows.SelectToolWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:resx="clr-namespace:MifareWindowsTool.Properties"
+    Title="{x:Static resx:Resources.SelectToolWindowTitle}"
+    Width="250"
+    Height="180"
+    Background="#303030"
+    mc:Ignorable="d">
+    <StackPanel
+        Height="auto"
+        VerticalAlignment="Top"
+        Background="#303030"
+        Orientation="Vertical">
+
+        <Button
+            x:Name="btnCompareDumps"
+            Height="26"
+            Margin="10"
+            Click="btnCompareDumps_Click"
+            Content="{x:Static resx:Resources.btnCompareDumps}"
+            Style="{StaticResource buttonStyle}" />
+        <Button
+            x:Name="btnChangeUID"
+            Height="26"
+            Margin="10"
+            Click="btnChangeUID_Click"
+            Content="{x:Static resx:Resources.btnChangeUID}"
+            Style="{StaticResource buttonStyle}" />
+        <Button
+            x:Name="btnCancel"
+            Width="auto"
+            Height="26"
+            MinWidth="100"
+            Margin="10"
+            Click="btnCancel_Click"
+            Content="{x:Static resx:Resources.Close}"
+            Style="{StaticResource buttonStyle}" />
+    </StackPanel>
+
+</Window>

@@ -4,10 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:resx="clr-namespace:MifareWindowsTool.Properties"
     xmlns:uc="clr-namespace:MCT_Windows.UserControls"
+    Title="{x:Static resx:Resources.DecryptTagTitle}"
     Width="500"
-     xmlns:resx="clr-namespace:MifareWindowsTool.Properties"
-       Title="{x:Static resx:Resources.DecryptTagTitle}"
     Height="367"
     Background="#303030"
     WindowStyle="SingleBorderWindow"
@@ -19,34 +19,29 @@
         </Grid.ColumnDefinitions>
         <Button
             x:Name="btnCancel"
-            Width="auto" MinWidth="100"
+            Width="auto"
             Height="26"
-            Margin="20,0,0,19.667"
+            MinWidth="100"
+            Margin="20,0,0,20"
             HorizontalAlignment="Left"
             VerticalAlignment="Bottom"
-            Background="#5A595B"
             Click="btnCancel_Click"
             Content="{x:Static resx:Resources.Cancel}"
-            Cursor="Hand"
-            Foreground="White" />
+            Style="{StaticResource buttonStyle}" />
         <Button
             x:Name="btnStartMappingAndReadTag"
             Grid.Column="1"
             Width="auto"
             Height="26"
-            Margin="0,0,20.333,19.667"
+            Margin="0,0,20,20"
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
-            Background="#5A595B"
             Click="btnStartMappingAndReadTag_Click"
             Content="{x:Static resx:Resources.btnStartMappingAndReadTagContent}"
-            Cursor="Hand"
-            Foreground="White" />
-        <uc:ucListKeys
-            x:Name="ucLK"
-            Height="100"
-           />
-        <Label x:Name="lblChooseKeyFile"
+            Style="{StaticResource buttonStyle}" />
+        <uc:ucListKeys x:Name="ucLK" Height="100" />
+        <Label
+            x:Name="lblChooseKeyFile"
             Grid.ColumnSpan="2"
             Margin="10,85,0,0"
             HorizontalAlignment="Left"

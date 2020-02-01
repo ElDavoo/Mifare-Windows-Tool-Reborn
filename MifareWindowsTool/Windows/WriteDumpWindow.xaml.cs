@@ -39,7 +39,7 @@ namespace MCT_Windows
         {
             if (rbFactoryFormat.IsChecked.HasValue && rbFactoryFormat.IsChecked.Value)
             {
-                await main.RunMifareClassicFormat();
+                await main.RunMifareClassicFormatAsync();
                 this.DialogResult = true;
                 this.Close();
             }
@@ -52,7 +52,7 @@ namespace MCT_Windows
                     if (rbtagGen1.IsChecked.Value) tt = TagType.UnlockedGen1;
                     else if (rbtagGen2.IsChecked.Value) tt = TagType.DirectCUIDgen2;
 
-                    await main.RunNfcMfclassic(TagAction.Clone, ckEnableBlock0Writing.IsChecked.HasValue && ckEnableBlock0Writing.IsChecked.Value,
+                    await main.RunNfcMfclassicAsync(TagAction.Clone, ckEnableBlock0Writing.IsChecked.HasValue && ckEnableBlock0Writing.IsChecked.Value,
                           rbUseKeyA.IsChecked.HasValue && rbUseKeyA.IsChecked.Value, rbHaltOnError.IsChecked.HasValue && rbHaltOnError.IsChecked.Value, tt);
                     this.DialogResult = true;
                     this.Close();
@@ -101,10 +101,10 @@ namespace MCT_Windows
             }
             if (string.IsNullOrWhiteSpace(lblTargetDumpValue.Content?.ToString()))
             {
-                MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(main, tools, MifareWindowsTool.Properties.Resources.UsedForTargetMapping);
+                MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(main, tools, MifareWindowsTool.Properties.Resources.UsedForTargetMapping, MifareWindowsTool.Properties.Resources.TargetDump);
                 var ret = mtsWin.ShowDialog();
                 if (ret.HasValue && ret.Value)
-                    await main.RunMfoc(main.SelectedKeys, tools.TMPFILESOURCE_MFD, TagAction.ReadSource);
+                    await main.RunMfocAsync(main.SelectedKeys, tools.TMPFILESOURCE_MFD, TagAction.ReadSource);
             }
         }
 

@@ -1,10 +1,10 @@
 ﻿<Window
     x:Class="MCT_Windows.Windows.DumpWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:resx="clr-namespace:MifareWindowsTool.Properties"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:resx="clr-namespace:MifareWindowsTool.Properties"
     Title="{x:Static resx:Resources.DumpWindowTitle}"
     Width="500"
     Height="600"
@@ -22,29 +22,27 @@
                     x:Name="btnOpenDumpA"
                     Width="auto"
                     Margin="0,0,20,0"
-                    Background="#5A595B"
                     Click="BtnOpenDumpA_Click"
                     Content="{x:Static resx:Resources.btnOpenDumpAContent}"
-                    Cursor="Hand"
-                    Foreground="White" />
+                    Style="{StaticResource buttonStyle}" />
                 <Button
                     x:Name="btnOpenDumpB"
                     Width="auto"
                     Margin="50,0,0,0"
-                    Background="#5A595B"
                     Click="BtnOpenDumpB_Click"
                     Content="{x:Static resx:Resources.btnOpenDumpBContent}"
-                    Cursor="Hand"
-                    Foreground="White" />
+                    Style="{StaticResource buttonStyle}" />
             </StackPanel>
             <RichTextBox
-                x:Name="txtOutput" BorderThickness="1" BorderBrush="Wheat"
+                x:Name="txtOutput"
                 Width="auto"
                 Height="500"
                 Margin="50,0,50,0"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Top"
                 Background="#303030"
+                BorderBrush="Wheat"
+                BorderThickness="1"
                 FontFamily="Courier New"
                 FontSize="16"
                 Foreground="White"
@@ -68,40 +66,34 @@
                 <Button
                     x:Name="btnSaveDump"
                     Width="auto"
-                    Background="#5A595B"
                     Click="btnSaveDump_Click"
                     Content="{x:Static resx:Resources.SaveDumpAs}"
-                    Cursor="Hand"
-                    Foreground="White" />
+                    Style="{StaticResource buttonStyle}" />
 
                 <Button
                     x:Name="btnShowAsAscii"
                     Width="auto"
                     Margin="20,0,0,0"
-                    Background="#5A595B"
                     Click="btnShowAsAscii_Click"
                     Content="{x:Static resx:Resources.ShowAsASCII}"
-                    Cursor="Hand"
-                    Foreground="White" />
+                    Style="{StaticResource buttonStyle}" />
                 <Button
                     x:Name="btnEdit"
-                    Width="auto" MinWidth="100"
+                    Width="auto"
+                    MinWidth="100"
                     Margin="20,0,0,0"
-                    Background="#5A595B"
                     Click="btnEdit_Click"
                     Content="{x:Static resx:Resources.EditDump}"
-                    Cursor="Hand"
-                    Foreground="White" />
+                    Style="{StaticResource buttonStyle}" />
                 <Button
                     x:Name="btnClose"
-                    Width="auto" MinWidth="100"
+                    Width="auto"
+                    MinWidth="100"
                     Margin="20,0,0,0"
-                    Background="#5A595B"
                     Click="btnClose_Click"
                     Content="{x:Static resx:Resources.Close}"
-                    Cursor="Hand"
-                    Foreground="White" />
-               
+                    Style="{StaticResource buttonStyle}" />
+
             </StackPanel>
         </StackPanel>
     </Grid>

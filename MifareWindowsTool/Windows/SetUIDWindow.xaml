@@ -1,0 +1,65 @@
+﻿<Window
+    x:Class="MCT_Windows.Windows.SetUIDWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:resx="clr-namespace:MifareWindowsTool.Properties"
+    Title="{x:Static resx:Resources.SetUIDWindowTitle}"
+    Width="350"
+    Height="220"
+    Background="#303030"
+    Loaded="Window_Loaded"
+    mc:Ignorable="d">
+    <StackPanel
+        Height="auto"
+        Margin="0,30,0,0"
+        VerticalAlignment="Top"
+        Background="#303030"
+        Orientation="Vertical">
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <Label Content="{x:Static resx:Resources.OldUID}" Foreground="Gray" />
+            <TextBlock
+                x:Name="txtOldUID"
+                Width="95"
+                VerticalAlignment="Center"
+                Background="#5A595B"
+                Foreground="Gray" />
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <Label Content="{x:Static resx:Resources.NewUID}" Foreground="White" />
+            <TextBox
+                x:Name="txtnewUID"
+                Width="100"
+                VerticalAlignment="Center"
+                Background="#5A595B"
+                BorderBrush="Wheat"
+                CharacterCasing="Upper"
+                FontSize="13"
+                Foreground="White"
+                MaxLength="8" />
+        </StackPanel>
+        <CheckBox
+            x:Name="ckFormatTag"
+            HorizontalAlignment="Center"
+            Content="{x:Static resx:Resources.FormatTag}"
+            Foreground="White" />
+        <Button
+            x:Name="btnSetUID"
+            Height="26"
+            Margin="10"
+            Click="btnSetUID_Click"
+            Content="{x:Static resx:Resources.btnChangeUID}"
+            Style="{StaticResource buttonStyle}" />
+        <Button
+            x:Name="btnCancel"
+            Width="auto"
+            Height="26"
+            MinWidth="100"
+            Margin="10"
+            Click="btnCancel_Click"
+            Content="{x:Static resx:Resources.Close}"
+            Style="{StaticResource buttonStyle}" />
+    </StackPanel>
+
+</Window>

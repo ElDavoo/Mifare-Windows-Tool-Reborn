@@ -16,7 +16,7 @@
     <Deterministic>false</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -99,6 +99,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\SetUIDWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\SelectToolWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Windows\SelectKeyFilesWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -127,6 +135,12 @@
     </Compile>
     <Compile Include="Windows\DumpWindow.xaml.cs">
       <DependentUpon>DumpWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\SetUIDWindow.xaml.cs">
+      <DependentUpon>SetUIDWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\SelectToolWindow.xaml.cs">
+      <DependentUpon>SelectToolWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\SelectKeyFilesWindow.xaml.cs">
       <DependentUpon>SelectKeyFilesWindow.xaml</DependentUpon>
@@ -218,6 +232,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="nfctools\libwinpthread-1.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nfctools\nfc-mfsetuid.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\MWT.ico">

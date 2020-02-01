@@ -38,41 +38,33 @@
                     Height="26"
                     MinWidth="100"
                     Margin="220,10,10,10"
-                    Background="#5A595B"
                     Click="btnCancel_Click"
                     Content="{x:Static resx:Resources.Close}"
-                    Cursor="Hand"
-                    Foreground="White" />
+                    Style="{StaticResource buttonStyle}" />
                 <Button
                     x:Name="btnEditKeyFile"
                     Width="auto"
                     Height="26"
                     Margin="10"
-                    Background="#5A595B"
                     Click="btnEditKeyFile_Click"
                     Content="{x:Static resx:Resources.BtnEditKeyFileContent}"
-                    Cursor="Hand"
-                    Foreground="White" />
+                    Style="{StaticResource buttonStyle}" />
                 <Button
                     x:Name="btnDeleteKeyFile"
                     Width="auto"
                     Height="26"
                     Margin="10"
-                    Background="#5A595B"
                     Click="btnDeleteKeyFile_Click"
                     Content="{x:Static resx:Resources.BtnDeleteKeyFileContent}"
-                    Cursor="Hand"
-                    Foreground="White" />
+                    Style="{StaticResource buttonStyle}" />
                 <Button
                     x:Name="btnNewKeyFile"
                     Width="auto"
                     Height="26"
                     Margin="10"
-                    Background="#5A595B"
                     Click="btnNewKeyFile_Click"
                     Content="{x:Static resx:Resources.BtnNewKeyFileContent}"
-                    Cursor="Hand"
-                    Foreground="White" />
+                    Style="{StaticResource buttonStyle}" />
             </StackPanel>
         </StackPanel>
     </Grid>

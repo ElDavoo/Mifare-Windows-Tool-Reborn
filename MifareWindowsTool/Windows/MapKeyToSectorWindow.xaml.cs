@@ -24,13 +24,16 @@ namespace MCT_Windows
     {
         Tools tools;
         MainWindow main;
-        public MapKeyToSectorWindow(MainWindow mainw, Tools t, string lblContent = "")
+        public MapKeyToSectorWindow(MainWindow mainw, Tools t, string lblContent, string titleContent)
         {
             tools = t;
             main = mainw;
             InitializeComponent();
             if (!string.IsNullOrWhiteSpace(lblContent))
+            {
                 lblChooseKeyFile.Content += $" {lblContent}";
+            }
+            Title += $" {titleContent}";
             Uri iconUri = new Uri("pack://application:,,,/Resources/MWT.ico", UriKind.RelativeOrAbsolute);
             this.Icon = BitmapFrame.Create(iconUri);
             foreach (var f in Directory.GetFiles("Keys", "*.keys", SearchOption.AllDirectories))

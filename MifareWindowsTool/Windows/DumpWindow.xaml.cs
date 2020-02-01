@@ -52,13 +52,13 @@ namespace MCT_Windows.Windows
                     btnShowAsAscii.Visibility = Visibility.Hidden;
                     stkOpenDumps.Visibility = Visibility.Visible;
                     stkInfos.Visibility = Visibility.Collapsed;
-                    btnEdit.Visibility= Visibility.Collapsed;
+                    btnEdit.Visibility = Visibility.Collapsed;
                 }
                 else
                 {
                     Title += " " + Path.GetFileName(dFileName);
                     btnEdit.Visibility = Visibility.Visible;
-                  btnSaveDump.Visibility = Visibility.Visible;
+                    btnSaveDump.Visibility = Visibility.Visible;
                     stkOpenDumps.Visibility = Visibility.Collapsed;
                     bytesDataA = System.IO.File.ReadAllBytes(fileName);
                     if (bytesDataA.Length == 1024) split = 4;
@@ -159,27 +159,39 @@ namespace MCT_Windows.Windows
         }
         private void BtnOpenDumpA_Click(object sender, RoutedEventArgs e)
         {
-
-            var dr = ofd.ShowDialog();
-            if (dr.Value)
-            {
-                btnOpenDumpA.Content = $"{MifareWindowsTool.Properties.Resources.OpenDump} A: {Path.GetFileNameWithoutExtension(ofd.FileName)}";
-                bytesDataA = System.IO.File.ReadAllBytes(ofd.FileName);
-                ShowCompareDumps();
-            }
+            var fileName = OpenDump(ref bytesDataA);
+            if (!string.IsNullOrWhiteSpace(fileName))
+                btnOpenDumpA.Content = $"{MifareWindowsTool.Properties.Resources.OpenDump} A: {Path.GetFileNameWithoutExtension(fileName)}";
 
         }
-
         private void BtnOpenDumpB_Click(object sender, RoutedEventArgs e)
         {
+            var fileName = OpenDump(ref bytesDataB);
+            if (!string.IsNullOrWhiteSpace(fileName))
+                btnOpenDumpB.Content = $"{MifareWindowsTool.Properties.Resources.OpenDump} B: {Path.GetFileNameWithoutExtension(fileName)}";
+        }
+
+        private string OpenDump(ref byte[] bytes)
+        {
+            var fileName = "";
             var dr = ofd.ShowDialog();
             if (dr.Value)
             {
-                btnOpenDumpB.Content = $"{MifareWindowsTool.Properties.Resources.OpenDump} B: {Path.GetFileNameWithoutExtension(ofd.FileName)}";
-                bytesDataB = System.IO.File.ReadAllBytes(ofd.FileName);
+                fileName = ofd.FileName;
+                FileInfo fi = new FileInfo(ofd.FileName);
+                if (fi.Length < 1024)
+                {
+                    MessageBox.Show(MifareWindowsTool.Properties.Resources.InvalidDumpFile);
+                    return "";
+                }
+
+                bytes = System.IO.File.ReadAllBytes(fileName);
                 ShowCompareDumps();
             }
+            return fileName;
         }
+
+       
 
         private void ShowCompareDumps()
         {
@@ -243,10 +255,10 @@ namespace MCT_Windows.Windows
         {
             var edw = new EditDumpWindow(Tools, dFileName);
             Mouse.OverrideCursor = Cursors.Wait;
-          
+
             edw.Show();
-         
-            
+
+
         }
     }
 }

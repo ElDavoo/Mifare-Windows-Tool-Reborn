@@ -5,8 +5,7 @@
     xmlns:local="clr-namespace:MCT_Windows"
     StartupUri="Windows/MainWindow.xaml">
     <Application.Resources>
-
-        <Style TargetType="{x:Type Button}">
+        <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -15,13 +14,52 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#4A494B" TargetName="Border" />
+                                <Setter TargetName="Border" Property="Background" Value="#4A494B" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-    </Application.Resources> 
-
+        <Style x:Key="buttonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="Wheat" />
+            <Setter Property="Background" Value="#5A595B" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+        <Style
+            x:Key="placeHolder"
+            BasedOn="{StaticResource {x:Type TextBox}}"
+            TargetType="{x:Type TextBox}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Grid>
+                            <TextBox
+                                x:Name="textSource"
+                                Panel.ZIndex="2"
+                                Background="Transparent"
+                                Text="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBox
+                                Panel.ZIndex="1"
+                                Background="{TemplateBinding Background}"
+                                Text="{TemplateBinding Tag}">
+                                <TextBox.Style>
+                                    <Style TargetType="{x:Type TextBox}">
+                                        <Setter Property="Foreground" Value="Transparent" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=Text, Source={x:Reference textSource}}" Value="">
+                                                <Setter Property="Foreground" Value="LightGray" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Application.Resources>
 </Application>

@@ -352,4 +352,37 @@
   <data name="ttAcsDefaultValue" xml:space="preserve">
     <value>FF078069 is the default value</value>
   </data>
+  <data name="btnChangeUID" xml:space="preserve">
+    <value>Change UID</value>
+  </data>
+  <data name="btnCompareDumps" xml:space="preserve">
+    <value>Compare dumps</value>
+  </data>
+  <data name="InvalidDumpFile" xml:space="preserve">
+    <value>Invalid dump file</value>
+  </data>
+  <data name="SelectToolWindowTitle" xml:space="preserve">
+    <value>Tools</value>
+  </data>
+  <data name="SetUIDWindowTitle" xml:space="preserve">
+    <value>Set new tag UID</value>
+  </data>
+  <data name="InvalidUID" xml:space="preserve">
+    <value>Invalid UID (valid UID : 8 hex digits)</value>
+  </data>
+  <data name="NewUID" xml:space="preserve">
+    <value>New UID</value>
+  </data>
+  <data name="OldUID" xml:space="preserve">
+    <value>Old UID</value>
+  </data>
+  <data name="Source" xml:space="preserve">
+    <value>source</value>
+  </data>
+  <data name="Target" xml:space="preserve">
+    <value>target</value>
+  </data>
+  <data name="FormatTag" xml:space="preserve">
+    <value>Format tag</value>
+  </data>
 </root>

@@ -94,7 +94,7 @@
                     Cursor="Hand">
                     <StackPanel>
                         <Image
-                            Height="60"
+                            Height="70"
                             VerticalAlignment="Top"
                             Source="..\Images\edit_add_keyfile.png"
                             Stretch="Uniform" />
@@ -155,7 +155,8 @@
         <TextBox
             x:Name="rtbOutput"
             Width="auto"
-            Height="auto" MinHeight="300"
+            Height="auto"
+            MinHeight="300"
             MaxHeight="600"
             Margin="255,0,0,10"
             HorizontalAlignment="Stretch"
