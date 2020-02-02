@@ -320,7 +320,7 @@ namespace MCT_Windows
                                           .ExecuteAsync();
                 if (result.ExitCode != 0)
                 {
-                    if (cptFail >= 1)
+                    if (cptFail < 1)
                     {
                         var dr = MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DriverLibUsbKNonInstalled)), "LibUsbK", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
                         if (dr == MessageBoxResult.OK)
