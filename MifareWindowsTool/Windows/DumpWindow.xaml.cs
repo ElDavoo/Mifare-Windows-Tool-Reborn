@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using MifareWindowsTool.Common;
+using MifareWindowsTool.Properties;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -37,17 +38,17 @@ namespace MCT_Windows.Windows
                 InitializeComponent();
                 Uri iconUri = new Uri("pack://application:,,,/Resources/MWT.ico", UriKind.RelativeOrAbsolute);
                 this.Icon = BitmapFrame.Create(iconUri);
-                ofd.Filter = MifareWindowsTool.Properties.Resources.DumpFileFilter;
+                ofd.Filter = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DumpFileFilter));
                 var initialDumpDir = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "dumps");
                 ofd.InitialDirectory = initialDumpDir;
-                sfd.Filter = MifareWindowsTool.Properties.Resources.DumpFileFilter;
+                sfd.Filter = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DumpFileFilter));
                 sfd.InitialDirectory = initialDumpDir;
                 Tools = t;
                 dFileName = fileName;
 
                 if (bCompareDumpsMode)
                 {
-                    Title = MifareWindowsTool.Properties.Resources.CompareDumps;
+                    Title = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.CompareDumps));
                     btnSaveDump.Visibility = Visibility.Hidden;
                     btnShowAsAscii.Visibility = Visibility.Hidden;
                     stkOpenDumps.Visibility = Visibility.Visible;
@@ -80,7 +81,7 @@ namespace MCT_Windows.Windows
             LinesA = Split(hex, 32);
             int sector = (LinesA.Count - split) / split;
             for (int i = LinesA.Count - split; i >= 0; i -= split)
-                LinesA.Insert(i, $"+{MifareWindowsTool.Properties.Resources.Sector}: {sector--}\r");
+                LinesA.Insert(i, $"+{Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Sector))}: {sector--}\r");
 
             for (int line = 0; line < LinesA.Count; line++)
             {
@@ -135,12 +136,12 @@ namespace MCT_Windows.Windows
         {
             if (bConvertoAscii)
             {
-                btnShowAsAscii.Content = MifareWindowsTool.Properties.Resources.ShowAsHex;
+                btnShowAsAscii.Content = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.ShowAsHex));
                 ShowAscii();
             }
             else
             {
-                btnShowAsAscii.Content = MifareWindowsTool.Properties.Resources.ShowAsASCII;
+                btnShowAsAscii.Content = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.ShowAsASCII));
                 ShowHex();
             }
             bConvertoAscii = !bConvertoAscii;
@@ -153,7 +154,7 @@ namespace MCT_Windows.Windows
             LinesA = Split(ascii, 32);
             int sector = (LinesA.Count - 4) / 4;
             for (int i = LinesA.Count - 4; i >= 0; i -= 4)
-                LinesA.Insert(i, $"+{MifareWindowsTool.Properties.Resources.Sector}: {sector--}\r");
+                LinesA.Insert(i, $"+{Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Sector))}: {sector--}\r");
             txtOutput.Document = new System.Windows.Documents.FlowDocument();
             txtOutput.AppendText(new string(LinesA.SelectMany(c => c).ToArray()));
         }
@@ -161,14 +162,14 @@ namespace MCT_Windows.Windows
         {
             var fileName = OpenDump(ref bytesDataA);
             if (!string.IsNullOrWhiteSpace(fileName))
-                btnOpenDumpA.Content = $"{MifareWindowsTool.Properties.Resources.OpenDump} A: {Path.GetFileNameWithoutExtension(fileName)}";
+                btnOpenDumpA.Content = $"{Translate.Key(nameof(MifareWindowsTool.Properties.Resources.OpenDump))} A: {Path.GetFileNameWithoutExtension(fileName)}";
 
         }
         private void BtnOpenDumpB_Click(object sender, RoutedEventArgs e)
         {
             var fileName = OpenDump(ref bytesDataB);
             if (!string.IsNullOrWhiteSpace(fileName))
-                btnOpenDumpB.Content = $"{MifareWindowsTool.Properties.Resources.OpenDump} B: {Path.GetFileNameWithoutExtension(fileName)}";
+                btnOpenDumpB.Content = $"{Translate.Key(nameof(MifareWindowsTool.Properties.Resources.OpenDump))} B: {Path.GetFileNameWithoutExtension(fileName)}";
         }
 
         private string OpenDump(ref byte[] bytes)
@@ -179,9 +180,9 @@ namespace MCT_Windows.Windows
             {
                 fileName = ofd.FileName;
                 FileInfo fi = new FileInfo(ofd.FileName);
-                if (fi.Length < 1024)
+                if (fi.Length < 1024 || fi.Length > 4096)
                 {
-                    MessageBox.Show(MifareWindowsTool.Properties.Resources.InvalidDumpFile);
+                    MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.InvalidDumpFile)));
                     return "";
                 }
 
@@ -191,7 +192,7 @@ namespace MCT_Windows.Windows
             return fileName;
         }
 
-       
+
 
         private void ShowCompareDumps()
         {
@@ -210,7 +211,7 @@ namespace MCT_Windows.Windows
 
             int sectorA = (LinesA.Count - split) / split;
             for (int i = LinesA.Count - split; i >= 0; i -= split)
-                LinesA.Insert(i, $"\r+{MifareWindowsTool.Properties.Resources.Sector}:{sectorA--}\r");
+                LinesA.Insert(i, $"\r+{Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Sector))}:{sectorA--}\r");
 
             int sectorB = (LinesB.Count - split) / split;
             for (int i = LinesB.Count - split; i >= 0; i -= split)
@@ -222,11 +223,11 @@ namespace MCT_Windows.Windows
                 {
                     if (i < LinesA.Count && i < LinesB.Count && LinesA[i] == LinesB[i])
                     {
-                        txtOutput.AppendText("____________"); txtOutput.AppendText(MifareWindowsTool.Properties.Resources.Identical, Brushes.Lime); txtOutput.AppendText("_____________\r", Brushes.White);
+                        txtOutput.AppendText("____________"); txtOutput.AppendText(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Identical)), Brushes.Lime); txtOutput.AppendText("_____________\r", Brushes.White);
                     }
                     else if (i < LinesB.Count && !string.IsNullOrWhiteSpace(LinesB[i]))
                     {
-                        txtOutput.AppendText("____________"); txtOutput.AppendText(MifareWindowsTool.Properties.Resources.Different, Brushes.Red); txtOutput.AppendText("_____________\r", Brushes.White);
+                        txtOutput.AppendText("____________"); txtOutput.AppendText(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Different)), Brushes.Red); txtOutput.AppendText("_____________\r", Brushes.White);
 
                         for (int j = 0; j < LinesA[i].Count(); j++)
                         {

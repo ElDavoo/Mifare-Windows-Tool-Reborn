@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using MifareWindowsTool.Properties;
 using System;
 using System.IO;
 using System.Reflection;
@@ -24,7 +25,7 @@ namespace MCT_Windows
             Uri iconUri = new Uri("pack://application:,,,/Resources/MWT.ico", UriKind.RelativeOrAbsolute);
             this.Icon = BitmapFrame.Create(iconUri);
             rbClone.IsChecked = true;
-            ofd.Filter = MifareWindowsTool.Properties.Resources.DumpFileFilter;
+            ofd.Filter = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DumpFileFilter));
             ofd.InitialDirectory = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "dumps");
             lblSrcDumpValue.Content = Path.GetFileName(tools.TMPFILESOURCE_MFD);
             lblTargetDumpValue.Content = Path.GetFileName(tools.TMPFILE_TARGETMFD);
@@ -60,12 +61,12 @@ namespace MCT_Windows
                 else
                 {
                     if (de ==  DumpExists.Source)
-                        MessageBox.Show(MifareWindowsTool.Properties.Resources.NeedSelectDumpKeyFileTarget);
+                        MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NeedSelectDumpKeyFileTarget)));
                     else if (de == DumpExists.Target)
-                        MessageBox.Show(MifareWindowsTool.Properties.Resources.NeedSelectDumpKeyFileSource);
+                        MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NeedSelectDumpKeyFileSource)));
                     else
                         if (de == DumpExists.None)
-                        MessageBox.Show(MifareWindowsTool.Properties.Resources.NeedSelectDumpKeyFileSourceAndTarget);
+                        MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NeedSelectDumpKeyFileSourceAndTarget)));
 
                 }
             }
@@ -101,7 +102,7 @@ namespace MCT_Windows
             }
             if (string.IsNullOrWhiteSpace(lblTargetDumpValue.Content?.ToString()))
             {
-                MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(main, tools, MifareWindowsTool.Properties.Resources.UsedForTargetMapping, MifareWindowsTool.Properties.Resources.TargetDump);
+                MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(main, tools, Translate.Key(nameof(MifareWindowsTool.Properties.Resources.UsedForTargetMapping)), Translate.Key(nameof(MifareWindowsTool.Properties.Resources.TargetDump)));
                 var ret = mtsWin.ShowDialog();
                 if (ret.HasValue && ret.Value)
                     await main.RunMfocAsync(main.SelectedKeys, tools.TMPFILESOURCE_MFD, TagAction.ReadSource);
@@ -110,14 +111,14 @@ namespace MCT_Windows
 
         private void rbFactoryFormat_Checked(object sender, RoutedEventArgs e)
         {
-            btnWriteDump.Content = MifareWindowsTool.Properties.Resources.FactoryFormat;
+            btnWriteDump.Content = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.FactoryFormat));
             ShowHideElements(Visibility.Hidden);
         }
 
         private void rbClone_Checked(object sender, RoutedEventArgs e)
         {
 
-            btnWriteDump.Content = MifareWindowsTool.Properties.Resources.StartCloning;
+            btnWriteDump.Content = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.StartCloning));
             ShowHideElements(Visibility.Visible);
         }
 

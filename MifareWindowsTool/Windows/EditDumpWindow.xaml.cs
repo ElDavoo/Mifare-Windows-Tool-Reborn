@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using MifareWindowsTool.Common;
+using MifareWindowsTool.Properties;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -30,10 +31,10 @@ namespace MCT_Windows.Windows
             Uri iconUri = new Uri("pack://application:,,,/Resources/MWT.ico", UriKind.RelativeOrAbsolute);
             this.Icon = BitmapFrame.Create(iconUri);
             var initialDumpDir = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "dumps");
-            sfd.Filter = MifareWindowsTool.Properties.Resources.DumpFileFilter;
+            sfd.Filter = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DumpFileFilter));
             sfd.InitialDirectory = initialDumpDir;
             sfd.FileName = Path.GetFileName(fileName);
-            ofd.Filter = MifareWindowsTool.Properties.Resources.DumpFileFilter;
+            ofd.Filter = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DumpFileFilter));
             ofd.InitialDirectory = initialDumpDir;
             Tools = t;
             he.Foreground = Brushes.White;

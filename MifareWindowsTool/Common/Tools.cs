@@ -1,5 +1,6 @@
 ﻿using CliWrap;
 using MCT_Windows.Windows;
+using MifareWindowsTool.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -135,7 +136,8 @@ namespace MCT_Windows
             {
                 long fileLength = new System.IO.FileInfo("dumps\\" + MFDFile).Length;
                 if (fileLength == 0) return false;
-                var dr = MessageBox.Show($"{MifareWindowsTool.Properties.Resources.ADumpFile} ({Path.GetFileName("dumps\\" + MFDFile)}) {MifareWindowsTool.Properties.Resources.AlreadyExists}, {MifareWindowsTool.Properties.Resources.DoYouWantToReUseThisDump}", MifareWindowsTool.Properties.Resources.DumpExisting, MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var dr = MessageBox.Show($"{Translate.Key(nameof(MifareWindowsTool.Properties.Resources.ADumpFile))} ({Path.GetFileName("dumps\\" + MFDFile)}) {Translate.Key(nameof(MifareWindowsTool.Properties.Resources.AlreadyExists))}, {Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DoYouWantToReUseThisDump))}",
+                    Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DumpExisting)), MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 return (dr == MessageBoxResult.Yes);
             }

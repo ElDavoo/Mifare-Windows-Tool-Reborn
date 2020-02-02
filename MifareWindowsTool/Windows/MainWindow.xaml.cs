@@ -3,7 +3,7 @@ using CliWrap.Models;
 using MCT_Windows.Windows;
 
 using Microsoft.Win32;
-
+using MifareWindowsTool.Properties;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -48,7 +48,7 @@ namespace MCT_Windows
             this.Icon = BitmapFrame.Create(iconUri);
             MainTitle += $" v{version}";
             this.Title = $"{MainTitle}";
-            ofd.Filter = MifareWindowsTool.Properties.Resources.DumpFileFilter;
+            ofd.Filter = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DumpFileFilter));
 
             t = new Tools(this);
 
@@ -56,7 +56,7 @@ namespace MCT_Windows
 
             if (!t.TestWritePermission(ofd.InitialDirectory))
             {
-                MessageBox.Show(MifareWindowsTool.Properties.Resources.PleaseRestartAsAdmin);
+                MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.PleaseRestartAsAdmin)));
                 Application.Current.Shutdown();
             }
             Task.Run(() => PeriodicScanTag());
@@ -78,7 +78,7 @@ namespace MCT_Windows
                 Application.Current.Dispatcher.Invoke(async () =>
                 {
                     if (!ckEnablePeriodicTagScan.IsChecked.HasValue || ckEnablePeriodicTagScan.IsChecked.Value == false) return;
-                    rtbOutput.Text += $"{DateTime.Now} -  {MifareWindowsTool.Properties.Resources.AutoScanTagRunning}...\n";
+                    rtbOutput.Text += $"{DateTime.Now} -  {Translate.Key(nameof(MifareWindowsTool.Properties.Resources.AutoScanTagRunning))}...\n";
                     await RunNfcListAsync();
                 });
             }, ScanCTS.Token);
@@ -142,7 +142,7 @@ namespace MCT_Windows
                 {
                     if (!DumpFound)
                     {
-                        MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(this, t, MifareWindowsTool.Properties.Resources.UsedForSourceMapping, MifareWindowsTool.Properties.Resources.Source);
+                        MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(this, t, Translate.Key(nameof(MifareWindowsTool.Properties.Resources.UsedForSourceMapping)), Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Source)));
                         var ret = mtsWin.ShowDialog();
                         if (ret.HasValue && ret.Value)
                         {
@@ -165,7 +165,7 @@ namespace MCT_Windows
                 {
                     if (!DumpFound)
                     {
-                        MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(this, t, MifareWindowsTool.Properties.Resources.UsedForTargetMapping, MifareWindowsTool.Properties.Resources.Target);
+                        MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(this, t, Translate.Key(nameof(MifareWindowsTool.Properties.Resources.UsedForTargetMapping)), Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Target)));
                         var ret = mtsWin.ShowDialog();
                         if (ret.HasValue && ret.Value)
                         {
@@ -190,7 +190,7 @@ namespace MCT_Windows
             }
             else
             {
-                logAppend(MifareWindowsTool.Properties.Resources.NoTagDetectedOnReader);
+                logAppend(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NoTagDetectedOnReader)));
             }
 
         }
@@ -216,7 +216,7 @@ namespace MCT_Windows
         {
             if (show)
             {
-                btnAbortCurrentTask.Content = $"{MifareWindowsTool.Properties.Resources.Abort}";
+                btnAbortCurrentTask.Content = $"{Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Abort))}";
                 btnAbortCurrentTask.Visibility = Visibility.Visible;
             }
             else
@@ -271,7 +271,7 @@ namespace MCT_Windows
                 if (t.CurrentUID != newUID)
                 {
                     t.CurrentUID = newUID;
-                    this.Title = $"{MainTitle}: {MifareWindowsTool.Properties.Resources.NewUIDFound}: { t.CurrentUID}";
+                    this.Title = $"{MainTitle}: { Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NewUIDFound))}: { t.CurrentUID}";
 
                     t.PlayBeep(BaseUri);
 
@@ -283,7 +283,7 @@ namespace MCT_Windows
             {
                 t.CurrentUID = "";
                 TagFound = false;
-                this.Title = $"{MainTitle}: {MifareWindowsTool.Properties.Resources.NoTag}";
+                this.Title = $"{MainTitle}: {Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NoTag))}";
             }
             StdOutNfclist = "";
             return newUID;
@@ -297,7 +297,7 @@ namespace MCT_Windows
                 ScanTagRunning = false;
                 ScanCTS.Cancel();
                 if (ckEnablePeriodicTagScan.IsChecked.Value)
-                    logAppend(MifareWindowsTool.Properties.Resources.AutoScanTagStopped);
+                    logAppend(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.AutoScanTagStopped)));
             }
         }
         public async Task RunMifareClassicFormatAsync()

@@ -1,5 +1,6 @@
 ﻿using CliWrap;
 using MifareWindowsTool.Common;
+using MifareWindowsTool.Properties;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -44,7 +45,7 @@ namespace MCT_Windows.Windows
         {
             if (!txtnewUID.Text.Trim().OnlyHex() || txtnewUID.Text.Trim().Length != 8)
             {
-                MessageBox.Show(MifareWindowsTool.Properties.Resources.InvalidUID);
+                MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.InvalidUID)));
                 return;
             }
             await RunSetUidAsync(txtnewUID.Text.Trim());
@@ -80,7 +81,7 @@ namespace MCT_Windows.Windows
 
                 if (string.IsNullOrWhiteSpace(uid))
                 {
-                    MessageBox.Show(MifareWindowsTool.Properties.Resources.NoTagDetectedOnReader);
+                    MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NoTagDetectedOnReader)));
                 }
                 else
                     txtOldUID.Text = uid;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MifareWindowsTool.Properties;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -56,7 +57,7 @@ namespace MCT_Windows
                 this.Close();
             }
             else
-                MessageBox.Show(MifareWindowsTool.Properties.Resources.NeedToSelectOneKeyFile);
+                MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NeedToSelectOneKeyFile)));
         }
 
 
