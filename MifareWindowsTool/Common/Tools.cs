@@ -69,6 +69,16 @@ namespace MCT_Windows
         public string TMPFILE_TARGETMFD { get; set; } = "";
         public string TMPFILE_UNK { get; set; } = "";
         public string TMPFILE_FND { get; set; } = "";
+
+        public bool InstallLibUsbKDriver()
+        {
+            var startInfo = new ProcessStartInfo();
+            startInfo.WorkingDirectory = "ACR122_LibUsbK_Driver";
+            startInfo.FileName = "InstallDriver.exe";
+            Process proc = Process.Start(startInfo);
+            proc.WaitForExit();
+            return proc.ExitCode == 0;
+        }
         public List<string> GetDrivers()
         {
             var col = new List<string>();

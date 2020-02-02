@@ -37,6 +37,7 @@ namespace MCT_Windows
         OpenFileDialog ofd = new OpenFileDialog();
         public List<File> SelectedKeys = new List<File>();
         Uri BaseUri = null;
+        int cptFail = 0;
         protected internal string StdOutNfclist = "";
         string StdOutMfoc = "";
         IObservable<long> ObservableScan = null;
@@ -86,12 +87,7 @@ namespace MCT_Windows
                         var dr = MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DriverLibUsbKNonInstalled)), "LibUsbK", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
                         if (dr == MessageBoxResult.OK)
                         {
-                            var startInfo = new ProcessStartInfo();
-                            startInfo.WorkingDirectory = "ACR122_LibUsbK_Driver";
-                            startInfo.FileName = "InstallDriver.exe";
-                            Process proc = Process.Start(startInfo);
-                            proc.WaitForExit();
-                            return proc.ExitCode == 0;
+                            return t.InstallLibUsbKDriver();
                         }
                     }
                     else
@@ -115,6 +111,8 @@ namespace MCT_Windows
                 return true;
             }
         }
+
+
 
         public void PeriodicScanTag()
         {
@@ -313,21 +311,42 @@ namespace MCT_Windows
         public async Task<string> RunNfcListAsync()
         {
 
-            var result = await Cli.Wrap(@"nfctools\\nfc-list.exe")
-                                   .SetStandardOutputCallback(l => LogAppend(l))
-                                   .SetStandardErrorCallback(l => LogAppend(l))
-                                   .ExecuteAsync();
-
-            StdOutNfclist = result.StandardOutput;
-
-            if (StdOutNfclist.Contains("No NFC device found."))
+            try
             {
-                ScanTagRunning = false;
-                ScanCTS.Cancel();
+                var result = await Cli.Wrap(@"nfctools\\nfc-list.exe")
+                                          .SetStandardOutputCallback(l => LogAppend(l))
+                                          .SetStandardErrorCallback(l => LogAppend(l))
+                                          .EnableExitCodeValidation(false)
+                                          .ExecuteAsync();
+                if (result.ExitCode != 0)
+                {
+                    if (cptFail >= 1)
+                    {
+                        var dr = MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DriverLibUsbKNonInstalled)), "LibUsbK", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                        if (dr == MessageBoxResult.OK)
+                        {
+                            if (t.InstallLibUsbKDriver())
+                                cptFail++;
+                        }
+                    }
+                }
 
+                StdOutNfclist = result.StandardOutput;
+
+                if (StdOutNfclist.Contains("No NFC device found."))
+                {
+                    ScanTagRunning = false;
+                    ScanCTS.Cancel();
+
+                }
+
+                return SetCurrentUID(result);
             }
-
-            return SetCurrentUID(result);
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+                return "";
+            }
         }
 
         private string SetCurrentUID(ExecutionResult result)
