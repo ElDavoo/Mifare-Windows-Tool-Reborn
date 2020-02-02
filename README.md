@@ -22,7 +22,8 @@ Plus d'infos sur le wiki ici : https://github.com/xavave/Mifare-Windows-Tool/wik
 #### PREREQUISITES / PREREQUIS
 
 - Windows 64bits
-- [EN] ACR122U Tag Reader / [FR] Lecteur de badges ACR122U
+- [EN] ACR122U Tag Reader / [FR] Lecteur de badges ACR122U --> [AMAZON 27€](https://www.amazon.fr/Luxtech-ACR122U-Lecteur-Contactless-Reader/dp/B078YXN3PH/ref=sr_1_4?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=acr122U&qid=1580658444&s=kitchen&sr=1-4-catcorr)
+
 - #### [EN] You need to install these drivers (Native + LibusbK) : documentation here : http://legacy.averbouch.biz/libnfc-and-nfc-utils-binaries-on-windows-10/#howtouse
 
 - #### [FR] Vous devez installer ces pilotes : celui du ACR122U d'origine et aussi LibUsbK : documentation en français ici --> http://legacy.averbouch.biz/fr/libnfc-and-nfc-utils-binaries-on-windows-10/#howtouse 
