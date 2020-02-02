@@ -391,4 +391,13 @@
   <data name="French" xml:space="preserve">
     <value>French</value>
   </data>
+  <data name="ACR122NotPlugged" xml:space="preserve">
+    <value>ACR122U tag reader doesn't seem to be plugged in!</value>
+  </data>
+  <data name="DriverACR122NotInstalled" xml:space="preserve">
+    <value>ACR122U Tag reader driver doesn't seem to be installed.\r\nClick OK to be redirected on the driver download page.\r\nInstall driver last version named 'MSI Installer for PC / SC Driver'</value>
+  </data>
+  <data name="DriverLibUsbKNonInstalled" xml:space="preserve">
+    <value>ACR122U seems to be installed but, NOT the LibUsbK driver.\r\nClick OK to install it</value>
+  </data>
 </root>

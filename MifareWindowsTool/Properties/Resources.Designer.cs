@@ -79,6 +79,15 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à ACR122U tag reader doesn&apos;t seem to be plugged in!.
+        /// </summary>
+        public static string ACR122NotPlugged {
+            get {
+                return ResourceManager.GetString("ACR122NotPlugged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à A dump file.
         /// </summary>
         public static string ADumpFile {
@@ -319,6 +328,24 @@ namespace MifareWindowsTool.Properties {
         public static string DoYouWantToReUseThisDump {
             get {
                 return ResourceManager.GetString("DoYouWantToReUseThisDump", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à ACR122U Tag reader driver doesn&apos;t seem to be installed.\r\nClick OK to be redirected on the driver download page.\r\nInstall driver last version named &apos;MSI Installer for PC / SC Driver&apos;.
+        /// </summary>
+        public static string DriverACR122NotInstalled {
+            get {
+                return ResourceManager.GetString("DriverACR122NotInstalled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à ACR122U seems to be installed but, NOT the LibUsbK driver.\r\nClick OK to install it.
+        /// </summary>
+        public static string DriverLibUsbKNonInstalled {
+            get {
+                return ResourceManager.GetString("DriverLibUsbKNonInstalled", resourceCulture);
             }
         }
         

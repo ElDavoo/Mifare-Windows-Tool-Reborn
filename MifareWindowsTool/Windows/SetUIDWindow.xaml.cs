@@ -57,10 +57,10 @@ namespace MCT_Windows.Windows
                 arguments += "-f ";
             arguments += newUID;
 
-            Main.logAppend($"nfc-mfsetuid {arguments}");
+            Main.LogAppend($"nfc-mfsetuid {arguments}");
             var result = await Cli.Wrap(@"nfctools\\nfc-mfsetuid.exe").SetArguments(arguments)
-   .SetStandardOutputCallback(l => Main.logAppend(l))
-   .SetStandardErrorCallback(l => Main.logAppend(l))
+   .SetStandardOutputCallback(l => Main.LogAppend(l))
+   .SetStandardErrorCallback(l => Main.LogAppend(l))
    .ExecuteAsync();
 
             var exitCode = result.ExitCode;

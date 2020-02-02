@@ -36,20 +36,20 @@ namespace MCT_Windows.Windows
             this.Close();
         }
 
-        private async void btnCompareDumps_Click(object sender, RoutedEventArgs e)
+        private void btnCompareDumps_Click(object sender, RoutedEventArgs e)
         {
             Main.StopScanTag();
             var dw = new DumpWindow(tools, "", true);
             dw.ShowDialog();
-            await Main.PeriodicScanTag();
+            Main.PeriodicScanTag();
         }
 
-        private async void btnChangeUID_Click(object sender, RoutedEventArgs e)
+        private void btnChangeUID_Click(object sender, RoutedEventArgs e)
         {
             Main.StopScanTag();
             var suw = new SetUIDWindow(Main, tools);
             suw.ShowDialog();
-            await Main.PeriodicScanTag();
+            Main.PeriodicScanTag();
         }
 
         private void btnLangFR_Click(object sender, RoutedEventArgs e)

@@ -63,7 +63,7 @@ namespace MCT_Windows
 
         private void default_rpt(object sender, ProgressChangedEventArgs e)
         {
-            main.logAppend((string)e.UserState);
+            main.LogAppend((string)e.UserState);
 
         }
 
