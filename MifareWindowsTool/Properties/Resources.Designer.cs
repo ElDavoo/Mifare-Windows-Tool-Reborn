@@ -332,7 +332,9 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à ACR122U Tag reader driver doesn&apos;t seem to be installed.\r\nClick OK to be redirected on the driver download page.\r\nInstall driver last version named &apos;MSI Installer for PC / SC Driver&apos;.
+        ///   Recherche une chaîne localisée semblable à ACR122U Tag reader driver doesn&apos;t seem to be installed.
+        ///Click OK to be redirected on the driver download page.
+        ///Install driver last version named &apos;MSI Installer for PC / SC Driver&apos;.
         /// </summary>
         public static string DriverACR122NotInstalled {
             get {
@@ -341,7 +343,8 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à ACR122U seems to be installed but, NOT the LibUsbK driver.\r\nClick OK to install it.
+        ///   Recherche une chaîne localisée semblable à ACR122U seems to be installed but, NOT the LibUsbK driver.
+        ///Click OK to install it.
         /// </summary>
         public static string DriverLibUsbKNonInstalled {
             get {

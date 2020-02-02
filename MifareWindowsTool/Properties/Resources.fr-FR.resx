@@ -392,9 +392,12 @@
     <value>Le Lecteur de badges ACR122U ne semble pas branché !</value>
   </data>
   <data name="DriverACR122NotInstalled" xml:space="preserve">
-    <value>Le pilote du lecteur ACR122U ne semble pas installé.\r\nCliquez sur OK pour être redirigés vers la page de téléchargement.\r\nInstallez la dernière version du pilote 'MSI Installer for PC / SC Driver'</value>
+    <value>Le pilote du lecteur ACR122U ne semble pas installé.
+Cliquez sur OK pour être redirigés vers la page de téléchargement.
+Installez la dernière version du pilote 'MSI Installer for PC / SC Driver'</value>
   </data>
   <data name="DriverLibUsbKNonInstalled" xml:space="preserve">
-    <value>Le pilote du lecteur ACR122U semble être installé mais pas le pilote LibUsbK.\r\nCliquez sur OK pour l'installer</value>
+    <value>Le pilote du lecteur ACR122U semble être installé mais pas le pilote LibUsbK.
+Cliquez sur OK pour l'installer</value>
   </data>
 </root>
