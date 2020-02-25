@@ -22,7 +22,8 @@ Plus d'infos sur le wiki ici : https://github.com/xavave/Mifare-Windows-Tool/wik
 #### PREREQUISITES / PREREQUIS
 
 - Windows 64bits
-- [EN] ACR122U Tag Reader / [FR] Lecteur de badges ACR122U
+- [EN] ACR122U Tag Reader / [FR] Lecteur de badges ACR122U --> [AMAZON 27€](https://www.amazon.fr/Luxtech-ACR122U-Lecteur-Contactless-Reader/dp/B078YXN3PH/ref=sr_1_4?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=acr122U&qid=1580658444&s=kitchen&sr=1-4-catcorr)
+
 - #### [EN] You need to install these drivers (Native + LibusbK) : documentation here : http://legacy.averbouch.biz/libnfc-and-nfc-utils-binaries-on-windows-10/#howtouse
 
 - #### [FR] Vous devez installer ces pilotes : celui du ACR122U d'origine et aussi LibUsbK : documentation en français ici --> http://legacy.averbouch.biz/fr/libnfc-and-nfc-utils-binaries-on-windows-10/#howtouse 
@@ -31,19 +32,10 @@ Plus d'infos sur le wiki ici : https://github.com/xavave/Mifare-Windows-Tool/wik
 
 [EN] Windows x64 : With MSI Setup provided here : https://github.com/xavave/Mifare-Windows-Tool/releases
 
-![image](https://user-images.githubusercontent.com/3501675/73595182-df3a6f80-4515-11ea-915a-011c9f363317.png)
+[![image](https://user-images.githubusercontent.com/3501675/73595182-df3a6f80-4515-11ea-915a-011c9f363317.png)](https://github.com/xavave/Mifare-Windows-Tool/releases)
 
-![image](https://user-images.githubusercontent.com/3501675/73595165-997da700-4515-11ea-8a84-f1d6ff411549.png)
-
-#### Important : Run Mifare Windows Tool as Administrator or it may not be able to write in folder c:\program Files\MWT\dumps and you would see error : "Cannot open: dumps\mfc_....dump, exiting" when reading a tag
-
-[![releases](https://user-images.githubusercontent.com/3501675/73595069-a77ef800-4514-11ea-848a-3a00deaa2b5d.png)](https://github.com/xavave/Mifare-Windows-Tool/releases)
 
 [FR] Installation sur Windows 64 bits avec le fichier de setup fourni ici : https://github.com/xavave/Mifare-Windows-Tool/releases
-
-#### Attention : Il faut lancer Mifare Windows Tool en tant qu'administrateur pour pouvoir l'utiliser pleinement
-
-![image](https://user-images.githubusercontent.com/3501675/73595037-35a6ae80-4514-11ea-9373-8e485c9a64ac.png)
 
 #### LANGUAGES / LANGUES
 
