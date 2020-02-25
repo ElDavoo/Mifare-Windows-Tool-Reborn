@@ -7,18 +7,38 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mifare Windows Tool", "Mifa
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MWT_Setup", "MWT_Setup\MWT_Setup.vdproj", "{1363B52A-CBAD-4F8B-89D6-FE5F6A4B8412}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WixSharp Setup", "WixSharp Setup\WixSharp Setup.csproj", "{44555887-C439-470C-944D-8866EC3D7067}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{5AC7169F-493A-4EED-8D70-49053D2D4507}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5AC7169F-493A-4EED-8D70-49053D2D4507}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AC7169F-493A-4EED-8D70-49053D2D4507}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5AC7169F-493A-4EED-8D70-49053D2D4507}.Debug|x86.Build.0 = Debug|Any CPU
 		{5AC7169F-493A-4EED-8D70-49053D2D4507}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5AC7169F-493A-4EED-8D70-49053D2D4507}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AC7169F-493A-4EED-8D70-49053D2D4507}.Release|x86.ActiveCfg = Release|Any CPU
+		{5AC7169F-493A-4EED-8D70-49053D2D4507}.Release|x86.Build.0 = Release|Any CPU
 		{1363B52A-CBAD-4F8B-89D6-FE5F6A4B8412}.Debug|Any CPU.ActiveCfg = Debug
+		{1363B52A-CBAD-4F8B-89D6-FE5F6A4B8412}.Debug|x86.ActiveCfg = Debug
+		{1363B52A-CBAD-4F8B-89D6-FE5F6A4B8412}.Debug|x86.Build.0 = Debug
 		{1363B52A-CBAD-4F8B-89D6-FE5F6A4B8412}.Release|Any CPU.ActiveCfg = Release
+		{1363B52A-CBAD-4F8B-89D6-FE5F6A4B8412}.Release|x86.ActiveCfg = Release
+		{1363B52A-CBAD-4F8B-89D6-FE5F6A4B8412}.Release|x86.Build.0 = Release
+		{44555887-C439-470C-944D-8866EC3D7067}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44555887-C439-470C-944D-8866EC3D7067}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44555887-C439-470C-944D-8866EC3D7067}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{44555887-C439-470C-944D-8866EC3D7067}.Debug|x86.Build.0 = Debug|Any CPU
+		{44555887-C439-470C-944D-8866EC3D7067}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44555887-C439-470C-944D-8866EC3D7067}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44555887-C439-470C-944D-8866EC3D7067}.Release|x86.ActiveCfg = Release|Any CPU
+		{44555887-C439-470C-944D-8866EC3D7067}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
