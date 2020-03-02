@@ -154,7 +154,7 @@
     <value>Sélectionner le dump Source</value>
   </data>
   <data name="btnStartMappingAndReadTagContent" xml:space="preserve">
-    <value>Démarrer le décryptage du badge</value>
+    <value>Décoder et lire le badge</value>
   </data>
   <data name="BtnWriteDumpContent" xml:space="preserve">
     <value>Ecrire sur le badge</value>

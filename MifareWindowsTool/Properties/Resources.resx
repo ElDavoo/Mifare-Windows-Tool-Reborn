@@ -158,7 +158,7 @@
     <value>Select Source Dump</value>
   </data>
   <data name="btnStartMappingAndReadTagContent" xml:space="preserve">
-    <value>Start decrypt tag</value>
+    <value>Start decode &amp; Read tag</value>
   </data>
   <data name="BtnWriteDumpContent" xml:space="preserve">
     <value>Write Dump</value>
