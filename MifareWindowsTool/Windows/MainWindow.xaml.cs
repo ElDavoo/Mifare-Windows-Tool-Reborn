@@ -443,7 +443,7 @@ namespace MCT_Windows
                 StopScanTag();
                 ValidateActions(false);
                 ShowAbortButton();
-                var sourceDump = "dumps\\" + t.TMPFILESOURCE_MFD;
+                var sourceDump = t.TMPFILESOURCEPATH_MFD; //"dumps\\" + t.TMPFILESOURCE_MFD;
                 var targetDump = "dumps\\" + t.TMPFILE_TARGETMFD;
                 char writeMode = bWriteBlock0 == true ? 'W' : 'w';
                 char useKey = useKeyA == true ? 'A' : 'B';

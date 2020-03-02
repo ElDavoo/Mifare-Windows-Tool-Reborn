@@ -26,8 +26,11 @@ namespace MCT_Windows
             this.Icon = BitmapFrame.Create(iconUri);
             rbClone.IsChecked = true;
             ofd.Filter = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DumpFileFilter));
-            ofd.InitialDirectory = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "dumps");
-            lblSrcDumpValue.Content = Path.GetFileName(tools.TMPFILESOURCE_MFD);
+            if (!string.IsNullOrWhiteSpace(tools.TMPFILESOURCEPATH_MFD) && System.IO.File.Exists(tools.TMPFILESOURCEPATH_MFD))
+                ofd.InitialDirectory = Path.GetDirectoryName(tools.TMPFILESOURCEPATH_MFD);
+            else
+                ofd.InitialDirectory = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "dumps");
+            lblSrcDumpValue.Content = tools.TMPFILESOURCE_MFD;
             lblTargetDumpValue.Content = Path.GetFileName(tools.TMPFILE_TARGETMFD);
         }
 
@@ -46,7 +49,7 @@ namespace MCT_Windows
             }
             else if (rbClone.IsChecked.HasValue && rbClone.IsChecked.Value)
             {
-                var de = DumpsExist();
+                var de = DumpsExist(tools.TMPFILESOURCEPATH_MFD);
                 if (de == DumpExists.Both)
                 {
                     TagType tt = TagType.Not0Writable;
@@ -55,12 +58,13 @@ namespace MCT_Windows
 
                     await main.RunNfcMfclassicAsync(TagAction.Clone, ckEnableBlock0Writing.IsChecked.HasValue && ckEnableBlock0Writing.IsChecked.Value,
                           rbUseKeyA.IsChecked.HasValue && rbUseKeyA.IsChecked.Value, rbHaltOnError.IsChecked.HasValue && rbHaltOnError.IsChecked.Value, tt);
+
                     this.DialogResult = true;
                     this.Close();
                 }
                 else
                 {
-                    if (de ==  DumpExists.Source)
+                    if (de == DumpExists.Source)
                         MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NeedSelectDumpKeyFileTarget)));
                     else if (de == DumpExists.Target)
                         MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NeedSelectDumpKeyFileSource)));
@@ -72,12 +76,12 @@ namespace MCT_Windows
             }
         }
 
-        DumpExists DumpsExist()
+        DumpExists DumpsExist(string sourcepath)
         {
             DumpExists de = DumpExists.None;
-            if (System.IO.File.Exists("dumps\\" + tools.TMPFILESOURCE_MFD))
+            if (System.IO.File.Exists(sourcepath))
             {
-                long fileLength = new System.IO.FileInfo("dumps\\" + tools.TMPFILESOURCE_MFD).Length;
+                long fileLength = new System.IO.FileInfo(sourcepath).Length;
                 if (fileLength > 0) de = DumpExists.Source;
 
             }
@@ -96,8 +100,9 @@ namespace MCT_Windows
             var dr = ofd.ShowDialog();
             if (dr.Value)
             {
+                tools.TMPFILESOURCEPATH_MFD = ofd.FileName;
                 tools.TMPFILESOURCE_MFD = Path.GetFileName(ofd.FileName);
-                lblSrcDumpValue.Content = Path.GetFileName(tools.TMPFILESOURCE_MFD);
+                lblSrcDumpValue.Content = tools.TMPFILESOURCE_MFD;
                 lblTargetDumpValue.Content = Path.GetFileName(tools.TMPFILE_TARGETMFD);
             }
             if (string.IsNullOrWhiteSpace(lblTargetDumpValue.Content?.ToString()))

@@ -66,6 +66,7 @@ namespace MCT_Windows
         public string mySourceUID { get; set; } = "";
         public string myTargetUID { get; set; } = "";
         public string TMPFILESOURCE_MFD { get; set; } = "";
+        public string TMPFILESOURCEPATH_MFD { get; set; } = "";
         public string TMPFILE_TARGETMFD { get; set; } = "";
         public string TMPFILE_UNK { get; set; } = "";
         public string TMPFILE_FND { get; set; } = "";
