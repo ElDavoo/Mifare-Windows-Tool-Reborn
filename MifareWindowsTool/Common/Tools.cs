@@ -2,6 +2,7 @@
 using MCT_Windows.Windows;
 using MifareWindowsTool.Common;
 using MifareWindowsTool.Properties;
+using Newtonsoft.Json;
 using ORMi;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Management;
 using System.Media;
+using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading;
@@ -91,7 +93,7 @@ namespace MCT_Windows
                 //Declare the Main Item
                 var name = ManageObject["Name"].ToString() + " - " + ManageObject["State"].ToString(); // + " - " + ManageObject["Description"].ToString();
                 col.Add(name);
-               
+
             }
             return col;
         }
@@ -115,11 +117,45 @@ namespace MCT_Windows
                 var dr = drivers.OfType<ManagementObject>().First();
                 return dr["State"].ToString().ToLower();
             }
-              
+
 
             return "";
         }
+        internal Version CheckNewVersion()
+        {
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    client.DefaultRequestHeaders.Add("User-Agent", "C# App");
+                    // Create the HttpContent for the form to be posted.
+                    var requestContent = new FormUrlEncodedContent(new[] { new KeyValuePair<string, string>("username", "xavave") });
 
+                    // Get the response.
+                    HttpResponseMessage response = client.GetAsync("https://api.github.com/repos/xavave/Mifare-Windows-Tool/releases/latest").Result;
+
+                    // Get the response content.
+                    HttpContent responseContent = response.Content;
+                    string data = "";
+                    // Get the stream of the content.
+                    using (var reader = new StreamReader(responseContent.ReadAsStreamAsync().Result))
+                    {
+                        // Write the output.
+                        data = reader.ReadToEnd();
+                    }
+                    var definition = new { tag_name = "" };
+                    var latestVersionTagName = JsonConvert.DeserializeAnonymousType(data, definition);
+                    var latestVersion = new Version(latestVersionTagName.tag_name);
+                    return latestVersion;
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+
+            }
+        }
+       
         internal bool TestWritePermission(string dirPath, bool throwIfFails = false)
         {
             try

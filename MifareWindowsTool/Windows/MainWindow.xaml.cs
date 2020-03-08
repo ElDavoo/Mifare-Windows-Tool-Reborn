@@ -46,6 +46,7 @@ namespace MCT_Windows
         public MainWindow()
         {
             InitializeComponent();
+
             Uri iconUri = new Uri("pack://application:,,,/Resources/MWT.ico", UriKind.RelativeOrAbsolute);
             BaseUri = BaseUriHelper.GetBaseUri(this);
             this.Icon = BitmapFrame.Create(iconUri);
@@ -54,6 +55,23 @@ namespace MCT_Windows
             ofd.Filter = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DumpFileFilter));
 
             t = new Tools(this);
+            var newVersion = t.CheckNewVersion();
+            if (newVersion != null)
+            {
+                var comp = Assembly.GetExecutingAssembly().GetName().Version.CompareTo(newVersion);
+                if (comp < 0)
+                {
+                    var ret = MessageBox.Show("A newer version exists. Do you want to go on github page ?", "Version", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                    if (ret == MessageBoxResult.Yes)
+                    {
+                        Process.Start("https://github.com/xavave/Mifare-Windows-Tool/releases/latest");
+                    }
+                    this.Title += " (Old version)";
+                }
+                else
+                    this.Title += " (Latest version)";
+
+            }
 
             ofd.InitialDirectory = Path.Combine(t.DefaultWorkingDir, "dumps");
 
