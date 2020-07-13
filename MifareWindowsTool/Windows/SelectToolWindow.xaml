@@ -33,9 +33,8 @@
             Style="{StaticResource buttonStyle}" />
         <Separator />
         <Grid Background="White">
-            <localize:LanguageSelector>
-                <localize:Language Culture="en-US" FlagSource="pack://application:,,,/Gu.Wpf.Localization;component/Flags/en.png" />
-                <localize:Language Culture="fr-FR" FlagSource="pack://application:,,,/Gu.Wpf.Localization;component/Flags/fr.png" />
+            <localize:LanguageSelector x:Name="LangSelector" Loaded="LangSelector_Loaded">
+               
             </localize:LanguageSelector>
         </Grid>
         <Separator />

@@ -10,7 +10,7 @@
     Width="500"
     Height="auto"
     Background="#303030"
-    Foreground="White"
+    Foreground="White" 
     mc:Ignorable="d">
     <Grid>
         <GroupBox Header="Tag Size" FontSize="10" Height="auto" Width="auto" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,0,0" ToolTip="Size of a MIFARE Classic block:16 bytes">

@@ -406,4 +406,10 @@ Click OK to install it</value>
   <data name="thisismctdumpfile" xml:space="preserve">
     <value>This file is a MCT (Mifare classic tool) dump and it will be automatically converted to MWT dump</value>
   </data>
+  <data name="BadgeReaderAcr122NotFound" xml:space="preserve">
+    <value>ACR122U tag reader not found!</value>
+  </data>
+  <data name="NewerVersionExists" xml:space="preserve">
+    <value>A newer version exists. Do you want to go on github page?</value>
+  </data>
 </root>

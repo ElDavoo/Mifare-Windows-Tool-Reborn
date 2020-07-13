@@ -1,12 +1,20 @@
 ﻿using CliWrap;
-using CliWrap.Models;
+using CliWrap.Buffered;
+using CliWrap.EventStream;
+
+using Dasync.Collections;
+
 using MCT_Windows.Windows;
 
 using Microsoft.Win32;
+
+using MifareWindowsTool.Common;
 using MifareWindowsTool.Properties;
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
@@ -38,11 +46,10 @@ namespace MCT_Windows
         public List<File> SelectedKeys = new List<File>();
         Uri BaseUri = null;
         int cptFail = 0;
-        protected internal string StdOutNfclist = "";
-        string StdOutMfoc = "";
+
         IObservable<long> ObservableScan = null;
-        CancellationTokenSource ScanCTS = null;
-        CancellationTokenSource ProcessCTS = null;
+        public CancellationTokenSource ScanCTS = new CancellationTokenSource();
+        public CancellationTokenSource ProcessCTS = new CancellationTokenSource();
         public MainWindow()
         {
             InitializeComponent();
@@ -61,7 +68,7 @@ namespace MCT_Windows
                 var comp = Assembly.GetExecutingAssembly().GetName().Version.CompareTo(newVersion);
                 if (comp < 0)
                 {
-                    var ret = MessageBox.Show("A newer version exists. Do you want to go on github page ?", "Version", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                    var ret = MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NewerVersionExists)), "Version", MessageBoxButton.YesNo, MessageBoxImage.Information);
                     if (ret == MessageBoxResult.Yes)
                     {
                         Process.Start("https://github.com/xavave/Mifare-Windows-Tool/releases/latest");
@@ -97,7 +104,7 @@ namespace MCT_Windows
                     var libusbkState = t.DriverState("LibUsbk");
                     if (acrState != "running" && libusbkState == "stopped")
                     {
-                        MessageBox.Show("Le Lecteur de badges ACR122U ne semble pas branché !", "Attention", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.BadgeReaderAcr122NotFound)), "Attention", MessageBoxButton.OK, MessageBoxImage.Warning);
                         return false;
                     }
                     if (libusbkState != "running")
@@ -144,8 +151,9 @@ namespace MCT_Windows
             {
                 Application.Current.Dispatcher.Invoke(async () =>
                 {
+                    ScanCTS.Token.Register(() => ScanTagRunning = false);
                     if (!ckEnablePeriodicTagScan.IsChecked.HasValue || ckEnablePeriodicTagScan.IsChecked.Value == false) return;
-                    rtbOutput.Text += $"{DateTime.Now} -  {Translate.Key(nameof(MifareWindowsTool.Properties.Resources.AutoScanTagRunning))}...\n";
+                    rtbOutput.AppendText($"{DateTime.Now} -  {Translate.Key(nameof(MifareWindowsTool.Properties.Resources.AutoScanTagRunning))}...\n");
                     await RunNfcListAsync();
                 });
             }, ScanCTS.Token);
@@ -214,11 +222,7 @@ namespace MCT_Windows
                         if (ret.HasValue && ret.Value)
                         {
                             await RunMfocAsync(SelectedKeys, t.TMPFILESOURCE_MFD, act);
-                            if (StdOutMfoc.Contains($"dumping keys to a file"))
-                            {
-                                ShowDump("dumps\\" + t.TMPFILESOURCE_MFD);
-                                StdOutMfoc = string.Empty;
-                            }
+
                         }
                         else
                             PeriodicScanTag();
@@ -237,11 +241,7 @@ namespace MCT_Windows
                         if (ret.HasValue && ret.Value)
                         {
                             await RunMfocAsync(SelectedKeys, t.TMPFILE_TARGETMFD, act);
-                            if (StdOutMfoc.Contains($"dumping"))
-                            {
-                                OpenWriteDumpWindow();
-                                StdOutMfoc = string.Empty;
-                            }
+
                         }
                         else
                             PeriodicScanTag();
@@ -294,7 +294,7 @@ namespace MCT_Windows
 
         public void ShowDump(string fileName)
         {
-            Application.Current.Dispatcher.Invoke(() =>
+            Dispatcher.Invoke(() =>
             {
                 DumpWindow dw = new DumpWindow(t, fileName);
                 var dr = dw.ShowDialog();
@@ -304,26 +304,40 @@ namespace MCT_Windows
 
         }
 
-        public static void DoEvents()
-        {
-            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background,
-                                                  new Action(delegate { }));
-        }
+        //public static void DoEvents()
+        //{
+        //    Application.Current.Dispatcher.Invoke(DispatcherPriority.Background,
+        //                                          new Action(delegate { }));
+        //}
 
         public async Task<bool> RunPcscScanACR122()
         {
+
             using (var cts = new CancellationTokenSource())
             {
+                bool IsACR122 = false;
+                ProcessCTS = new CancellationTokenSource();
                 cts.CancelAfter(TimeSpan.FromSeconds(10)); // e.g. timeout of 5 seconds
+                var cmd = Cli.Wrap("nfctools\\pcsc_scan.exe");
 
-                var result = await Cli.Wrap("nfctools\\pcsc_scan.exe")
-                    .SetCancellationToken(cts.Token)
-                    .SetStandardOutputCallback(l => LogAppend(l))
-                    .SetStandardErrorCallback(l => LogAppend(l))
-                    .ExecuteAsync();
-                return result.StandardOutput.Contains("ACR122");
+
+                await foreach (CommandEvent cmdEvent in cmd.ListenAsync(cts.Token))
+                {
+                    switch (cmdEvent)
+                    {
+                        case StandardOutputCommandEvent stdOut:
+                            LogAppend(stdOut.Text);
+                            if (stdOut.Text.Contains("ACR122")) IsACR122 = true;
+                            break;
+                        case StandardErrorCommandEvent stdErr:
+                            ErrorAppend(stdErr.Text);
+                            break;
+                        default: break;
+                    }
+                }
+
+                return IsACR122;
             }
-
         }
 
         public async Task<string> RunNfcListAsync()
@@ -331,35 +345,62 @@ namespace MCT_Windows
 
             try
             {
-                var result = await Cli.Wrap(@"nfctools\\nfc-list.exe")
-                                          .SetStandardOutputCallback(l => LogAppend(l))
-                                          .SetStandardErrorCallback(l => LogAppend(l))
-                                          .EnableExitCodeValidation(false)
-                                          .ExecuteAsync();
-                if (result.ExitCode != 0)
+                var stdOutFull = "";
+                var cmd = Cli.Wrap("nfctools\\nfc-list.exe").WithValidation(CommandResultValidation.None);
+
+                await foreach (CommandEvent cmdEvent in cmd.ListenAsync(ScanCTS.Token))
                 {
-                    if (cptFail < 1)
+                    switch (cmdEvent)
                     {
-                        var dr = MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DriverLibUsbKNonInstalled)), "LibUsbK", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-                        if (dr == MessageBoxResult.OK)
-                        {
-                            if (t.InstallLibUsbKDriver())
-                                cptFail++;
-                        }
+                        case StandardOutputCommandEvent stdOut:
+                            stdOutFull += stdOut.Text;
+                            LogAppend(stdOut.Text);
+                            if (stdOut.Text.Contains("UID"))
+                            {
+                                t.CurrentUID = SetCurrentUID(stdOutFull);
+                            }
+
+                            break;
+                        case StandardErrorCommandEvent stdErr:
+                            ErrorAppend(stdErr.Text);
+                            break;
+                        case ExitedCommandEvent exited:
+                            if (exited.ExitCode != 0)
+                            {
+                                if (cptFail < 1)
+                                {
+                                    var dr = MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DriverLibUsbKNonInstalled)), "LibUsbK", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                                    if (dr == MessageBoxResult.OK)
+                                    {
+                                        if (t.InstallLibUsbKDriver())
+                                            cptFail++;
+                                    }
+                                }
+                                t.CurrentUID = "";
+                            }
+                            else if (stdOutFull.Contains("No NFC device found."))
+                            {
+
+                                ScanTagRunning = false;
+                                ScanCTS.Cancel();
+                            }
+
+
+                            break;
+                        default: break;
                     }
                 }
 
-                StdOutNfclist = result.StandardOutput;
 
-                if (StdOutNfclist.Contains("No NFC device found."))
-                {
-                    ScanTagRunning = false;
-                    ScanCTS.Cancel();
-
-                }
-
-                return SetCurrentUID(result);
+                return t.CurrentUID;
             }
+            catch (TaskCanceledException tce)
+            {
+                ckEnablePeriodicTagScan.IsChecked = false;
+                ScanTagRunning = false;
+                return "";
+            }
+
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
@@ -367,22 +408,14 @@ namespace MCT_Windows
             }
         }
 
-        private string SetCurrentUID(ExecutionResult result)
+        private string SetCurrentUID(string text)
         {
             var newUID = "";
-            var exitCode = result.ExitCode;
 
-            var stdErr = result.StandardError;
-            var startTime = result.StartTime;
-            var exitTime = result.ExitTime;
-            var runTime = result.RunTime;
-
-
-
-            var retUID = StdOutNfclist.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Where(t => t.Contains("UID")).LastOrDefault();
+            var retUID = text.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Where(t => t.Contains("UID")).LastOrDefault();
             if (retUID != null && retUID.Contains(": "))
             {
-                newUID = retUID.Substring(retUID.IndexOf(": ") + ": ".Length).Replace(" ", "").ToUpper();
+                newUID = retUID.Substring(retUID.LastIndexOf(": ") + ": ".Length).Replace(" ", "").ToUpper();
                 if (t.CurrentUID != newUID)
                 {
                     t.CurrentUID = newUID;
@@ -400,7 +433,7 @@ namespace MCT_Windows
                 TagFound = false;
                 this.Title = $"{MainTitle}: {Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NoTag))}";
             }
-            StdOutNfclist = "";
+
             return newUID;
         }
 
@@ -410,7 +443,7 @@ namespace MCT_Windows
             {
 
                 ScanTagRunning = false;
-                ScanCTS.Cancel();
+                if (ScanCTS != null) ScanCTS.Cancel();
                 if (ckEnablePeriodicTagScan.IsChecked.Value)
                     LogAppend(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.AutoScanTagStopped)));
             }
@@ -428,25 +461,29 @@ namespace MCT_Windows
                 ProcessCTS = new CancellationTokenSource();
                 var arguments = $"-y {args}";
                 LogAppend($"nfc-mfclassic {arguments}");
-                var result = await Cli.Wrap("nfctools\\mifare-classic-format.exe").SetArguments(arguments)
-      .SetStandardOutputCallback(l => LogAppend(l))
-      .SetStandardErrorCallback(l => LogAppend(l))
-      .SetCancellationToken(ProcessCTS.Token)
-      .ExecuteAsync();
+                var cmd = Cli.Wrap("nfctools\\mifare-classic-format.exe").WithArguments(arguments);
 
-                var exitCode = result.ExitCode;
-                var stdOut = result.StandardOutput;
-                var stdErr = result.StandardError;
-                var startTime = result.StartTime;
-                var exitTime = result.ExitTime;
-                var runTime = result.RunTime;
+                await foreach (CommandEvent cmdEvent in cmd.ListenAsync(ProcessCTS.Token))
+                {
+                    switch (cmdEvent)
+                    {
+                        case StandardOutputCommandEvent stdOut:
+                            LogAppend(stdOut.Text);
+                            break;
+                        case StandardErrorCommandEvent stdErr:
+                            ErrorAppend(stdErr.Text);
+                            break;
+                        default: break;
+                    }
+                }
+
             }
             catch (OperationCanceledException)
             {
             }
             finally
             {
-                ProcessCTS.Dispose();
+                //ProcessCTS.Dispose();
                 ValidateActions(true);
                 ShowAbortButton(false);
             }
@@ -470,23 +507,23 @@ namespace MCT_Windows
                 ProcessCTS = new CancellationTokenSource();
                 var arguments = $"{writeMode} {cHaltOnError} u \"{sourceDump}\" \"{targetDump}\"";
                 LogAppend($"nfc-mfclassic {arguments}");
-                var result = await Cli.Wrap("nfctools\\nfc-mfclassic.exe").SetArguments(arguments)
-       .SetStandardOutputCallback(l => LogAppend(l))
-       .SetStandardErrorCallback(l => LogAppend(l))
-       .SetCancellationToken(ProcessCTS.Token)
-       .ExecuteAsync();
+
+                var cmd = Cli.Wrap("nfctools\\nfc-mfclassic.exe").WithArguments(arguments).WithValidation(CommandResultValidation.None)
+                    .WithStandardOutputPipe(PipeTarget.ToDelegate(LogAppend))
+                    .WithStandardErrorPipe(PipeTarget.ToDelegate(ErrorAppend));
+                var result = await cmd.ExecuteAsync(ProcessCTS.Token);
+
             }
             catch (OperationCanceledException)
             {
             }
             catch (Exception)
             {
-
                 throw;
             }
             finally
             {
-                ProcessCTS.Dispose();
+                //ProcessCTS.Dispose();
                 ValidateActions(true);
                 ShowAbortButton(false);
             }
@@ -497,6 +534,7 @@ namespace MCT_Windows
         {
             try
             {
+                bool showDump = false;
                 StopScanTag();
                 ValidateActions(false);
                 ShowAbortButton();
@@ -516,13 +554,37 @@ namespace MCT_Windows
                 arguments += $" -O\"{tmpFileMfd}\"";
                 ProcessCTS = new CancellationTokenSource();
                 LogAppend($"mfoc {arguments}");
-                var result = await Cli.Wrap("nfctools\\mfoc.exe").SetArguments(arguments).SetWorkingDirectory(t.DefaultWorkingDir)
-    .SetStandardOutputCallback(l => LogAppend(l))
-    .SetStandardErrorCallback(l => LogAppend(l))
-    .SetCancellationToken(ProcessCTS.Token)
-    .ExecuteAsync();
+                var cmd = Cli.Wrap("nfctools\\mfoc.exe").WithArguments(arguments).WithWorkingDirectory(t.DefaultWorkingDir).WithValidation(CommandResultValidation.None);
 
-                StdOutMfoc = result.StandardOutput;
+                await foreach (CommandEvent cmdEvent in cmd.ListenAsync(ProcessCTS.Token))
+                {
+                    switch (cmdEvent)
+                    {
+                        case StandardOutputCommandEvent stdOut:
+                            LogAppend(stdOut.Text);
+                            if (act == TagAction.ReadSource)
+                                if (stdOut.Text.Contains($"dumping keys to a file"))
+                                {
+                                    showDump = true;
+
+                                }
+                                else if (act == TagAction.ReadTarget)
+                                    if (stdOut.Text.Contains($"dumping"))
+                                    {
+                                        OpenWriteDumpWindow();
+
+                                    }
+                            break;
+                        case StandardErrorCommandEvent stdErr:
+                            ErrorAppend(stdErr.Text);
+                            break;
+                        case ExitedCommandEvent exited:
+                            if (showDump) ShowDump("dumps\\" + t.TMPFILESOURCE_MFD);
+                            break;
+                    }
+                }
+
+
             }
             catch (OperationCanceledException)
             {
@@ -536,17 +598,23 @@ namespace MCT_Windows
             {
                 ValidateActions(true);
                 ShowAbortButton(false);
-                ProcessCTS.Dispose();
+                //ProcessCTS.Dispose();
             }
 
         }
-
+        public void ErrorAppend(string msg)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                rtbOutput.AppendText(msg + Environment.NewLine, System.Windows.Media.Brushes.Orange);
+            }, DispatcherPriority.Normal);
+        }
         public void LogAppend(string msg)
         {
-            Dispatcher.Invoke(new Action(() =>
+            Dispatcher.Invoke(() =>
             {
-                rtbOutput.AppendText(msg + "\n");
-            }));
+                rtbOutput.AppendText(msg + Environment.NewLine, System.Windows.Media.Brushes.Lime);
+            }, DispatcherPriority.Normal);
         }
 
         private void btnEditAddKeyFile_Click(object sender, RoutedEventArgs e)
@@ -559,7 +627,7 @@ namespace MCT_Windows
 
         private void rtbOutput_TextChanged(object sender, TextChangedEventArgs e)
         {
-            (sender as TextBox).ScrollToEnd();
+            (sender as RichTextBox).ScrollToEnd();
         }
 
 
@@ -569,8 +637,6 @@ namespace MCT_Windows
             var dr = ofd.ShowDialog();
             if (dr.Value)
             {
-
-
                 ShowDump(ofd.FileName);
             }
             else
@@ -598,7 +664,6 @@ namespace MCT_Windows
         }
         private void ckEnablePeriodicTagScan_Checked(object sender, RoutedEventArgs e)
         {
-
 
             if (ckEnablePeriodicTagScan.IsChecked.HasValue && ckEnablePeriodicTagScan.IsChecked.Value)
                 PeriodicScanTag();

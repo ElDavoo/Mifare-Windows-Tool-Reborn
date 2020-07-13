@@ -21,13 +21,7 @@
         <StackPanel Orientation="Vertical">
 
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <GroupBox Header="Tag Size" FontSize="10"  Margin="20,0,0,0" ToolTip="Size of a MIFARE Classic block:16 bytes">
-                    <StackPanel Orientation="Vertical">
-                        <RadioButton GroupName="tagsize" IsChecked="{Binding SelectedTagSize, Mode=TwoWay}" Foreground="White" ToolTip="Tag contains 16 sectors, each with 4 blocks.">1K</RadioButton>
-                        <RadioButton GroupName="tagsize"   IsChecked="{Binding SelectedTagSize, Mode=TwoWay}" Foreground="White" ToolTip="Tag contains 32 sectors, each with 4 blocks.">2K</RadioButton>
-                        <RadioButton GroupName="tagsize"  IsChecked="{Binding SelectedTagSize, Mode=TwoWay}" Foreground="White" ToolTip="Tag contains 40 sectors. The first 32 sectors contain 4 blocks and the last 8 sectors contain 16 blocks.">4K</RadioButton>
-                    </StackPanel>
-                </GroupBox>
+                
                 <Button
                     x:Name="btnOpenDump"
                     Width="auto"

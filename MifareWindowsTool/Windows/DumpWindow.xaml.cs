@@ -40,13 +40,14 @@ namespace MCT_Windows.Windows
 
         OpenFileDialog ofd = new OpenFileDialog();
         SaveFileDialog sfd = new SaveFileDialog();
-
+       public bool CompareDumpsMode { get; private set; }
 
         public DumpWindow(Tools t, string fileName, bool bCompareDumpsMode = false)
         {
             try
             {
                 InitializeComponent();
+                CompareDumpsMode = bCompareDumpsMode;
                 Uri iconUri = new Uri("pack://application:,,,/Resources/MWT.ico", UriKind.RelativeOrAbsolute);
                 this.Icon = BitmapFrame.Create(iconUri);
                 ofd.Filter = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DumpFileFilter));
@@ -57,41 +58,7 @@ namespace MCT_Windows.Windows
                 Tools = t;
                 dFileName = fileName;
 
-                if (bCompareDumpsMode)
-                {
-                    Title = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.CompareDumps));
-                    btnSaveDump.Visibility = Visibility.Hidden;
-                    btnShowAsAscii.Visibility = Visibility.Hidden;
-                    stkOpenDumps.Visibility = Visibility.Visible;
-                    stkInfos.Visibility = Visibility.Collapsed;
-                    btnEdit.Visibility = Visibility.Collapsed;
-                }
-                else
-                {
-                    Title += " " + Path.GetFileName(dFileName);
-                    btnEdit.Visibility = Visibility.Visible;
-                    btnSaveDump.Visibility = Visibility.Visible;
-                    stkOpenDumps.Visibility = Visibility.Collapsed;
 
-
-
-                    bytesDataA = System.IO.File.ReadAllBytes(fileName);
-
-                    string strFirstBlock = BitConverter.ToString(bytesDataA.Take(16).ToArray()).Replace("-", string.Empty);
-                    if (strFirstBlock.Contains("536563746F72")) //(hex)536563746F72 => (text)-> 'Sector'
-                    {
-                        System.Windows.MessageBox.Show(MifareWindowsTool.Properties.Resources.thisismctdumpfile
-                             , "MCT Dump --> MWT Dump", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
-
-                        string textFile = System.IO.File.ReadAllText(fileName);
-                        bytesDataA = ConvertToBinaryDump(textFile);
-
-                    }
-
-                    SetSectorCount(bytesDataA.Length);
-
-                    ShowHex();
-                }
             }
             catch (Exception ex)
             {
@@ -165,6 +132,8 @@ namespace MCT_Windows.Windows
                     //if tag contains 40 sectors, the first 32 sectors contain 4 blocks and the last 8 sectors contain 16 blocks.
                     blockCountInSector = 16;
                 }
+                else
+                    blockCountInSector = 4;
                 string hexString = BitConverter.ToString(chunks[i]).Replace("-", string.Empty);
                 var strAscii = hexString.HexStrToAscii();
                 if (i % blockCountInSector == 0)
@@ -192,6 +161,8 @@ namespace MCT_Windows.Windows
                     //if tag contains 40 sectors, the first 32 sectors contain 4 blocks and the last 8 sectors contain 16 blocks.
                     blockCountInSector = 16;
                 }
+                else
+                    blockCountInSector = 4;
                 string strBlock = $"{BitConverter.ToString(chunks[i]).Replace("-", string.Empty)}{Environment.NewLine}";
                 if (i % blockCountInSector == 0)
                 {
@@ -365,6 +336,40 @@ namespace MCT_Windows.Windows
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             Height = SystemParameters.PrimaryScreenHeight * 0.8;
+            if (CompareDumpsMode)
+            {
+                Title = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.CompareDumps));
+                btnSaveDump.Visibility = Visibility.Hidden;
+                btnShowAsAscii.Visibility = Visibility.Hidden;
+                stkOpenDumps.Visibility = Visibility.Visible;
+                stkInfos.Visibility = Visibility.Collapsed;
+                btnEdit.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                Title += " " + Path.GetFileName(dFileName);
+                btnEdit.Visibility = Visibility.Visible;
+                btnSaveDump.Visibility = Visibility.Visible;
+                stkOpenDumps.Visibility = Visibility.Collapsed;
+
+
+                bytesDataA = System.IO.File.ReadAllBytes(dFileName);
+
+                string strFirstBlock = BitConverter.ToString(bytesDataA.Take(16).ToArray()).Replace("-", string.Empty);
+                if (strFirstBlock.Contains("536563746F72")) //(hex)536563746F72 => (text)-> 'Sector'
+                {
+                    System.Windows.MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.thisismctdumpfile))
+                         , "MCT Dump --> MWT Dump", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+
+                    string textFile = System.IO.File.ReadAllText(dFileName);
+                    bytesDataA = ConvertToBinaryDump(textFile);
+
+                }
+
+                SetSectorCount(bytesDataA.Length);
+
+                ShowHex();
+            }
         }
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
@@ -378,5 +383,7 @@ namespace MCT_Windows.Windows
                 case "rb4K": sectorCount = 40; ShowHex(); break;
             }
         }
+
+
     }
 }

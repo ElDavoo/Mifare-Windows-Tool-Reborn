@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Gu.Wpf.Localization;
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -59,6 +61,14 @@ namespace MCT_Windows.Windows
 
         private void btnLangEN_Click(object sender, RoutedEventArgs e)
         {
+
+        }
+
+        private void LangSelector_Loaded(object sender, RoutedEventArgs e)
+        {
+            var ls = sender as LanguageSelector;
+            ls.Languages.Add(new Gu.Wpf.Localization.Language(new System.Globalization.CultureInfo("en-US")) { FlagSource = new Uri("pack://application:,,,/Gu.Wpf.Localization;component/Flags/en.png") });
+            ls.Languages.Add(new Gu.Wpf.Localization.Language(new System.Globalization.CultureInfo("fr-FR")) { FlagSource = new Uri("pack://application:,,,/Gu.Wpf.Localization;component/Flags/fr.png") });
 
         }
     }

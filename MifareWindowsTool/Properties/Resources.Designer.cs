@@ -124,6 +124,15 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ACR122U tag reader not found!.
+        /// </summary>
+        public static string BadgeReaderAcr122NotFound {
+            get {
+                return ResourceManager.GetString("BadgeReaderAcr122NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         public static byte[] Beep_ACR122U {
@@ -584,6 +593,15 @@ namespace MifareWindowsTool.Properties {
         public static string NeedToSelectOneKeyFile {
             get {
                 return ResourceManager.GetString("NeedToSelectOneKeyFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A newer version exists. Do you want to go on github page?.
+        /// </summary>
+        public static string NewerVersionExists {
+            get {
+                return ResourceManager.GetString("NewerVersionExists", resourceCulture);
             }
         }
         

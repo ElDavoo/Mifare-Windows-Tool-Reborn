@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:resx="clr-namespace:MifareWindowsTool.Properties"
     Width="800"
-    Height="365"
+    Height="360"
     Background="#303030"
     WindowStyle="SingleBorderWindow"
     mc:Ignorable="d">
@@ -154,19 +154,24 @@
             </StackPanel>
 
         </StackPanel>
-        <TextBox
+        <RichTextBox
             x:Name="rtbOutput"
             Width="auto"
             Height="auto"
             MinHeight="300"
-            MaxHeight="600"
             Margin="255,0,0,10"
             HorizontalAlignment="Stretch"
-            VerticalAlignment="Top"
+            VerticalAlignment="Stretch"
             Background="Black"
             Foreground="Lime"
             ScrollViewer.VerticalScrollBarVisibility="Auto"
-            TextChanged="rtbOutput_TextChanged" />
+            TextChanged="rtbOutput_TextChanged">
+            <RichTextBox.Resources>
+                <Style TargetType="{x:Type Paragraph}">
+                    <Setter Property="Margin" Value="0" />
+                </Style>
+            </RichTextBox.Resources>
+        </RichTextBox>
         <CheckBox
             x:Name="ckEnablePeriodicTagScan"
             Width="auto"
@@ -175,6 +180,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Bottom"
             Checked="ckEnablePeriodicTagScan_Checked"
+            Unchecked="ckEnablePeriodicTagScan_Checked"
             Content="{localize:Static resx:Resources.ckEnablePeriodicTagScanContent}"
             FontSize="10"
             Foreground="White"

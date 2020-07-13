@@ -130,7 +130,7 @@
     <value>existe déjà</value>
   </data>
   <data name="AutoScanTagRunning" xml:space="preserve">
-    <value>La détection automatique de badges est démarrée</value>
+    <value>La détection automatique de badges est en cours</value>
   </data>
   <data name="AutoScanTagStopped" xml:space="preserve">
     <value>La détection automatique de badges est arrêtée</value>
@@ -402,5 +402,11 @@ Cliquez sur OK pour l'installer</value>
   </data>
   <data name="thisismctdumpfile" xml:space="preserve">
     <value>Ce fichier de dump provient de MCT (Mifare classic tool) et va être converti automatiquement vers le format de dump MWT</value>
+  </data>
+  <data name="BadgeReaderAcr122NotFound" xml:space="preserve">
+    <value>Le Lecteur de badges ACR122U ne semble pas branché !</value>
+  </data>
+  <data name="NewerVersionExists" xml:space="preserve">
+    <value>Une nouvelle version est disponible. Voulez-vous aller sur la page de téléchargement (GitHub) ?</value>
   </data>
 </root>

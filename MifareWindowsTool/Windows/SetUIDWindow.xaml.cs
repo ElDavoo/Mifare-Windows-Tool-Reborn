@@ -1,6 +1,8 @@
 ﻿using CliWrap;
+
 using MifareWindowsTool.Common;
 using MifareWindowsTool.Properties;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -48,6 +50,7 @@ namespace MCT_Windows.Windows
                 MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.InvalidUID)));
                 return;
             }
+            Main.ProcessCTS = new System.Threading.CancellationTokenSource();
             await RunSetUidAsync(txtnewUID.Text.Trim());
         }
         private async Task RunSetUidAsync(string newUID)
@@ -58,18 +61,11 @@ namespace MCT_Windows.Windows
             arguments += newUID;
 
             Main.LogAppend($"nfc-mfsetuid {arguments}");
-            var result = await Cli.Wrap(@"nfctools\\nfc-mfsetuid.exe").SetArguments(arguments)
-   .SetStandardOutputCallback(l => Main.LogAppend(l))
-   .SetStandardErrorCallback(l => Main.LogAppend(l))
-   .ExecuteAsync();
+            var cmd = Cli.Wrap(@"nfctools\\nfc-mfsetuid.exe").WithArguments(arguments)
+                    .WithStandardOutputPipe(PipeTarget.ToDelegate(Main.LogAppend))
+                    .WithStandardErrorPipe(PipeTarget.ToDelegate(Main.ErrorAppend));
 
-            var exitCode = result.ExitCode;
-            var stdOutput = result.StandardOutput;
-            var stdErr = result.StandardError;
-            var startTime = result.StartTime;
-            var exitTime = result.ExitTime;
-            var runTime = result.RunTime;
-
+            var result = await cmd.ExecuteAsync(Main.ProcessCTS.Token);
 
         }
 
@@ -77,6 +73,7 @@ namespace MCT_Windows.Windows
         {
             if (string.IsNullOrWhiteSpace(tools.myTargetUID))
             {
+                Main.ScanCTS = new System.Threading.CancellationTokenSource();
                 var uid = await Main.RunNfcListAsync();
 
                 if (string.IsNullOrWhiteSpace(uid))
