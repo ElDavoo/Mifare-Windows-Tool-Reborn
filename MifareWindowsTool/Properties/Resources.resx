@@ -403,4 +403,7 @@ Install driver last version named 'MSI Installer for PC / SC Driver'</value>
     <value>ACR122U seems to be installed but, NOT the LibUsbK driver.
 Click OK to install it</value>
   </data>
+  <data name="thisismctdumpfile" xml:space="preserve">
+    <value>This file is a MCT (Mifare classic tool) dump and it will be automatically converted to MWT dump</value>
+  </data>
 </root>

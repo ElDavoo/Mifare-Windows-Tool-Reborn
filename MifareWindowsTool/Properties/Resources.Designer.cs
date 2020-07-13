@@ -849,6 +849,15 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This file is a MCT (Mifare classic tool) dump and it will be automatically converted to MWT dump.
+        /// </summary>
+        public static string thisismctdumpfile {
+            get {
+                return ResourceManager.GetString("thisismctdumpfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to TOOLS / OPTIONS.
         /// </summary>
         public static string Tools {

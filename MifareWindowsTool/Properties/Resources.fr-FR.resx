@@ -400,4 +400,7 @@ Installez la dernière version du pilote 'MSI Installer for PC / SC Driver'</val
     <value>Le pilote du lecteur ACR122U semble être installé mais pas le pilote LibUsbK.
 Cliquez sur OK pour l'installer</value>
   </data>
+  <data name="thisismctdumpfile" xml:space="preserve">
+    <value>Ce fichier de dump provient de MCT (Mifare classic tool) et va être converti automatiquement vers le format de dump MWT</value>
+  </data>
 </root>

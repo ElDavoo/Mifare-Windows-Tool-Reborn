@@ -44,23 +44,19 @@ namespace MifareWindowsTool.Common
             return string.Empty;
         }
 
-        public static void AppendText(this RichTextBox richTextBox, string text, Brush brush, bool bold = false)
+        public static void AppendText(this RichTextBox box, string text, Brush brush, bool bold = false)
         {
-
-            richTextBox.AppendText(text);
-            int nlcount = text.ToCharArray().Count(a => a == '\n');
-            int len = text.Length + 3 * (nlcount) + 2; //newlines are longer, this formula works fine
-            TextPointer myTextPointer1 = richTextBox.Document.ContentEnd.GetPositionAtOffset(-len);
-            TextPointer myTextPointer2 = richTextBox.Document.ContentEnd.GetPositionAtOffset(-1);
-
-            richTextBox.Selection.Select(myTextPointer1, myTextPointer2);
-
-            richTextBox.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, brush);
-            if (bold)
-                richTextBox.Selection.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Bold);
-            else
-                richTextBox.Selection.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Normal);
-
+            TextRange tr = new TextRange(box.Document.ContentEnd, box.Document.ContentEnd);
+            tr.Text = text;
+            try
+            {
+                tr.ApplyPropertyValue(TextElement.ForegroundProperty, brush);
+                if (bold)
+                    tr.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Bold);
+                else
+                    tr.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Normal);
+            }
+            catch (FormatException) { }
         }
     }
 }

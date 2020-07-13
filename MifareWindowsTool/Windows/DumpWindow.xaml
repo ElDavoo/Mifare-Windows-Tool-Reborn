@@ -5,53 +5,71 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:localize="http://gu.se/Localization"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:resx="clr-namespace:MifareWindowsTool.Properties"
+    xmlns:resx="clr-namespace:MifareWindowsTool.Properties" Loaded="Window_Loaded"
     Title="{localize:Static resx:Resources.DumpWindowTitle}"
     Width="500"
-    Height="600"
+    Height="auto"
     Background="#303030"
     Foreground="White"
     mc:Ignorable="d">
     <Grid>
-        <StackPanel Orientation="Vertical">
-            <StackPanel
+        <GroupBox Header="Tag Size" FontSize="10" Height="auto" Width="auto" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,0,0" ToolTip="Size of a MIFARE Classic block:16 bytes">
+            <StackPanel Orientation="Vertical">
+                <RadioButton x:Name="rbmini" GroupName="tagsize" Checked="RadioButton_Checked" Foreground="White" ToolTip="MIFARE Classic Mini are 320 bytes, with 5 sectors each of 4 blocks">Mini</RadioButton>
+                <RadioButton x:Name="rb1K" GroupName="tagsize" Checked="RadioButton_Checked" Foreground="White" ToolTip="Tag contains 16 sectors, each with 4 blocks." IsChecked="True">1K</RadioButton>
+                <RadioButton x:Name="rb2K" GroupName="tagsize" Checked="RadioButton_Checked" Foreground="White" ToolTip="Tag contains 32 sectors, each with 4 blocks.">2K</RadioButton>
+                <RadioButton x:Name="rb4K" GroupName="tagsize" Checked="RadioButton_Checked" Foreground="White" ToolTip="Tag contains 40 sectors. The first 32 sectors contain 4 blocks and the last 8 sectors contain 16 blocks.">4K</RadioButton>
+            </StackPanel>
+        </GroupBox>
+        <StackPanel Margin="3"
                 x:Name="stkOpenDumps"
-                HorizontalAlignment="Center"
+                HorizontalAlignment="Center" VerticalAlignment="Top"
                 Orientation="Horizontal">
 
-                <Button
+            <Button Height="30"
                     x:Name="btnOpenDumpA"
                     Width="auto"
-                    Margin="0,0,20,0"
+                    Margin="0,0,10,0"
                     Click="BtnOpenDumpA_Click"
                     Content="{localize:Static resx:Resources.btnOpenDumpAContent}"
                     Style="{StaticResource buttonStyle}" />
-                <Button
+
+            <Button Height="30"
                     x:Name="btnOpenDumpB"
                     Width="auto"
-                    Margin="50,0,0,0"
+                    Margin="30,0,20,0"
                     Click="BtnOpenDumpB_Click"
                     Content="{localize:Static resx:Resources.btnOpenDumpBContent}"
                     Style="{StaticResource buttonStyle}" />
-            </StackPanel>
+
+        </StackPanel>
+
+        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="auto" Margin="0,40,0,0">
             <RichTextBox
                 x:Name="txtOutput"
-                Width="auto"
-                Height="500"
-                Margin="50,0,50,0"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Top"
+                Width="auto" 
+                MinHeight="400"
+                Height="auto"
+                Margin="32,0,60,50"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Stretch"
                 Background="#303030"
                 BorderBrush="Wheat"
                 BorderThickness="1"
                 FontFamily="Courier New"
                 FontSize="16"
                 Foreground="White"
-                ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <RichTextBox.Resources>
+                    <Style TargetType="{x:Type Paragraph}">
+                        <Setter Property="Margin" Value="0" />
+                    </Style>
+                </RichTextBox.Resources>
+            </RichTextBox>
             <StackPanel
                 x:Name="stkInfos"
-                HorizontalAlignment="Center"
-                Orientation="Horizontal">
+                HorizontalAlignment="Center" 
+                Orientation="Horizontal" VerticalAlignment="Bottom" Margin="0,0,0,30">
                 <Label Content="UID &amp; ManufInfo" Foreground="#9533F9" />
                 <TextBlock>|</TextBlock>
                 <Label Content="ValueBlock" Foreground="Yellow" />
@@ -63,7 +81,7 @@
                 <Label Content="ACs" Foreground="Orange" />
                 <TextBlock>|</TextBlock>
             </StackPanel>
-            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Bottom">
                 <Button
                     x:Name="btnSaveDump"
                     Width="auto"
@@ -96,6 +114,6 @@
                     Style="{StaticResource buttonStyle}" />
 
             </StackPanel>
-        </StackPanel>
+        </Grid>
     </Grid>
 </Window>
