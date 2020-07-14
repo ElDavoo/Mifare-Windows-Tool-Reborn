@@ -18,7 +18,7 @@ namespace WixSharp_Setup
             var project = new ManagedProject("MifareWindowsTool",
                               new Dir(@"%ProgramFiles%\AVXTEC\MWT"
                                 , new Files(buildDir + @"\*.*")));
-            project.SetNetFxPrerequisite("NETFRAMEWORK45 >= '#461808'", "Please install .Net 4.7.2 First");
+            project.SetNetFxPrerequisite("NETFRAMEWORK45 >= '#528033'", "Please install .Net Framework 4.8 First");
             project.ProductId = Guid.NewGuid();
             project.GUID = new Guid("6fe30b47-2577-43ad-9095-1861ba25779b");
             project.ManagedUI = new ManagedUI();
@@ -52,7 +52,7 @@ namespace WixSharp_Setup
                                        desktopShortcut,
                                        programMenuShortCut
                               };
-
+            
             project.ControlPanelInfo.UrlInfoAbout = "https://github.com/xavave/Mifare-Windows-Tool";
             project.ControlPanelInfo.ProductIcon = IconFilename;
             project.ControlPanelInfo.Contact = "AVXTEC";
