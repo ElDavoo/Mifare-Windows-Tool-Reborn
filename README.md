@@ -8,12 +8,14 @@
 #### License
 
 source code is not a copy of original android version, but strongly inspired from it : I've modified logo and copied icons
+
 It's normal to give credits to the original author
+
 This application was originally developed on Android systems by Gerhard Klostermeier in cooperation with SySS GmbH (www.syss.de) and Aalen University (www.htw-aalen.de) in 2012/2013. It is free software
 
 Icons used in this application:
 
-Logo: Beneke Traub
+original android Logo: Beneke Traub
 (Creative Commons 4.0)
 Oxygen Icons: www.oxygen-icons.org
 (GNU Lesser General Public License)
