@@ -26,7 +26,8 @@ MIFARE® is a registered trademark of NXP Semiconductors.
 #### GENERAL INFORMATION / INFOS GENERALES
 
 You can donate for this Windows fork :
-[Donate with Paypal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=V5ZP47AVFHRVY) [![Donate]
+
+[Donate with Paypal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=V5ZP47AVFHRVY) [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=V5ZP47AVFHRVY)
 
 This app was originally made on Android by ikarus23. Please check it out!
 https://github.com/ikarus23/MifareClassicTool
