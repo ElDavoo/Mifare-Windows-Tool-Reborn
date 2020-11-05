@@ -25,12 +25,16 @@ MIFARE® is a registered trademark of NXP Semiconductors.
 
 #### GENERAL INFORMATION / INFOS GENERALES
 
-This app was originally made by ikarus23. Please check it out!
+You can donate for this Windows fork :
+[Donate with Paypal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=V5ZP47AVFHRVY) [![Donate]
+
+This app was originally made on Android by ikarus23. Please check it out!
 https://github.com/ikarus23/MifareClassicTool
 You can also donate to them as a thank you. Since with out them and the hard work they put in this would not have been possible.
 [Donate with Paypal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=24ET8A36XLMNW) [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=24ET8A36XLMNW)
 
 [EN] This tool provides several features to interact with MIFARE Classic RFID-Tags with ACR122U tag reader.
+
 
 It is designed for users who have at least basic familiarity with the MIFARE Classic technology.
 
