@@ -7,13 +7,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:resx="clr-namespace:MifareWindowsTool.Properties"
     Width="800"
-    Height="360"
+    Height="365"
     Background="#303030"
     WindowStyle="SingleBorderWindow"
     mc:Ignorable="d">
 
     <Grid>
-
         <StackPanel
             Width="255"
             HorizontalAlignment="Left"
@@ -152,7 +151,32 @@
                     </StackPanel>
                 </Button>
             </StackPanel>
-
+            <CheckBox
+                x:Name="ckEnablePeriodicTagScan"
+                Width="auto"
+                Height="15"
+                Margin="5,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Checked="ckEnablePeriodicTagScan_Checked"
+                Content="{localize:Static resx:Resources.ckEnablePeriodicTagScanContent}"
+                FontSize="10"
+                Foreground="White"
+                IsChecked="False"
+                ToolTip="{localize:Static resx:Resources.ckEnablePeriodicTagScanTooltip}"
+                Unchecked="ckEnablePeriodicTagScan_Checked" />
+            <CheckBox
+                x:Name="ckEasyMode"
+                Width="auto"
+                Height="15"
+                Margin="5,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Content="Easy mode"
+                FontSize="10"
+                Foreground="White"
+                IsChecked="{Binding Path=EasyMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                ToolTip="Less questions asked before reading/writing processes" />
         </StackPanel>
         <RichTextBox
             x:Name="rtbOutput"
@@ -172,20 +196,7 @@
                 </Style>
             </RichTextBox.Resources>
         </RichTextBox>
-        <CheckBox
-            x:Name="ckEnablePeriodicTagScan"
-            Width="auto"
-            Height="20"
-            Margin="5,0,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Bottom"
-            Checked="ckEnablePeriodicTagScan_Checked"
-            Unchecked="ckEnablePeriodicTagScan_Checked"
-            Content="{localize:Static resx:Resources.ckEnablePeriodicTagScanContent}"
-            FontSize="10"
-            Foreground="White"
-            IsChecked="False"
-            ToolTip="{localize:Static resx:Resources.ckEnablePeriodicTagScanTooltip}" />
+
         <Button
             x:Name="btnAbortCurrentTask"
             Width="auto"

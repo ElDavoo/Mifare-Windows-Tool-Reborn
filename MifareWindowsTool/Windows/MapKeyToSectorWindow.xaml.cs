@@ -1,4 +1,5 @@
 ﻿using MifareWindowsTool.Properties;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -39,8 +40,14 @@ namespace MCT_Windows
             this.Icon = BitmapFrame.Create(iconUri);
             foreach (var f in Directory.GetFiles("Keys", "*.keys", SearchOption.AllDirectories))
             {
-                ucLK.lstKeys.Items.Add(new File() { FileName = System.IO.Path.GetFileName(f), IsSelected = false });
+                var fName = System.IO.Path.GetFileName(f);
+                ucLK.lstKeys.Items.Add(new File()
+                {
+                    FileName = fName,
+                    IsSelected = fName == "std.keys"
+                });
             }
+
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)

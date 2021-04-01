@@ -3,6 +3,7 @@ using MifareWindowsTool.Properties;
 using System;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
@@ -67,7 +68,10 @@ namespace MCT_Windows
                     if (de == DumpExists.Source)
                         MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NeedSelectDumpKeyFileTarget)));
                     else if (de == DumpExists.Target)
+                    {
                         MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NeedSelectDumpKeyFileSource)));
+                        await SelectDump();
+                    }
                     else
                         if (de == DumpExists.None)
                         MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NeedSelectDumpKeyFileSourceAndTarget)));
@@ -96,7 +100,11 @@ namespace MCT_Windows
 
         private async void btnSelectDump_Click(object sender, RoutedEventArgs e)
         {
+            await SelectDump();
+        }
 
+        private async Task SelectDump()
+        {
             var dr = ofd.ShowDialog();
             if (dr.Value)
             {

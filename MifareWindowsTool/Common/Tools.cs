@@ -1,9 +1,14 @@
 ﻿using CliWrap;
+
 using MCT_Windows.Windows;
+
 using MifareWindowsTool.Common;
 using MifareWindowsTool.Properties;
+
 using Newtonsoft.Json;
+
 using ORMi;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -155,7 +160,7 @@ namespace MCT_Windows
 
             }
         }
-       
+
         internal bool TestWritePermission(string dirPath, bool throwIfFails = false)
         {
             try
@@ -194,16 +199,21 @@ namespace MCT_Windows
             }
         }
 
-        public bool CheckAndUseDumpIfExists(string MFDFile)
+        public bool CheckAndUseDumpIfExists(string MFDFile, bool silentMode = false)
         {
             if (System.IO.File.Exists("dumps\\" + MFDFile))
             {
                 long fileLength = new System.IO.FileInfo("dumps\\" + MFDFile).Length;
                 if (fileLength == 0) return false;
-                var dr = MessageBox.Show($"{Translate.Key(nameof(MifareWindowsTool.Properties.Resources.ADumpFile))} ({Path.GetFileName("dumps\\" + MFDFile)}) {Translate.Key(nameof(MifareWindowsTool.Properties.Resources.AlreadyExists))}, {Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DoYouWantToReUseThisDump))}",
-                    Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DumpExisting)), MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (!silentMode)
+                {
+                    var dr = MessageBox.Show($"{Translate.Key(nameof(MifareWindowsTool.Properties.Resources.BadgeUIDAlreadyknown))}",
+                        Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DumpExisting) + $" ({Path.GetFileName("dumps\\" + MFDFile)}"), MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    return (dr == MessageBoxResult.No);
+                }
+                else
+                    return true;
 
-                return (dr == MessageBoxResult.Yes);
             }
             return false;
         }

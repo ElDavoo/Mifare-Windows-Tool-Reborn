@@ -1,0 +1,10 @@
+﻿13/09/2020
+- mode simple (sans affichage texte en vert)/avancé
+- mode clonage en masse (multiple)
+- ajouter bouton formatage dans outils/options
+- taille fenetre ascenceur dans selection des clés MapKeyToSectorWindow.xaml
+- popup pour indique que la lecture ou écriture est terminée
+- barre état afficher opération en cours 
+- changer icone souris quand opé en cours
+- à vérifier : mettre polices en minuscules partout (anglais / français) bouton editer ajouter fichier clés
+

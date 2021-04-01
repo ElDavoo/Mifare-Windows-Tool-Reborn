@@ -229,7 +229,7 @@
     <value>Fichiers de clés|*.keys</value>
   </data>
   <data name="lblChooseKeyFileContent" xml:space="preserve">
-    <value>Sélectionner un ou des fichier(s) de clés</value>
+    <value>Sélectionnez les clés pour accéder au contenu du badge</value>
   </data>
   <data name="MapKeyToSectorWindowTitle" xml:space="preserve">
     <value>Schémas de clés</value>
@@ -299,7 +299,7 @@
     <value>dump Source :</value>
   </data>
   <data name="StartCloning" xml:space="preserve">
-    <value>Démarrer le transfert (duplication)</value>
+    <value>Ecrire sur le badge</value>
   </data>
   <data name="Started" xml:space="preserve">
     <value>démarré</value>
@@ -408,5 +408,27 @@ Cliquez sur OK pour l'installer</value>
   </data>
   <data name="NewerVersionExists" xml:space="preserve">
     <value>Une nouvelle version est disponible. Voulez-vous aller sur la page de téléchargement (GitHub) ?</value>
+  </data>
+  <data name="BadgeUIDAlreadyknown" xml:space="preserve">
+    <value>L'identifiant de ce badge est déjà connu par MWT. 
+Relire quand même ?</value>
+  </data>
+  <data name="UpdateAvailable" xml:space="preserve">
+    <value>Mise à jour disponible</value>
+  </data>
+  <data name="InfoMessageTagToReadAndDecode" xml:space="preserve">
+    <value>Ce badge n'est pas encore connu de l'outil Mifare Windows Tool. 
+L'outil doit donc le lire et le déchiffrer au moins une fois
+(même s'il s'agit d'un badge vierge), 
+afin afin de pouvoir ensuite écrire quelque chose dessus.</value>
+  </data>
+  <data name="btnReinstallLibUsbK" xml:space="preserve">
+    <value>Réinstaller le pilote LibUsbK</value>
+  </data>
+  <data name="UseInstallDriverIf" xml:space="preserve">
+    <value>A utiliser si la led de votre ACR122U est allumée en rouge :
+Il est alors indispensable d'installer le pilote LIBUSBK puis de débrancher/rebrancher votre lecteur de badges.
+La led restera éteinte mais c'est normal
+(Vous pourrez toujours désinstaller ce pilote si besoin ensuite et la lumière de la led reviendra)</value>
   </data>
 </root>

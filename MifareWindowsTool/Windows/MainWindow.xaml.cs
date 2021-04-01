@@ -13,12 +13,14 @@ using MifareWindowsTool.Properties;
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -32,8 +34,9 @@ namespace MCT_Windows
     /// <summary>
     /// Logique d'interaction pour MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
+
         public readonly string ACSDriversPage = "https://www.acs.com.hk/en/driver/3/acr122u-usb-nfc-reader/";
         private readonly string Github_MWT_WikiPage = "https://github.com/xavave/Mifare-Windows-Tool/wiki";
         public bool TagFound = false;
@@ -46,14 +49,36 @@ namespace MCT_Windows
         public List<File> SelectedKeys = new List<File>();
         Uri BaseUri = null;
         int cptFail = 0;
-
+        public bool EasyMode
+        {
+            get => easyMode; set
+            {
+                SetField(ref easyMode, value);
+            }
+        }
         IObservable<long> ObservableScan = null;
         public CancellationTokenSource ScanCTS = new CancellationTokenSource();
         public CancellationTokenSource ProcessCTS = new CancellationTokenSource();
-        public MainWindow()
-        {
-            InitializeComponent();
+        private bool easyMode;
 
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected void OnPropertyChanged(string? propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+        {
+            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+            field = value;
+            OnPropertyChanged(propertyName);
+            return true;
+        }
+
+
+        public MainWindow()
+        {this.DataContext = this;
+            InitializeComponent();
+            EasyMode = true;
             Uri iconUri = new Uri("pack://application:,,,/Resources/MWT.ico", UriKind.RelativeOrAbsolute);
             BaseUri = BaseUriHelper.GetBaseUri(this);
             this.Icon = BitmapFrame.Create(iconUri);
@@ -73,10 +98,10 @@ namespace MCT_Windows
                     {
                         Process.Start("https://github.com/xavave/Mifare-Windows-Tool/releases/latest");
                     }
-                    this.Title += " (Old version)";
+
                 }
-                else
-                    this.Title += " (Latest version)";
+                //else
+                //    this.Title += " (Latest version)";
 
             }
 
@@ -173,7 +198,7 @@ namespace MCT_Windows
         private async Task ReadTagAsync(TagAction act)
         {
             if (t.running) return;
-            DumpFound = false;
+            //DumpFound = false;
             if (!TagFound && !ScanTagRunning)
                 PeriodicScanTag();
 
@@ -190,11 +215,13 @@ namespace MCT_Windows
                     t.TMPFILE_UNK = $"mfc_{ t.mySourceUID}_unknownMfocSectorInfo.txt";
                     t.TMPFILESOURCE_MFD = $"mfc_{ t.mySourceUID}.dump";
                     t.TMPFILE_FND = $"mfc_{ t.mySourceUID}_foundKeys.txt";
-                    if (t.CheckAndUseDumpIfExists(t.TMPFILESOURCE_MFD))
+                    if (t.CheckAndUseDumpIfExists(t.TMPFILESOURCE_MFD, EasyMode))
                     {
                         DumpFound = true;
-
                     }
+                    else
+                        DumpFound = false;
+
                 }
                 else if (act == TagAction.ReadTarget)
                 {
@@ -202,13 +229,17 @@ namespace MCT_Windows
                     t.TMPFILE_UNK = $"mfc_{ t.myTargetUID}_unknownMfocSectorInfo.txt";
                     t.TMPFILE_TARGETMFD = $"mfc_{ t.myTargetUID}.dump";
                     t.TMPFILE_FND = $"mfc_{ t.myTargetUID}_foundKeys.txt";
-                    if (t.CheckAndUseDumpIfExists(t.TMPFILE_TARGETMFD))
+                    if (t.CheckAndUseDumpIfExists(t.TMPFILE_TARGETMFD, EasyMode))
                     {
                         DumpFound = true;
                     }
+                    else
+                        DumpFound = false;
+
 
                 }
             }
+
 
             if (TagFound)
             {
@@ -236,6 +267,7 @@ namespace MCT_Windows
                 {
                     if (!DumpFound)
                     {
+                        MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.InfoMessageTagToReadAndDecode)), "Information");
                         MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(this, t, Translate.Key(nameof(MifareWindowsTool.Properties.Resources.UsedForTargetMapping)), Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Target)));
                         var ret = mtsWin.ShowDialog();
                         if (ret.HasValue && ret.Value)
@@ -512,6 +544,7 @@ namespace MCT_Windows
                     .WithStandardOutputPipe(PipeTarget.ToDelegate(LogAppend))
                     .WithStandardErrorPipe(PipeTarget.ToDelegate(ErrorAppend));
                 var result = await cmd.ExecuteAsync(ProcessCTS.Token);
+                MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Finished)));
 
             }
             catch (OperationCanceledException)

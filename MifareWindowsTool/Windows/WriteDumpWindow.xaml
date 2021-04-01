@@ -217,7 +217,7 @@
                 <Button
                     x:Name="btnWriteDump"
                     Width="auto"
-                    Height="26"
+                    Height="26" FontWeight="Bold"
                     MinWidth="100"
                     Margin="10"
                     Click="btnWriteDump_Click"

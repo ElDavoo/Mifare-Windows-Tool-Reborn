@@ -11,7 +11,7 @@
     <Grid Background="#303030" Width="auto">
         <ListBox
             x:Name="lstKeys"
-            Height="100" Width="auto"
+            Height="auto" Width="auto"
             VerticalAlignment="Top"
             Background="#303030"
             Foreground="White">

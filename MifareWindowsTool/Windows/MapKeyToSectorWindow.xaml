@@ -40,11 +40,11 @@
             Click="btnStartMappingAndReadTag_Click"
             Content="{localize:Static resx:Resources.btnStartMappingAndReadTagContent}"
             Style="{StaticResource buttonStyle}" />
-        <uc:ucListKeys x:Name="ucLK" Height="100" />
+        <uc:ucListKeys x:Name="ucLK" Height="180" />
         <Label
             x:Name="lblChooseKeyFile"
             Grid.ColumnSpan="2"
-            Margin="10,85,0,0"
+            Margin="10,15,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Content="{localize:Static resx:Resources.lblChooseKeyFileContent}"
