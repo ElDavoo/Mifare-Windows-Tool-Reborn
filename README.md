@@ -5,9 +5,37 @@
 
 ### [FR] Application NFC Windows NFC pour lire, écrire, analyser, dupliquer, etc... des badges RFID MIFARE® Classic
 
+#### License
+
+source code is not a copy of original android version, but strongly inspired from it : I've modified logo and copied icons
+
+It's normal to give credits to the original author
+
+This application was originally developed on Android systems by Gerhard Klostermeier in cooperation with SySS GmbH (www.syss.de) and Aalen University (www.htw-aalen.de) in 2012/2013. It is free software
+
+Icons used in this application:
+
+original android Logo: Beneke Traub
+(Creative Commons 4.0)
+Oxygen Icons: www.oxygen-icons.org
+(GNU Lesser General Public License)
+RFID Tag: www.nfc-tag.de
+(Creative Commons 3.0)
+MIFARE® is a registered trademark of NXP Semiconductors.
+
 #### GENERAL INFORMATION / INFOS GENERALES
 
+You can donate for this Windows fork :
+
+[Donate with Paypal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=V5ZP47AVFHRVY) [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=V5ZP47AVFHRVY)
+
+This app was originally made on Android by ikarus23. Please check it out!
+https://github.com/ikarus23/MifareClassicTool
+You can also donate to them as a thank you. Since with out them and the hard work they put in this would not have been possible.
+[Donate with Paypal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=24ET8A36XLMNW) [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=24ET8A36XLMNW)
+
 [EN] This tool provides several features to interact with MIFARE Classic RFID-Tags with ACR122U tag reader.
+
 
 It is designed for users who have at least basic familiarity with the MIFARE Classic technology.
 
