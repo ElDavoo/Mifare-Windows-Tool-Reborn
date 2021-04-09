@@ -31,7 +31,7 @@ namespace WixSharp_Setup
                               new Dir(@"%ProgramFiles%\AVXTEC\MWT"
                                 , new Files(buildDir + @"\*.*")
                                  , new WixSharp.File(new Id("MWT_exe"), binaries, exepath)),
-                              new LaunchApplicationFromExitDialog(exeId: "MWT_exe", description: "Launch MWT")
+                              new LaunchApplicationFromExitDialog(exeId: "MWT_exe", description: "Launch Mifare Windows Tool (MWT)")
                               , new InstalledFileAction("MWT_exe", "")
                               );
             project.SetNetFxPrerequisite("WIX_IS_NETFRAMEWORK_462_OR_LATER_INSTALLED >= '#528040'", "requires .NET Framework 4.8 or higher.");
@@ -40,7 +40,8 @@ namespace WixSharp_Setup
             project.GUID = new Guid("6fe30b47-2577-43ad-9095-1861ba25779b");
             var strAssemblyFileVersion = AssemblyName.GetAssemblyName(exepath).Version;
             project.Version = strAssemblyFileVersion;
-            project.Name = "MWT";
+            var pName = $"MWT v{strAssemblyFileVersion}";
+            project.Name = pName;
             project.MajorUpgrade = new MajorUpgrade()
             {
                 AllowDowngrades = true,
@@ -48,15 +49,15 @@ namespace WixSharp_Setup
             };
             project.UI = WUI.WixUI_InstallDir;
             project.RemoveDialogsBetween(NativeDialogs.WelcomeDlg, NativeDialogs.InstallDirDlg);
-            
+
             var IconFilename = System.IO.Path.Combine(solDir, "MWT.ico");
             var desktopShortcut = new FileShortcut(selectedExe, "%Desktop%")
             {
-                Name = "MWT"
+                Name = pName
             };
             var programMenuShortCut = new FileShortcut(selectedExe, @"%ProgramMenu%")
             {
-                Name = $"MWT"
+                Name = pName
             };
             if (!string.IsNullOrWhiteSpace(IconFilename))
             {
