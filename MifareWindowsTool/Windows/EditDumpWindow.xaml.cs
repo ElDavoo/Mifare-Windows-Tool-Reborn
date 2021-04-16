@@ -27,6 +27,7 @@ namespace MCT_Windows.Windows
         {
 
             InitializeComponent();
+           
             he.FileName = fileName;
             Uri iconUri = new Uri("pack://application:,,,/Resources/MWT.ico", UriKind.RelativeOrAbsolute);
             this.Icon = BitmapFrame.Create(iconUri);
@@ -39,7 +40,8 @@ namespace MCT_Windows.Windows
             Tools = t;
             he.Foreground = Brushes.White;
             he.ForegroundSecondColor = Brushes.Orange;
-
+            //to avoir freeze on HexEditor
+            he.IsAutoRefreshOnResize = false;
 
         }
         private void btnSaveDump_Click(object sender, RoutedEventArgs e)

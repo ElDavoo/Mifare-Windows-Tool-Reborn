@@ -21,17 +21,19 @@
         <StackPanel Orientation="Vertical">
 
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                
+
                 <Button
                     x:Name="btnOpenDump"
                     Width="auto"
-                    MinWidth="100" Height="30"
+                    Height="30"
+                    MinWidth="100"
                     Click="btnOpenDump_Click"
                     Content="{localize:Static resx:Resources.OpenDump}"
                     Style="{StaticResource buttonStyle}" />
                 <Button
                     x:Name="btnSaveDump"
-                    Width="auto"  Height="30"
+                    Width="auto"
+                    Height="30"
                     MinWidth="100"
                     Margin="20,0,0,0"
                     Click="btnSaveDump_Click"
@@ -41,8 +43,9 @@
 
 
                 <Button
-                    x:Name="btnClose"  Height="30"
+                    x:Name="btnClose"
                     Width="auto"
+                    Height="30"
                     MinWidth="100"
                     Margin="20,0,0,0"
                     Click="btnClose_Click"
@@ -51,8 +54,10 @@
             </StackPanel>
             <control:HexEditor
                 x:Name="he"
-                Width="640"
-                MinHeight="640" VerticalAlignment="Stretch"
+                Width="auto"
+                Height="auto"
+                MinHeight="640"
+                VerticalAlignment="Stretch"
                 Background="#303030" />
 
         </StackPanel>
