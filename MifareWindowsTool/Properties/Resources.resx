@@ -311,10 +311,10 @@
     <value>TOOLS / OPTIONS</value>
   </data>
   <data name="UsedForSourceMapping" xml:space="preserve">
-    <value>(used for source tag mapping)</value>
+    <value>(used to generate source tag mapping)</value>
   </data>
   <data name="UsedForTargetMapping" xml:space="preserve">
-    <value>(used for target tag mapping)</value>
+    <value>(used to generate target tag mapping)</value>
   </data>
   <data name="WriteDumpClone" xml:space="preserve">
     <value>Write Dump (Clone)</value>

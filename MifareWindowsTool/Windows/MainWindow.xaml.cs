@@ -76,7 +76,8 @@ namespace MCT_Windows
 
 
         public MainWindow()
-        {this.DataContext = this;
+        {
+            this.DataContext = this;
             InitializeComponent();
             EasyMode = true;
             Uri iconUri = new Uri("pack://application:,,,/Resources/MWT.ico", UriKind.RelativeOrAbsolute);
@@ -252,7 +253,8 @@ namespace MCT_Windows
                         var ret = mtsWin.ShowDialog();
                         if (ret.HasValue && ret.Value)
                         {
-                            await RunMfocAsync(SelectedKeys, t.TMPFILESOURCE_MFD, act);
+                            await RunMfocAsync(SelectedKeys, t.TMPFILESOURCE_MFD, act,
+                                mtsWin.chkCustomProbeNb.IsChecked.HasValue && mtsWin.chkCustomProbeNb.IsChecked.Value ? mtsWin.udNbProbes.Value : 20, mtsWin.chkCustomProbeNb.IsChecked.HasValue && mtsWin.chkCustomProbeNb.IsChecked.Value ? mtsWin.udTolerance.Value : 20);
 
                         }
                         else
@@ -272,7 +274,8 @@ namespace MCT_Windows
                         var ret = mtsWin.ShowDialog();
                         if (ret.HasValue && ret.Value)
                         {
-                            await RunMfocAsync(SelectedKeys, t.TMPFILE_TARGETMFD, act);
+                            await RunMfocAsync(SelectedKeys, t.TMPFILE_TARGETMFD, act,
+                                   mtsWin.chkCustomProbeNb.IsChecked.HasValue && mtsWin.chkCustomProbeNb.IsChecked.Value ? mtsWin.udNbProbes.Value : 20, mtsWin.chkCustomProbeNb.IsChecked.HasValue && mtsWin.chkCustomProbeNb.IsChecked.Value ? mtsWin.udTolerance.Value : 20);
 
                         }
                         else
@@ -563,7 +566,7 @@ namespace MCT_Windows
 
 
         }
-        public async Task RunMfocAsync(List<File> keys, string tmpFileMfd, TagAction act)
+        public async Task RunMfocAsync(List<File> keys, string tmpFileMfd, TagAction act, int? nbProbes=20, int? tolerance=20)
         {
             try
             {
@@ -579,15 +582,16 @@ namespace MCT_Windows
                 if (System.IO.File.Exists(tmpFileUnk))
                     arguments += $" -D \"{tmpFileUnk}\"";
 
+                arguments += $"-P {nbProbes} -T {tolerance} ";
+
                 foreach (var key in keys.Select(k => k.FileName))
                 {
                     arguments += $" -f \"keys\\{key}\"";
-
                 }
                 arguments += $" -O\"{tmpFileMfd}\"";
                 ProcessCTS = new CancellationTokenSource();
                 LogAppend($"mfoc {arguments}");
-                var cmd = Cli.Wrap("nfctools\\mfoc.exe").WithArguments(arguments).WithWorkingDirectory(t.DefaultWorkingDir).WithValidation(CommandResultValidation.None);
+                var cmd = Cli.Wrap("nfctools\\mfoc_hard.exe").WithArguments(arguments).WithWorkingDirectory(t.DefaultWorkingDir).WithValidation(CommandResultValidation.None);
 
                 await foreach (CommandEvent cmdEvent in cmd.ListenAsync(ProcessCTS.Token))
                 {

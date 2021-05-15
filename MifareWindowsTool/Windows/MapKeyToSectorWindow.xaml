@@ -6,7 +6,8 @@
     xmlns:localize="http://gu.se/Localization"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:resx="clr-namespace:MifareWindowsTool.Properties"
-    xmlns:uc="clr-namespace:MCT_Windows.UserControls"
+    xmlns:uc="clr-namespace:MCT_Windows.UserControls"  
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     Title="{localize:Static resx:Resources.DecryptTagTitle}"
     Width="500"
     Height="367"
@@ -41,6 +42,24 @@
             Content="{localize:Static resx:Resources.btnStartMappingAndReadTagContent}"
             Style="{StaticResource buttonStyle}" />
         <uc:ucListKeys x:Name="ucLK" Height="180" />
+        <GroupBox Grid.Column="1" Header="Advanced" Margin="10,30,10,0" Foreground="White" Height="150">
+            <StackPanel Orientation="Vertical">
+                <CheckBox x:Name="chkCustomProbeNb" Content="On/Off" Foreground="White" FontSize="10"></CheckBox>
+                <GroupBox Grid.Column="1" Header="Probes/Tolerance"  Foreground="White" Height="100">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal" Height="25" HorizontalAlignment="Right"  Margin="5,5,25,5">
+                            <Label Foreground="White" FontSize="10" x:Name="lblSelectNbProbes" Content="Number of probes /sector (default:20)"></Label>
+                            <xctk:IntegerUpDown Name="udNbProbes" Width="60" Value="50" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Height="25" HorizontalAlignment="Right"   Margin="5,5,25,5">
+                            <Label Foreground="White" FontSize="10" x:Name="lblSelectTolerance" Content="Nonce tolerance half-range (default:20)"></Label>
+                            <xctk:IntegerUpDown Name="udTolerance"  Width="60" Value="30" />
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+       
+        </GroupBox>
         <Label
             x:Name="lblChooseKeyFile"
             Grid.ColumnSpan="2"

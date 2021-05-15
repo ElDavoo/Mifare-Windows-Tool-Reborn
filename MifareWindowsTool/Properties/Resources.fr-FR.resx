@@ -311,10 +311,10 @@
     <value>OUTILS / OPTIONS</value>
   </data>
   <data name="UsedForSourceMapping" xml:space="preserve">
-    <value>(utilisé pour le schéma du badge source)</value>
+    <value>(utilisé pour générer le schéma du badge source)</value>
   </data>
   <data name="UsedForTargetMapping" xml:space="preserve">
-    <value>(utilisé pour le schéma du badge cible)</value>
+    <value>(utilisé pour générer le schéma du badge cible)</value>
   </data>
   <data name="WriteDumpClone" xml:space="preserve">
     <value>Ecrire le dump (dupliquer)</value>

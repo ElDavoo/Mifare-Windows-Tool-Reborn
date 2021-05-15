@@ -934,7 +934,7 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à (used for source tag mapping).
+        ///   Recherche une chaîne localisée semblable à (used to generate source tag mapping).
         /// </summary>
         public static string UsedForSourceMapping {
             get {
@@ -943,7 +943,7 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à (used for target tag mapping).
+        ///   Recherche une chaîne localisée semblable à (used to generate target tag mapping).
         /// </summary>
         public static string UsedForTargetMapping {
             get {
