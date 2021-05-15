@@ -118,7 +118,8 @@ namespace MCT_Windows
                 MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(main, tools, Translate.Key(nameof(MifareWindowsTool.Properties.Resources.UsedForTargetMapping)), Translate.Key(nameof(MifareWindowsTool.Properties.Resources.TargetDump)));
                 var ret = mtsWin.ShowDialog();
                 if (ret.HasValue && ret.Value)
-                    await main.RunMfocAsync(main.SelectedKeys, tools.TMPFILESOURCE_MFD, TagAction.ReadSource);
+                    await main.RunMfocAsync(main.SelectedKeys, tools.TMPFILESOURCE_MFD, TagAction.ReadSource,
+                         mtsWin.chkCustomProbeNb.IsChecked.HasValue && mtsWin.chkCustomProbeNb.IsChecked.Value ? mtsWin.udNbProbes.Value : 20, mtsWin.chkCustomProbeNb.IsChecked.HasValue && mtsWin.chkCustomProbeNb.IsChecked.Value ? mtsWin.udTolerance.Value : 20);
             }
         }
 

@@ -33,7 +33,7 @@ namespace MCT_Windows
             InitializeComponent();
             if (!string.IsNullOrWhiteSpace(lblContent))
             {
-                lblChooseKeyFile.Content += $" {lblContent}";
+                lblChooseKeyFile.Content += $"\n{lblContent}";
             }
             Title += $" {titleContent}";
             Uri iconUri = new Uri("pack://application:,,,/Resources/MWT.ico", UriKind.RelativeOrAbsolute);
@@ -67,13 +67,11 @@ namespace MCT_Windows
                 MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NeedToSelectOneKeyFile)));
         }
 
-
         private void default_rpt(object sender, ProgressChangedEventArgs e)
         {
             main.LogAppend((string)e.UserState);
 
         }
-
 
     }
 }
