@@ -40,7 +40,7 @@ namespace MCT_Windows.Windows
 
         OpenFileDialog ofd = new OpenFileDialog();
         SaveFileDialog sfd = new SaveFileDialog();
-       public bool CompareDumpsMode { get; private set; }
+        public bool CompareDumpsMode { get; private set; }
 
         public DumpWindow(Tools t, string fileName, bool bCompareDumpsMode = false)
         {
@@ -300,17 +300,18 @@ namespace MCT_Windows.Windows
                     {
                         txtOutput.AppendText("____________"); txtOutput.AppendText(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Different)), Brushes.Red); txtOutput.AppendText("_____________\r", Brushes.White);
 
-                        for (int j = 0; j < LinesA[i].Count(); j++)
-                        {
-                            if (j == 0)
+                        if (i < LinesA.Count)
+                            for (int j = 0; j < LinesA[i].Count(); j++)
                             {
-                                txtOutput.AppendText("  ");
+                                if (j == 0)
+                                {
+                                    txtOutput.AppendText("  ");
+                                }
+                                if (LinesA[i][j] != LinesB[i][j])
+                                    txtOutput.AppendText("v", Brushes.Red);
+                                else
+                                    txtOutput.AppendText(" ", Brushes.White);
                             }
-                            if (LinesA[i][j] != LinesB[i][j])
-                                txtOutput.AppendText("v", Brushes.Red);
-                            else
-                                txtOutput.AppendText(" ", Brushes.White);
-                        }
                         txtOutput.AppendText("\r", Brushes.White);
                     }
                 }
