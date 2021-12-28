@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:resx="clr-namespace:MifareWindowsTool.Properties" Loaded="Window_Loaded"
     Title="{localize:Static resx:Resources.DumpWindowTitle}"
-    Width="500"
+    Width="600"
     Height="auto"
     Background="#303030"
     Foreground="White" 
@@ -25,15 +25,15 @@
                 x:Name="stkOpenDumps"
                 HorizontalAlignment="Center" VerticalAlignment="Top"
                 Orientation="Horizontal">
-
+            <Label x:Name="lblInfosA"  Margin="0,0,0,0" Foreground="White"></Label>
             <Button Height="30"
                     x:Name="btnOpenDumpA"
                     Width="auto"
-                    Margin="0,0,10,0"
+                    Margin="0"
                     Click="BtnOpenDumpA_Click"
                     Content="{localize:Static resx:Resources.btnOpenDumpAContent}"
                     Style="{StaticResource buttonStyle}" />
-
+            <Label x:Name="lblInfosB"  Margin="20,0,-30,0" Foreground="White"></Label>
             <Button Height="30"
                     x:Name="btnOpenDumpB"
                     Width="auto"
@@ -45,6 +45,7 @@
         </StackPanel>
 
         <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="auto" Margin="0,40,0,0">
+          
             <RichTextBox
                 x:Name="txtOutput"
                 Width="auto" 

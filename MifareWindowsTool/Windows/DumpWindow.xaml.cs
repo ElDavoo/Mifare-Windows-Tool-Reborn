@@ -27,11 +27,10 @@ namespace MCT_Windows.Windows
         int blockCountInSector = 4;
         const int blocksize = 16;
         public int sectorCount { get; set; } = 16;
-        public List<string> LinesA { get; set; } = new List<string>();
-        public List<string> LinesB { get; set; } = new List<string>();
-        byte[] bytesDataA = null;
+        Dump dumpA { get; set; } = new Dump();
+        Dump dumpB { get; set; } = new Dump();
+        DumpConverter converter = new DumpConverter();
         public string dFileName { get; set; }
-        byte[] bytesDataB = null;
         bool bConvertoAscii = true;
         int split = 8;
         Brush PaleBlueBrush = new SolidColorBrush(Color.FromArgb(255, (byte)0x60, (byte)0x8D, (byte)0x88));
@@ -124,7 +123,7 @@ namespace MCT_Windows.Windows
         {
             sectorCounter = 0;
             txtOutput.Document = new System.Windows.Documents.FlowDocument();
-            byte[][] chunks = BufferSplit(bytesDataA, blocksize);
+            byte[][] chunks = BufferSplit(dumpA.BinArray, blocksize);
             for (int i = 0; i < chunks.GetLength(0); i++)
             {
                 if (sectorCount == 40 && i > 128)
@@ -152,7 +151,7 @@ namespace MCT_Windows.Windows
             sectorCounter = 0;
             txtOutput.Document = new System.Windows.Documents.FlowDocument();
 
-            byte[][] chunks = BufferSplit(bytesDataA, blocksize);
+            byte[][] chunks = BufferSplit(dumpA.BinArray, blocksize);
 
             for (int i = 0; i < chunks.GetLength(0); i++)
             {
@@ -203,7 +202,7 @@ namespace MCT_Windows.Windows
 
             var dr = sfd.ShowDialog();
             if (dr.Value)
-                System.IO.File.WriteAllBytes(sfd.FileName, bytesDataA);
+                System.IO.File.WriteAllBytes(sfd.FileName, dumpA.BinArray);
 
         }
 
@@ -231,19 +230,19 @@ namespace MCT_Windows.Windows
 
         private void BtnOpenDumpA_Click(object sender, RoutedEventArgs e)
         {
-            var fileName = OpenDump(ref bytesDataA);
+            var fileName = OpenDump(true);
             if (!string.IsNullOrWhiteSpace(fileName))
                 btnOpenDumpA.Content = $"{Translate.Key(nameof(MifareWindowsTool.Properties.Resources.OpenDump))} A: {Path.GetFileNameWithoutExtension(fileName)}";
 
         }
         private void BtnOpenDumpB_Click(object sender, RoutedEventArgs e)
         {
-            var fileName = OpenDump(ref bytesDataB);
+            var fileName = OpenDump(false);
             if (!string.IsNullOrWhiteSpace(fileName))
                 btnOpenDumpB.Content = $"{Translate.Key(nameof(MifareWindowsTool.Properties.Resources.OpenDump))} B: {Path.GetFileNameWithoutExtension(fileName)}";
         }
 
-        private string OpenDump(ref byte[] bytes)
+        private string OpenDump(bool isA)
         {
             var fileName = "";
             var dr = ofd.ShowDialog();
@@ -257,7 +256,37 @@ namespace MCT_Windows.Windows
                     return "";
                 }
 
-                bytes = System.IO.File.ReadAllBytes(fileName);
+                var inputFileType = converter.CheckDump(fileName);
+                if (inputFileType == FileType.Text)
+                {
+                    if (isA)
+                    {
+                        lblInfosA.Content = "A:text dump";
+                        dumpA = converter.ConvertToBinaryDump();
+                    }
+                    else
+                    {
+                        lblInfosB.Content = "B:text dump";
+                        dumpB = converter.ConvertToBinaryDump();
+                    }
+
+
+                }
+                else
+                {
+                    if (isA)
+                    {
+                        lblInfosA.Content = "A:binary dump";
+                        dumpA.BinaryOutput = System.IO.File.ReadAllBytes(fileName).ToList();
+                    }
+                    else
+                    {
+                        lblInfosB.Content = "B:binary dump";
+                        dumpB.BinaryOutput = System.IO.File.ReadAllBytes(fileName).ToList();
+                    }
+
+                }
+
                 ShowCompareDumps();
             }
             return fileName;
@@ -268,46 +297,46 @@ namespace MCT_Windows.Windows
         private void ShowCompareDumps()
         {
 
-            if (bytesDataA == null || bytesDataB == null) return;
+            if (dumpA.BinArray == null || dumpB.BinArray == null) return;
 
             Mouse.OverrideCursor = Cursors.Wait;
             txtOutput.Document = new System.Windows.Documents.FlowDocument();
 
-            string hexA = BitConverter.ToString(bytesDataA).Replace("-", string.Empty);
-            string hexB = BitConverter.ToString(bytesDataB).Replace("-", string.Empty);
+            string hexA = BitConverter.ToString(dumpA.BinArray).Replace("-", string.Empty);
+            string hexB = BitConverter.ToString(dumpB.BinArray).Replace("-", string.Empty);
 
-            LinesA = Split(hexA, blocksize * 2);
-            LinesB = Split(hexB, blocksize * 2);
-            if (bytesDataA.Length == 1024) split = 4;
+            dumpA.Lines = Split(hexA, blocksize * 2);
+            dumpB.Lines = Split(hexB, blocksize * 2);
+            if (dumpA.BinArray.Length == 1024) split = 4;
 
-            int sectorA = (LinesA.Count - split) / split;
-            for (int i = LinesA.Count - split; i >= 0; i -= split)
-                LinesA.Insert(i, $"\r+{Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Sector))}:{sectorA--}\r");
+            int sectorA = (dumpA.LinesCount - split) / split;
+            for (int i = dumpA.LinesCount - split; i >= 0; i -= split)
+                dumpA.Lines.Insert(i, $"\r+{Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Sector))}:{sectorA--}\r");
 
-            int sectorB = (LinesB.Count - split) / split;
-            for (int i = LinesB.Count - split; i >= 0; i -= split)
-                LinesB.Insert(i, "");
+            int sectorB = (dumpB.LinesCount - split) / split;
+            for (int i = dumpB.LinesCount - split; i >= 0; i -= split)
+                dumpB.Lines.Insert(i, "");
 
-            for (int i = 0; i < Math.Max(LinesA.Count, LinesB.Count); i++)
+            for (int i = 0; i < Math.Max(dumpA.LinesCount, dumpB.LinesCount); i++)
             {
-                if (i < LinesA.Count && !LinesA[i].StartsWith("\r+") || i < LinesB.Count && !LinesB[i].StartsWith("\r+"))
+                if (i < dumpA.LinesCount && !dumpA.Lines[i].StartsWith("\r+") || i < dumpB.LinesCount && !dumpB.Lines[i].StartsWith("\r+"))
                 {
-                    if (i < LinesA.Count && i < LinesB.Count && LinesA[i] == LinesB[i])
+                    if (i < dumpA.LinesCount && i < dumpB.LinesCount && dumpA.Lines[i] == dumpB.Lines[i])
                     {
                         txtOutput.AppendText("____________"); txtOutput.AppendText(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Identical)), Brushes.Lime); txtOutput.AppendText("_____________\r", Brushes.White);
                     }
-                    else if (i < LinesB.Count && !string.IsNullOrWhiteSpace(LinesB[i]))
+                    else if (i < dumpB.LinesCount && !string.IsNullOrWhiteSpace(dumpB.Lines[i]))
                     {
                         txtOutput.AppendText("____________"); txtOutput.AppendText(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Different)), Brushes.Red); txtOutput.AppendText("_____________\r", Brushes.White);
 
-                        if (i < LinesA.Count)
-                            for (int j = 0; j < LinesA[i].Count(); j++)
+                        if (i < dumpA.LinesCount)
+                            for (int j = 0; j < dumpA.Lines[i].Count(); j++)
                             {
                                 if (j == 0)
                                 {
                                     txtOutput.AppendText("  ");
                                 }
-                                if (LinesA[i][j] != LinesB[i][j])
+                                if (dumpA.Lines[i][j] != dumpB.Lines[i][j])
                                     txtOutput.AppendText("v", Brushes.Red);
                                 else
                                     txtOutput.AppendText(" ", Brushes.White);
@@ -315,10 +344,10 @@ namespace MCT_Windows.Windows
                         txtOutput.AppendText("\r", Brushes.White);
                     }
                 }
-                if (i < LinesA.Count)
-                    txtOutput.AppendText((!string.IsNullOrWhiteSpace(LinesA[i]) && !LinesA[i].StartsWith("\r+") ? "A:" : "") + LinesA[i], LinesA[i].StartsWith("\r+") ? PaleBlueBrush : Brushes.White, LinesA[i].StartsWith("\r+") ? true : false);
-                if (i < LinesB.Count)
-                    txtOutput.AppendText((!string.IsNullOrWhiteSpace(LinesB[i]) && !LinesB[i].StartsWith("\r+") ? "B:" : "") + LinesB[i], LinesB[i].StartsWith("\r+") ? PaleBlueBrush : Brushes.White, LinesB[i].StartsWith("\r+") ? true : false);
+                if (i < dumpA.LinesCount)
+                    txtOutput.AppendText((!string.IsNullOrWhiteSpace(dumpA.Lines[i]) && !dumpA.Lines[i].StartsWith("\r+") ? "A:" : "") + dumpA.Lines[i], dumpA.Lines[i].StartsWith("\r+") ? PaleBlueBrush : Brushes.White, dumpA.Lines[i].StartsWith("\r+") ? true : false);
+                if (i < dumpB.LinesCount)
+                    txtOutput.AppendText((!string.IsNullOrWhiteSpace(dumpB.Lines[i]) && !dumpB.Lines[i].StartsWith("\r+") ? "B:" : "") + dumpB.Lines[i], dumpB.Lines[i].StartsWith("\r+") ? PaleBlueBrush : Brushes.White, dumpB.Lines[i].StartsWith("\r+") ? true : false);
             }
             Mouse.OverrideCursor = null;
 
@@ -354,20 +383,20 @@ namespace MCT_Windows.Windows
                 stkOpenDumps.Visibility = Visibility.Collapsed;
 
 
-                bytesDataA = System.IO.File.ReadAllBytes(dFileName);
+                dumpA.BinaryOutput = System.IO.File.ReadAllBytes(dFileName).ToList();
 
-                string strFirstBlock = BitConverter.ToString(bytesDataA.Take(16).ToArray()).Replace("-", string.Empty);
+                string strFirstBlock = BitConverter.ToString(dumpA.BinArray.Take(16).ToArray()).Replace("-", string.Empty);
                 if (strFirstBlock.Contains("536563746F72")) //(hex)536563746F72 => (text)-> 'Sector'
                 {
                     System.Windows.MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.thisismctdumpfile))
                          , "MCT Dump --> MWT Dump", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
 
-                    string textFile = System.IO.File.ReadAllText(dFileName);
-                    bytesDataA = ConvertToBinaryDump(textFile);
+                    dumpA.TextOutput = System.IO.File.ReadAllText(dFileName);
+                    dumpA = converter.ConvertToBinaryDump();
 
                 }
 
-                SetSectorCount(bytesDataA.Length);
+                SetSectorCount(dumpA.BinArray.Length);
 
                 ShowHex();
             }

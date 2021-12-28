@@ -127,6 +127,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Common\DumpConverter.cs" />
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\File.cs" />
     <Compile Include="Common\Tools.cs" />
