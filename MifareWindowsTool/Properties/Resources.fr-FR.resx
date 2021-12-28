@@ -431,4 +431,13 @@ Il est alors indispensable d'installer le pilote LIBUSBK puis de débrancher/reb
 La led restera éteinte mais c'est normal
 (Vous pourrez toujours désinstaller ce pilote si besoin ensuite et la lumière de la led reviendra)</value>
   </data>
+  <data name="LabelDumpsPath" xml:space="preserve">
+    <value>Emplacement par défaut des dumps</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Parcourir</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Réinitialiser</value>
+  </data>
 </root>

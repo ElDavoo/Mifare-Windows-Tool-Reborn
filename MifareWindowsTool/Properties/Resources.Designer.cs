@@ -153,6 +153,15 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Browse.
+        /// </summary>
+        public static string Browse {
+            get {
+                return ResourceManager.GetString("Browse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Change UID.
         /// </summary>
         public static string btnChangeUID {
@@ -564,6 +573,15 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Default dump path.
+        /// </summary>
+        public static string LabelDumpsPath {
+            get {
+                return ResourceManager.GetString("LabelDumpsPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Select keys to access tag content.
         /// </summary>
         public static string lblChooseKeyFileContent {
@@ -745,6 +763,15 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Reset.
+        /// </summary>
+        public static string Reset {
+            get {
+                return ResourceManager.GetString("Reset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Save Dump as.
         /// </summary>
         public static string SaveDumpAs {
@@ -858,15 +885,6 @@ namespace MifareWindowsTool.Properties {
         public static string Started {
             get {
                 return ResourceManager.GetString("Started", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une chaîne localisée semblable à .
-        /// </summary>
-        public static string String1 {
-            get {
-                return ResourceManager.GetString("String1", resourceCulture);
             }
         }
         

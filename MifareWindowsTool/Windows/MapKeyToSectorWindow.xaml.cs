@@ -41,7 +41,7 @@ namespace MCT_Windows
             foreach (var f in Directory.GetFiles("Keys", "*.keys", SearchOption.AllDirectories))
             {
                 var fName = System.IO.Path.GetFileName(f);
-                ucLK.lstKeys.Items.Add(new File()
+                ucLK.lstKeys.Items.Add(new MCTFile()
                 {
                     FileName = fName,
                     IsSelected = fName == "std.keys"
@@ -57,7 +57,7 @@ namespace MCT_Windows
 
         private void btnStartMappingAndReadTag_Click(object sender, RoutedEventArgs e)
         {
-            main.SelectedKeys = ucLK.lstKeys.Items.OfType<File>().Where(c => c.IsSelected).ToList();
+            main.SelectedKeys = ucLK.lstKeys.Items.OfType<MCTFile>().Where(c => c.IsSelected).ToList();
             if (main.SelectedKeys.Any())
             {
                 this.DialogResult = true;

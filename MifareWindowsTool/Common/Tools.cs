@@ -12,6 +12,7 @@ using ORMi;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -64,6 +65,8 @@ namespace MCT_Windows
         public bool lprocess = false;
         public bool running = false;
         public string CurrentUID = "";
+        internal readonly string ConstDefaultDumpPath = "DefaultDumpPath";
+
         MainWindow Main { get; set; }
         public Tools(MainWindow main)
         {
@@ -77,7 +80,34 @@ namespace MCT_Windows
         public string TMPFILE_TARGETMFD { get; set; } = "";
         public string TMPFILE_UNK { get; set; } = "";
         public string TMPFILE_FND { get; set; } = "";
+        public string DefaultDumpPath { get; set; } = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "dumps");
 
+        public string GetSetting(string key)
+        {
+            if (ConfigurationManager.AppSettings.AllKeys.Contains(key))
+                return ConfigurationManager.AppSettings[key];
+            return string.Empty;
+        }
+
+        public void SetSetting(string key, string value)
+        {
+            try
+            {
+                Configuration configuration =
+                       ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                if (configuration.AppSettings.Settings.AllKeys.Contains(key))
+                    configuration.AppSettings.Settings[key].Value = value;
+                else
+                    configuration.AppSettings.Settings.Add(key, value);
+
+                configuration.Save(ConfigurationSaveMode.Full, true);
+                ConfigurationManager.RefreshSection("appSettings");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"could not save settings : {ex}");
+            }
+        }
         public bool InstallLibUsbKDriver()
         {
             var startInfo = new ProcessStartInfo();
@@ -201,14 +231,15 @@ namespace MCT_Windows
 
         public bool CheckAndUseDumpIfExists(string MFDFile, bool silentMode = false)
         {
-            if (System.IO.File.Exists("dumps\\" + MFDFile))
+            var path = Path.Combine(DefaultDumpPath, MFDFile);
+            if (System.IO.File.Exists(path))
             {
-                long fileLength = new System.IO.FileInfo("dumps\\" + MFDFile).Length;
+                long fileLength = new System.IO.FileInfo(path).Length;
                 if (fileLength == 0) return false;
                 if (!silentMode)
                 {
                     var dr = MessageBox.Show($"{Translate.Key(nameof(MifareWindowsTool.Properties.Resources.BadgeUIDAlreadyknown))}",
-                        Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DumpExisting) + $" ({Path.GetFileName("dumps\\" + MFDFile)}"), MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DumpExisting) + $" ({Path.GetFileName(path)}"), MessageBoxButton.YesNo, MessageBoxImage.Question);
                     return (dr == MessageBoxResult.No);
                 }
                 else

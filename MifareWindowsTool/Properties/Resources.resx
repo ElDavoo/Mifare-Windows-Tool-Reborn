@@ -416,9 +416,6 @@ Read anyway ?</value>
   <data name="lblChooseKeyFileContent" xml:space="preserve">
     <value>Select keys to access tag content</value>
   </data>
-  <data name="String1" xml:space="preserve">
-    <value />
-  </data>
   <data name="InfoMessageTagToReadAndDecode" xml:space="preserve">
     <value>This tag is not know yet.
 Mifare Windows tool needs to read and decrypt it once
@@ -431,5 +428,14 @@ In the next window, you will be able to read and decode your tag</value>
   <data name="UseInstallDriverIf" xml:space="preserve">
     <value>Use this if your ACR122U has a red LED - with mandatory installed libUSBK driver ,the led should remain OFF (no red light). 
 After installing this driver, unplug and replug your ACR122U</value>
+  </data>
+  <data name="LabelDumpsPath" xml:space="preserve">
+    <value>Default dump path</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Reset</value>
   </data>
 </root>

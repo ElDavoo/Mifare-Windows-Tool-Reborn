@@ -1,5 +1,7 @@
 ﻿using Gu.Wpf.Localization;
 
+using Microsoft.Win32;
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -23,15 +25,17 @@ namespace MCT_Windows.Windows
     /// </summary>
     public partial class SelectToolWindow : Window
     {
-        Tools tools = null;
+        Tools Tools { get; set; }
         MainWindow Main = null;
+
         public SelectToolWindow(MainWindow mainw, Tools t)
         {
-            tools = t;
+            Tools = t;
             Main = mainw;
             InitializeComponent();
             Uri iconUri = new Uri("pack://application:,,,/Resources/MWT.ico", UriKind.RelativeOrAbsolute);
             this.Icon = BitmapFrame.Create(iconUri);
+            txtDumpsPath.Text = t.DefaultDumpPath;
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -42,7 +46,7 @@ namespace MCT_Windows.Windows
         private void btnCompareDumps_Click(object sender, RoutedEventArgs e)
         {
             Main.StopScanTag();
-            var dw = new DumpWindow(tools, "", true);
+            var dw = new DumpWindow(Tools, "", true);
             dw.ShowDialog();
             Main.PeriodicScanTag();
         }
@@ -50,32 +54,45 @@ namespace MCT_Windows.Windows
         private void btnChangeUID_Click(object sender, RoutedEventArgs e)
         {
             Main.StopScanTag();
-            var suw = new SetUIDWindow(Main, tools);
+            var suw = new SetUIDWindow(Main, Tools);
             suw.ShowDialog();
             Main.PeriodicScanTag();
         }
-
-        private void btnLangFR_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnLangEN_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void LangSelector_Loaded(object sender, RoutedEventArgs e)
         {
             var ls = sender as LanguageSelector;
             ls.Languages.Add(new Gu.Wpf.Localization.Language(new System.Globalization.CultureInfo("en-US")) { FlagSource = new Uri("pack://application:,,,/Gu.Wpf.Localization;component/Flags/en.png") });
             ls.Languages.Add(new Gu.Wpf.Localization.Language(new System.Globalization.CultureInfo("fr-FR")) { FlagSource = new Uri("pack://application:,,,/Gu.Wpf.Localization;component/Flags/fr.png") });
-
+            
         }
 
         private void btnReinstallLibUsbK_Click(object sender, RoutedEventArgs e)
         {
             new Tools(Main).InstallLibUsbKDriver();
+        }
+
+        private void btnChangeDefaultDumpPath_Click(object sender, RoutedEventArgs e)
+        {
+            using (var fd = new System.Windows.Forms.FolderBrowserDialog())
+            {
+                fd.SelectedPath = Tools.DefaultDumpPath;
+                System.Windows.Forms.DialogResult result = fd.ShowDialog();
+
+                if (result == System.Windows.Forms.DialogResult.OK)
+                {
+                    Tools.DefaultDumpPath = fd.SelectedPath;
+                    txtDumpsPath.Text = Tools.DefaultDumpPath;
+                    Tools.SetSetting(Tools.ConstDefaultDumpPath, Tools.DefaultDumpPath);
+                }
+            }
+
+        }
+
+        private void btnResetDumpPath_Click(object sender, RoutedEventArgs e)
+        {
+            Tools.DefaultDumpPath = System.IO.Path.Combine(Tools.DefaultWorkingDir, "dumps");
+            txtDumpsPath.Text = Tools.DefaultDumpPath;
+            Tools.SetSetting(Tools.ConstDefaultDumpPath, Tools.DefaultDumpPath);
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Microsoft.Win32;
+
 using MifareWindowsTool.Properties;
+
 using System;
 using System.IO;
 using System.Reflection;
@@ -30,7 +32,8 @@ namespace MCT_Windows
             if (!string.IsNullOrWhiteSpace(tools.TMPFILESOURCEPATH_MFD) && System.IO.File.Exists(tools.TMPFILESOURCEPATH_MFD))
                 ofd.InitialDirectory = Path.GetDirectoryName(tools.TMPFILESOURCEPATH_MFD);
             else
-                ofd.InitialDirectory = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "dumps");
+                ofd.InitialDirectory = tools.DefaultDumpPath;
+
             lblSrcDumpValue.Content = tools.TMPFILESOURCE_MFD;
             lblTargetDumpValue.Content = Path.GetFileName(tools.TMPFILE_TARGETMFD);
         }
@@ -89,9 +92,10 @@ namespace MCT_Windows
                 if (fileLength > 0) de = DumpExists.Source;
 
             }
-            if (System.IO.File.Exists("dumps\\" + tools.TMPFILE_TARGETMFD))
+            var path = Path.Combine(tools.DefaultDumpPath, tools.TMPFILE_TARGETMFD);
+            if (System.IO.File.Exists(path))
             {
-                long fileLength = new System.IO.FileInfo("dumps\\" + tools.TMPFILE_TARGETMFD).Length;
+                long fileLength = new System.IO.FileInfo(path).Length;
                 if (fileLength > 0)
                     if (de == DumpExists.Source) de = DumpExists.Both; else de = DumpExists.Target;
             }
