@@ -438,4 +438,10 @@ After installing this driver, unplug and replug your ACR122U</value>
   <data name="Reset" xml:space="preserve">
     <value>Reset</value>
   </data>
+  <data name="LabelKeysPath" xml:space="preserve">
+    <value>Default Keys path</value>
+  </data>
+  <data name="SaveDumpKeysAs" xml:space="preserve">
+    <value>Save dump keys as</value>
+  </data>
 </root>

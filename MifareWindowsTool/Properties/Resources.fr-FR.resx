@@ -440,4 +440,10 @@ La led restera éteinte mais c'est normal
   <data name="Reset" xml:space="preserve">
     <value>Réinitialiser</value>
   </data>
+  <data name="LabelKeysPath" xml:space="preserve">
+    <value>Emplacement par défaut des clés</value>
+  </data>
+  <data name="SaveDumpKeysAs" xml:space="preserve">
+    <value>Enregistrer les clés du dump sous...</value>
+  </data>
 </root>

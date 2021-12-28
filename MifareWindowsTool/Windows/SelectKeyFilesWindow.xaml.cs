@@ -37,12 +37,13 @@ namespace MCT_Windows.Windows
         {
             try
             {
+                txtKeysPath.Text = tools.DefaultKeysPath;
                 lstKeys.Items.Clear();
-                foreach (var f in Directory.GetFiles("Keys", "*.keys", SearchOption.AllDirectories))
+                foreach (var f in Directory.GetFiles(txtKeysPath.Text, "*.keys", SearchOption.AllDirectories))
                 {
                     lstKeys.Items.Add(new MCTFile() { FileName = System.IO.Path.GetFileName(f), IsSelected = false });
                 }
-               
+
             }
             catch (Exception ex)
             {
@@ -70,7 +71,7 @@ namespace MCT_Windows.Windows
             var selectedKeyFile = lstKeys.Items.OfType<MCTFile>().Where(k => k.IsSelected).FirstOrDefault();
             if (selectedKeyFile != null)
             {
-                System.IO.File.Delete($"keys/{selectedKeyFile.FileName}");
+                System.IO.File.Delete(System.IO.Path.Combine(tools.DefaultKeysPath, selectedKeyFile.FileName));
                 RefreshKeyFiles();
             }
         }
@@ -81,5 +82,19 @@ namespace MCT_Windows.Windows
 
             ekf.ShowDialog();
         }
+
+        private void btnChangeDefaultKeyPath_Click(object sender, RoutedEventArgs e)
+        {
+            txtKeysPath.Text = tools.ChangeDefaultKeyPath();
+            RefreshKeyFiles();
+        }
+
+
+        private void btnResetKeyPath_Click(object sender, RoutedEventArgs e)
+        {
+            txtKeysPath.Text = tools.ResetKeyPath();
+            RefreshKeyFiles();
+        }
+
     }
 }

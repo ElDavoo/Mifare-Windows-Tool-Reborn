@@ -582,6 +582,15 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Default Keys path.
+        /// </summary>
+        public static string LabelKeysPath {
+            get {
+                return ResourceManager.GetString("LabelKeysPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Select keys to access tag content.
         /// </summary>
         public static string lblChooseKeyFileContent {
@@ -777,6 +786,15 @@ namespace MifareWindowsTool.Properties {
         public static string SaveDumpAs {
             get {
                 return ResourceManager.GetString("SaveDumpAs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Save dump keys as.
+        /// </summary>
+        public static string SaveDumpKeysAs {
+            get {
+                return ResourceManager.GetString("SaveDumpKeysAs", resourceCulture);
             }
         }
         

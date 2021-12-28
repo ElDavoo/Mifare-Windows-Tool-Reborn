@@ -32,6 +32,33 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+            <Label Foreground="White" x:Name="lblKeyPath" HorizontalAlignment="Center" Content="{localize:Static resx:Resources.LabelKeysPath}"></Label>
+            <StackPanel
+        Width="auto" Margin="2"
+        HorizontalAlignment="Stretch"
+        Background="#303030"
+        Orientation="Horizontal">
+                <TextBox Margin="2"  HorizontalAlignment="Stretch"  HorizontalContentAlignment="Stretch"   Background="#303030" x:Name="txtKeysPath" 
+                     Foreground="White" MinWidth="500" Width="auto"  ></TextBox>
+                <Button  Margin="10,0,0,0" Width="auto" x:Name="btnChangeDefaultKeyPath" Click="btnChangeDefaultKeyPath_Click">
+                    <StackPanel  Background="#303030" >
+                        <Image ToolTip="{localize:Static resx:Resources.Browse}"  Cursor="Hand"   
+                            Height="20" 
+                            VerticalAlignment="Top"
+                            Source="..\Images\Folder Explorer-01.png"
+                            Stretch="Uniform" />
+                    </StackPanel>
+                </Button>
+                <Button Margin="10,0,0,0"  Width="auto" x:Name="btnResetKeyPath" Click="btnResetKeyPath_Click">
+                    <StackPanel  Background="#303030" >
+                        <Image ToolTip="{localize:Static resx:Resources.Reset}"  Cursor="Hand"   
+                            Height="20" 
+                            VerticalAlignment="Top"
+                            Source="..\Images\utilities_reset.png"
+                            Stretch="Uniform" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Button
                     x:Name="btnCancel"

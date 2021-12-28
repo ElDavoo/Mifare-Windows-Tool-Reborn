@@ -44,14 +44,14 @@
 
         </StackPanel>
 
-        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="auto" Margin="0,40,0,0">
+        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="auto" Margin="0,40,0,30">
           
             <RichTextBox
                 x:Name="txtOutput"
                 Width="auto" 
                 MinHeight="400"
                 Height="auto"
-                Margin="32,0,60,50"
+                Margin="32,0,60,70"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Stretch"
                 Background="#303030"
@@ -67,10 +67,11 @@
                     </Style>
                 </RichTextBox.Resources>
             </RichTextBox>
-            <StackPanel
+            <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" Margin="0">
+                <StackPanel Margin="0"
                 x:Name="stkInfos"
                 HorizontalAlignment="Center" 
-                Orientation="Horizontal" VerticalAlignment="Bottom" Margin="0,0,0,30">
+                Orientation="Horizontal" >
                 <Label Content="UID &amp; ManufInfo" Foreground="#9533F9" />
                 <TextBlock>|</TextBlock>
                 <Label Content="ValueBlock" Foreground="Yellow" />
@@ -82,38 +83,47 @@
                 <Label Content="ACs" Foreground="Orange" />
                 <TextBlock>|</TextBlock>
             </StackPanel>
-            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Bottom">
-                <Button
+            <StackPanel Margin="20,0,0,0" HorizontalAlignment="Center" Orientation="Vertical" VerticalAlignment="Bottom">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Bottom">
+                    <Button Margin="2"
                     x:Name="btnSaveDump"
                     Width="auto"
                     Click="btnSaveDump_Click"
                     Content="{localize:Static resx:Resources.SaveDumpAs}"
                     Style="{StaticResource buttonStyle}" />
-
-                <Button
+                    <Button
+                    x:Name="btnSaveDumpKeys"
+                    Width="auto"  Margin="2"
+                    Click="btnSaveDumpKeys_Click"
+                    Content="{localize:Static resx:Resources.SaveDumpKeysAs}"
+                    Style="{StaticResource buttonStyle}" />
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Bottom">
+                    <Button 
                     x:Name="btnShowAsAscii"
                     Width="auto"
-                    Margin="20,0,0,0"
+                    Margin="2"
                     Click="btnShowAsAscii_Click"
                     Content="{localize:Static resx:Resources.ShowAsASCII}"
                     Style="{StaticResource buttonStyle}" />
-                <Button
+                    <Button
                     x:Name="btnEdit"
                     Width="auto"
                     MinWidth="100"
-                    Margin="20,0,0,0"
+                    Margin="2"
                     Click="btnEdit_Click"
                     Content="{localize:Static resx:Resources.EditDump}"
                     Style="{StaticResource buttonStyle}" />
-                <Button
+                    <Button
                     x:Name="btnClose"
                     Width="auto"
                     MinWidth="100"
-                    Margin="20,0,0,0"
+                    Margin="2"
                     Click="btnClose_Click"
                     Content="{localize:Static resx:Resources.Close}"
                     Style="{StaticResource buttonStyle}" />
-
+                </StackPanel>
+            </StackPanel>
             </StackPanel>
         </Grid>
     </Grid>

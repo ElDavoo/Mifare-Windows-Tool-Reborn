@@ -59,13 +59,14 @@ namespace MCT_Windows
     }
     public class Tools
     {
-        public string DefaultWorkingDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        public static string DefaultWorkingDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
         MediaPlayer Player = null;
         public bool lprocess = false;
         public bool running = false;
         public string CurrentUID = "";
         internal readonly string ConstDefaultDumpPath = "DefaultDumpPath";
+        internal readonly string ConstDefaultKeysPath = "DefaultKeyPath";
 
         MainWindow Main { get; set; }
         public Tools(MainWindow main)
@@ -80,7 +81,8 @@ namespace MCT_Windows
         public string TMPFILE_TARGETMFD { get; set; } = "";
         public string TMPFILE_UNK { get; set; } = "";
         public string TMPFILE_FND { get; set; } = "";
-        public string DefaultDumpPath { get; set; } = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "dumps");
+        public string DefaultDumpPath { get; set; } = Path.Combine(DefaultWorkingDir, "dumps");
+        public string DefaultKeysPath { get; set; } = Path.Combine(DefaultWorkingDir, "keys");
 
         public string GetSetting(string key)
         {
@@ -108,6 +110,32 @@ namespace MCT_Windows
                 MessageBox.Show($"could not save settings : {ex}");
             }
         }
+
+        public string ResetKeyPath()
+        {
+            DefaultKeysPath = System.IO.Path.Combine(Tools.DefaultWorkingDir, "keys");
+
+            SetSetting(ConstDefaultKeysPath, DefaultKeysPath);
+            return DefaultKeysPath;
+        }
+        public string ChangeDefaultKeyPath()
+        {
+            using (var fd = new System.Windows.Forms.FolderBrowserDialog())
+            {
+                fd.SelectedPath = DefaultKeysPath;
+                System.Windows.Forms.DialogResult result = fd.ShowDialog();
+
+                if (result == System.Windows.Forms.DialogResult.OK)
+                {
+                    DefaultKeysPath = fd.SelectedPath;
+
+                    SetSetting(ConstDefaultKeysPath, DefaultKeysPath);
+                    return DefaultKeysPath;
+                }
+            }
+            return string.Empty;
+        }
+
         public bool InstallLibUsbKDriver()
         {
             var startInfo = new ProcessStartInfo();

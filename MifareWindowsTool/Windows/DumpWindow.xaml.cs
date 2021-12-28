@@ -147,6 +147,7 @@ namespace MCT_Windows.Windows
         private void ShowHex()
         {
             if (txtOutput == null) return;
+            dumpA.Keys.Clear();
             sectorCounter = 0;
             txtOutput.Document = new System.Windows.Documents.FlowDocument();
 
@@ -172,17 +173,35 @@ namespace MCT_Windows.Windows
                 {
                     for (int c = 0; c < blocksize * 2; c++)
                     {
-                        if (c <= 11) txtOutput.AppendText(strBlock[c].ToString(), Brushes.Lime);
+                        if (c <= 11)
+                        {
+                            txtOutput.AppendText(strBlock[c].ToString(), Brushes.Lime);
+
+                        }
                         else if (c > 11 && c <= 19) txtOutput.AppendText(strBlock[c].ToString(), Brushes.Orange);
-                        else txtOutput.AppendText(strBlock[c].ToString(), Brushes.Green);
+                        else
+                        {
+                            txtOutput.AppendText(strBlock[c].ToString(), Brushes.Green);
+
+                        }
+
 
                     }
+                    //add keys to dump
+                    var keyA = strBlock.Substring(0, 12);
+                    if (!dumpA.Keys.Contains(keyA))
+                        dumpA.Keys.Add(keyA);
+                    var keyB = strBlock.Substring(20, 12);
+                    if (!dumpA.Keys.Contains(keyB))
+                        dumpA.Keys.Add(keyB);
+
                     txtOutput.AppendText(Environment.NewLine, Brushes.White);
                 }
                 else
                     txtOutput.AppendText(strBlock, Brushes.White);
 
             }
+
 
         }
         public byte[] StringToByteArray(string hex)
@@ -198,7 +217,8 @@ namespace MCT_Windows.Windows
 
         private void btnSaveDump_Click(object sender, RoutedEventArgs e)
         {
-
+            sfd.Filter = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DumpFileFilter));
+            sfd.InitialDirectory = Tools.DefaultDumpPath;
             var dr = sfd.ShowDialog();
             if (dr.Value)
                 System.IO.File.WriteAllBytes(sfd.FileName, dumpA.BinArray);
@@ -229,33 +249,38 @@ namespace MCT_Windows.Windows
 
         private void BtnOpenDumpA_Click(object sender, RoutedEventArgs e)
         {
-            var fileName = OpenDump(true);
-            if (!string.IsNullOrWhiteSpace(fileName))
-                btnOpenDumpA.Content = $"{Translate.Key(nameof(MifareWindowsTool.Properties.Resources.OpenDump))} A: {Path.GetFileNameWithoutExtension(fileName)}";
+            OpenDump(true);
+            if (!string.IsNullOrWhiteSpace(dumpA.FileName))
+                btnOpenDumpA.Content = $"{Translate.Key(nameof(MifareWindowsTool.Properties.Resources.OpenDump))} A: {Path.GetFileNameWithoutExtension(dumpA.FileName)}";
 
         }
         private void BtnOpenDumpB_Click(object sender, RoutedEventArgs e)
         {
-            var fileName = OpenDump(false);
-            if (!string.IsNullOrWhiteSpace(fileName))
-                btnOpenDumpB.Content = $"{Translate.Key(nameof(MifareWindowsTool.Properties.Resources.OpenDump))} B: {Path.GetFileNameWithoutExtension(fileName)}";
+            OpenDump(false);
+            if (!string.IsNullOrWhiteSpace(dumpB.FileName))
+                btnOpenDumpB.Content = $"{Translate.Key(nameof(MifareWindowsTool.Properties.Resources.OpenDump))} B: {Path.GetFileNameWithoutExtension(dumpB.FileName)}";
         }
 
-        private string OpenDump(bool isA)
+        private void OpenDump(bool isA)
         {
-            var fileName = "";
+
             var dr = ofd.ShowDialog();
             if (dr.Value)
             {
-                fileName = ofd.FileName;
                 FileInfo fi = new FileInfo(ofd.FileName);
                 if (fi.Length < 1024 || fi.Length > 4096)
                 {
                     MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.InvalidDumpFile)));
-                    return "";
+                    return;
                 }
 
-                var inputFileType = converter.CheckDump(fileName);
+                if (isA) dumpA.FileName = ofd.FileName;
+                else
+                    dumpB.FileName = ofd.FileName;
+
+
+
+                var inputFileType = converter.CheckDump(ofd.FileName);
                 if (inputFileType == FileType.Text)
                 {
                     if (isA)
@@ -271,24 +296,24 @@ namespace MCT_Windows.Windows
 
 
                 }
-                else
+                else if (inputFileType == FileType.Binary)
                 {
                     if (isA)
                     {
                         lblInfosA.Content = "A:binary dump";
-                        dumpA.BinaryOutput = System.IO.File.ReadAllBytes(fileName).ToList();
+                        dumpA.BinaryOutput = System.IO.File.ReadAllBytes(dumpA.FileName).ToList();
                     }
                     else
                     {
                         lblInfosB.Content = "B:binary dump";
-                        dumpB.BinaryOutput = System.IO.File.ReadAllBytes(fileName).ToList();
+                        dumpB.BinaryOutput = System.IO.File.ReadAllBytes(dumpB.FileName).ToList();
                     }
 
                 }
 
                 ShowCompareDumps();
             }
-            return fileName;
+
         }
 
 
@@ -413,6 +438,19 @@ namespace MCT_Windows.Windows
             }
         }
 
-
+        private void btnSaveDumpKeys_Click(object sender, RoutedEventArgs e)
+        {
+            if (!dumpA.Keys.Any())
+            {
+                MessageBox.Show("Nothing to save");
+                return;
+            }
+            sfd.Filter = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.KeyFilesFilter));
+            sfd.InitialDirectory = Tools.DefaultKeysPath;
+            sfd.FileName = Path.GetFileNameWithoutExtension(dumpA.FileName);
+            var dr = sfd.ShowDialog();
+            if (dr.Value)
+                System.IO.File.WriteAllText(sfd.FileName, string.Join(Environment.NewLine, dumpA.Keys.Distinct()));
+        }
     }
 }

@@ -11,8 +11,9 @@ namespace MifareWindowsTool.Common
         public int LinesCount => Lines.Count;
         public List<byte> BinaryOutput { get; set; } = new List<byte>();
         public byte[] BinArray => BinaryOutput.ToArray();
-
+        public List<string> Keys { get; set; } = new List<string>();
         public string TextOutput { get; set; }
+        public string FileName { get; set; }
     }
     public enum FileType
     {

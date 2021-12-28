@@ -1,5 +1,7 @@
 ﻿using Microsoft.Win32;
+
 using MifareWindowsTool.Properties;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -31,11 +33,11 @@ namespace MCT_Windows.Windows
             Skf = skf;
             Tools = t;
             sfd.Filter = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.KeyFilesFilter));
-            sfd.InitialDirectory = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "keys");
+            sfd.InitialDirectory = Tools.DefaultKeysPath;
 
             if (!string.IsNullOrWhiteSpace(fileName))
             {
-                FileName = $"keys/{fileName}";
+                FileName = Path.Combine(Tools.DefaultKeysPath, fileName);
                 Data = System.IO.File.ReadAllText(FileName);
             }
 

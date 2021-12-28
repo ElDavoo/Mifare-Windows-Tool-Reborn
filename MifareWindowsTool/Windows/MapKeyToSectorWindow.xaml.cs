@@ -38,7 +38,7 @@ namespace MCT_Windows
             Title += $" {titleContent}";
             Uri iconUri = new Uri("pack://application:,,,/Resources/MWT.ico", UriKind.RelativeOrAbsolute);
             this.Icon = BitmapFrame.Create(iconUri);
-            foreach (var f in Directory.GetFiles("Keys", "*.keys", SearchOption.AllDirectories))
+            foreach (var f in Directory.GetFiles(tools.DefaultKeysPath, "*.keys", SearchOption.AllDirectories))
             {
                 var fName = System.IO.Path.GetFileName(f);
                 ucLK.lstKeys.Items.Add(new MCTFile()

@@ -1,22 +1,8 @@
 ﻿using Gu.Wpf.Localization;
 
-using Microsoft.Win32;
-
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace MCT_Windows.Windows
 {
@@ -36,6 +22,7 @@ namespace MCT_Windows.Windows
             Uri iconUri = new Uri("pack://application:,,,/Resources/MWT.ico", UriKind.RelativeOrAbsolute);
             this.Icon = BitmapFrame.Create(iconUri);
             txtDumpsPath.Text = t.DefaultDumpPath;
+            txtKeysPath.Text = t.DefaultKeysPath;
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -63,7 +50,7 @@ namespace MCT_Windows.Windows
             var ls = sender as LanguageSelector;
             ls.Languages.Add(new Gu.Wpf.Localization.Language(new System.Globalization.CultureInfo("en-US")) { FlagSource = new Uri("pack://application:,,,/Gu.Wpf.Localization;component/Flags/en.png") });
             ls.Languages.Add(new Gu.Wpf.Localization.Language(new System.Globalization.CultureInfo("fr-FR")) { FlagSource = new Uri("pack://application:,,,/Gu.Wpf.Localization;component/Flags/fr.png") });
-            
+
         }
 
         private void btnReinstallLibUsbK_Click(object sender, RoutedEventArgs e)
@@ -94,5 +81,18 @@ namespace MCT_Windows.Windows
             txtDumpsPath.Text = Tools.DefaultDumpPath;
             Tools.SetSetting(Tools.ConstDefaultDumpPath, Tools.DefaultDumpPath);
         }
+
+
+        private void btnChangeDefaultKeyPath_Click(object sender, RoutedEventArgs e)
+        {
+            txtKeysPath.Text = Tools.ChangeDefaultKeyPath();
+        }
+
+
+        private void btnResetKeyPath_Click(object sender, RoutedEventArgs e)
+        {
+            txtKeysPath.Text = Tools.ResetKeyPath();
+        }
+
     }
 }

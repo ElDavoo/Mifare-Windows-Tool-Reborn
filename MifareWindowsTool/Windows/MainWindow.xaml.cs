@@ -112,6 +112,13 @@ namespace MCT_Windows
             else
                 Tools.DefaultDumpPath = Path.Combine(Tools.DefaultWorkingDir, "dumps");
 
+            var defaultKeysPath = Tools.GetSetting(Tools.ConstDefaultKeysPath);
+            if (!string.IsNullOrWhiteSpace(defaultKeysPath) && Directory.Exists(defaultKeysPath))
+                Tools.DefaultKeysPath = defaultKeysPath;
+            else
+                Tools.DefaultKeysPath = Path.Combine(Tools.DefaultWorkingDir, "keys");
+
+
             ofd.InitialDirectory = Tools.DefaultDumpPath;
 
             if (!Tools.TestWritePermission(ofd.InitialDirectory))
@@ -540,7 +547,7 @@ namespace MCT_Windows
                 StopScanTag();
                 ValidateActions(false);
                 ShowAbortButton();
-                var sourceDump = Tools.TMPFILESOURCEPATH_MFD; 
+                var sourceDump = Tools.TMPFILESOURCEPATH_MFD;
                 var targetDump = Path.Combine(Tools.DefaultDumpPath, Tools.TMPFILE_TARGETMFD);
                 char writeMode = bWriteBlock0 == true ? 'W' : 'w';
                 char useKey = useKeyA == true ? 'A' : 'B';
@@ -593,7 +600,7 @@ namespace MCT_Windows
 
                 foreach (var key in keys.Select(k => k.FileName))
                 {
-                    arguments += $" -f \"keys\\{key}\"";
+                    arguments += $" -f \"{Path.Combine(Tools.DefaultKeysPath, key)}\"";
                 }
                 arguments += $" -O\"{tmpFileMfd}\"";
                 ProcessCTS = new CancellationTokenSource();
