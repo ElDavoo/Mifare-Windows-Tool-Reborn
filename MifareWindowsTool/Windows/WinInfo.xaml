@@ -1,0 +1,27 @@
+﻿<Window x:Class="MCT_Windows.WinInfo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"  SizeToContent="WidthAndHeight"
+        Title="Info" Height="450" Width="700">
+
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Window.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="PointsNew" To="1.0" Storyboard.TargetProperty="Opacity" Duration="0:0:5" RepeatBehavior="1x" />
+                    <ThicknessAnimation Storyboard.TargetName="PointsNew" From="0 -100 0 0" To="0 250 0 0" Storyboard.TargetProperty="Margin" Duration="0:0:5" RepeatBehavior="1x" />
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Window.Triggers>
+
+    <Grid>
+
+        <WebBrowser Width="700" Height="250" HorizontalAlignment="Stretch" VerticalAlignment="Top" x:Name="wb"></WebBrowser>
+        <Border HorizontalAlignment="Center" VerticalAlignment="Top" Opacity="0.0" x:Name="PointsNew">
+            <TextBlock x:Name="tbInfos" FontSize="48" FontWeight="Bold" />
+        </Border>
+    </Grid>
+</Window>

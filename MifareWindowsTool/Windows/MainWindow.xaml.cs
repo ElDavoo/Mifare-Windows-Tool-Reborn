@@ -1,5 +1,4 @@
 ﻿using CliWrap;
-using CliWrap.Buffered;
 using CliWrap.EventStream;
 
 using Dasync.Collections;
@@ -15,7 +14,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
@@ -188,7 +186,7 @@ namespace MCT_Windows
             // Subscribe the observable to the task on execution.
             ObservableScan.Subscribe(x =>
             {
-                Application.Current.Dispatcher.Invoke(async () =>
+                Application.Current?.Dispatcher.Invoke(async () =>
                 {
                     ScanCTS.Token.Register(() => ScanTagRunning = false);
                     if (!ckEnablePeriodicTagScan.IsChecked.HasValue || ckEnablePeriodicTagScan.IsChecked.Value == false) return;
@@ -697,6 +695,10 @@ namespace MCT_Windows
 
         private void btnInfos_Click(object sender, RoutedEventArgs e)
         {
+
+            WinInfo winInfo = new WinInfo();
+            winInfo.Show();
+            
             Process.Start(Github_MWT_WikiPage);
         }
 

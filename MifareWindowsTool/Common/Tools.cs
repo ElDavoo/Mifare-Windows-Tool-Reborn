@@ -1,31 +1,18 @@
-﻿using CliWrap;
-
-using MCT_Windows.Windows;
-
-using MifareWindowsTool.Common;
-using MifareWindowsTool.Properties;
+﻿using MifareWindowsTool.Properties;
 
 using Newtonsoft.Json;
 
-using ORMi;
-
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Management;
-using System.Media;
 using System.Net.Http;
 using System.Reflection;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
-using System.Windows.Navigation;
 
 namespace MCT_Windows
 {
