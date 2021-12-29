@@ -45,13 +45,13 @@
         </StackPanel>
 
         <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="auto" Margin="0,40,0,30">
-          
-            <RichTextBox
+            <StackPanel Orientation="Horizontal"  Margin="32,0,60,70">
+                <RichTextBox Margin="5"
                 x:Name="txtOutput"
-                Width="auto" 
+                Width="370" 
                 MinHeight="400"
                 Height="auto"
-                Margin="32,0,60,70"
+               
                 HorizontalAlignment="Left"
                 VerticalAlignment="Stretch"
                 Background="#303030"
@@ -61,37 +61,42 @@
                 FontSize="16"
                 Foreground="White"
                 ScrollViewer.VerticalScrollBarVisibility="Auto">
-                <RichTextBox.Resources>
-                    <Style TargetType="{x:Type Paragraph}">
-                        <Setter Property="Margin" Value="0" />
-                    </Style>
-                </RichTextBox.Resources>
-            </RichTextBox>
-            <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" Margin="0">
-                <StackPanel Margin="0"
-                x:Name="stkInfos"
-                HorizontalAlignment="Center" 
-                Orientation="Horizontal" >
-                <Label Content="UID &amp; ManufInfo" Foreground="#9533F9" />
-                <TextBlock>|</TextBlock>
-                <Label Content="ValueBlock" Foreground="Yellow" />
-                <TextBlock>|</TextBlock>
-                <Label Content="KeyA" Foreground="Lime" />
-                <TextBlock>|</TextBlock>
-                <Label Content="KeyB" Foreground="Green" />
-                <TextBlock>|</TextBlock>
-                <Label Content="ACs" Foreground="Orange" />
-                <TextBlock>|</TextBlock>
+                    <RichTextBox.Resources>
+                        <Style TargetType="{x:Type Paragraph}">
+                            <Setter Property="Margin" Value="0" />
+                        </Style>
+                    </RichTextBox.Resources>
+                </RichTextBox>
+                <StackPanel Orientation="Vertical" VerticalAlignment="Top" Margin="5">
+                    <Label Foreground="White" x:Name="lblKeys" Content="Keys from this dump" HorizontalAlignment="Left"></Label>
+                    <TextBox x:Name="txtKeys" Height="auto" Width="auto" MinWidth="150" IsReadOnly="True"></TextBox>
+                </StackPanel>
             </StackPanel>
-            <StackPanel Margin="20,0,0,0" HorizontalAlignment="Center" Orientation="Vertical" VerticalAlignment="Bottom">
-                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Bottom">
-                    <Button Margin="2"
+            <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" Margin="0">
+                <StackPanel Margin="70,0,0,0"
+                x:Name="stkInfos"
+                HorizontalAlignment="Left" 
+                Orientation="Horizontal" >
+                    <Label Content="UID &amp; ManufInfo" Foreground="#9533F9" />
+                    <TextBlock>|</TextBlock>
+                    <Label Content="ValueBlock" Foreground="White" />
+                    <TextBlock>|</TextBlock>
+                    <Label Content="KeyA" Foreground="Lime" />
+                    <TextBlock>|</TextBlock>
+                    <Label Content="ACs" Foreground="Orange" />
+                    <TextBlock>|</TextBlock>
+                    <Label Content="KeyB" Foreground="Green" />
+                    <TextBlock>|</TextBlock>
+                </StackPanel>
+                <StackPanel Margin="20,0,0,0" HorizontalAlignment="Center" Orientation="Vertical" VerticalAlignment="Bottom">
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Bottom">
+                        <Button Margin="2"
                     x:Name="btnSaveDump"
                     Width="auto"
                     Click="btnSaveDump_Click"
                     Content="{localize:Static resx:Resources.SaveDumpAs}"
                     Style="{StaticResource buttonStyle}" />
-                    <Button
+                        <Button
                     x:Name="btnSaveDumpKeys"
                     Width="auto"  Margin="2"
                     Click="btnSaveDumpKeys_Click"
@@ -104,15 +109,15 @@
                     Content="{localize:Static resx:Resources.AppendDumpKeysTo}"
                     Style="{StaticResource buttonStyle}" />
                     </StackPanel>
-                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Bottom">
-                    <Button 
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Bottom">
+                        <Button 
                     x:Name="btnShowAsAscii"
                     Width="auto"
                     Margin="2"
                     Click="btnShowAsAscii_Click"
                     Content="{localize:Static resx:Resources.ShowAsASCII}"
                     Style="{StaticResource buttonStyle}" />
-                    <Button
+                        <Button
                     x:Name="btnEdit"
                     Width="auto"
                     MinWidth="100"
@@ -120,7 +125,7 @@
                     Click="btnEdit_Click"
                     Content="{localize:Static resx:Resources.EditDump}"
                     Style="{StaticResource buttonStyle}" />
-                    <Button
+                        <Button
                     x:Name="btnClose"
                     Width="auto"
                     MinWidth="100"
@@ -128,8 +133,8 @@
                     Click="btnClose_Click"
                     Content="{localize:Static resx:Resources.Close}"
                     Style="{StaticResource buttonStyle}" />
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
             </StackPanel>
         </Grid>
     </Grid>

@@ -201,7 +201,7 @@ namespace MCT_Windows.Windows
                     txtOutput.AppendText(strBlock, Brushes.White);
 
             }
-
+            txtKeys.Text = string.Join(Environment.NewLine, dumpA.Keys);
 
         }
         public byte[] StringToByteArray(string hex)
