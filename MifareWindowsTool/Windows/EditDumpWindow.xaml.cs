@@ -33,7 +33,7 @@ namespace MCT_Windows.Windows
             he.FileName = fileName;
             Uri iconUri = new Uri("pack://application:,,,/Resources/MWT.ico", UriKind.RelativeOrAbsolute);
             this.Icon = BitmapFrame.Create(iconUri);
-            var initialDumpDir = Tools.DefaultDumpPath;
+            var initialDumpDir = t.DefaultDumpPath;
             sfd.Filter = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DumpFileFilter));
             sfd.InitialDirectory = initialDumpDir;
             sfd.FileName = Path.GetFileName(fileName);

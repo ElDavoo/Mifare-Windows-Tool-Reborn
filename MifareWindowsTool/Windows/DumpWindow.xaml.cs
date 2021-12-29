@@ -178,8 +178,8 @@ namespace MCT_Windows.Windows
                             txtOutput.AppendText(strBlock[c].ToString(), Brushes.Lime);
 
                         }
-                        else if (c > 11 && c <= 19) txtOutput.AppendText(strBlock[c].ToString(), Brushes.Orange);
-                        else
+                        else if (c > 11 && c <= 19 && strBlock.Length > c) txtOutput.AppendText(strBlock[c].ToString(), Brushes.Orange);
+                        else if (strBlock.Length > c)
                         {
                             txtOutput.AppendText(strBlock[c].ToString(), Brushes.Green);
 
@@ -191,8 +191,8 @@ namespace MCT_Windows.Windows
                     var keyA = strBlock.Substring(0, 12);
                     if (!dumpA.Keys.Contains(keyA))
                         dumpA.Keys.Add(keyA);
-                    var keyB = strBlock.Substring(20, 12);
-                    if (!dumpA.Keys.Contains(keyB))
+                    var keyB = strBlock.Length >= 32 ? strBlock.Substring(20, 12) : "";
+                    if (keyB != "" && !dumpA.Keys.Contains(keyB))
                         dumpA.Keys.Add(keyB);
 
                     txtOutput.AppendText(Environment.NewLine, Brushes.White);
@@ -249,19 +249,19 @@ namespace MCT_Windows.Windows
 
         private void BtnOpenDumpA_Click(object sender, RoutedEventArgs e)
         {
-            OpenDump(true);
+            dumpA.FileName = OpenDump(true);
             if (!string.IsNullOrWhiteSpace(dumpA.FileName))
                 btnOpenDumpA.Content = $"{Translate.Key(nameof(MifareWindowsTool.Properties.Resources.OpenDump))} A: {Path.GetFileNameWithoutExtension(dumpA.FileName)}";
 
         }
         private void BtnOpenDumpB_Click(object sender, RoutedEventArgs e)
         {
-            OpenDump(false);
+            dumpB.FileName = OpenDump(false);
             if (!string.IsNullOrWhiteSpace(dumpB.FileName))
                 btnOpenDumpB.Content = $"{Translate.Key(nameof(MifareWindowsTool.Properties.Resources.OpenDump))} B: {Path.GetFileNameWithoutExtension(dumpB.FileName)}";
         }
 
-        private void OpenDump(bool isA)
+        private string OpenDump(bool isA)
         {
 
             var dr = ofd.ShowDialog();
@@ -271,13 +271,8 @@ namespace MCT_Windows.Windows
                 if (fi.Length < 1024 || fi.Length > 4096)
                 {
                     MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.InvalidDumpFile)));
-                    return;
+                    return "";
                 }
-
-                if (isA) dumpA.FileName = ofd.FileName;
-                else
-                    dumpB.FileName = ofd.FileName;
-
 
 
                 var inputFileType = converter.CheckDump(ofd.FileName);
@@ -286,12 +281,12 @@ namespace MCT_Windows.Windows
                     if (isA)
                     {
                         lblInfosA.Content = "A:text dump";
-                        dumpA = converter.ConvertToBinaryDump();
+                        dumpA = converter.ConvertToBinaryDump(dumpA);
                     }
                     else
                     {
                         lblInfosB.Content = "B:text dump";
-                        dumpB = converter.ConvertToBinaryDump();
+                        dumpB = converter.ConvertToBinaryDump(dumpB);
                     }
 
 
@@ -301,19 +296,19 @@ namespace MCT_Windows.Windows
                     if (isA)
                     {
                         lblInfosA.Content = "A:binary dump";
-                        dumpA.BinaryOutput = System.IO.File.ReadAllBytes(dumpA.FileName).ToList();
+                        dumpA.BinaryOutput = System.IO.File.ReadAllBytes(ofd.FileName).ToList();
                     }
                     else
                     {
                         lblInfosB.Content = "B:binary dump";
-                        dumpB.BinaryOutput = System.IO.File.ReadAllBytes(dumpB.FileName).ToList();
+                        dumpB.BinaryOutput = System.IO.File.ReadAllBytes(ofd.FileName).ToList();
                     }
 
                 }
 
                 ShowCompareDumps();
             }
-
+            return ofd.FileName;
         }
 
 
@@ -409,15 +404,12 @@ namespace MCT_Windows.Windows
 
                 dumpA.BinaryOutput = System.IO.File.ReadAllBytes(dumpA.FileName).ToList();
 
-                string strFirstBlock = BitConverter.ToString(dumpA.BinArray.Take(16).ToArray()).Replace("-", string.Empty);
-                if (strFirstBlock.Contains("536563746F72")) //(hex)536563746F72 => (text)-> 'Sector'
+                if (converter.CheckDump(dumpA.FileName) == FileType.Text)
                 {
                     System.Windows.MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.thisismctdumpfile))
                          , "MCT Dump --> MWT Dump", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
 
-                    dumpA.TextOutput = System.IO.File.ReadAllText(dumpA.FileName);
-                    dumpA = converter.ConvertToBinaryDump();
-
+                    dumpA = converter.ConvertToBinaryDump(dumpA);
                 }
 
                 SetSectorCount(dumpA.BinArray.Length);
