@@ -106,6 +106,15 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Append keys to existing file.
+        /// </summary>
+        public static string AppendDumpKeysTo {
+            get {
+                return ResourceManager.GetString("AppendDumpKeysTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Auto scan Tag is running.
         /// </summary>
         public static string AutoScanTagRunning {
@@ -426,7 +435,8 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à EDIT/ANALYSE DUMP FILE.
+        ///   Recherche une chaîne localisée semblable à EDIT/ANALYZE
+        ///DUMP FILE.
         /// </summary>
         public static string EditAnalyzeDumpFile {
             get {
@@ -555,7 +565,7 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Key Files|*.keys.
+        ///   Recherche une chaîne localisée semblable à Key Files|*.keys|All Files|*.*.
         /// </summary>
         public static string KeyFilesFilter {
             get {

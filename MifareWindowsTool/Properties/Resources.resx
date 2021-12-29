@@ -209,7 +209,8 @@
     <value>EDIT/ADD KEY FILE</value>
   </data>
   <data name="EditAnalyzeDumpFile" xml:space="preserve">
-    <value>EDIT/ANALYSE DUMP FILE</value>
+    <value>EDIT/ANALYZE
+DUMP FILE</value>
   </data>
   <data name="EditDump" xml:space="preserve">
     <value>Edit Dump</value>
@@ -230,7 +231,7 @@
     <value>Identical</value>
   </data>
   <data name="KeyFilesFilter" xml:space="preserve">
-    <value>Key Files|*.keys</value>
+    <value>Key Files|*.keys|All Files|*.*</value>
   </data>
   <data name="MapKeyToSectorWindowTitle" xml:space="preserve">
     <value>Map Keys</value>
@@ -443,5 +444,8 @@ After installing this driver, unplug and replug your ACR122U</value>
   </data>
   <data name="SaveDumpKeysAs" xml:space="preserve">
     <value>Save dump keys as</value>
+  </data>
+  <data name="AppendDumpKeysTo" xml:space="preserve">
+    <value>Append keys to existing file</value>
   </data>
 </root>

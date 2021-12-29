@@ -30,7 +30,6 @@ namespace MCT_Windows.Windows
         Dump dumpA { get; set; } = new Dump();
         Dump dumpB { get; set; } = new Dump();
         DumpConverter converter = new DumpConverter();
-        public string dFileName { get; set; }
         bool bConvertoAscii = true;
         int split = 8;
         Brush PaleBlueBrush = new SolidColorBrush(Color.FromArgb(255, (byte)0x60, (byte)0x8D, (byte)0x88));
@@ -54,7 +53,7 @@ namespace MCT_Windows.Windows
                 sfd.Filter = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DumpFileFilter));
                 sfd.InitialDirectory = t.DefaultDumpPath;
                 Tools = t;
-                dFileName = fileName;
+                dumpA.FileName = fileName;
 
 
             }
@@ -148,6 +147,7 @@ namespace MCT_Windows.Windows
         {
             if (txtOutput == null) return;
             dumpA.Keys.Clear();
+            dumpA.Keys.Add($"# dump keys from { Path.GetFileNameWithoutExtension(dumpA.FileName)} added on {DateTime.Now.Date:MMMM dd yyyy}");
             sectorCounter = 0;
             txtOutput.Document = new System.Windows.Documents.FlowDocument();
 
@@ -379,7 +379,7 @@ namespace MCT_Windows.Windows
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
-            var edw = new EditDumpWindow(Tools, dFileName);
+            var edw = new EditDumpWindow(Tools, dumpA.FileName);
             Mouse.OverrideCursor = Cursors.Wait;
 
             edw.Show();
@@ -401,13 +401,13 @@ namespace MCT_Windows.Windows
             }
             else
             {
-                Title += " " + Path.GetFileName(dFileName);
+                Title += " " + Path.GetFileName(dumpA.FileName);
                 btnEdit.Visibility = Visibility.Visible;
                 btnSaveDump.Visibility = Visibility.Visible;
                 stkOpenDumps.Visibility = Visibility.Collapsed;
 
 
-                dumpA.BinaryOutput = System.IO.File.ReadAllBytes(dFileName).ToList();
+                dumpA.BinaryOutput = System.IO.File.ReadAllBytes(dumpA.FileName).ToList();
 
                 string strFirstBlock = BitConverter.ToString(dumpA.BinArray.Take(16).ToArray()).Replace("-", string.Empty);
                 if (strFirstBlock.Contains("536563746F72")) //(hex)536563746F72 => (text)-> 'Sector'
@@ -415,7 +415,7 @@ namespace MCT_Windows.Windows
                     System.Windows.MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.thisismctdumpfile))
                          , "MCT Dump --> MWT Dump", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
 
-                    dumpA.TextOutput = System.IO.File.ReadAllText(dFileName);
+                    dumpA.TextOutput = System.IO.File.ReadAllText(dumpA.FileName);
                     dumpA = converter.ConvertToBinaryDump();
 
                 }
@@ -451,6 +451,23 @@ namespace MCT_Windows.Windows
             var dr = sfd.ShowDialog();
             if (dr.Value)
                 System.IO.File.WriteAllText(sfd.FileName, string.Join(Environment.NewLine, dumpA.Keys.Distinct()));
+        }
+
+        private void btnAppendDumpKeys_Click(object sender, RoutedEventArgs e)
+        {
+            if (!dumpA.Keys.Any())
+            {
+                MessageBox.Show("Nothing to save");
+                return;
+            }
+            ofd.Filter = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.KeyFilesFilter));
+            ofd.InitialDirectory = Tools.DefaultKeysPath;
+
+            ofd.FileName = Path.GetFileNameWithoutExtension(dumpA.FileName);
+            var dr = ofd.ShowDialog();
+            if (dr.Value)
+                System.IO.File.AppendAllLines(ofd.FileName, dumpA.Keys.Distinct());
+
         }
     }
 }

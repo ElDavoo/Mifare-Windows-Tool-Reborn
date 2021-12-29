@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:resx="clr-namespace:MifareWindowsTool.Properties" Loaded="Window_Loaded"
     Title="{localize:Static resx:Resources.DumpWindowTitle}"
-    Width="600"
+    Width="650"
     Height="auto"
     Background="#303030"
     Foreground="White" 
@@ -97,7 +97,13 @@
                     Click="btnSaveDumpKeys_Click"
                     Content="{localize:Static resx:Resources.SaveDumpKeysAs}"
                     Style="{StaticResource buttonStyle}" />
-                </StackPanel>
+                        <Button
+                    x:Name="btnAppendDumpKeys"
+                    Width="auto"  Margin="2"
+                    Click="btnAppendDumpKeys_Click"
+                    Content="{localize:Static resx:Resources.AppendDumpKeysTo}"
+                    Style="{StaticResource buttonStyle}" />
+                    </StackPanel>
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Bottom">
                     <Button 
                     x:Name="btnShowAsAscii"
