@@ -449,4 +449,7 @@ La led restera éteinte mais c'est normal
   <data name="AppendDumpKeysTo" xml:space="preserve">
     <value>Ajouter les clés à la suite d'un fichier existant</value>
   </data>
+  <data name="btnConvertDump" xml:space="preserve">
+    <value>Convertir dump binaire &lt;--&gt; texte</value>
+  </data>
 </root>

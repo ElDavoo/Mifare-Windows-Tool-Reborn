@@ -67,9 +67,9 @@
                         </Style>
                     </RichTextBox.Resources>
                 </RichTextBox>
-                <StackPanel Orientation="Vertical" VerticalAlignment="Top" Margin="5">
+                <StackPanel Orientation="Vertical" VerticalAlignment="Top" Margin="5" x:Name="spKeys">
                     <Label Foreground="White" x:Name="lblKeys" Content="Keys from this dump" HorizontalAlignment="Left"></Label>
-                    <TextBox x:Name="txtKeys" Height="auto" Width="auto" MinWidth="150" IsReadOnly="True"></TextBox>
+                    <TextBox      ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" x:Name="txtKeys" Height="auto" Width="80" MinWidth="150" IsReadOnly="True"></TextBox>
                 </StackPanel>
             </StackPanel>
             <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" Margin="0">

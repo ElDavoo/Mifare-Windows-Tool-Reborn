@@ -1,7 +1,11 @@
 ﻿using Gu.Wpf.Localization;
 
+using MifareWindowsTool.Common;
+
 using System;
+using System.IO;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 
 namespace MCT_Windows.Windows
@@ -13,6 +17,8 @@ namespace MCT_Windows.Windows
     {
         Tools Tools { get; set; }
         MainWindow Main = null;
+        OpenFileDialog ofd1 = new OpenFileDialog();
+        SaveFileDialog sfd1 = new SaveFileDialog();
 
         public SelectToolWindow(MainWindow mainw, Tools t)
         {
@@ -94,5 +100,57 @@ namespace MCT_Windows.Windows
             txtKeysPath.Text = Tools.ResetKeyPath();
         }
 
+        private void btnConvertDump_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var ret = ofd1.ShowDialog();
+                if (ret == System.Windows.Forms.DialogResult.OK)
+                {
+                    Dump dump = new Dump();
+                    DumpConverter converter = new DumpConverter();
+                    var inputFileType = converter.CheckDump(ofd1.FileName);
+                    if (inputFileType == FileType.Text)
+                    {
+                        //lblInfos.Text = "text dump detected";
+                        dump = converter.ConvertToBinaryDump(dump);
+                        sfd1.FileName = Path.GetFileNameWithoutExtension(ofd1.FileName) + ".mfd";
+                        sfd1.FilterIndex = 1;
+                    }
+                    else
+                    {
+                        //lblInfos.Text = "binary dump detected";
+                        dump = converter.ConvertToTextDump(ofd1.FileName);
+                        sfd1.FileName = Path.GetFileNameWithoutExtension(ofd1.FileName) + ".txt";
+                        sfd1.FilterIndex = 2;
+                    }
+
+                    sfd1.InitialDirectory = ofd1.InitialDirectory;
+                    ret = sfd1.ShowDialog();
+                    if (ret == System.Windows.Forms.DialogResult.OK)
+                    {
+
+                        if (inputFileType == FileType.Text)
+                        {
+                            File.WriteAllBytes(sfd1.FileName, dump.BinaryOutput.ToArray());
+                        }
+                        else
+                        {
+                            dump = converter.ConvertToTextDump(ofd1.FileName);
+                            File.WriteAllText(sfd1.FileName, dump.TextOutput);
+
+                        }
+
+                        System.Windows.MessageBox.Show($"Conversion to {(inputFileType == FileType.Binary ? "Text dump" : "Binary dump")}: Done");
+                        //lblInfos.Text = "";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+
+            }
+        }
     }
 }

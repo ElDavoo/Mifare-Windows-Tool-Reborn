@@ -20,8 +20,20 @@
     <Grid>
 
         <WebBrowser Width="700" Height="250" HorizontalAlignment="Stretch" VerticalAlignment="Top" x:Name="wb"></WebBrowser>
+
         <Border HorizontalAlignment="Center" VerticalAlignment="Top" Opacity="0.0" x:Name="PointsNew">
-            <TextBlock x:Name="tbInfos" FontSize="48" FontWeight="Bold" />
+            <Grid>
+                <TextBlock x:Name="tbInfos" FontSize="48" FontWeight="Bold" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="auto" Margin="100,100,0,0">
+                    <TextBlock>
+                        <Hyperlink x:Name="hlDonate" NavigateUri="https://www.paypal.com/donate/?cmd=_s-xclick&amp;hosted_button_id=V5ZP47AVFHRVY" Click="hlDonate_Click">
+                      <Image  Source="..\Images\donate.gif" Height="30" Width="100" />
+                     <TextBlock Margin="10,10,0,10" Width="auto"  Text="This project is free to use but you can help me to improve it! Donate with paypal"/>
+                             </Hyperlink> 
+                      </TextBlock>
+                </StackPanel>
+            </Grid>
         </Border>
+
     </Grid>
 </Window>

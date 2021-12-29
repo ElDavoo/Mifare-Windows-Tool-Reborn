@@ -189,6 +189,15 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Convert binary &lt;--&gt; text dump.
+        /// </summary>
+        public static string btnConvertDump {
+            get {
+                return ResourceManager.GetString("btnConvertDump", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Delete Key File.
         /// </summary>
         public static string BtnDeleteKeyFileContent {

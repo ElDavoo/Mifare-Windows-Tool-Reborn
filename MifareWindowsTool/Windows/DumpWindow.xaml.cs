@@ -393,6 +393,9 @@ namespace MCT_Windows.Windows
                 stkOpenDumps.Visibility = Visibility.Visible;
                 stkInfos.Visibility = Visibility.Collapsed;
                 btnEdit.Visibility = Visibility.Collapsed;
+                spKeys.Visibility = Visibility.Collapsed;
+                btnSaveDumpKeys.Visibility = Visibility.Collapsed;
+                btnAppendDumpKeys.Visibility = Visibility.Collapsed;
             }
             else
             {
@@ -400,7 +403,9 @@ namespace MCT_Windows.Windows
                 btnEdit.Visibility = Visibility.Visible;
                 btnSaveDump.Visibility = Visibility.Visible;
                 stkOpenDumps.Visibility = Visibility.Collapsed;
-
+                spKeys.Visibility = Visibility.Visible;
+                btnSaveDumpKeys.Visibility = Visibility.Visible;
+                btnAppendDumpKeys.Visibility = Visibility.Visible;
 
                 dumpA.BinaryOutput = System.IO.File.ReadAllBytes(dumpA.FileName).ToList();
 

@@ -290,6 +290,7 @@
     </Content>
     <Resource Include="Images\Folder Explorer-01.png" />
     <Resource Include="Images\utilities_reset.png" />
+    <Resource Include="Images\donate.gif" />
     <Content Include="keys\extended-std.keys">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -401,17 +402,6 @@
   <ItemGroup>
     <Analyzer Include="..\packages\Gu.Localization.Analyzers.6.5.0\analyzers\dotnet\cs\Gu.Localization.Analyzers.dll" />
     <Analyzer Include="..\packages\Gu.Localization.Analyzers.6.5.0\analyzers\dotnet\cs\Gu.Roslyn.Extensions.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="MSHTML">
-      <Guid>{3050F1C5-98B5-11CF-BB82-00AA00BDCE0B}</Guid>
-      <VersionMajor>4</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

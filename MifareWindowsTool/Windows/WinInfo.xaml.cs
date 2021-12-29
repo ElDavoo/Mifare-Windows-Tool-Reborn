@@ -3,15 +3,10 @@
 namespace MCT_Windows
 {
 
-    using mshtml;
-
     using System;
+    using System.Diagnostics;
     using System.Net;
     using System.Reflection;
-    using System.Text;
-    using System.Windows.Controls;
-
-
     /// Interaction logic for Window.xaml
     /// </summary>
     public partial class WinInfo : Window
@@ -36,5 +31,9 @@ namespace MCT_Windows
 
         }
 
+        private void hlDonate_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(hlDonate.NavigateUri.ToString());
+        }
     }
 }

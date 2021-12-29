@@ -31,6 +31,13 @@
             Content="{localize:Static resx:Resources.btnCompareDumps}"
             Style="{StaticResource buttonStyle}" />
         <Button
+            x:Name="btnConvertDump"
+            Height="26"
+            Margin="10"
+            Click="btnConvertDump_Click"
+            Content="{localize:Static resx:Resources.btnConvertDump}"
+            Style="{StaticResource buttonStyle}" />
+        <Button
             x:Name="btnChangeUID"
             Height="26"
             Margin="10"

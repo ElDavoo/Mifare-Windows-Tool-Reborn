@@ -448,4 +448,7 @@ After installing this driver, unplug and replug your ACR122U</value>
   <data name="AppendDumpKeysTo" xml:space="preserve">
     <value>Append keys to existing file</value>
   </data>
+  <data name="btnConvertDump" xml:space="preserve">
+    <value>Convert binary &lt;--&gt; text dump</value>
+  </data>
 </root>
