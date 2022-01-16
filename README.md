@@ -105,3 +105,4 @@ These tags will not work.
 | <img src="https://user-images.githubusercontent.com/3501675/73311455-b91b8380-4226-11ea-8ff7-c53153d2ab51.png" width="600" height="auto" /> | <img src="https://user-images.githubusercontent.com/3501675/73455790-073c9e00-4371-11ea-8d52-8b9b7bde8c3d.png" width="500" height="auto" /> |  
 |---|---|
 
+update january 2022: updated libusbK 3.1.0.0 installation guide: https://github.com/xavave/Mifare-Windows-Tool/issues/27#issuecomment-1013957721
