@@ -6,6 +6,7 @@
     xmlns:localize="http://gu.se/Localization"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:resx="clr-namespace:MifareWindowsTool.Properties"
+    xmlns:avalon="http://icsharpcode.net/sharpdevelop/avalonedit"
     Width="800"
     Height="365"
     Background="#303030"
@@ -178,24 +179,18 @@
                 IsChecked="{Binding Path=EasyMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                 ToolTip="Less questions asked before reading/writing processes" />
         </StackPanel>
-        <RichTextBox
-            x:Name="rtbOutput"
+        <avalon:TextEditor
+            x:Name="editor"
             Width="auto"
             Height="auto"
+            IsReadOnly="True"
             MinHeight="300"
-            Margin="255,0,0,10"
+            Margin="255,0,0,20"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            Background="Black"
-            Foreground="Lime"
-            ScrollViewer.VerticalScrollBarVisibility="Auto"
-            TextChanged="rtbOutput_TextChanged">
-            <RichTextBox.Resources>
-                <Style TargetType="{x:Type Paragraph}">
-                    <Setter Property="Margin" Value="0" />
-                </Style>
-            </RichTextBox.Resources>
-        </RichTextBox>
+           TextChanged="editor_TextChanged"
+            ScrollViewer.VerticalScrollBarVisibility="Auto" Background="Black" Foreground="Lime"
+            />
         <Button
             x:Name="btnPauseCurrentTask"
             Width="auto"

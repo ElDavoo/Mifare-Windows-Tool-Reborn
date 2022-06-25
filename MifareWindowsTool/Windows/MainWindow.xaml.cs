@@ -3,6 +3,9 @@ using CliWrap.EventStream;
 
 using Dasync.Collections;
 
+using ICSharpCode.AvalonEdit.Editing;
+using ICSharpCode.AvalonEdit.Rendering;
+
 using MCT_Windows.Windows;
 
 using Microsoft.Win32;
@@ -23,6 +26,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Threading;
@@ -191,7 +195,7 @@ namespace MCT_Windows
                 {
                     ScanCTS.Token.Register(() => ScanTagRunning = false);
                     if (!ckEnablePeriodicTagScan.IsChecked.HasValue || ckEnablePeriodicTagScan.IsChecked.Value == false) return;
-                    rtbOutput.AppendText($"{DateTime.Now} -  {Translate.Key(nameof(MifareWindowsTool.Properties.Resources.AutoScanTagRunning))}...\n");
+                    editor.AppendText($"{DateTime.Now} -  {Translate.Key(nameof(MifareWindowsTool.Properties.Resources.AutoScanTagRunning))}...\n");
                     await RunNfcListAsync();
                 });
             }, ScanCTS.Token);
@@ -671,14 +675,24 @@ namespace MCT_Windows
         {
             Dispatcher.Invoke(() =>
             {
-                rtbOutput.AppendText(msg + Environment.NewLine, System.Windows.Media.Brushes.Orange);
+                ColorizeLine(msg, Brushes.Orange);
             }, DispatcherPriority.Normal);
         }
+
+        private void ColorizeLine(string msg, Brush brush)
+        {
+            editor.AppendText(msg + Environment.NewLine);
+            var lineNumber = editor.Document.LineCount - 1;
+            var line = editor.Document.GetLineByNumber(lineNumber);
+            editor.Select(line.Offset, line.Length);
+            editor.TextArea.TextView.LineTransformers.Add(new LineColorizer(lineNumber, brush));
+        }
+
         public void LogAppend(string msg)
         {
             Dispatcher.Invoke(() =>
             {
-                rtbOutput.AppendText(msg + Environment.NewLine, System.Windows.Media.Brushes.Lime);
+                ColorizeLine(msg, Brushes.Lime);
             }, DispatcherPriority.Normal);
         }
 
@@ -690,10 +704,6 @@ namespace MCT_Windows
             PeriodicScanTag();
         }
 
-        private void rtbOutput_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            (sender as RichTextBox).ScrollToEnd();
-        }
 
 
         private void btnEditDumpFile_Click(object sender, RoutedEventArgs e)
@@ -759,6 +769,37 @@ namespace MCT_Windows
             //    }
             //    ShowPauseButton(task != null);
             //}
+        }
+
+       
+        private void editor_TextChanged(object sender, EventArgs e)
+        {
+            (sender as ICSharpCode.AvalonEdit.TextEditor).ScrollToEnd();
+        }
+    }
+    public class LineColorizer : DocumentColorizingTransformer
+    {
+        int lineNumber;
+        System.Windows.Media.Brush brush;
+
+        public LineColorizer(int lineNumber, System.Windows.Media.Brush brush)
+        {
+            this.lineNumber = lineNumber;
+            this.brush = brush;
+        }
+
+        protected override void ColorizeLine(ICSharpCode.AvalonEdit.Document.DocumentLine line)
+        {
+            if (!line.IsDeleted && line.LineNumber == lineNumber)
+            {
+                ChangeLinePart(line.Offset, line.EndOffset, ApplyChanges);
+            }
+        }
+
+        void ApplyChanges(VisualLineElement element)
+        {
+            // This is where you do anything with the line
+            element.TextRunProperties.SetForegroundBrush(brush);
         }
     }
 }
