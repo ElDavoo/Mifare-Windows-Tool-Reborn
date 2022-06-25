@@ -1,20 +1,17 @@
-﻿using Microsoft.Win32;
-
-using MifareWindowsTool.Common;
-using MifareWindowsTool.Properties;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+
+using Microsoft.Win32;
+
+using MifareWindowsTool.Common;
+using MifareWindowsTool.Properties;
 
 namespace MCT_Windows.Windows
 {
@@ -147,7 +144,7 @@ namespace MCT_Windows.Windows
         {
             if (txtOutput == null) return;
             dumpA.Keys.Clear();
-            dumpA.Keys.Add($"# dump keys from { Path.GetFileNameWithoutExtension(dumpA.FileName)} added on {DateTime.Now.Date:MMMM dd yyyy}");
+            dumpA.Keys.Add($"# dump keys from {Path.GetFileNameWithoutExtension(dumpA.FileName)} added on {DateTime.Now.Date:MMMM dd yyyy}");
             sectorCounter = 0;
             txtOutput.Document = new System.Windows.Documents.FlowDocument();
 
@@ -411,10 +408,10 @@ namespace MCT_Windows.Windows
 
                 if (converter.CheckDump(dumpA.FileName) == FileType.Text)
                 {
-                    System.Windows.MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.thisismctdumpfile))
-                         , "MCT Dump --> MWT Dump", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
-
-                    dumpA = converter.ConvertToBinaryDump(dumpA);
+                    var dr = System.Windows.MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.thisismctdumpfile))
+                          , "MCT Dump --> MWT Dump", MessageBoxButton.YesNoCancel, MessageBoxImage.Information, MessageBoxResult.Yes);
+                    if (dr == MessageBoxResult.Yes)
+                        dumpA = converter.ConvertToBinaryDump(dumpA);
                 }
 
                 SetSectorCount(dumpA.BinArray.Length);

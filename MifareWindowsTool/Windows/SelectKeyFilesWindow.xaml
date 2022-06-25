@@ -25,10 +25,14 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <RadioButton
-                            Content="{Binding FileName}"
+                           
                             Foreground="White"
                             GroupName="keys"
-                            IsChecked="{Binding IsSelected}" />
+                            IsChecked="{Binding IsSelected}">
+                            <RadioButton.Content>
+                                <TextBlock Text="{Binding FileName}"/>
+                            </RadioButton.Content>
+                        </RadioButton>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

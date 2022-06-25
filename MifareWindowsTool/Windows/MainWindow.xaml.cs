@@ -494,7 +494,7 @@ namespace MCT_Windows
                     LogAppend(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.AutoScanTagStopped)));
             }
         }
-        public async Task RunMifareClassicFormatAsync()
+        public async Task RunMifareClassicFormatAsync(bool withoutValidation= false)
         {
             StopScanTag();
             ValidateActions(false);
@@ -508,7 +508,7 @@ namespace MCT_Windows
                 ProcessCTS = new CancellationTokenSource();
                 var arguments = $"-y {args}";
                 LogAppend($"nfc-mfclassic {arguments}");
-                var cmd = Cli.Wrap("nfctools\\mifare-classic-format.exe").WithArguments(arguments);
+                var cmd = Cli.Wrap("nfctools\\mifare-classic-format.exe").WithArguments(arguments).WithValidation(withoutValidation ? CommandResultValidation.None: CommandResultValidation.ZeroExitCode);
 
                 await foreach (CommandEvent cmdEvent in cmd.ListenAsync(ProcessCTS.Token))
                 {

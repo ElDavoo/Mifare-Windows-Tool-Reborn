@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows;
 
 namespace MifareWindowsTool.Common
 {
@@ -38,7 +39,7 @@ namespace MifareWindowsTool.Common
         {
             FileText = File.ReadAllText(filename);
             FileInfo fi = new FileInfo(filename);
-            if (FileText.ToString().StartsWith("+Sector:") || (fi.Length != 1024 && fi.Length != 4096))
+            if (FileText.ToString().StartsWith("+Sector:") || (fi.Length != 1024 && fi.Length != 4096 && fi.Length != 320))
                 return FileType.Text;
             else
                 return FileType.Binary;
@@ -47,14 +48,22 @@ namespace MifareWindowsTool.Common
         }
         public Dump ConvertToBinaryDump(Dump md)
         {
-            var ret = new List<Byte>();
-            md.Lines.Clear();
-            md.BinaryOutput.Clear();
-            md.Lines = FileText.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None).ToList();
-
-            foreach (var line in md.Lines.Where(l => !l.StartsWith("+Sector")))
+            try
             {
-                md.BinaryOutput.AddRange(StringToByteArray(line));
+                var ret = new List<Byte>();
+                md.Lines.Clear();
+                md.BinaryOutput.Clear();
+                md.Lines = FileText.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None).ToList();
+
+                foreach (var line in md.Lines.Where(l => !l.StartsWith("+Sector")))
+                {
+                    md.BinaryOutput.AddRange(StringToByteArray(line));
+                }
+                return md;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"failed to convert : {ex}");
             }
             return md;
         }
