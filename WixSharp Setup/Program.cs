@@ -6,7 +6,6 @@ using System.Reflection;
 using WixSharp;
 using WixSharp.CommonTasks;
 using WixSharp.Controls;
-using WixSharp.Forms;
 
 // NuGet console: Install-Package WixSharp
 // NuGet Manager UI: browse tab

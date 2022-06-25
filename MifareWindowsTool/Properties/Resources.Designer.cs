@@ -737,6 +737,24 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Suspend current task.
+        /// </summary>
+        public static string PauseOff {
+            get {
+                return ResourceManager.GetString("PauseOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Resume current task.
+        /// </summary>
+        public static string PauseOn {
+            get {
+                return ResourceManager.GetString("PauseOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Please restart Mifare Windows Tool as Administrator.
         /// </summary>
         public static string PleaseRestartAsAdmin {

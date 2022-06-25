@@ -451,4 +451,10 @@ After installing this driver, unplug and replug your ACR122U</value>
   <data name="btnConvertDump" xml:space="preserve">
     <value>Convert binary &lt;--&gt; text dump</value>
   </data>
+  <data name="PauseOff" xml:space="preserve">
+    <value>Suspend current task</value>
+  </data>
+  <data name="PauseOn" xml:space="preserve">
+    <value>Resume current task</value>
+  </data>
 </root>

@@ -1,17 +1,13 @@
-﻿using Microsoft.Win32;
-
-using MifareWindowsTool.Common;
-using MifareWindowsTool.Properties;
-
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+
+using Microsoft.Win32;
+
+using MifareWindowsTool.Properties;
 
 namespace MCT_Windows.Windows
 {
@@ -44,6 +40,7 @@ namespace MCT_Windows.Windows
             he.ForegroundSecondColor = Brushes.Orange;
             //to avoir freeze on HexEditor
             he.IsAutoRefreshOnResize = false;
+            
 
         }
         private void btnSaveDump_Click(object sender, RoutedEventArgs e)

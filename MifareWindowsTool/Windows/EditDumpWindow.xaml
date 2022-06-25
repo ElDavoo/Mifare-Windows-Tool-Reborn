@@ -2,14 +2,14 @@
     x:Class="MCT_Windows.Windows.EditDumpWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:control="clr-namespace:WpfHexaEditor;assembly=WPFHexaEditor"
+    xmlns:control="clr-namespace:WpfHexaEditorCustom;assembly=WPFHexaEditor"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:localize="http://gu.se/Localization"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:resx="clr-namespace:MifareWindowsTool.Properties"
     Title="{localize:Static resx:Resources.DumpWindowTitle}"
     Width="660"
-    Height="700"
+    Height="770"
     Background="#303030"
     Closing="Window_Closing"
     Foreground="White"
@@ -55,9 +55,8 @@
             <control:HexEditor
                 x:Name="he"
                 Width="auto"
-                Height="auto"
-                MinHeight="640"
-                VerticalAlignment="Stretch"
+                Height="700"
+                VerticalAlignment="Top"
                 Background="#303030" />
 
         </StackPanel>

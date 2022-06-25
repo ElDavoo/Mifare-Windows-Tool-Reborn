@@ -33,7 +33,6 @@ namespace MifareWindowsTool.Common
     public class DumpConverter
     {
 
-        FileType FileType { get; set; }
         String FileText { get; set; }
         public FileType CheckDump(string filename)
         {

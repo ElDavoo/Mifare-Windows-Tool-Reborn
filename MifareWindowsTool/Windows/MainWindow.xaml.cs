@@ -40,6 +40,7 @@ namespace MCT_Windows
         public bool TagFound = false;
         public bool DumpFound = false;
         public bool ScanTagRunning = false;
+        //CommandTask<CommandResult> task = null;
         string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         public string MainTitle { get; set; } = $"Mifare Windows Tool";
         Tools Tools { get; set; }
@@ -84,7 +85,7 @@ namespace MCT_Windows
             MainTitle += $" v{version}";
             this.Title = $"{MainTitle}";
             ofd.Filter = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DumpFileFilter));
-
+            //ShowPauseButton(task != null);
             Tools = new Tools(this);
             var newVersion = Tools.CheckNewVersion();
             if (newVersion != null)
@@ -224,9 +225,9 @@ namespace MCT_Windows
                 if (act == TagAction.ReadSource)
                 {
                     Tools.mySourceUID = Tools.CurrentUID;
-                    Tools.TMPFILE_UNK = $"mfc_{ Tools.mySourceUID}_unknownMfocSectorInfo.txt";
-                    Tools.TMPFILESOURCE_MFD = $"mfc_{ Tools.mySourceUID}.dump";
-                    Tools.TMPFILE_FND = $"mfc_{ Tools.mySourceUID}_foundKeys.txt";
+                    Tools.TMPFILE_UNK = $"mfc_{Tools.mySourceUID}_unknownMfocSectorInfo.txt";
+                    Tools.TMPFILESOURCE_MFD = $"mfc_{Tools.mySourceUID}.dump";
+                    Tools.TMPFILE_FND = $"mfc_{Tools.mySourceUID}_foundKeys.txt";
                     if (Tools.CheckAndUseDumpIfExists(Tools.TMPFILESOURCE_MFD, EasyMode))
                     {
                         DumpFound = true;
@@ -238,9 +239,9 @@ namespace MCT_Windows
                 else if (act == TagAction.ReadTarget)
                 {
                     Tools.myTargetUID = Tools.CurrentUID;
-                    Tools.TMPFILE_UNK = $"mfc_{ Tools.myTargetUID}_unknownMfocSectorInfo.txt";
-                    Tools.TMPFILE_TARGETMFD = $"mfc_{ Tools.myTargetUID}.dump";
-                    Tools.TMPFILE_FND = $"mfc_{ Tools.myTargetUID}_foundKeys.txt";
+                    Tools.TMPFILE_UNK = $"mfc_{Tools.myTargetUID}_unknownMfocSectorInfo.txt";
+                    Tools.TMPFILE_TARGETMFD = $"mfc_{Tools.myTargetUID}.dump";
+                    Tools.TMPFILE_FND = $"mfc_{Tools.myTargetUID}_foundKeys.txt";
                     if (Tools.CheckAndUseDumpIfExists(Tools.TMPFILE_TARGETMFD, EasyMode))
                     {
                         DumpFound = true;
@@ -334,9 +335,18 @@ namespace MCT_Windows
             }
             else
                 btnAbortCurrentTask.Visibility = Visibility.Hidden;
+        }
+        public void ShowPauseButton(bool show = true)
+        {
+            //if (show && task != null)
+            //{
+            //    btnPauseCurrentTask.Content = (task.Task.Status != TaskStatus.RanToCompletion) ? $"{Translate.Key(nameof(MifareWindowsTool.Properties.Resources.PauseOn))}" : $"{Translate.Key(nameof(MifareWindowsTool.Properties.Resources.PauseOff))}";
+            //    btnPauseCurrentTask.Visibility = Visibility.Visible;
+            //}
+            //else
+            //    btnPauseCurrentTask.Visibility = Visibility.Hidden;
 
         }
-
 
         public void ShowDump(string fileName)
         {
@@ -393,7 +403,8 @@ namespace MCT_Windows
             {
                 var stdOutFull = "";
                 var cmd = Cli.Wrap("nfctools\\nfc-list.exe").WithValidation(CommandResultValidation.None);
-
+                //task = cmd.ExecuteAsync();
+                //ShowPauseButton(task != null);
                 await foreach (CommandEvent cmdEvent in cmd.ListenAsync(ScanCTS.Token))
                 {
                     switch (cmdEvent)
@@ -465,7 +476,7 @@ namespace MCT_Windows
                 if (Tools.CurrentUID != newUID)
                 {
                     Tools.CurrentUID = newUID;
-                    this.Title = $"{MainTitle}: { Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NewUIDFound))}: { Tools.CurrentUID}";
+                    this.Title = $"{MainTitle}: {Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NewUIDFound))}: {Tools.CurrentUID}";
 
                     Tools.PlayBeep(BaseUri);
 
@@ -494,7 +505,7 @@ namespace MCT_Windows
                     LogAppend(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.AutoScanTagStopped)));
             }
         }
-        public async Task RunMifareClassicFormatAsync(bool withoutValidation= false)
+        public async Task RunMifareClassicFormatAsync(bool withoutValidation = false)
         {
             StopScanTag();
             ValidateActions(false);
@@ -508,8 +519,9 @@ namespace MCT_Windows
                 ProcessCTS = new CancellationTokenSource();
                 var arguments = $"-y {args}";
                 LogAppend($"nfc-mfclassic {arguments}");
-                var cmd = Cli.Wrap("nfctools\\mifare-classic-format.exe").WithArguments(arguments).WithValidation(withoutValidation ? CommandResultValidation.None: CommandResultValidation.ZeroExitCode);
-
+                var cmd = Cli.Wrap("nfctools\\mifare-classic-format.exe").WithArguments(arguments).WithValidation(withoutValidation ? CommandResultValidation.None : CommandResultValidation.ZeroExitCode);
+                //task = cmd.ExecuteAsync();
+                //ShowPauseButton(task != null);
                 await foreach (CommandEvent cmdEvent in cmd.ListenAsync(ProcessCTS.Token))
                 {
                     switch (cmdEvent)
@@ -558,6 +570,8 @@ namespace MCT_Windows
                 var cmd = Cli.Wrap("nfctools\\nfc-mfclassic.exe").WithArguments(arguments).WithValidation(CommandResultValidation.None)
                     .WithStandardOutputPipe(PipeTarget.ToDelegate(LogAppend))
                     .WithStandardErrorPipe(PipeTarget.ToDelegate(ErrorAppend));
+                //task = cmd.ExecuteAsync();
+                //ShowPauseButton(task != null);
                 var result = await cmd.ExecuteAsync(ProcessCTS.Token);
                 MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Finished)));
 
@@ -604,11 +618,13 @@ namespace MCT_Windows
                 ProcessCTS = new CancellationTokenSource();
                 LogAppend($"mfoc {arguments}");
                 var cmd = Cli.Wrap("nfctools\\mfoc_hard.exe").WithArguments(arguments).WithWorkingDirectory(Tools.DefaultWorkingDir).WithValidation(CommandResultValidation.None);
-
+                //task = cmd.ExecuteAsync();
+                //ShowPauseButton(task != null);
                 await foreach (CommandEvent cmdEvent in cmd.ListenAsync(ProcessCTS.Token))
                 {
                     switch (cmdEvent)
                     {
+
                         case StandardOutputCommandEvent stdOut:
                             LogAppend(stdOut.Text);
                             if (act == TagAction.ReadSource)
@@ -698,7 +714,7 @@ namespace MCT_Windows
 
             WinInfo winInfo = new WinInfo();
             winInfo.Show();
-            
+
             Process.Start(Github_MWT_WikiPage);
         }
 
@@ -711,6 +727,7 @@ namespace MCT_Windows
 
         private void btnAbortCurrentTask_Click(object sender, RoutedEventArgs e)
         {
+
             ProcessCTS.Cancel();
             ShowAbortButton(false);
             ValidateActions(true);
@@ -722,5 +739,26 @@ namespace MCT_Windows
                 PeriodicScanTag();
         }
 
+        private void btnPauseCurrentTask_Click(object sender, RoutedEventArgs e)
+        {
+            //if (task == null || task.Task.Status != TaskStatus.Running) ShowPauseButton(false);
+            //else
+            //{
+
+            //    var process = Process.GetProcessById(task.ProcessId);
+            //    if (task.Task.Status == TaskStatus.Running)
+            //    {
+            //        process.Suspend();
+
+            //    }
+            //    else
+            //    {
+            //        if (task.Task.Status == TaskStatus.RanToCompletion)
+            //            process.Resume();
+
+            //    }
+            //    ShowPauseButton(task != null);
+            //}
+        }
     }
 }
