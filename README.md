@@ -7,11 +7,11 @@
 
 #### License
 
-source code is not a copy of original android version, but strongly inspired from it : I've modified logo and copied icons
+source code is not a copy of original android version, but user interface is strongly inspired from it : I've modified logo and copied icons
 
-It's normal to give credits to the original author
+It's normal to give credits to the original software author:
 
-This application was originally developed on Android systems by Gerhard Klostermeier in cooperation with SySS GmbH (www.syss.de) and Aalen University (www.htw-aalen.de) in 2012/2013. It is free software
+The Android application was originally developed on Android systems by Gerhard Klostermeier in cooperation with SySS GmbH (www.syss.de) and Aalen University (www.htw-aalen.de) in 2012/2013. It is free software
 
 Icons used in this application:
 
@@ -31,7 +31,7 @@ You can donate for this Windows fork :
 
 This app was originally made on Android by ikarus23. Please check it out!
 https://github.com/ikarus23/MifareClassicTool
-You can also donate to them as a thank you. Since with out them and the hard work they put in this would not have been possible.
+You can also donate to them as a thank you.
 [Donate with Paypal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=24ET8A36XLMNW) [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=24ET8A36XLMNW)
 
 [EN] This tool provides several features to interact with MIFARE Classic RFID-Tags with ACR122U tag reader.
