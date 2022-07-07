@@ -414,12 +414,6 @@
     <Content Include="nfctools\nfc-mfsetuid.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools\nfc-scan-device.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools\nfc.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="nfctools\pcsc_scan.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
