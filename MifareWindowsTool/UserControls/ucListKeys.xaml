@@ -18,9 +18,12 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <CheckBox
-                        Content="{Binding FileName}"
                         Foreground="White"
-                        IsChecked="{Binding IsSelected}" />
+                        IsChecked="{Binding IsSelected}">
+                        <CheckBox.Content>
+                            <TextBlock Text="{Binding FileName}"/>
+                        </CheckBox.Content>
+                    </CheckBox>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

@@ -6,9 +6,9 @@
 </auto-generated>
 -->
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
-  <Product Id="0a92947c-4d04-4b06-813f-a36aedfae2d8" Name="MWT v1.0.8223.35321" Language="1033" Codepage="Windows-1252" Version="1.0.8223.35321" UpgradeCode="6fe30b47-2577-43ad-9095-1861ba25779b" Manufacturer="AVXTEC">
+  <Product Id="06a71fc5-be6a-4e6c-b9c9-1f9ecb8e2db2" Name="MWT v1.0.8225.440" Language="1033" Codepage="Windows-1252" Version="1.0.8225.440" UpgradeCode="6fe30b47-2577-43ad-9095-1861ba25779b" Manufacturer="AVXTEC">
     <Package InstallerVersion="200" Compressed="yes" SummaryCodepage="Windows-1252" Languages="1033" />
-    <Media Id="1" Cabinet="MWT_v1.0.8223.35321_.cab" EmbedCab="yes" />
+    <Media Id="1" Cabinet="MWT_v1.0.8225.440_.cab" EmbedCab="yes" />
 
     <Condition Message="requires .NET Framework 4.8 or higher."><![CDATA[WIX_IS_NETFRAMEWORK_462_OR_LATER_INSTALLED >= "#528040"]]></Condition>
 
@@ -17,10 +17,10 @@
         <Directory Id="ProgramFilesFolder.AVXTEC" Name="AVXTEC">
           <Directory Id="INSTALLDIR" Name="MWT">
 
-            <Component Id="Component.MWT_exe" Guid="0a92947c-4d04-4b06-813f-a36ace0cd932">
+            <Component Id="Component.MWT_exe" Guid="06a71fc5-be6a-4e6c-b9c9-1f9eaca0240c">
               <File Id="MWT_exe" Source="..\MifareWindowsTool\bin\Debug\MifareWindowsTool.exe">
-                <Shortcut Id="Shortcut.MWT_exe.MWT_v1.0.8223.35321__" WorkingDirectory="INSTALLDIR" Directory="DesktopFolder" Name="MWT v1.0.8223.35321.lnk" Icon="IconFile1_MWT.ico" IconIndex="0" />
-                <Shortcut Id="Shortcut.MWT_exe.MWT_v1.0.8223.35321.1" WorkingDirectory="INSTALLDIR" Directory="ProgramMenuFolder" Name="MWT v1.0.8223.35321.lnk" Icon="IconFile1_MWT.ico" IconIndex="0" />
+                <Shortcut Id="Shortcut.MWT_exe.MWT_v1.0.8225.440__" WorkingDirectory="INSTALLDIR" Directory="DesktopFolder" Name="MWT v1.0.8225.440.lnk" Icon="IconFile1_MWT.ico" IconIndex="0" />
+                <Shortcut Id="Shortcut.MWT_exe.MWT_v1.0.8225.440.1" WorkingDirectory="INSTALLDIR" Directory="ProgramMenuFolder" Name="MWT v1.0.8225.440.lnk" Icon="IconFile1_MWT.ico" IconIndex="0" />
               </File>
 
               <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
@@ -28,211 +28,211 @@
               </RegistryKey>
             </Component>
 
-            <Component Id="Component.AsyncEnumerable.dll_1299152128" Guid="0a92947c-4d04-4b06-813f-a36aa72683b7">
+            <Component Id="Component.AsyncEnumerable.dll_1299152128" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e85bace91">
               <File Id="AsyncEnumerable.dll_1299152128" Source="..\MifareWindowsTool\bin\Debug\AsyncEnumerable.dll" />
             </Component>
 
-            <Component Id="Component.AsyncEnumerable.xml_599744740" Guid="0a92947c-4d04-4b06-813f-a36a98912be8">
+            <Component Id="Component.AsyncEnumerable.xml_599744740" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e762576c2">
               <File Id="AsyncEnumerable.xml_599744740" Source="..\MifareWindowsTool\bin\Debug\AsyncEnumerable.xml" />
             </Component>
 
-            <Component Id="Component.Beep_ACR122U.m4a_4159216283" Guid="0a92947c-4d04-4b06-813f-a36aef026585">
+            <Component Id="Component.Beep_ACR122U.m4a_4159216283" Guid="06a71fc5-be6a-4e6c-b9c9-1f9ecd96b05f">
               <File Id="Beep_ACR122U.m4a_4159216283" Source="..\MifareWindowsTool\bin\Debug\Beep_ACR122U.m4a" />
             </Component>
 
-            <Component Id="Component.CliWrap.dll_752217802" Guid="0a92947c-4d04-4b06-813f-a36aca153401">
+            <Component Id="Component.CliWrap.dll_752217802" Guid="06a71fc5-be6a-4e6c-b9c9-1f9ea8a97fdb">
               <File Id="CliWrap.dll_752217802" Source="..\MifareWindowsTool\bin\Debug\CliWrap.dll" />
             </Component>
 
-            <Component Id="Component.CliWrap.xml_1451625190" Guid="0a92947c-4d04-4b06-813f-a36adb4080ab">
+            <Component Id="Component.CliWrap.xml_1451625190" Guid="06a71fc5-be6a-4e6c-b9c9-1f9eb9d4cb85">
               <File Id="CliWrap.xml_1451625190" Source="..\MifareWindowsTool\bin\Debug\CliWrap.xml" />
             </Component>
 
-            <Component Id="Component.Gu.Localization.dll_430534635" Guid="0a92947c-4d04-4b06-813f-a36a3148678f">
+            <Component Id="Component.Gu.Localization.dll_430534635" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e0fdcb269">
               <File Id="Gu.Localization.dll_430534635" Source="..\MifareWindowsTool\bin\Debug\Gu.Localization.dll" />
             </Component>
 
-            <Component Id="Component.Gu.Localization.xml_417481303" Guid="0a92947c-4d04-4b06-813f-a36a462c6a6f">
+            <Component Id="Component.Gu.Localization.xml_417481303" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e24c0b549">
               <File Id="Gu.Localization.xml_417481303" Source="..\MifareWindowsTool\bin\Debug\Gu.Localization.xml" />
             </Component>
 
-            <Component Id="Component.Gu.Wpf.Localization.dll_242052563" Guid="0a92947c-4d04-4b06-813f-a36a61dc3932">
+            <Component Id="Component.Gu.Wpf.Localization.dll_242052563" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e3f70840c">
               <File Id="Gu.Wpf.Localization.dll_242052563" Source="..\MifareWindowsTool\bin\Debug\Gu.Wpf.Localization.dll" />
             </Component>
 
-            <Component Id="Component.Gu.Wpf.Localization.xml_941459951" Guid="0a92947c-4d04-4b06-813f-a36a34efd8de">
+            <Component Id="Component.Gu.Wpf.Localization.xml_941459951" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e128323b8">
               <File Id="Gu.Wpf.Localization.xml_941459951" Source="..\MifareWindowsTool\bin\Debug\Gu.Wpf.Localization.xml" />
             </Component>
 
-            <Component Id="Component.ICSharpCode.AvalonEdit.dll_1977072554" Guid="0a92947c-4d04-4b06-813f-a36a75494b1b">
+            <Component Id="Component.ICSharpCode.AvalonEdit.dll_1977072554" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e53dd96f5">
               <File Id="ICSharpCode.AvalonEdit.dll_1977072554" Source="..\MifareWindowsTool\bin\Debug\ICSharpCode.AvalonEdit.dll" />
             </Component>
 
-            <Component Id="Component.ICSharpCode.AvalonEdit.xml_3544991503" Guid="0a92947c-4d04-4b06-813f-a36adc932746">
+            <Component Id="Component.ICSharpCode.AvalonEdit.xml_3544991503" Guid="06a71fc5-be6a-4e6c-b9c9-1f9eba277220">
               <File Id="ICSharpCode.AvalonEdit.xml_3544991503" Source="..\MifareWindowsTool\bin\Debug\ICSharpCode.AvalonEdit.xml" />
             </Component>
 
-            <Component Id="Component.Microsoft.Bcl.AsyncInterfaces.dll_3701943394" Guid="0a92947c-4d04-4b06-813f-a36a647bac53">
+            <Component Id="Component.Microsoft.Bcl.AsyncInterfaces.dll_3701943394" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e420ff72d">
               <File Id="Microsoft.Bcl.AsyncInterfaces.dll_3701943394" Source="..\MifareWindowsTool\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll" />
             </Component>
 
-            <Component Id="Component.Microsoft.Bcl.AsyncInterfaces.xml_3702008958" Guid="0a92947c-4d04-4b06-813f-a36af0f7995e">
+            <Component Id="Component.Microsoft.Bcl.AsyncInterfaces.xml_3702008958" Guid="06a71fc5-be6a-4e6c-b9c9-1f9ece8be438">
               <File Id="Microsoft.Bcl.AsyncInterfaces.xml_3702008958" Source="..\MifareWindowsTool\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml" />
             </Component>
 
-            <Component Id="Component.MifareWindowsTool.exe_18065601" Guid="0a92947c-4d04-4b06-813f-a36a12964e07">
+            <Component Id="Component.MifareWindowsTool.exe_18065601" Guid="06a71fc5-be6a-4e6c-b9c9-1f9ef02a99e1">
               <File Id="MifareWindowsTool.exe_18065601" Source="..\MifareWindowsTool\bin\Debug\MifareWindowsTool.exe" />
             </Component>
 
-            <Component Id="Component.MifareWindowsTool.exe.config_1729442971" Guid="0a92947c-4d04-4b06-813f-a36ada0ee308">
+            <Component Id="Component.MifareWindowsTool.exe.config_1729442971" Guid="06a71fc5-be6a-4e6c-b9c9-1f9eb8a22ee2">
               <File Id="MifareWindowsTool.exe.config_1729442971" Source="..\MifareWindowsTool\bin\Debug\MifareWindowsTool.exe.config" />
             </Component>
 
-            <Component Id="Component.MifareWindowsTool.pdb_2748259687" Guid="0a92947c-4d04-4b06-813f-a36a2c89bd3a">
+            <Component Id="Component.MifareWindowsTool.pdb_2748259687" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e0a1d0814">
               <File Id="MifareWindowsTool.pdb_2748259687" Source="..\MifareWindowsTool\bin\Debug\MifareWindowsTool.pdb" />
             </Component>
 
-            <Component Id="Component.Newtonsoft.Json.dll_4165841632" Guid="0a92947c-4d04-4b06-813f-a36a7c703356">
+            <Component Id="Component.Newtonsoft.Json.dll_4165841632" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e5a047e30">
               <File Id="Newtonsoft.Json.dll_4165841632" Source="..\MifareWindowsTool\bin\Debug\Newtonsoft.Json.dll" />
             </Component>
 
-            <Component Id="Component.Newtonsoft.Json.xml_214051364" Guid="0a92947c-4d04-4b06-813f-a36a29d9addd">
+            <Component Id="Component.Newtonsoft.Json.xml_214051364" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e076df8b7">
               <File Id="Newtonsoft.Json.xml_214051364" Source="..\MifareWindowsTool\bin\Debug\Newtonsoft.Json.xml" />
             </Component>
 
-            <Component Id="Component.ORMi.dll_3973642272" Guid="0a92947c-4d04-4b06-813f-a36af0d085f1">
+            <Component Id="Component.ORMi.dll_3973642272" Guid="06a71fc5-be6a-4e6c-b9c9-1f9ece64d0cb">
               <File Id="ORMi.dll_3973642272" Source="..\MifareWindowsTool\bin\Debug\ORMi.dll" />
             </Component>
 
-            <Component Id="Component.ORMi.pdb_1972828200" Guid="0a92947c-4d04-4b06-813f-a36a17b27add">
+            <Component Id="Component.ORMi.pdb_1972828200" Guid="06a71fc5-be6a-4e6c-b9c9-1f9ef546c5b7">
               <File Id="ORMi.pdb_1972828200" Source="..\MifareWindowsTool\bin\Debug\ORMi.pdb" />
             </Component>
 
-            <Component Id="Component.ORMi.xml_443349025" Guid="0a92947c-4d04-4b06-813f-a36a9b8fef40">
+            <Component Id="Component.ORMi.xml_443349025" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e79233a1a">
               <File Id="ORMi.xml_443349025" Source="..\MifareWindowsTool\bin\Debug\ORMi.xml" />
             </Component>
 
-            <Component Id="Component.System.Buffers.dll_3646331166" Guid="0a92947c-4d04-4b06-813f-a36a24b02087">
+            <Component Id="Component.System.Buffers.dll_3646331166" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e02446b61">
               <File Id="System.Buffers.dll_3646331166" Source="..\MifareWindowsTool\bin\Debug\System.Buffers.dll" />
             </Component>
 
-            <Component Id="Component.System.Buffers.xml_2079460793" Guid="0a92947c-4d04-4b06-813f-a36a59111211">
+            <Component Id="Component.System.Buffers.xml_2079460793" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e37a55deb">
               <File Id="System.Buffers.xml_2079460793" Source="..\MifareWindowsTool\bin\Debug\System.Buffers.xml" />
             </Component>
 
-            <Component Id="Component.System.Memory.dll_3301336494" Guid="0a92947c-4d04-4b06-813f-a36ae0da1b5d">
+            <Component Id="Component.System.Memory.dll_3301336494" Guid="06a71fc5-be6a-4e6c-b9c9-1f9ebe6e6637">
               <File Id="System.Memory.dll_3301336494" Source="..\MifareWindowsTool\bin\Debug\System.Memory.dll" />
             </Component>
 
-            <Component Id="Component.System.Memory.xml_3301270946" Guid="0a92947c-4d04-4b06-813f-a36a6bf1785b">
+            <Component Id="Component.System.Memory.xml_3301270946" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e4985c335">
               <File Id="System.Memory.xml_3301270946" Source="..\MifareWindowsTool\bin\Debug\System.Memory.xml" />
             </Component>
 
-            <Component Id="Component.System.Numerics.Vectors.dll_955816643" Guid="0a92947c-4d04-4b06-813f-a36ab11193df">
+            <Component Id="Component.System.Numerics.Vectors.dll_955816643" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e8fa5deb9">
               <File Id="System.Numerics.Vectors.dll_955816643" Source="..\MifareWindowsTool\bin\Debug\System.Numerics.Vectors.dll" />
             </Component>
 
-            <Component Id="Component.System.Numerics.Vectors.xml_1325100335" Guid="0a92947c-4d04-4b06-813f-a36aba4e0165">
+            <Component Id="Component.System.Numerics.Vectors.xml_1325100335" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e98e24c3f">
               <File Id="System.Numerics.Vectors.xml_1325100335" Source="..\MifareWindowsTool\bin\Debug\System.Numerics.Vectors.xml" />
             </Component>
 
-            <Component Id="Component.System.Reactive.dll_1819459705" Guid="0a92947c-4d04-4b06-813f-a36a2b43090b">
+            <Component Id="Component.System.Reactive.dll_1819459705" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e09d754e5">
               <File Id="System.Reactive.dll_1819459705" Source="..\MifareWindowsTool\bin\Debug\System.Reactive.dll" />
             </Component>
 
-            <Component Id="Component.System.Reactive.xml_1093945653" Guid="0a92947c-4d04-4b06-813f-a36a4fa56921">
+            <Component Id="Component.System.Reactive.xml_1093945653" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e2d39b4fb">
               <File Id="System.Reactive.xml_1093945653" Source="..\MifareWindowsTool\bin\Debug\System.Reactive.xml" />
             </Component>
 
-            <Component Id="Component.System.Runtime.CompilerServices.Unsafe.dll_3984254244" Guid="0a92947c-4d04-4b06-813f-a36a6272e7c9">
+            <Component Id="Component.System.Runtime.CompilerServices.Unsafe.dll_3984254244" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e400632a3">
               <File Id="System.Runtime.CompilerServices.Unsafe.dll_3984254244" Source="..\MifareWindowsTool\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll" />
             </Component>
 
-            <Component Id="Component.System.Runtime.CompilerServices.Unsafe.xml_1254060169" Guid="0a92947c-4d04-4b06-813f-a36a94a33122">
+            <Component Id="Component.System.Runtime.CompilerServices.Unsafe.xml_1254060169" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e72377cfc">
               <File Id="System.Runtime.CompilerServices.Unsafe.xml_1254060169" Source="..\MifareWindowsTool\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml" />
             </Component>
 
-            <Component Id="Component.System.Security.Principal.Windows.dll_3514455942" Guid="0a92947c-4d04-4b06-813f-a36ac88ef445">
+            <Component Id="Component.System.Security.Principal.Windows.dll_3514455942" Guid="06a71fc5-be6a-4e6c-b9c9-1f9ea6223f1f">
               <File Id="System.Security.Principal.Windows.dll_3514455942" Source="..\MifareWindowsTool\bin\Debug\System.Security.Principal.Windows.dll" />
             </Component>
 
-            <Component Id="Component.System.Threading.Tasks.Extensions.dll_3736333522" Guid="0a92947c-4d04-4b06-813f-a36a3b44248f">
+            <Component Id="Component.System.Threading.Tasks.Extensions.dll_3736333522" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e19d86f69">
               <File Id="System.Threading.Tasks.Extensions.dll_3736333522" Source="..\MifareWindowsTool\bin\Debug\System.Threading.Tasks.Extensions.dll" />
             </Component>
 
-            <Component Id="Component.System.Threading.Tasks.Extensions.xml_3736267990" Guid="0a92947c-4d04-4b06-813f-a36a92abf354">
+            <Component Id="Component.System.Threading.Tasks.Extensions.xml_3736267990" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e703f3e2e">
               <File Id="System.Threading.Tasks.Extensions.xml_3736267990" Source="..\MifareWindowsTool\bin\Debug\System.Threading.Tasks.Extensions.xml" />
             </Component>
 
-            <Component Id="Component.System.ValueTuple.dll_1714141178" Guid="0a92947c-4d04-4b06-813f-a36ae94a087e">
+            <Component Id="Component.System.ValueTuple.dll_1714141178" Guid="06a71fc5-be6a-4e6c-b9c9-1f9ec7de5358">
               <File Id="System.ValueTuple.dll_1714141178" Source="..\MifareWindowsTool\bin\Debug\System.ValueTuple.dll" />
             </Component>
 
-            <Component Id="Component.System.ValueTuple.xml_1714075646" Guid="0a92947c-4d04-4b06-813f-a36acfa50c31">
+            <Component Id="Component.System.ValueTuple.xml_1714075646" Guid="06a71fc5-be6a-4e6c-b9c9-1f9ead39570b">
               <File Id="System.ValueTuple.xml_1714075646" Source="..\MifareWindowsTool\bin\Debug\System.ValueTuple.xml" />
             </Component>
 
-            <Component Id="Component.WPFHexaEditor.dll_1279040863" Guid="0a92947c-4d04-4b06-813f-a36ab6df6d5e">
+            <Component Id="Component.WPFHexaEditor.dll_1279040863" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e9473b838">
               <File Id="WPFHexaEditor.dll_1279040863" Source="..\MifareWindowsTool\bin\Debug\WPFHexaEditor.dll" />
             </Component>
 
-            <Component Id="Component.WPFHexaEditor.pdb_116765717" Guid="0a92947c-4d04-4b06-813f-a36a5af8b58d">
+            <Component Id="Component.WPFHexaEditor.pdb_116765717" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e388c0067">
               <File Id="WPFHexaEditor.pdb_116765717" Source="..\MifareWindowsTool\bin\Debug\WPFHexaEditor.pdb" />
             </Component>
 
-            <Component Id="Component.Xceed.Wpf.AvalonDock.dll_681806904" Guid="0a92947c-4d04-4b06-813f-a36a913050fd">
+            <Component Id="Component.Xceed.Wpf.AvalonDock.dll_681806904" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e6fc49bd7">
               <File Id="Xceed.Wpf.AvalonDock.dll_681806904" Source="..\MifareWindowsTool\bin\Debug\Xceed.Wpf.AvalonDock.dll" />
             </Component>
 
-            <Component Id="Component.Xceed.Wpf.AvalonDock.Themes.Aero.dll_1231639615" Guid="0a92947c-4d04-4b06-813f-a36a0fbaefea">
+            <Component Id="Component.Xceed.Wpf.AvalonDock.Themes.Aero.dll_1231639615" Guid="06a71fc5-be6a-4e6c-b9c9-1f9eed4e3ac4">
               <File Id="Xceed.Wpf.AvalonDock.Themes.Aero.dll_1231639615" Source="..\MifareWindowsTool\bin\Debug\Xceed.Wpf.AvalonDock.Themes.Aero.dll" />
             </Component>
 
-            <Component Id="Component.Xceed.Wpf.AvalonDock.Themes.Metro.dll_3242246231" Guid="0a92947c-4d04-4b06-813f-a36a4b892cc7">
+            <Component Id="Component.Xceed.Wpf.AvalonDock.Themes.Metro.dll_3242246231" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e291d77a1">
               <File Id="Xceed.Wpf.AvalonDock.Themes.Metro.dll_3242246231" Source="..\MifareWindowsTool\bin\Debug\Xceed.Wpf.AvalonDock.Themes.Metro.dll" />
             </Component>
 
-            <Component Id="Component.Xceed.Wpf.AvalonDock.Themes.VS2010.dll_3371469107" Guid="0a92947c-4d04-4b06-813f-a36a81029838">
+            <Component Id="Component.Xceed.Wpf.AvalonDock.Themes.VS2010.dll_3371469107" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e5f96e312">
               <File Id="Xceed.Wpf.AvalonDock.Themes.VS2010.dll_3371469107" Source="..\MifareWindowsTool\bin\Debug\Xceed.Wpf.AvalonDock.Themes.VS2010.dll" />
             </Component>
 
-            <Component Id="Component.Xceed.Wpf.Toolkit.dll_2661204828" Guid="0a92947c-4d04-4b06-813f-a36a0251582c">
+            <Component Id="Component.Xceed.Wpf.Toolkit.dll_2661204828" Guid="06a71fc5-be6a-4e6c-b9c9-1f9ee0e5a306">
               <File Id="Xceed.Wpf.Toolkit.dll_2661204828" Source="..\MifareWindowsTool\bin\Debug\Xceed.Wpf.Toolkit.dll" />
             </Component>
 
             <Directory Id="ACR122_LibUsbK_Driver" Name="ACR122_LibUsbK_Driver">
 
-              <Component Id="Component.dpinst32.exe_3223329303" Guid="0a92947c-4d04-4b06-813f-a36a8e2aad6f">
+              <Component Id="Component.dpinst32.exe_3223329303" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e6cbef849">
                 <File Id="dpinst32.exe_3223329303" Source="..\MifareWindowsTool\bin\Debug\ACR122_LibUsbK_Driver\dpinst32.exe" />
               </Component>
 
-              <Component Id="Component.dpinst64.exe_3210091372" Guid="0a92947c-4d04-4b06-813f-a36ab4cb4a71">
+              <Component Id="Component.dpinst64.exe_3210091372" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e925f954b">
                 <File Id="dpinst64.exe_3210091372" Source="..\MifareWindowsTool\bin\Debug\ACR122_LibUsbK_Driver\dpinst64.exe" />
               </Component>
 
-              <Component Id="Component.dpscat.exe_3628530207" Guid="0a92947c-4d04-4b06-813f-a36a111fc796">
+              <Component Id="Component.dpscat.exe_3628530207" Guid="06a71fc5-be6a-4e6c-b9c9-1f9eefb31270">
                 <File Id="dpscat.exe_3628530207" Source="..\MifareWindowsTool\bin\Debug\ACR122_LibUsbK_Driver\dpscat.exe" />
               </Component>
 
-              <Component Id="Component.InstallDriver.exe_2846790459" Guid="0a92947c-4d04-4b06-813f-a36a76c03489">
+              <Component Id="Component.InstallDriver.exe_2846790459" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e54547f63">
                 <File Id="InstallDriver.exe_2846790459" Source="..\MifareWindowsTool\bin\Debug\ACR122_LibUsbK_Driver\InstallDriver.exe" />
               </Component>
 
               <Directory Id="amd64_" Name="amd64">
 
-                <Component Id="Component.libusb0.dll_811534354" Guid="0a92947c-4d04-4b06-813f-a36a4c7155dd">
+                <Component Id="Component.libusb0.dll_811534354" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e2a05a0b7">
                   <File Id="libusb0.dll_811534354" Source="..\MifareWindowsTool\bin\Debug\ACR122_LibUsbK_Driver\amd64\libusb0.dll" />
                 </Component>
 
-                <Component Id="Component.libusbK.dll_811532091" Guid="0a92947c-4d04-4b06-813f-a36a0fcc2fc8">
+                <Component Id="Component.libusbK.dll_811532091" Guid="06a71fc5-be6a-4e6c-b9c9-1f9eed607aa2">
                   <File Id="libusbK.dll_811532091" Source="..\MifareWindowsTool\bin\Debug\ACR122_LibUsbK_Driver\amd64\libusbK.dll" />
                 </Component>
 
-                <Component Id="Component.libusbK.sys_1180504903" Guid="0a92947c-4d04-4b06-813f-a36a6abdb554">
+                <Component Id="Component.libusbK.sys_1180504903" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e4851002e">
                   <File Id="libusbK.sys_1180504903" Source="..\MifareWindowsTool\bin\Debug\ACR122_LibUsbK_Driver\amd64\libusbK.sys" />
                 </Component>
 
-                <Component Id="Component.WdfCoInstaller01009.dll_1828947225" Guid="0a92947c-4d04-4b06-813f-a36a8ea21b6a">
+                <Component Id="Component.WdfCoInstaller01009.dll_1828947225" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e6c366644">
                   <File Id="WdfCoInstaller01009.dll_1828947225" Source="..\MifareWindowsTool\bin\Debug\ACR122_LibUsbK_Driver\amd64\WdfCoInstaller01009.dll" />
                 </Component>
 
@@ -240,19 +240,19 @@
 
               <Directory Id="x86_" Name="x86">
 
-                <Component Id="Component.libusb0_x86.dll_1045928280" Guid="0a92947c-4d04-4b06-813f-a36a15694325">
+                <Component Id="Component.libusb0_x86.dll_1045928280" Guid="06a71fc5-be6a-4e6c-b9c9-1f9ef3fd8eff">
                   <File Id="libusb0_x86.dll_1045928280" Source="..\MifareWindowsTool\bin\Debug\ACR122_LibUsbK_Driver\x86\libusb0_x86.dll" />
                 </Component>
 
-                <Component Id="Component.libusbK.sys_3862679794" Guid="0a92947c-4d04-4b06-813f-a36a3b680589">
+                <Component Id="Component.libusbK.sys_3862679794" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e19fc5063">
                   <File Id="libusbK.sys_3862679794" Source="..\MifareWindowsTool\bin\Debug\ACR122_LibUsbK_Driver\x86\libusbK.sys" />
                 </Component>
 
-                <Component Id="Component.libusbK_x86.dll_1046006575" Guid="0a92947c-4d04-4b06-813f-a36abc1517b4">
+                <Component Id="Component.libusbK_x86.dll_1046006575" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e9aa9628e">
                   <File Id="libusbK_x86.dll_1046006575" Source="..\MifareWindowsTool\bin\Debug\ACR122_LibUsbK_Driver\x86\libusbK_x86.dll" />
                 </Component>
 
-                <Component Id="Component.WdfCoInstaller01009.dll_2402340604" Guid="0a92947c-4d04-4b06-813f-a36a62f09770">
+                <Component Id="Component.WdfCoInstaller01009.dll_2402340604" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e4084e24a">
                   <File Id="WdfCoInstaller01009.dll_2402340604" Source="..\MifareWindowsTool\bin\Debug\ACR122_LibUsbK_Driver\x86\WdfCoInstaller01009.dll" />
                 </Component>
 
@@ -261,7 +261,7 @@
 
             <Directory Id="cs_CZ" Name="cs-CZ">
 
-              <Component Id="Component.Xceed.Wpf.AvalonDock.resources.dll_254111484" Guid="0a92947c-4d04-4b06-813f-a36a253412db">
+              <Component Id="Component.Xceed.Wpf.AvalonDock.resources.dll_254111484" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e03c85db5">
                 <File Id="Xceed.Wpf.AvalonDock.resources.dll_254111484" Source="..\MifareWindowsTool\bin\Debug\cs-CZ\Xceed.Wpf.AvalonDock.resources.dll" />
               </Component>
 
@@ -269,7 +269,7 @@
 
             <Directory Id="de" Name="de">
 
-              <Component Id="Component.Xceed.Wpf.AvalonDock.resources.dll_4075546336" Guid="0a92947c-4d04-4b06-813f-a36a88b876e8">
+              <Component Id="Component.Xceed.Wpf.AvalonDock.resources.dll_4075546336" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e664cc1c2">
                 <File Id="Xceed.Wpf.AvalonDock.resources.dll_4075546336" Source="..\MifareWindowsTool\bin\Debug\de\Xceed.Wpf.AvalonDock.resources.dll" />
               </Component>
 
@@ -277,7 +277,7 @@
 
             <Directory Id="dumps" Name="dumps">
 
-              <Component Id="Component.blank_tag.dump_1322384938" Guid="0a92947c-4d04-4b06-813f-a36aa8d28308">
+              <Component Id="Component.blank_tag.dump_1322384938" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e8666cee2">
                 <File Id="blank_tag.dump_1322384938" Source="..\MifareWindowsTool\bin\Debug\dumps\blank_tag.dump" />
               </Component>
 
@@ -285,7 +285,7 @@
 
             <Directory Id="es" Name="es">
 
-              <Component Id="Component.Xceed.Wpf.AvalonDock.resources.dll_157516663" Guid="0a92947c-4d04-4b06-813f-a36a49459cba">
+              <Component Id="Component.Xceed.Wpf.AvalonDock.resources.dll_157516663" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e27d9e794">
                 <File Id="Xceed.Wpf.AvalonDock.resources.dll_157516663" Source="..\MifareWindowsTool\bin\Debug\es\Xceed.Wpf.AvalonDock.resources.dll" />
               </Component>
 
@@ -293,7 +293,7 @@
 
             <Directory Id="fr" Name="fr">
 
-              <Component Id="Component.Xceed.Wpf.AvalonDock.resources.dll_605557272" Guid="0a92947c-4d04-4b06-813f-a36a5549a511">
+              <Component Id="Component.Xceed.Wpf.AvalonDock.resources.dll_605557272" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e33ddf0eb">
                 <File Id="Xceed.Wpf.AvalonDock.resources.dll_605557272" Source="..\MifareWindowsTool\bin\Debug\fr\Xceed.Wpf.AvalonDock.resources.dll" />
               </Component>
 
@@ -301,7 +301,7 @@
 
             <Directory Id="fr_CA" Name="fr-CA">
 
-              <Component Id="Component.WPFHexaEditor.resources.dll_1439635725" Guid="0a92947c-4d04-4b06-813f-a36a82bdfb11">
+              <Component Id="Component.WPFHexaEditor.resources.dll_1439635725" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e605146eb">
                 <File Id="WPFHexaEditor.resources.dll_1439635725" Source="..\MifareWindowsTool\bin\Debug\fr-CA\WPFHexaEditor.resources.dll" />
               </Component>
 
@@ -309,7 +309,7 @@
 
             <Directory Id="fr_FR" Name="fr-FR">
 
-              <Component Id="Component.MifareWindowsTool.resources.dll_1394368778" Guid="0a92947c-4d04-4b06-813f-a36a4afa5a31">
+              <Component Id="Component.MifareWindowsTool.resources.dll_1394368778" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e288ea50b">
                 <File Id="MifareWindowsTool.resources.dll_1394368778" Source="..\MifareWindowsTool\bin\Debug\fr-FR\MifareWindowsTool.resources.dll" />
               </Component>
 
@@ -317,7 +317,7 @@
 
             <Directory Id="hu" Name="hu">
 
-              <Component Id="Component.Xceed.Wpf.AvalonDock.resources.dll_1628693251" Guid="0a92947c-4d04-4b06-813f-a36a1243a5f4">
+              <Component Id="Component.Xceed.Wpf.AvalonDock.resources.dll_1628693251" Guid="06a71fc5-be6a-4e6c-b9c9-1f9ef0d7f0ce">
                 <File Id="Xceed.Wpf.AvalonDock.resources.dll_1628693251" Source="..\MifareWindowsTool\bin\Debug\hu\Xceed.Wpf.AvalonDock.resources.dll" />
               </Component>
 
@@ -325,7 +325,7 @@
 
             <Directory Id="it" Name="it">
 
-              <Component Id="Component.Xceed.Wpf.AvalonDock.resources.dll_3410219798" Guid="0a92947c-4d04-4b06-813f-a36a91338c38">
+              <Component Id="Component.Xceed.Wpf.AvalonDock.resources.dll_3410219798" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e6fc7d712">
                 <File Id="Xceed.Wpf.AvalonDock.resources.dll_3410219798" Source="..\MifareWindowsTool\bin\Debug\it\Xceed.Wpf.AvalonDock.resources.dll" />
               </Component>
 
@@ -333,7 +333,7 @@
 
             <Directory Id="ja_JP" Name="ja-JP">
 
-              <Component Id="Component.Xceed.Wpf.AvalonDock.resources.dll_526276835" Guid="0a92947c-4d04-4b06-813f-a36af709f409">
+              <Component Id="Component.Xceed.Wpf.AvalonDock.resources.dll_526276835" Guid="06a71fc5-be6a-4e6c-b9c9-1f9ed59d3fe3">
                 <File Id="Xceed.Wpf.AvalonDock.resources.dll_526276835" Source="..\MifareWindowsTool\bin\Debug\ja-JP\Xceed.Wpf.AvalonDock.resources.dll" />
               </Component>
 
@@ -341,15 +341,15 @@
 
             <Directory Id="keys" Name="keys">
 
-              <Component Id="Component.extended_std.keys_1928315074" Guid="0a92947c-4d04-4b06-813f-a36a552f7984">
+              <Component Id="Component.extended_std.keys_1928315074" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e33c3c45e">
                 <File Id="extended_std.keys_1928315074" Source="..\MifareWindowsTool\bin\Debug\keys\extended-std.keys" />
               </Component>
 
-              <Component Id="Component.french.keys_1558944794" Guid="0a92947c-4d04-4b06-813f-a36a3f9bd7ab">
+              <Component Id="Component.french.keys_1558944794" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e1d2f2285">
                 <File Id="french.keys_1558944794" Source="..\MifareWindowsTool\bin\Debug\keys\french.keys" />
               </Component>
 
-              <Component Id="Component.std.keys_1213744335" Guid="0a92947c-4d04-4b06-813f-a36a2d3af7ac">
+              <Component Id="Component.std.keys_1213744335" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e0bce4286">
                 <File Id="std.keys_1213744335" Source="..\MifareWindowsTool\bin\Debug\keys\std.keys" />
               </Component>
 
@@ -357,91 +357,91 @@
 
             <Directory Id="nfctools" Name="nfctools">
 
-              <Component Id="Component.api_ms_win_core_kernel32_legacy_l1_1_0.dll_3917411356" Guid="0a92947c-4d04-4b06-813f-a36a89228e91">
+              <Component Id="Component.api_ms_win_core_kernel32_legacy_l1_1_0.dll_3917411356" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e67b6d96b">
                 <File Id="api_ms_win_core_kernel32_legacy_l1_1_0.dll_3917411356" Source="..\MifareWindowsTool\bin\Debug\nfctools\api-ms-win-core-kernel32-legacy-l1-1-0.dll" />
               </Component>
 
-              <Component Id="Component.api_ms_win_core_libraryloader_l1_2_0.dll_1177949089" Guid="0a92947c-4d04-4b06-813f-a36af0c0bd82">
+              <Component Id="Component.api_ms_win_core_libraryloader_l1_2_0.dll_1177949089" Guid="06a71fc5-be6a-4e6c-b9c9-1f9ece54085c">
                 <File Id="api_ms_win_core_libraryloader_l1_2_0.dll_1177949089" Source="..\MifareWindowsTool\bin\Debug\nfctools\api-ms-win-core-libraryloader-l1-2-0.dll" />
               </Component>
 
-              <Component Id="Component.api_ms_win_core_localization_l1_2_0.dll_3518926889" Guid="0a92947c-4d04-4b06-813f-a36a95c4cc39">
+              <Component Id="Component.api_ms_win_core_localization_l1_2_0.dll_3518926889" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e73581713">
                 <File Id="api_ms_win_core_localization_l1_2_0.dll_3518926889" Source="..\MifareWindowsTool\bin\Debug\nfctools\api-ms-win-core-localization-l1-2-0.dll" />
               </Component>
 
-              <Component Id="Component.api_ms_win_core_processthreads_l1_1_1.dll_1180540306" Guid="0a92947c-4d04-4b06-813f-a36a8e4f1559">
+              <Component Id="Component.api_ms_win_core_processthreads_l1_1_1.dll_1180540306" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e6ce36033">
                 <File Id="api_ms_win_core_processthreads_l1_1_1.dll_1180540306" Source="..\MifareWindowsTool\bin\Debug\nfctools\api-ms-win-core-processthreads-l1-1-1.dll" />
               </Component>
 
-              <Component Id="Component.api_ms_win_core_synch_l1_2_0.dll_4204579955" Guid="0a92947c-4d04-4b06-813f-a36a4d9fb086">
+              <Component Id="Component.api_ms_win_core_synch_l1_2_0.dll_4204579955" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e2b33fb60">
                 <File Id="api_ms_win_core_synch_l1_2_0.dll_4204579955" Source="..\MifareWindowsTool\bin\Debug\nfctools\api-ms-win-core-synch-l1-2-0.dll" />
               </Component>
 
-              <Component Id="Component.api_ms_win_core_timezone_l1_1_0.dll_3688861755" Guid="0a92947c-4d04-4b06-813f-a36aafee04db">
+              <Component Id="Component.api_ms_win_core_timezone_l1_1_0.dll_3688861755" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e8d824fb5">
                 <File Id="api_ms_win_core_timezone_l1_1_0.dll_3688861755" Source="..\MifareWindowsTool\bin\Debug\nfctools\api-ms-win-core-timezone-l1-1-0.dll" />
               </Component>
 
-              <Component Id="Component.api_ms_win_security_cryptoapi_l1_1_0.dll_418354667" Guid="0a92947c-4d04-4b06-813f-a36a522b1c7b">
+              <Component Id="Component.api_ms_win_security_cryptoapi_l1_1_0.dll_418354667" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e30bf6755">
                 <File Id="api_ms_win_security_cryptoapi_l1_1_0.dll_418354667" Source="..\MifareWindowsTool\bin\Debug\nfctools\api-ms-win-security-cryptoapi-l1-1-0.dll" />
               </Component>
 
-              <Component Id="Component.libcrypto.dll_1868535380" Guid="0a92947c-4d04-4b06-813f-a36a3aaef26f">
+              <Component Id="Component.libcrypto.dll_1868535380" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e18423d49">
                 <File Id="libcrypto.dll_1868535380" Source="..\MifareWindowsTool\bin\Debug\nfctools\libcrypto.dll" />
               </Component>
 
-              <Component Id="Component.libfreefare.dll_4062421119" Guid="0a92947c-4d04-4b06-813f-a36ae8a10d9e">
+              <Component Id="Component.libfreefare.dll_4062421119" Guid="06a71fc5-be6a-4e6c-b9c9-1f9ec6355878">
                 <File Id="libfreefare.dll_4062421119" Source="..\MifareWindowsTool\bin\Debug\nfctools\libfreefare.dll" />
               </Component>
 
-              <Component Id="Component.liblzma_5.dll_4257902108" Guid="0a92947c-4d04-4b06-813f-a36ae112908c">
+              <Component Id="Component.liblzma_5.dll_4257902108" Guid="06a71fc5-be6a-4e6c-b9c9-1f9ebfa6db66">
                 <File Id="liblzma_5.dll_4257902108" Source="..\MifareWindowsTool\bin\Debug\nfctools\liblzma-5.dll" />
               </Component>
 
-              <Component Id="Component.libnfc.dll_1475745560" Guid="0a92947c-4d04-4b06-813f-a36a3d8e3d3b">
+              <Component Id="Component.libnfc.dll_1475745560" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e1b228815">
                 <File Id="libnfc.dll_1475745560" Source="..\MifareWindowsTool\bin\Debug\nfctools\libnfc.dll" />
               </Component>
 
-              <Component Id="Component.libnfc_crypto1_crack.exe_1258648187" Guid="0a92947c-4d04-4b06-813f-a36a8578b064">
+              <Component Id="Component.libnfc_crypto1_crack.exe_1258648187" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e630cfb3e">
                 <File Id="libnfc_crypto1_crack.exe_1258648187" Source="..\MifareWindowsTool\bin\Debug\nfctools\libnfc_crypto1_crack.exe" />
               </Component>
 
-              <Component Id="Component.libusb0.dll_2806697923" Guid="0a92947c-4d04-4b06-813f-a36a9b6efdbd">
+              <Component Id="Component.libusb0.dll_2806697923" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e79024897">
                 <File Id="libusb0.dll_2806697923" Source="..\MifareWindowsTool\bin\Debug\nfctools\libusb0.dll" />
               </Component>
 
-              <Component Id="Component.libwinpthread_1.dll_601654647" Guid="0a92947c-4d04-4b06-813f-a36ae56408be">
+              <Component Id="Component.libwinpthread_1.dll_601654647" Guid="06a71fc5-be6a-4e6c-b9c9-1f9ec3f85398">
                 <File Id="libwinpthread_1.dll_601654647" Source="..\MifareWindowsTool\bin\Debug\nfctools\libwinpthread-1.dll" />
               </Component>
 
-              <Component Id="Component.mfoc.exe_3111237814" Guid="0a92947c-4d04-4b06-813f-a36a22dabbb6">
+              <Component Id="Component.mfoc.exe_3111237814" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e006e0690">
                 <File Id="mfoc.exe_3111237814" Source="..\MifareWindowsTool\bin\Debug\nfctools\mfoc.exe" />
               </Component>
 
-              <Component Id="Component.mfoc_hard.exe_687719136" Guid="0a92947c-4d04-4b06-813f-a36a4a530133">
+              <Component Id="Component.mfoc_hard.exe_687719136" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e28e74c0d">
                 <File Id="mfoc_hard.exe_687719136" Source="..\MifareWindowsTool\bin\Debug\nfctools\mfoc_hard.exe" />
               </Component>
 
-              <Component Id="Component.mifare_classic_format.exe_1691120826" Guid="0a92947c-4d04-4b06-813f-a36ae105c21b">
+              <Component Id="Component.mifare_classic_format.exe_1691120826" Guid="06a71fc5-be6a-4e6c-b9c9-1f9ebf990df5">
                 <File Id="mifare_classic_format.exe_1691120826" Source="..\MifareWindowsTool\bin\Debug\nfctools\mifare-classic-format.exe" />
               </Component>
 
-              <Component Id="Component.msys_2.0.dll_466783223" Guid="0a92947c-4d04-4b06-813f-a36ad9fec252">
+              <Component Id="Component.msys_2.0.dll_466783223" Guid="06a71fc5-be6a-4e6c-b9c9-1f9eb7920d2c">
                 <File Id="msys_2.0.dll_466783223" Source="..\MifareWindowsTool\bin\Debug\nfctools\msys-2.0.dll" />
               </Component>
 
-              <Component Id="Component.nfc_list.exe_2136866845" Guid="0a92947c-4d04-4b06-813f-a36a999598d9">
+              <Component Id="Component.nfc_list.exe_2136866845" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e7729e3b3">
                 <File Id="nfc_list.exe_2136866845" Source="..\MifareWindowsTool\bin\Debug\nfctools\nfc-list.exe" />
               </Component>
 
-              <Component Id="Component.nfc_mfclassic.exe_3971743487" Guid="0a92947c-4d04-4b06-813f-a36a09570a64">
+              <Component Id="Component.nfc_mfclassic.exe_3971743487" Guid="06a71fc5-be6a-4e6c-b9c9-1f9ee7eb553e">
                 <File Id="nfc_mfclassic.exe_3971743487" Source="..\MifareWindowsTool\bin\Debug\nfctools\nfc-mfclassic.exe" />
               </Component>
 
-              <Component Id="Component.nfc_mfsetuid.exe_1176291151" Guid="0a92947c-4d04-4b06-813f-a36adae226f6">
+              <Component Id="Component.nfc_mfsetuid.exe_1176291151" Guid="06a71fc5-be6a-4e6c-b9c9-1f9eb87671d0">
                 <File Id="nfc_mfsetuid.exe_1176291151" Source="..\MifareWindowsTool\bin\Debug\nfctools\nfc-mfsetuid.exe" />
               </Component>
 
-              <Component Id="Component.pcsc_scan.exe_4017359983" Guid="0a92947c-4d04-4b06-813f-a36a050add02">
+              <Component Id="Component.pcsc_scan.exe_4017359983" Guid="06a71fc5-be6a-4e6c-b9c9-1f9ee39e28dc">
                 <File Id="pcsc_scan.exe_4017359983" Source="..\MifareWindowsTool\bin\Debug\nfctools\pcsc_scan.exe" />
               </Component>
 
@@ -449,7 +449,7 @@
 
             <Directory Id="pl_PL" Name="pl-PL">
 
-              <Component Id="Component.WPFHexaEditor.resources.dll_351826316" Guid="0a92947c-4d04-4b06-813f-a36a767f6847">
+              <Component Id="Component.WPFHexaEditor.resources.dll_351826316" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e5413b321">
                 <File Id="WPFHexaEditor.resources.dll_351826316" Source="..\MifareWindowsTool\bin\Debug\pl-PL\WPFHexaEditor.resources.dll" />
               </Component>
 
@@ -457,11 +457,11 @@
 
             <Directory Id="pt_BR" Name="pt-BR">
 
-              <Component Id="Component.WPFHexaEditor.resources.dll_2096887967" Guid="0a92947c-4d04-4b06-813f-a36ae6ac2e5e">
+              <Component Id="Component.WPFHexaEditor.resources.dll_2096887967" Guid="06a71fc5-be6a-4e6c-b9c9-1f9ec4407938">
                 <File Id="WPFHexaEditor.resources.dll_2096887967" Source="..\MifareWindowsTool\bin\Debug\pt-BR\WPFHexaEditor.resources.dll" />
               </Component>
 
-              <Component Id="Component.Xceed.Wpf.AvalonDock.resources.dll_10544732" Guid="0a92947c-4d04-4b06-813f-a36add40a56d">
+              <Component Id="Component.Xceed.Wpf.AvalonDock.resources.dll_10544732" Guid="06a71fc5-be6a-4e6c-b9c9-1f9ebbd4f047">
                 <File Id="Xceed.Wpf.AvalonDock.resources.dll_10544732" Source="..\MifareWindowsTool\bin\Debug\pt-BR\Xceed.Wpf.AvalonDock.resources.dll" />
               </Component>
 
@@ -469,15 +469,15 @@
 
             <Directory Id="Resources" Name="Resources">
 
-              <Component Id="Component.EBCDIC_NoSpecialChar.tbl_4042907405" Guid="0a92947c-4d04-4b06-813f-a36ae4ad8aa3">
+              <Component Id="Component.EBCDIC_NoSpecialChar.tbl_4042907405" Guid="06a71fc5-be6a-4e6c-b9c9-1f9ec241d57d">
                 <File Id="EBCDIC_NoSpecialChar.tbl_4042907405" Source="..\MifareWindowsTool\bin\Debug\Resources\EBCDIC-NoSpecialChar.tbl" />
               </Component>
 
-              <Component Id="Component.EBCDIC.tbl_541915739" Guid="0a92947c-4d04-4b06-813f-a36a35104a14">
+              <Component Id="Component.EBCDIC.tbl_541915739" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e13a495ee">
                 <File Id="EBCDIC.tbl_541915739" Source="..\MifareWindowsTool\bin\Debug\Resources\EBCDIC.tbl" />
               </Component>
 
-              <Component Id="Component.MWT.ico_1372400379" Guid="0a92947c-4d04-4b06-813f-a36a3434865a">
+              <Component Id="Component.MWT.ico_1372400379" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e12c8d134">
                 <File Id="MWT.ico_1372400379" Source="..\MifareWindowsTool\bin\Debug\Resources\MWT.ico" />
               </Component>
 
@@ -485,7 +485,7 @@
 
             <Directory Id="ro" Name="ro">
 
-              <Component Id="Component.Xceed.Wpf.AvalonDock.resources.dll_2683983066" Guid="0a92947c-4d04-4b06-813f-a36a60062e09">
+              <Component Id="Component.Xceed.Wpf.AvalonDock.resources.dll_2683983066" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e3e9a79e3">
                 <File Id="Xceed.Wpf.AvalonDock.resources.dll_2683983066" Source="..\MifareWindowsTool\bin\Debug\ro\Xceed.Wpf.AvalonDock.resources.dll" />
               </Component>
 
@@ -493,7 +493,7 @@
 
             <Directory Id="ru" Name="ru">
 
-              <Component Id="Component.Xceed.Wpf.AvalonDock.resources.dll_2397664945" Guid="0a92947c-4d04-4b06-813f-a36ac3016ac0">
+              <Component Id="Component.Xceed.Wpf.AvalonDock.resources.dll_2397664945" Guid="06a71fc5-be6a-4e6c-b9c9-1f9ea195b59a">
                 <File Id="Xceed.Wpf.AvalonDock.resources.dll_2397664945" Source="..\MifareWindowsTool\bin\Debug\ru\Xceed.Wpf.AvalonDock.resources.dll" />
               </Component>
 
@@ -501,7 +501,7 @@
 
             <Directory Id="ru_RU" Name="ru-RU">
 
-              <Component Id="Component.WPFHexaEditor.resources.dll_29612389" Guid="0a92947c-4d04-4b06-813f-a36a7c7ef92b">
+              <Component Id="Component.WPFHexaEditor.resources.dll_29612389" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e5a124405">
                 <File Id="WPFHexaEditor.resources.dll_29612389" Source="..\MifareWindowsTool\bin\Debug\ru-RU\WPFHexaEditor.resources.dll" />
               </Component>
 
@@ -509,7 +509,7 @@
 
             <Directory Id="sv" Name="sv">
 
-              <Component Id="Component.Xceed.Wpf.AvalonDock.resources.dll_3039383174" Guid="0a92947c-4d04-4b06-813f-a36aa3f20950">
+              <Component Id="Component.Xceed.Wpf.AvalonDock.resources.dll_3039383174" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e8186542a">
                 <File Id="Xceed.Wpf.AvalonDock.resources.dll_3039383174" Source="..\MifareWindowsTool\bin\Debug\sv\Xceed.Wpf.AvalonDock.resources.dll" />
               </Component>
 
@@ -517,7 +517,7 @@
 
             <Directory Id="zh_CN" Name="zh-CN">
 
-              <Component Id="Component.WPFHexaEditor.resources.dll_3308132966" Guid="0a92947c-4d04-4b06-813f-a36a16c74960">
+              <Component Id="Component.WPFHexaEditor.resources.dll_3308132966" Guid="06a71fc5-be6a-4e6c-b9c9-1f9ef45b943a">
                 <File Id="WPFHexaEditor.resources.dll_3308132966" Source="..\MifareWindowsTool\bin\Debug\zh-CN\WPFHexaEditor.resources.dll" />
               </Component>
 
@@ -525,7 +525,7 @@
 
             <Directory Id="zh_Hans" Name="zh-Hans">
 
-              <Component Id="Component.Xceed.Wpf.AvalonDock.resources.dll_3048739137" Guid="0a92947c-4d04-4b06-813f-a36a803bc303">
+              <Component Id="Component.Xceed.Wpf.AvalonDock.resources.dll_3048739137" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e5ecf0edd">
                 <File Id="Xceed.Wpf.AvalonDock.resources.dll_3048739137" Source="..\MifareWindowsTool\bin\Debug\zh-Hans\Xceed.Wpf.AvalonDock.resources.dll" />
               </Component>
 
@@ -536,7 +536,7 @@
 
       <Directory Id="DesktopFolder" Name="DesktopFolder">
 
-        <Component Id="Component.DesktopFolder.EmptyDirectory" Guid="0a92947c-4d04-4b06-813f-a36a2c1483de">
+        <Component Id="Component.DesktopFolder.EmptyDirectory" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e0aa8ceb8">
           <CreateFolder />
 
           <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
@@ -548,7 +548,7 @@
 
       <Directory Id="ProgramMenuFolder" Name="ProgramMenuFolder">
 
-        <Component Id="Component.ProgramMenuFolder.EmptyDirectory" Guid="0a92947c-4d04-4b06-813f-a36a3fbc63fd">
+        <Component Id="Component.ProgramMenuFolder.EmptyDirectory" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e1d50aed7">
           <CreateFolder />
 
           <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
@@ -558,7 +558,7 @@
 
       </Directory>
 
-      <Component Id="TARGETDIR" Guid="0a92947c-4d04-4b06-813f-a36a60ca524b" KeyPath="yes">
+      <Component Id="TARGETDIR" Guid="06a71fc5-be6a-4e6c-b9c9-1f9e3e5e9d25" KeyPath="yes">
         <CreateFolder />
         <RemoveFolder Id="TARGETDIR" On="uninstall" />
       </Component>
