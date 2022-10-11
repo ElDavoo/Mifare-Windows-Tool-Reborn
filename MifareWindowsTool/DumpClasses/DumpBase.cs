@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Management.Instrumentation;
 using System.Reflection;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -51,6 +50,7 @@ namespace MifareWindowsTool.Common
         string TextData { get; set; }
         List<string> LstTextData { get; }
         List<byte[]> DataBlocks { get; }
+        List<byte[]> DataLines { get; }
     }
     public class Data : IData
     {
@@ -72,6 +72,7 @@ namespace MifareWindowsTool.Common
         }
         public byte[] HexData { get; set; }
         public List<byte[]> DataBlocks => BufferSplit(HexData, 16 * 4).ToList();
+        public List<byte[]> DataLines => DataBlocks.SelectMany(d => BufferSplit(d, 16)).ToList();
         public string TextData { get; set; }
         public List<string> LstTextData => TextData.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None).ToList();
         public virtual bool IsValidForThisType { get; }
@@ -83,7 +84,7 @@ namespace MifareWindowsTool.Common
         public int BlockSize => 16;
         public static string CurrentUID { get; set; }
         public int BlockSplit { get; set; } = 8;
-        Brush PaleBlueBrush = new SolidColorBrush(Color.FromArgb(255, (byte)0x60, (byte)0x8D, (byte)0x88));
+      
         Brush VioletBrush = new SolidColorBrush(Color.FromArgb(255, (byte)0x95, (byte)0x33, (byte)0xF9));
         public static string DefaultWorkingDir => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         public static string DefaultNfcToolsPath { get; set; } = Path.Combine(DefaultWorkingDir, "nfctools");
@@ -92,99 +93,77 @@ namespace MifareWindowsTool.Common
         public static string FlipperNfcPath => Path.Combine(DefaultNfcToolsPath, "Template_Flipper.nfc");
         public static List<string> TemplateFlipperNfc => File.Exists(FlipperNfcPath) ? File.ReadAllText(FlipperNfcPath).Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList() : null;
 
-
         public void CompareTo(IDump dump, RichTextBox rtb)
         {
             if (this.DumpData.HexData == null || dump.DumpData.HexData == null) return;
 
             rtb.Document = new System.Windows.Documents.FlowDocument();
-            //string hexA = BitConverter.ToString(this.DumpData.HexData.ToArray()).Replace("-", string.Empty);
-            //string hexB = BitConverter.ToString(dump.DumpData.HexData.ToArray()).Replace("-", string.Empty);
-
-            //var linesA = Split(hexA, BlockSize * 2);
-            //var linesB = Split(hexB, BlockSize * 2);
-            //if (this.DumpData.HexData.Length == 1024) BlockSplit = 4;
+          
             var sectorName = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Sector));
             var identicalName = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Identical));
             var differentName = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Different));
 
-            var linesA = new List<string>();
-            var linesB = new List<string>();
-            for (int i = 0; i < this.DumpData.DataBlocks.Count; i++)
+            var linesA = this.DumpData.DataLines;
+            var linesB = dump.DumpData.DataLines;
+
+            int idx = 0;
+            var blockCpt = 0;
+            foreach (var lineA in linesA)
             {
-                linesA.Add($"{sectorName}:{i}");
-                linesB.Add("");
-                var dblocks2Count = dump.DumpData.DataBlocks.Count;
-                foreach (var bl1 in this.DumpData.DataBlocks)
+                if (idx % 4 == 0)
                 {
-                    if (dblocks2Count > i)
+                    rtb.AppendText($"{(blockCpt > 0 ? "\r" : "")}{sectorName}:{blockCpt}\r", Brushes.White, true);
+                    blockCpt++;
+                }
+                byte[] lineB = null;
+                if (idx < linesB.Count())
+                {
+                    lineB = linesB[idx];
+                }
+                if (ByteArrayCompare(lineA, lineB))
+                {
+                    rtb.AppendText("____________");
+                    rtb.AppendText(identicalName, Brushes.Lime);
+                    rtb.AppendText("_____________\r", Brushes.White);
+                }
+                else
+                {
+                    rtb.AppendText("____________");
+                    rtb.AppendText(differentName, Brushes.Red);
+                    rtb.AppendText("_____________\r", Brushes.White);
+
+                    for (int l = 0; l < lineA.Count(); l++)
                     {
-                        var bl2 = dump.DumpData.DataBlocks[i];
-                        foreach (var lineA in BufferSplit(bl1, BlockSize))
+                        if (l == 0) //skip 2 chars for "A:" or "B:"
                         {
-                            var lineB = BufferSplit(bl2, BlockSize);
-                            if (i < linesA.Count && i < linesB.Count && linesA[i] == linesB[i])
-                            {
-                                rtb.AppendText("____________");
-                                rtb.AppendText(identicalName, Brushes.Lime);
-                                rtb.AppendText("_____________\r", Brushes.White);
-                            }
+                            rtb.AppendText("  ");
+                        }
+                        if (lineB != null && l < lineB.Length)
+                        {
+                            if (lineA[l] != lineB[l])
+                                rtb.AppendText("vv", Brushes.Red); //different
+                            else
+                                rtb.AppendText("  ", Brushes.White); //same
                         }
                     }
-                       
+                    rtb.AppendText("\r", Brushes.White); //add cr at the end of line
                 }
+                var strLineA = BitConverter.ToString(lineA).Replace("-", string.Empty);
+                var strLineB = lineB != null ? BitConverter.ToString(lineB).Replace("-", string.Empty) : string.Empty;
+                var diff = strLineA.Length - strLineB.Length;
+                var addToB = new string('-', diff);
+
+                rtb.AppendText($"A:{strLineA}{Environment.NewLine}", Brushes.White);
+                rtb.AppendText($"B:{strLineB}", Brushes.White);
+                rtb.AppendText($"{addToB}{Environment.NewLine}", Brushes.Yellow);
+                idx++;
             }
 
-            ////int sectorA = (linesA.Count - BlockSplit) / BlockSplit;
-            //for (int i = linesA.Count - BlockSplit; i >= 0; i -= BlockSplit)
-            //    linesA.Insert(i, $"{sectorName}:{sectorA--}");
-
-            ////int sectorB = (linesB.Count - BlockSplit) / BlockSplit;
-            //for (int i = linesB.Count - BlockSplit; i >= 0; i -= BlockSplit)
-            //    linesB.Insert(i, "");
-
-            for (int i = 0; i < Math.Max(linesA.Count, linesB.Count); i++)
-            {
-                if (i < linesA.Count || i < linesB.Count)
-                {
-                    if (i < linesA.Count && i < linesB.Count && linesA[i] == linesB[i])
-                    {
-                        rtb.AppendText("____________");
-                        rtb.AppendText(identicalName, Brushes.Lime);
-                        rtb.AppendText("_____________\r", Brushes.White);
-                    }
-                    else if (i < linesB.Count && !string.IsNullOrWhiteSpace(linesB[i]))
-                    {
-                        rtb.AppendText("____________");
-                        rtb.AppendText(differentName, Brushes.Red);
-                        rtb.AppendText("_____________\r", Brushes.White);
-
-                        if (i < linesA.Count)
-                            for (int j = 0; j < linesA[i].Count(); j++)
-                            {
-                                if (j == 0) //skip 2 chars for "A:" or "B:"
-                                {
-                                    rtb.AppendText("  ");
-                                }
-                                if (linesA[i][j] != linesB[i][j])
-                                    rtb.AppendText("v", Brushes.Red); //different
-                                else
-                                    rtb.AppendText(" ", Brushes.White); //same
-                            }
-                        rtb.AppendText("\r", Brushes.White); //add cr at the end of line
-                    }
-                }
-                if (i < linesA.Count)
-                {
-                    var appendCR = linesA[i].EndsWith("\r") ? "" : !linesA[i].StartsWith(sectorName) ? "\r" : "";
-                    rtb.AppendText((!string.IsNullOrWhiteSpace(linesA[i]) && !linesA[i].StartsWith(sectorName) ? "A:" : "") + linesA[i] + appendCR, linesA[i].StartsWith("\r+") ? PaleBlueBrush : Brushes.White, linesA[i].StartsWith("\r+") ? true : false);
-                }
-                if (i < linesB.Count)
-                {
-                    var appendCR = linesB[i].EndsWith("\r") ? "" : !linesB[i].StartsWith(sectorName) ? "\r" : "";
-                    rtb.AppendText((!string.IsNullOrWhiteSpace(linesB[i]) && !linesB[i].StartsWith(sectorName) ? "B:" : "") + linesB[i] + appendCR, linesB[i].StartsWith("\r+") ? PaleBlueBrush : Brushes.White, linesB[i].StartsWith("\r+") ? true : false);
-                }
-            }
+        }
+        // byte[] is implicitly convertible to ReadOnlySpan<byte>
+        bool ByteArrayCompare(ReadOnlySpan<byte> a1, ReadOnlySpan<byte> a2)
+        {
+            return a2 != null && a1.SequenceEqual(a2);
         }
         public byte[][] BufferSplit(byte[] buffer, int blockSize)
         {
@@ -198,6 +177,7 @@ namespace MifareWindowsTool.Common
 
             return blocks;
         }
+
         public int sectorCounter = 0;
         public int blockCountInSector = 4;
         public int SectorCount { get; set; } = 16;
@@ -317,7 +297,7 @@ namespace MifareWindowsTool.Common
             if (defaultExt != null) dlg.DefaultExt = defaultExt;
             dlg.Title = title;
             dlg.Filter = filter ?? Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DumpFileFilter));
-            dlg.InitialDirectory = initialDir ?? DefaultDumpPath;
+            if (!string.IsNullOrEmpty(initialDir)) dlg.InitialDirectory = initialDir;
             if (fileName != null) dlg.FileName = fileName;
         }
         private const string FlipperFileIdentifier = "Filetype: Flipper NFC";

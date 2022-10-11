@@ -47,7 +47,6 @@ namespace MCT_Windows
         string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         public string MainTitle { get; set; } = $"Mifare Windows Tool";
         Tools Tools { get; }
-        OpenFileDialog ofd = new OpenFileDialog();
         public List<MCTFile> SelectedKeys = new List<MCTFile>();
         Uri BaseUri = null;
         int cptFail = 0;
@@ -87,7 +86,7 @@ namespace MCT_Windows
             this.Icon = BitmapFrame.Create(iconUri);
             MainTitle += $" v{version}";
             this.Title = $"{MainTitle}";
-            ofd.Filter = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DumpFileFilter));
+
             //ShowPauseButton(task != null);
             Tools = new Tools();
             var newVersion = Tools.CheckNewVersion();
@@ -104,7 +103,6 @@ namespace MCT_Windows
                 }
 
             }
-
             var defaultPath = Tools.GetSetting("DefaultDumpPath");
             if (!string.IsNullOrWhiteSpace(defaultPath) && Directory.Exists(defaultPath))
                 DumpBase.DefaultDumpPath = defaultPath;
@@ -117,19 +115,16 @@ namespace MCT_Windows
             else
                 DumpBase.DefaultKeysPath = Path.Combine(DumpBase.DefaultWorkingDir, "keys");
 
-            ofd.InitialDirectory = DumpBase.DefaultDumpPath;
+            var ofd = DumpBase.CreateOpenDialog();
+            //ofd.InitialDirectory = DumpBase.DefaultDumpPath;
 
             if (!Tools.TestWritePermission(ofd.InitialDirectory))
             {
                 MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.PleaseRestartAsAdmin)));
                 Application.Current.Shutdown();
             }
-
-            if (CheckSetDriver())
-                PeriodicScanTag();
-
+            if (CheckSetDriver()) PeriodicScanTag();
         }
-
         private bool CheckSetDriver()
         {
             try
@@ -164,7 +159,6 @@ namespace MCT_Windows
                         Process.Start(ACSDriversPage);
 
                     }
-
                 }
                 return false;
             }
@@ -730,6 +724,7 @@ namespace MCT_Windows
         private void btnEditDumpFile_Click(object sender, RoutedEventArgs e)
         {
             StopScanTag();
+            var ofd = DumpBase.CreateOpenDialog();
             var dr = ofd.ShowDialog();
             if (dr.Value)
             {
