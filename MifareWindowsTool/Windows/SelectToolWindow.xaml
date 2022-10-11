@@ -7,8 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:resx="clr-namespace:MifareWindowsTool.Properties"
     Title="{localize:Static resx:Resources.SelectToolWindowTitle}"
-    Width="480"
-    Height="420"
+    Width="500"
+    Height="500"
     Background="#303030"
     mc:Ignorable="d"
     DataContext="{Binding RelativeSource={RelativeSource Self}}">
@@ -57,12 +57,12 @@
         <Separator />
         <Label Height="24" HorizontalAlignment="Center" Foreground="White" x:Name="lblDumpsPath" Content="{localize:Static resx:Resources.LabelDumpsPath}"></Label>
         <StackPanel
-        Width="auto" Margin="2"
+        Width="auto" Margin="10"
         HorizontalAlignment="Stretch"
         Background="#303030"
         Orientation="Horizontal">
             <TextBox Margin="2"  HorizontalAlignment="Stretch"  HorizontalContentAlignment="Stretch"   Background="#303030" x:Name="txtDumpsPath" 
-                     Foreground="White" MinWidth="272" Width="auto" MaxWidth="390" ></TextBox>
+                     Foreground="White" MinWidth="380" Width="auto" MaxWidth="390" ></TextBox>
             <Button  Margin="10,0,0,0" Width="auto" x:Name="btnChangeDefaultDumpPath" Click="btnChangeDefaultDumpPath_Click">
                 <StackPanel  Background="#303030" >
                     <Image ToolTip="{localize:Static resx:Resources.Browse}"  Cursor="Hand"   
@@ -90,7 +90,7 @@
         Background="#303030"
         Orientation="Horizontal">
                 <TextBox Margin="2"  HorizontalAlignment="Stretch"  HorizontalContentAlignment="Stretch"   Background="#303030" x:Name="txtKeysPath" 
-                     Foreground="White" MinWidth="272" Width="auto" MaxWidth="390" ></TextBox>
+                     Foreground="White" MinWidth="380" Width="auto" MaxWidth="390" ></TextBox>
                 <Button  Margin="10,0,0,0" Width="auto" x:Name="btnChangeDefaultKeyPath" Click="btnChangeDefaultKeyPath_Click">
                     <StackPanel  Background="#303030" >
                         <Image ToolTip="{localize:Static resx:Resources.Browse}"  Cursor="Hand"   

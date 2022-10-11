@@ -1,0 +1,55 @@
+﻿<Window
+    x:Class="MCT_Windows.Windows.SelectOutputDumpTypeWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:localize="http://gu.se/Localization"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:resx="clr-namespace:MifareWindowsTool.Properties"
+    Title="{localize:Static resx:Resources.BtnConvert}"
+    Width="480"
+    Height="310"
+    Background="#303030"
+    mc:Ignorable="d"
+    DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <StackPanel x:Name="mainStackPanel"
+        Height="auto"
+        VerticalAlignment="Top"
+        Background="#303030"
+        Orientation="Vertical">
+        <GroupBox Foreground="White" Header="{localize:Static resx:Resources.InputDumpType}" FontSize="14" Height="auto" Width="auto" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="4" ToolTip="Convert from which dump type?">
+            <StackPanel Orientation="Vertical" >
+                <RadioButton x:Name="rbAutoDetect" GroupName="inputDumps" IsChecked="True" FontSize="12" Foreground="White"  Margin="2">Auto detect</RadioButton>
+                <Label x:Name="lblInputDumpType" HorizontalAlignment="Center" FontSize="12" Foreground="Yellow" Content="Input Type"></Label>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Foreground="White" Header="{localize:Static resx:Resources.OutputDumpType}" FontSize="14" Height="auto" Width="auto" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="4" ToolTip="Convert to which dump type?">
+            <StackPanel x:Name="rbOutputDumps" Orientation="Vertical" Margin="5">
+                <RadioButton x:Name="rbMwt" GroupName="outputDumps" Checked="RadioButton_Checked" Foreground="White" FontSize="12" IsChecked="True" Margin="2">MWT (Libnfc)</RadioButton>
+                <RadioButton x:Name="rbMct" GroupName="outputDumps" Checked="RadioButton_Checked" Foreground="White" FontSize="12" Margin="2">MCT (Android Mifare Classic Tool)</RadioButton>
+                <RadioButton x:Name="rbFlipper" GroupName="outputDumps" Checked="RadioButton_Checked" Foreground="White" FontSize="12" Margin="2">Flipper Mifare Classic 1K</RadioButton>
+            </StackPanel>
+        </GroupBox>
+        <CheckBox x:Name="ckFillEmptyWithDefault" Margin="40,2,40,2" Content="{localize:Static resx:Resources.FillEmptyWithDefault}" FontSize="12" Foreground="White" IsChecked="true"></CheckBox>
+        <Button
+            x:Name="btnConvertDump"
+            Width="auto"
+            Height="26"
+            MinWidth="100"
+            Margin="10"
+            IsEnabled="False"
+            Click="btnConvertDump_Click"
+            Content="{localize:Static resx:Resources.BtnConvert}"
+            Style="{StaticResource buttonStyle}" />
+        <Button
+            x:Name="btnCancel"
+            Width="auto"
+            Height="26"
+            MinWidth="100"
+            Margin="10"
+            Click="btnCancel_Click"
+            Content="{localize:Static resx:Resources.Close}"
+            Style="{StaticResource buttonStyle}" />
+    </StackPanel>
+
+</Window>

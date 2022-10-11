@@ -1,8 +1,4 @@
-﻿using MifareWindowsTool.Properties;
-
-using Newtonsoft.Json;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
@@ -10,9 +6,14 @@ using System.IO;
 using System.Linq;
 using System.Management;
 using System.Net.Http;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
+
+using MifareWindowsTool.Common;
+using MifareWindowsTool.DumpClasses;
+using MifareWindowsTool.Properties;
+
+using Newtonsoft.Json;
 
 namespace MCT_Windows
 {
@@ -31,12 +32,12 @@ namespace MCT_Windows
         UnlockedGen1,
         DirectCUIDgen2
     }
-    public enum DumpExists
+    public enum DumpExistenceType
     {
         None,
         Source,
         Target,
-        Both
+        Invalid
     }
     public class Win32_PnPEntity
     {
@@ -46,30 +47,22 @@ namespace MCT_Windows
     }
     public class Tools
     {
-        public static string DefaultWorkingDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-
         MediaPlayer Player = null;
         public bool lprocess = false;
         public bool running = false;
-        public string CurrentUID = "";
-        internal readonly string ConstDefaultDumpPath = "DefaultDumpPath";
-        internal readonly string ConstDefaultKeysPath = "DefaultKeyPath";
 
-        MainWindow Main { get; set; }
-        public Tools(MainWindow main)
+        public Tools()
         {
-            Main = main;
 
         }
-        public string mySourceUID { get; set; } = "";
-        public string myTargetUID { get; set; } = "";
-        public string TMPFILESOURCE_MFD { get; set; } = "";
-        public string TMPFILESOURCEPATH_MFD { get; set; } = "";
-        public string TMPFILE_TARGETMFD { get; set; } = "";
+
+        //public string TMPFILESOURCE_MFD { get; set; } = "";
+        public IDump SourceBinaryDump { get; set; } = new DumpMWT();
+        public IDump TargetBinaryDump { get; set; } = new DumpMWT();
+        //public string TMPFILESOURCEPATH_MFD { get; set; } = "";
+        //public string TMPFILE_TARGETMFD { get; set; } = "";
         public string TMPFILE_UNK { get; set; } = "";
         public string TMPFILE_FND { get; set; } = "";
-        public string DefaultDumpPath { get; set; } = Path.Combine(DefaultWorkingDir, "dumps");
-        public string DefaultKeysPath { get; set; } = Path.Combine(DefaultWorkingDir, "keys");
 
         public string GetSetting(string key)
         {
@@ -100,27 +93,27 @@ namespace MCT_Windows
 
         public string ResetKeyPath()
         {
-            DefaultKeysPath = System.IO.Path.Combine(Tools.DefaultWorkingDir, "keys");
+            DumpBase.DefaultKeysPath = System.IO.Path.Combine(DumpBase.DefaultWorkingDir, "keys");
 
-            SetSetting(ConstDefaultKeysPath, DefaultKeysPath);
-            return DefaultKeysPath;
+            SetSetting("DefaultKeysPath", DumpBase.DefaultKeysPath);
+            return DumpBase.DefaultKeysPath;
         }
         public string ChangeDefaultKeyPath()
         {
             using (var fd = new System.Windows.Forms.FolderBrowserDialog())
             {
-                fd.SelectedPath = DefaultKeysPath;
+                fd.SelectedPath = DumpBase.DefaultKeysPath;
                 System.Windows.Forms.DialogResult result = fd.ShowDialog();
 
                 if (result == System.Windows.Forms.DialogResult.OK)
                 {
-                    DefaultKeysPath = fd.SelectedPath;
+                    DumpBase.DefaultKeysPath = fd.SelectedPath;
 
-                    SetSetting(ConstDefaultKeysPath, DefaultKeysPath);
-                    return DefaultKeysPath;
+                    SetSetting("DefaultKeysPath", DumpBase.DefaultKeysPath);
+                    return DumpBase.DefaultKeysPath;
                 }
             }
-            return string.Empty;
+            return null;
         }
 
         public bool InstallLibUsbKDriver()
@@ -244,26 +237,49 @@ namespace MCT_Windows
             }
         }
 
-        public bool CheckAndUseDumpIfExists(string MFDFile, bool silentMode = false)
+        public bool CheckAndUseDumpIfExists(IDump dump, TagAction act, out bool forceReRead, bool silentMode = false)
         {
-            var path = Path.Combine(DefaultDumpPath, MFDFile);
-            if (System.IO.File.Exists(path))
+            forceReRead = false;
+            if (System.IO.File.Exists(dump.DumpFileFullName))
             {
-                long fileLength = new System.IO.FileInfo(path).Length;
+                long fileLength = new System.IO.FileInfo(dump.DumpFileFullName).Length;
                 if (fileLength == 0) return false;
                 if (!silentMode)
                 {
-                    var dr = MessageBox.Show($"{Translate.Key(nameof(MifareWindowsTool.Properties.Resources.BadgeUIDAlreadyknown))}",
-                        Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DumpExisting) + $" ({Path.GetFileName(path)}"), MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    var msg = act == TagAction.ReadTarget ? Translate.Key(nameof(MifareWindowsTool.Properties.Resources.ReadTargetMoreInfos)) + " " : "";
+                    msg += Translate.Key(nameof(MifareWindowsTool.Properties.Resources.BadgeUIDAlreadyknown));
+                    var dr = MessageBox.Show(msg, Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DumpExisting)) + $" ({dump.DumpFileName})", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    forceReRead = dr == MessageBoxResult.Yes;
                     return (dr == MessageBoxResult.No);
                 }
                 else
                     return true;
-
             }
             return false;
         }
 
+        internal string ChangeDefaultDumpPath()
+        {
+            using (var fd = new System.Windows.Forms.FolderBrowserDialog())
+            {
+                fd.SelectedPath = DumpBase.DefaultDumpPath;
+                System.Windows.Forms.DialogResult result = fd.ShowDialog();
 
+                if (result == System.Windows.Forms.DialogResult.OK)
+                {
+                    DumpBase.DefaultDumpPath = fd.SelectedPath;
+                    SetSetting("DefaultDumpPath", DumpBase.DefaultDumpPath);
+                    return DumpBase.DefaultDumpPath;
+                }
+                return null;
+            }
+        }
+
+        internal string ResetDumpPath()
+        {
+            DumpBase.DefaultDumpPath = System.IO.Path.Combine(DumpBase.DefaultWorkingDir, "dumps");
+            SetSetting("DefaultDumpPath", DumpBase.DefaultDumpPath);
+            return DumpBase.DefaultDumpPath;
+        }
     }
 }

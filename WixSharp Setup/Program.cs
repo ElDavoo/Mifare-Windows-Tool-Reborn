@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-
 using WixSharp;
 using WixSharp.CommonTasks;
 using WixSharp.Controls;
@@ -49,7 +48,7 @@ namespace WixSharp_Setup
             project.UI = WUI.WixUI_InstallDir;
             project.RemoveDialogsBetween(NativeDialogs.WelcomeDlg, NativeDialogs.InstallDirDlg);
 
-            var IconFilename = System.IO.Path.Combine(solDir, "MWT.ico");
+            var IconFilename = System.IO.Path.Combine(solDir, "MWT_square.ico");
             var desktopShortcut = new FileShortcut(selectedExe, "%Desktop%")
             {
                 Name = pName

@@ -197,10 +197,10 @@
     <value>Do you want to re-use this dump ?</value>
   </data>
   <data name="DumpExisting" xml:space="preserve">
-    <value>Dump existing</value>
+    <value>Dump file already existing</value>
   </data>
   <data name="DumpFileFilter" xml:space="preserve">
-    <value>Dump Files|*.dump;*.mfd;*.dmp;*.img|All Files|*.*</value>
+    <value>Dump Files|*.dump;*.mfd;*.dmp;*.img;*.nfc;*.txt|All Files|*.*</value>
   </data>
   <data name="DumpWindowTitle" xml:space="preserve">
     <value>Dump</value>
@@ -240,7 +240,7 @@ DUMP FILE</value>
     <value>..\Resources\MWT.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="NeedSelectDumpKeyFileSource" xml:space="preserve">
-    <value>You need to select one source dump</value>
+    <value>You need to select one source dump (MWT file format)</value>
   </data>
   <data name="NeedToSelectOneKeyFile" xml:space="preserve">
     <value>You need to select at least one key file</value>
@@ -296,9 +296,6 @@ DUMP FILE</value>
   <data name="ShowAsHex" xml:space="preserve">
     <value>Show as Hex</value>
   </data>
-  <data name="SourceDump" xml:space="preserve">
-    <value>Source dump:</value>
-  </data>
   <data name="StartCloning" xml:space="preserve">
     <value>Start Cloning</value>
   </data>
@@ -306,7 +303,7 @@ DUMP FILE</value>
     <value>started</value>
   </data>
   <data name="TargetDump" xml:space="preserve">
-    <value>Target dump:</value>
+    <value>Blank tag dump file:</value>
   </data>
   <data name="Tools" xml:space="preserve">
     <value>TOOLS / OPTIONS</value>
@@ -336,7 +333,7 @@ DUMP FILE</value>
     <value>Keys</value>
   </data>
   <data name="NeedSelectDumpKeyFileSourceAndTarget" xml:space="preserve">
-    <value>You need to select one source dump and one target dump</value>
+    <value>You must select a source MWT file and a MWT file corresponding to the target badge</value>
   </data>
   <data name="NeedSelectDumpKeyFileTarget" xml:space="preserve">
     <value>You need to select one target dump</value>
@@ -412,7 +409,7 @@ Click OK to install it</value>
   </data>
   <data name="BadgeUIDAlreadyknown" xml:space="preserve">
     <value>This tag identifier is already known by MWT. 
-Read anyway ?</value>
+Read anyway ? (If this is a new or recently modified tag on your reader, prefer 'Yes')</value>
   </data>
   <data name="lblChooseKeyFileContent" xml:space="preserve">
     <value>Select keys to access tag content</value>
@@ -449,12 +446,95 @@ After installing this driver, unplug and replug your ACR122U</value>
     <value>Append keys to existing file</value>
   </data>
   <data name="btnConvertDump" xml:space="preserve">
-    <value>Convert binary &lt;--&gt; text dump</value>
+    <value>Dump conversion</value>
   </data>
   <data name="PauseOff" xml:space="preserve">
     <value>Suspend current task</value>
   </data>
   <data name="PauseOn" xml:space="preserve">
     <value>Resume current task</value>
+  </data>
+  <data name="thisisflipperdumpfile" xml:space="preserve">
+    <value>This file looks like a Flipper Zero dump. Do you want to try to convert it automatically to MWT dump?</value>
+  </data>
+  <data name="ConvertToMctOrFlipperDump" xml:space="preserve">
+    <value>Select Yes to convert this dump to Mct Dump, Or No to convert it to Flipper Dump, Or cancel</value>
+  </data>
+  <data name="BtnConvert" xml:space="preserve">
+    <value>Convert</value>
+  </data>
+  <data name="InputDumpType" xml:space="preserve">
+    <value>Type de Dump Source</value>
+  </data>
+  <data name="OutputDumpType" xml:space="preserve">
+    <value>Convert to which type of dump?</value>
+  </data>
+  <data name="TagGensInfo" xml:space="preserve">
+    <value>Thanks to Blogmotion: https://blogmotion.fr/internet/securite/gen1-gen2-gen3-nfc-mifare-1k-18004
+
+[GENERATION 1] Modifiable UID:
+UID can be changed multiple times: yes
+All blocks can be written multiple times, including block 0
+Compatible with USB drive and libNFC: yes
+MCT compatible: yes, except block 0
+Backdoor to rewrite regardless of ACs (magic commands): yes (Gen 1a)
+Detectable as a copy: yes, because of magic commands
+
+[GENERATION 2] CUID :
+All blocks can be written multiple times, including block 0
+Compatible with USB drive and libNFC: yes
+Backdoor to rewrite regardless of ACs (magic commands): no
+Detectable as a copy : hardly (does not respond to magic commands)
+Particularity : sudden death if writing an invalid block 0
+
+[GENERATION 2] FUID :
+Block 0 can be written only once
+All blocks can be written several times, except block 0
+Special feature: protection against sudden death if invalid block 0 is written
+Backdoor to rewrite regardless of ACs (magic commands) : no
+Detectable as a copy : very difficult (does not respond to magic commands)</value>
+  </data>
+  <data name="SelectDumpForSourceTag" xml:space="preserve">
+    <value>Choose the MWT dump file corresponding to the content of the badge to be copied</value>
+  </data>
+  <data name="SelectDumpForTargetTag" xml:space="preserve">
+    <value>Choose the MWT dump file corresponding to the content of the blank badge</value>
+  </data>
+  <data name="SourceDump" xml:space="preserve">
+    <value>dump file of tag to copy:</value>
+  </data>
+  <data name="ReadTargetMoreInfos" xml:space="preserve">
+    <value>Note: before copying a badge, MWT must still know (i.e. decrypt) the badge you are going to copy to, even if it is a blank badge.</value>
+  </data>
+  <data name="SaveDump" xml:space="preserve">
+    <value>Save dump</value>
+  </data>
+  <data name="NothingToSave" xml:space="preserve">
+    <value>Nothing to save</value>
+  </data>
+  <data name="SourceAndCopyAreTheSame" xml:space="preserve">
+    <value>Source and Copy are the same</value>
+  </data>
+  <data name="WantSourceAndCopyTheSame" xml:space="preserve">
+    <value>You are about to copy identical content between the source and the target, are you sure this is what you want?
+(If not, select another source file to copy )</value>
+  </data>
+  <data name="BtnRenameKeyFileContent" xml:space="preserve">
+    <value>Rename key file</value>
+  </data>
+  <data name="InvalidCharsInFileName" xml:space="preserve">
+    <value>Invalid chars in file name</value>
+  </data>
+  <data name="NameAlreadyExisting" xml:space="preserve">
+    <value>This file name already exists</value>
+  </data>
+  <data name="ConfirmDeleteFile" xml:space="preserve">
+    <value>Are you sure you want to delete this file?</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="FillEmptyWithDefault" xml:space="preserve">
+    <value>Complete the dump with default values if the dump is partial</value>
   </data>
 </root>

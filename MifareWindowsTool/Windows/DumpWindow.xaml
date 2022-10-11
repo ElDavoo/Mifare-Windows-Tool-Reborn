@@ -14,7 +14,7 @@
     mc:Ignorable="d">
     <Grid>
         <GroupBox Header="Tag Size" FontSize="10" Height="auto" Width="auto" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,0,0" ToolTip="Size of a MIFARE Classic block:16 bytes">
-            <StackPanel Orientation="Vertical">
+            <StackPanel x:Name="stRbBlocks" Orientation="Vertical" IsEnabled="False">
                 <RadioButton x:Name="rbmini" GroupName="tagsize" Checked="RadioButton_Checked" Foreground="White" ToolTip="MIFARE Classic Mini are 320 bytes, with 5 sectors each of 4 blocks">Mini</RadioButton>
                 <RadioButton x:Name="rb1K" GroupName="tagsize" Checked="RadioButton_Checked" Foreground="White" ToolTip="Tag contains 16 sectors, each with 4 blocks." IsChecked="True">1K</RadioButton>
                 <RadioButton x:Name="rb2K" GroupName="tagsize" Checked="RadioButton_Checked" Foreground="White" ToolTip="Tag contains 32 sectors, each with 4 blocks.">2K</RadioButton>
@@ -25,27 +25,37 @@
                 x:Name="stkOpenDumps"
                 HorizontalAlignment="Center" VerticalAlignment="Top"
                 Orientation="Horizontal">
-            <Label x:Name="lblInfosA"  Margin="0,0,0,0" Foreground="White"></Label>
-            <Button Height="30"
+            <StackPanel Orientation="Vertical">
+                <Button Height="30"
                     x:Name="btnOpenDumpA"
                     Width="auto"
                     Margin="0"
+                         Padding="5"
                     Click="BtnOpenDumpA_Click"
                     Content="{localize:Static resx:Resources.btnOpenDumpAContent}"
                     Style="{StaticResource buttonStyle}" />
-            <Label x:Name="lblInfosB"  Margin="20,0,-30,0" Foreground="White"></Label>
-            <Button Height="30"
+                <Label x:Name="lblInfosA" Margin="20,0,0,0" Foreground="Yellow" FontSize="12" Content="Dump A" />
+
+            </StackPanel>
+            <StackPanel Orientation="Vertical"  Margin="30,0,0,0">
+                <Button Height="30"
                     x:Name="btnOpenDumpB"
                     Width="auto"
-                    Margin="30,0,20,0"
+                   
+                        Padding="5"
                     Click="BtnOpenDumpB_Click"
                     Content="{localize:Static resx:Resources.btnOpenDumpBContent}"
                     Style="{StaticResource buttonStyle}" />
-
+                <Label x:Name="lblInfosB" FontSize="12" Content="Dump B" Margin="20,0,0,0" Foreground="Yellow"/>
+            </StackPanel>
         </StackPanel>
 
-        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="auto" Margin="0,40,0,30">
-            <StackPanel Orientation="Horizontal"  Margin="32,0,60,70">
+        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="auto" Margin="0,60,0,30">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="62*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal"  Margin="32,0,30,70">
                 <RichTextBox Margin="5"
                 x:Name="txtOutput"
                 Width="370" 
@@ -67,12 +77,12 @@
                         </Style>
                     </RichTextBox.Resources>
                 </RichTextBox>
-                <StackPanel Orientation="Vertical" VerticalAlignment="Top" Margin="5" x:Name="spKeys">
+                <StackPanel Orientation="Vertical" VerticalAlignment="Top" Margin="5" Width="auto" x:Name="spKeys">
                     <Label Foreground="White" x:Name="lblKeys" Content="Keys from this dump" HorizontalAlignment="Left"></Label>
-                    <TextBox      ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" x:Name="txtKeys" Height="auto" Width="80" MinWidth="150" IsReadOnly="True"></TextBox>
+                    <TextBox  ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" x:Name="txtKeys" Height="auto" FontSize="13" Width="350"  IsReadOnly="True"></TextBox>
                 </StackPanel>
             </StackPanel>
-            <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" Margin="0">
+            <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" Margin="0" Grid.ColumnSpan="2">
                 <StackPanel Margin="70,0,0,0"
                 x:Name="stkInfos"
                 HorizontalAlignment="Left" 

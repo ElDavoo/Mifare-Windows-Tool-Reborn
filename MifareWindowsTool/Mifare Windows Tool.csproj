@@ -19,7 +19,7 @@
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -38,7 +38,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>MWT.ico</ApplicationIcon>
+    <ApplicationIcon>MWT_square.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -47,8 +47,8 @@
     <Reference Include="AsyncEnumerable, Version=4.0.2.0, Culture=neutral, PublicKeyToken=0426b068161bd1d1, processorArchitecture=MSIL">
       <HintPath>..\packages\AsyncEnumerator.4.0.2\lib\net461\AsyncEnumerable.dll</HintPath>
     </Reference>
-    <Reference Include="CliWrap, Version=3.4.4.0, Culture=neutral, PublicKeyToken=1c4a4fc2d6886e5a, processorArchitecture=MSIL">
-      <HintPath>..\packages\CliWrap.3.4.4\lib\net461\CliWrap.dll</HintPath>
+    <Reference Include="CliWrap, Version=3.5.0.0, Culture=neutral, PublicKeyToken=1c4a4fc2d6886e5a, processorArchitecture=MSIL">
+      <HintPath>..\packages\CliWrap.3.5.0\lib\net461\CliWrap.dll</HintPath>
     </Reference>
     <Reference Include="Gu.Localization, Version=6.7.0.0, Culture=neutral, PublicKeyToken=63b557f19697202e, processorArchitecture=MSIL">
       <HintPath>..\packages\Gu.Localization.6.7.0\lib\net45\Gu.Localization.dll</HintPath>
@@ -167,7 +167,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Common\DumpConverter.cs" />
+    <Compile Include="DumpClasses\DumpBase.cs" />
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\File.cs" />
     <Compile Include="Common\ProcessExtension.cs" />
@@ -187,6 +187,10 @@
     <Page Include="Windows\DumpWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\SelectOutputDumpTypeWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\WinInfo.xaml">
       <SubType>Designer</SubType>
@@ -214,6 +218,9 @@
     </Compile>
     <Compile Include="Common\Translate.cs" />
     <Compile Include="Common\UsbHidDevice.cs" />
+    <Compile Include="DumpClasses\DumpFlipper.cs" />
+    <Compile Include="DumpClasses\DumpMct.cs" />
+    <Compile Include="DumpClasses\DumpMWT.cs" />
     <Compile Include="Properties\Resources.fr-FR.Designer.cs">
       <DependentUpon>Resources.fr-FR.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -230,6 +237,9 @@
     </Compile>
     <Compile Include="Windows\DumpWindow.xaml.cs">
       <DependentUpon>DumpWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\SelectOutputDumpTypeWindow.xaml.cs">
+      <DependentUpon>SelectOutputDumpTypeWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\WinInfo.xaml.cs">
       <DependentUpon>WinInfo.xaml</DependentUpon>
@@ -329,6 +339,12 @@
     <Resource Include="Images\Folder Explorer-01.png" />
     <Resource Include="Images\utilities_reset.png" />
     <Resource Include="Images\donate.gif" />
+    <Resource Include="Images\small\delete.png" />
+    <Resource Include="Images\small\edit.png" />
+    <Resource Include="Images\small\rename.png" />
+    <Resource Include="Images\small\newfile.png" />
+    <Resource Include="Images\small\icons8-macos-close-64.png" />
+    <Resource Include="Images\small\checkOK.png" />
     <Content Include="keys\extended-std.keys">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -348,6 +364,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="app.manifest" />
+    <None Include="nfctools\Template_Flipper.nfc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -366,55 +385,78 @@
     <Resource Include="Images\write_tag.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="nfctools\api-ms-win-core-kernel32-legacy-l1-1-0.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools\api-ms-win-core-libraryloader-l1-2-0.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools\api-ms-win-core-localization-l1-2-0.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools\api-ms-win-core-processthreads-l1-1-1.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools\api-ms-win-core-synch-l1-2-0.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools\api-ms-win-core-timezone-l1-1-0.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools\api-ms-win-security-cryptoapi-l1-1-0.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools\libcrypto.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools\libfreefare.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools\liblzma-5.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools\libnfc.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="MWT_square.ico" />
+    <Content Include="nfc-list.exe" />
     <Content Include="nfctools\libusb0.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools\libwinpthread-1.dll">
+    <Content Include="nfctools\mfoc-hardnested.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools\mfoc_hard.exe">
+    <Content Include="nfctools\nfc-anticol.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools\msys-2.0.dll">
+    <Content Include="nfctools\nfc-barcode.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nfctools\nfc-dep-initiator.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nfctools\nfc-dep-target.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nfctools\nfc-emulate-forum-tag2.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nfctools\nfc-emulate-forum-tag4.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nfctools\nfc-emulate-tag.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nfctools\nfc-emulate-uid.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nfctools\nfc-jewel.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="nfctools\nfc-mfsetuid.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="nfctools\nfc-mfultralight.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nfctools\nfc-poll.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nfctools\nfc-read-forum-tag3.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nfctools\nfc-relay-picc.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nfctools\nfc-relay.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nfctools\nfc-scan-device.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nfctools\nfc-st25tb.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nfctools\nfc.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="nfctools\pcsc_scan.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nfctools\pn53x-diagnose.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nfctools\pn53x-sam.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nfctools\pn53x-tamashell.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\MWT.ico">
@@ -422,9 +464,6 @@
     </Content>
     <EmbeddedResource Include="MWT.ico" />
     <Content Include="nfctools\libnfc_crypto1_crack.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools\mfoc.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="nfctools\mifare-classic-format.exe">

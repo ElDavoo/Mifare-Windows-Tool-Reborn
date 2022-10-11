@@ -1,14 +1,11 @@
-﻿using Microsoft.Win32;
-
-using MifareWindowsTool.Properties;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using MifareWindowsTool.Common;
+using MifareWindowsTool.Properties;
 
 namespace MCT_Windows.Windows
 {
@@ -22,23 +19,20 @@ namespace MCT_Windows.Windows
         MainWindow Main = null;
         string FileName = "";
         SelectKeyFilesWindow Skf = null;
-        SaveFileDialog sfd = new SaveFileDialog();
-        Tools Tools { get; set; }
-        public EditKeyFileWindow(MainWindow main, Tools t, SelectKeyFilesWindow skf, string fileName = "")
+       
+        public EditKeyFileWindow(MainWindow main, SelectKeyFilesWindow skf, string fileName = "")
         {
             InitializeComponent();
             Uri iconUri = new Uri("pack://application:,,,/Resources/MWT.ico", UriKind.RelativeOrAbsolute);
             this.Icon = BitmapFrame.Create(iconUri);
             Main = main;
             Skf = skf;
-            Tools = t;
-            sfd.Filter = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.KeyFilesFilter));
-            sfd.InitialDirectory = Tools.DefaultKeysPath;
 
             if (!string.IsNullOrWhiteSpace(fileName))
             {
-                FileName = Path.Combine(Tools.DefaultKeysPath, fileName);
+                FileName = Path.Combine(DumpBase.DefaultKeysPath, fileName);
                 Data = System.IO.File.ReadAllText(FileName);
+                this.Title += $" ({fileName})";
             }
 
             else
@@ -67,10 +61,10 @@ namespace MCT_Windows.Windows
 
             if (string.IsNullOrWhiteSpace(FileName))
             {
-
-                var dr = sfd.ShowDialog();
+                var dlg = DumpBase.CreateSaveDialog(title: Translate.Key(nameof(MifareWindowsTool.Properties.Resources.SaveKeyFile)), filter: Translate.Key(nameof(MifareWindowsTool.Properties.Resources.KeyFilesFilter)), initialDir: DumpBase.DefaultKeysPath);
+                var dr = dlg.ShowDialog();
                 if (!dr.Value) return;
-                FileName = sfd.FileName;
+                FileName = dlg.FileName;
             }
 
             Data = txtOutput.Text;

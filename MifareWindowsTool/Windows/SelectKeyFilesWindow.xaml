@@ -7,8 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:resx="clr-namespace:MifareWindowsTool.Properties"
     Title="{localize:Static resx:Resources.SelectKeyFilesWindowTitle}"
-    Width="800"
-    Height="450"
+    Width="630"
+    Height="350"
     Background="#303030"
     mc:Ignorable="d">
 
@@ -16,44 +16,70 @@
         <StackPanel Orientation="Vertical">
             <ListBox
                 x:Name="lstKeys"
-                Height="300"
+                Height="160"
                 MaxHeight="300"
                 VerticalAlignment="Top"
+                HorizontalAlignment="Center"
                 Background="#303030"
                 Foreground="White"
+                Margin="5"
                 ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <ContentPresenter/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <RadioButton
-                           
-                            Foreground="White"
-                            GroupName="keys"
-                            IsChecked="{Binding IsSelected}">
+                        <RadioButton Foreground="White" Width="auto" HorizontalAlignment="Stretch" GroupName="keys" IsChecked="{Binding IsSelected}" FontSize="14" VerticalContentAlignment="Center" >
                             <RadioButton.Content>
-                                <TextBlock Text="{Binding FileName}"/>
+                                <Border BorderThickness="1" BorderBrush="gray" Width="auto" HorizontalAlignment="Stretch" >
+                                    <StackPanel Orientation="Horizontal"  >
+                                        <TextBlock Text="{Binding FileName}"  Foreground="White" Width="400" />
+                                        <Button Width="40" Height="auto" x:Name="btnEditKeyFile"  Background="Transparent"  Click="btnEditKeyFile_Click" Style="{StaticResource buttonStyle}" Cursor="Hand" Margin="1"  >
+                                            <Image ToolTip="{localize:Static resx:Resources.BtnEditKeyFileContent}"  Height="20" VerticalAlignment="Top" Source="..\Images\Small\edit.png" Stretch="Uniform" />
+                                        </Button>
+                                        <Button Width="40" Height="auto" x:Name="btnRenameKeyFile"  Background="Transparent"  Click="btnRenameKeyFile_Click" Style="{StaticResource buttonStyle}" Cursor="Hand" Margin="1"  >
+                                            <Image ToolTip="{localize:Static resx:Resources.BtnRenameKeyFileContent}"   Height="20" VerticalAlignment="Top" Source="..\Images\Small\rename.png" Stretch="Uniform" />
+                                        </Button>
+                                        <Button Width="40" Height="auto" x:Name="btnDeleteKeyFile"  Background="Transparent"  Click="btnDeleteKeyFile_Click" Style="{StaticResource buttonStyle}" Cursor="Hand"  Margin="1" >
+                                            <Image ToolTip="{localize:Static resx:Resources.BtnDeleteKeyFileContent}"   Height="20" VerticalAlignment="Top" Source="..\Images\Small\delete.png" Stretch="Uniform" />
+                                        </Button>
+                                    </StackPanel>
+                                </Border>
                             </RadioButton.Content>
                         </RadioButton>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+            <StackPanel x:Name="stRenameKeyfile" Orientation="Horizontal" Height="30" Width="500" Margin="20,2" HorizontalAlignment="Left" Visibility="Collapsed">
+                <Label Content="{localize:Static resx:Resources.BtnRenameKeyFileContent}" Foreground="White"  Background="#505050"></Label>
+                <TextBox x:Name="txtRenameKeyFile" AcceptsReturn="False" Width="300" Height="30" KeyDown="txtRenameKeyFile_KeyDown" MaxLength="150" FontSize="14" AcceptsTab="False" VerticalContentAlignment="Center" Foreground="White" Background="#303030" BorderThickness="2" BorderBrush="White"  ></TextBox>
+                <Button x:Name="btnRenameOK" Width="auto" Click="btnRenameOK_Click" Cursor="Hand">
+                    <Image ToolTip="OK"  Cursor="Hand"  Height="25"  Source="..\Images\small\checkOK.png" Stretch="UniformToFill" />
+                </Button>
+            </StackPanel>
             <Label Foreground="White" x:Name="lblKeyPath" HorizontalAlignment="Center" Content="{localize:Static resx:Resources.LabelKeysPath}"></Label>
-            <StackPanel
-        Width="auto" Margin="2"
-        HorizontalAlignment="Stretch"
-        Background="#303030"
-        Orientation="Horizontal">
+            <StackPanel Width="auto" Margin="2" HorizontalAlignment="Center" Background="#303030" Orientation="Horizontal">
                 <TextBox Margin="2"  HorizontalAlignment="Stretch"  HorizontalContentAlignment="Stretch"   Background="#303030" x:Name="txtKeysPath" 
                      Foreground="White" MinWidth="500" Width="auto"  ></TextBox>
-                <Button  Margin="10,0,0,0" Width="auto" x:Name="btnChangeDefaultKeyPath" Click="btnChangeDefaultKeyPath_Click">
-                    <StackPanel  Background="#303030" >
-                        <Image ToolTip="{localize:Static resx:Resources.Browse}"  Cursor="Hand"   
+                <Button  Margin="10,0,0,0" Width="auto" x:Name="btnChangeDefaultKeyPath" Click="btnChangeDefaultKeyPath_Click" Cursor="Hand">
+                    <StackPanel  Background="#303030">
+                        <Image ToolTip="{localize:Static resx:Resources.Browse}" 
                             Height="20" 
                             VerticalAlignment="Top"
                             Source="..\Images\Folder Explorer-01.png"
                             Stretch="Uniform" />
                     </StackPanel>
                 </Button>
-                <Button Margin="10,0,0,0"  Width="auto" x:Name="btnResetKeyPath" Click="btnResetKeyPath_Click">
+                <Button Margin="10,0,0,0"  Width="auto" x:Name="btnResetKeyPath" Click="btnResetKeyPath_Click" Cursor="Hand">
                     <StackPanel  Background="#303030" >
                         <Image ToolTip="{localize:Static resx:Resources.Reset}"  Cursor="Hand"   
                             Height="20" 
@@ -63,40 +89,29 @@
                     </StackPanel>
                 </Button>
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15,0,5">
                 <Button
-                    x:Name="btnCancel"
-                    Width="auto"
-                    Height="26"
-                    MinWidth="100"
-                    Margin="220,10,10,10"
-                    Click="btnCancel_Click"
-                    Content="{localize:Static resx:Resources.Close}"
-                    Style="{StaticResource buttonStyle}" />
-                <Button
-                    x:Name="btnEditKeyFile"
-                    Width="auto"
-                    Height="26"
-                    Margin="10"
-                    Click="btnEditKeyFile_Click"
-                    Content="{localize:Static resx:Resources.BtnEditKeyFileContent}"
-                    Style="{StaticResource buttonStyle}" />
-                <Button
-                    x:Name="btnDeleteKeyFile"
-                    Width="auto"
-                    Height="26"
-                    Margin="10"
-                    Click="btnDeleteKeyFile_Click"
-                    Content="{localize:Static resx:Resources.BtnDeleteKeyFileContent}"
-                    Style="{StaticResource buttonStyle}" />
-                <Button
+                    x:Name="btnCancel" Margin="70,2,0,2" Height="36" MinWidth="100" Background="Transparent" Click="btnCancel_Click" Style="{StaticResource buttonStyle}">
+                    <Border BorderBrush="White" BorderThickness="1">
+                        <StackPanel Orientation="Horizontal" Background="Transparent" Width="100">
+                            <Image ToolTip="{localize:Static resx:Resources.Close}" Cursor="Hand" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="..\Images\Small\icons8-macos-close-64.png" Stretch="Uniform" />
+                            <Label VerticalAlignment="Center" Content="{localize:Static resx:Resources.Close}" Background="Transparent" Foreground="White"></Label>
+                        </StackPanel>
+                    </Border>
+                </Button>
+                <Button Margin="70,2,0,2" Cursor="Hand"
                     x:Name="btnNewKeyFile"
-                    Width="auto"
-                    Height="26"
-                    Margin="10"
+                    Width="auto" Background="Transparent"
+                    Height="36"
                     Click="btnNewKeyFile_Click"
-                    Content="{localize:Static resx:Resources.BtnNewKeyFileContent}"
-                    Style="{StaticResource buttonStyle}" />
+                    Style="{StaticResource buttonStyle}">
+                    <Border BorderBrush="White" BorderThickness="1">
+                        <StackPanel Orientation="Horizontal">
+                            <Image ToolTip="{localize:Static resx:Resources.BtnNewKeyFileContent}"  Cursor="Hand" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="..\Images\Small\newfile.png" Stretch="Uniform" />
+                            <Label VerticalAlignment="Center" Content="{localize:Static resx:Resources.BtnNewKeyFileContent}" Background="Transparent" Foreground="White"></Label>
+                        </StackPanel>
+                    </Border>
+                </Button>
             </StackPanel>
         </StackPanel>
     </Grid>

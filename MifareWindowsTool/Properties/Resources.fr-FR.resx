@@ -136,10 +136,10 @@
     <value>La détection automatique de badges est arrêtée</value>
   </data>
   <data name="BtnDeleteKeyFileContent" xml:space="preserve">
-    <value>Supprimer le fichier de clés</value>
+    <value>Supprimer ce fichier de clés</value>
   </data>
   <data name="BtnEditKeyFileContent" xml:space="preserve">
-    <value>Editer le fichier de clés</value>
+    <value>Éditer ce fichier de clés</value>
   </data>
   <data name="BtnNewKeyFileContent" xml:space="preserve">
     <value>Nouveau fichier de clés</value>
@@ -193,25 +193,25 @@
     <value>Voulez-vous réutiliser ce dump ?</value>
   </data>
   <data name="DumpExisting" xml:space="preserve">
-    <value>Dump existant</value>
+    <value>Fichier de dump déjà existant</value>
   </data>
   <data name="DumpFileFilter" xml:space="preserve">
-    <value>Fichiers de Dump|*.dump;*.mfd;*.dmp;*.img|Tous les fichiers|*.*</value>
+    <value>Fichiers de Dump|*.dump;*.mfd;*.dmp;*.img;*.nfc;*.txt|Tous les fichiers|*.*</value>
   </data>
   <data name="DumpWindowTitle" xml:space="preserve">
     <value>Dump</value>
   </data>
   <data name="EditAddKeyFile" xml:space="preserve">
-    <value>EDITER/AJOUTER FICHIER DE CLES</value>
+    <value>ÉDITER/AJOUTER FICHIER DE CLES</value>
   </data>
   <data name="EditAnalyzeDumpFile" xml:space="preserve">
-    <value>EDITER/ANALYSER FICHIER DUMP</value>
+    <value>ÉDITER/ANALYSER FICHIER DUMP</value>
   </data>
   <data name="EditDump" xml:space="preserve">
-    <value>Editer</value>
+    <value>Éditer</value>
   </data>
   <data name="EditKeyFileWindowTitle" xml:space="preserve">
-    <value>Edition des fichiers de clés</value>
+    <value>Édition du fichier de clés</value>
   </data>
   <data name="FactoryFormat" xml:space="preserve">
     <value>Formatage d'usine</value>
@@ -239,10 +239,10 @@
     <value>..\Resources\MWT.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="NeedSelectDumpKeyFileSource" xml:space="preserve">
-    <value>Vous devez selectionner un fichier de dump source</value>
+    <value>Vous devez sélectionner un fichier de dump source (au format MWT)</value>
   </data>
   <data name="NeedToSelectOneKeyFile" xml:space="preserve">
-    <value>Vous devez selectionner au moins un fichier de clés</value>
+    <value>Vous devez sélectionner au moins un fichier de clés</value>
   </data>
   <data name="NewUIDFound" xml:space="preserve">
     <value>Nouvel UID détecté</value>
@@ -278,7 +278,7 @@
     <value>Enregistrer le dump sous...</value>
   </data>
   <data name="SaveKeyFile" xml:space="preserve">
-    <value>Enregistrer le dump</value>
+    <value>Enregistrer les clés</value>
   </data>
   <data name="ScanFinished" xml:space="preserve">
     <value>Détection terminée</value>
@@ -296,7 +296,7 @@
     <value>Afficher en Hexa</value>
   </data>
   <data name="SourceDump" xml:space="preserve">
-    <value>dump Source :</value>
+    <value>fichier du dump MWT du badge à copier :</value>
   </data>
   <data name="StartCloning" xml:space="preserve">
     <value>Ecrire sur le badge</value>
@@ -305,7 +305,7 @@
     <value>démarré</value>
   </data>
   <data name="TargetDump" xml:space="preserve">
-    <value>dump Cible :</value>
+    <value>fichier du dump MWT du badge vierge :</value>
   </data>
   <data name="Tools" xml:space="preserve">
     <value>OUTILS / OPTIONS</value>
@@ -323,7 +323,7 @@
     <value>Ecrire sur le badge</value>
   </data>
   <data name="WriteTag" xml:space="preserve">
-    <value>ECRIRE BADGE</value>
+    <value>ÉCRIRE BADGE</value>
   </data>
   <data name="DecryptTagTitle" xml:space="preserve">
     <value>Décryptage du badge</value>
@@ -347,7 +347,7 @@
     <value>Vous devez selectionner un fichier de dump cible</value>
   </data>
   <data name="NeedSelectDumpKeyFileSourceAndTarget" xml:space="preserve">
-    <value>Vous devez sélectionner un fichier de dump source et un fichier de dump cible</value>
+    <value>Vous devez sélectionner un fichier MWT source et un fichier MWT correspondant au badge cible </value>
   </data>
   <data name="SelectToolWindowTitle" xml:space="preserve">
     <value>Outils/Options</value>
@@ -356,7 +356,7 @@
     <value>Changer l'UID du badge</value>
   </data>
   <data name="btnCompareDumps" xml:space="preserve">
-    <value>Comparer 2 dumps</value>
+    <value>Comparaison de dumps</value>
   </data>
   <data name="InvalidDumpFile" xml:space="preserve">
     <value>Fichier de dump non valide</value>
@@ -408,7 +408,7 @@ Cliquez sur OK pour l'installer</value>
   </data>
   <data name="BadgeUIDAlreadyknown" xml:space="preserve">
     <value>L'identifiant de ce badge est déjà connu par MWT. 
-Relire quand même ?</value>
+Relire quand même ? (Si c'est un nouveau badge sur le lecteur ou un badge modifié récemment, il vaut mieux répondre 'Oui')</value>
   </data>
   <data name="UpdateAvailable" xml:space="preserve">
     <value>Mise à jour disponible</value>
@@ -447,7 +447,7 @@ La led restera éteinte mais c'est normal
     <value>Ajouter les clés à la suite d'un fichier existant</value>
   </data>
   <data name="btnConvertDump" xml:space="preserve">
-    <value>Convertir dump binaire &lt;--&gt; texte</value>
+    <value>Conversion de dumps</value>
   </data>
   <data name="thisismctdumpfile" xml:space="preserve">
     <value>Ce fichier de dump semble provenir de MCT (Mifare classic tool). Voulez-vous essayer de le convertir automatiquement vers le format de dump MWT ?</value>
@@ -457,5 +457,86 @@ La led restera éteinte mais c'est normal
   </data>
   <data name="PauseOn" xml:space="preserve">
     <value>Reprendre la tâche</value>
+  </data>
+  <data name="thisisflipperdumpfile" xml:space="preserve">
+    <value>Ce fichier de dump semble provenir d'un Flipper Zéro. Voulez-vous essayer de le convertir automatiquement vers le format de dump MWT ?</value>
+  </data>
+  <data name="ConvertToMctOrFlipperDump" xml:space="preserve">
+    <value>Choisissez Oui pour convertir ce dump en fichier Mct, ou Non pour le convertir en Dump Flipper Zéro, Ou bien annulez</value>
+  </data>
+  <data name="BtnConvert" xml:space="preserve">
+    <value>Convertir</value>
+  </data>
+  <data name="InputDumpType" xml:space="preserve">
+    <value>Type de dump source</value>
+  </data>
+  <data name="OutputDumpType" xml:space="preserve">
+    <value>Convertir en quel type de dump ?</value>
+  </data>
+  <data name="TagGensInfo" xml:space="preserve">
+    <value>Merci à Blogmotion : https://blogmotion.fr/internet/securite/gen1-gen2-gen3-nfc-mifare-1k-18004
+
+[GENERATION 1] UID Modifiable :
+UID modifiable plusieurs fois : oui
+Tous les blocs peuvent être écrits plusieurs fois, y compris le bloc 0
+Compatible avec un lecteur USB et libNFC : oui
+Compatible avec MCT : oui, excepté le bloc 0
+Backdoor pour réécrire sans tenir compte des ACs  (magic commands) : oui (Gen 1a)
+Détectable comme copie : oui, à cause des commandes magiques
+
+[GENERATION 2] CUID :
+Tous les blocs peuvent être écrits plusieurs fois, y compris le bloc 0
+Compatible avec un lecteur USB et libNFC : oui
+Backdoor pour réécrire sans tenir compte des ACs  (magic commands) : non
+Détectable comme copie : difficilement (ne répond pas aux commandes magiques)
+Particularité : mort subite si écriture d'un bloc 0 invalide
+
+[GENERATION 2] FUID :
+Le block 0 peut être écrit une seule fois
+Tous les blocs peuvent être écrits plusieurs fois, sauf le bloc 0
+Particularité : protection contre la mort subite si écriture d'un bloc 0 invalide
+Backdoor pour réécrire sans tenir compte des ACs  (magic commands) : non
+Détectable comme copie : très difficilement (ne répond pas aux commandes magiques)
+</value>
+  </data>
+  <data name="SelectDumpForSourceTag" xml:space="preserve">
+    <value>Choisir le fichier dump MWT correspondant au contenu du badge à copier</value>
+  </data>
+  <data name="SelectDumpForTargetTag" xml:space="preserve">
+    <value>Choisir le fichier dump MWT correspondant au contenu du badge vierge</value>
+  </data>
+  <data name="ReadTargetMoreInfos" xml:space="preserve">
+    <value>Remarque : avant de copier un badge, MWT doit quand même connaître (donc décrypter) le badge sur lequel vous allez copier, même si c'est un badge vierge.</value>
+  </data>
+  <data name="SaveDump" xml:space="preserve">
+    <value>Enregistrer le dump</value>
+  </data>
+  <data name="NothingToSave" xml:space="preserve">
+    <value>Rien à enregistrer</value>
+  </data>
+  <data name="SourceAndCopyAreTheSame" xml:space="preserve">
+    <value>Source et cible identiques</value>
+  </data>
+  <data name="WantSourceAndCopyTheSame" xml:space="preserve">
+    <value>Vous vous apprêtez à copier un contenu identique entre la source et la cible, êtes-vous sûr que c'est ce que voulez ?
+(Dans le cas contraire, sélectionnez un autre fichier source à copier)</value>
+  </data>
+  <data name="BtnRenameKeyFileContent" xml:space="preserve">
+    <value>Renommer ce fichier de clés</value>
+  </data>
+  <data name="InvalidCharsInFileName" xml:space="preserve">
+    <value>caractères invalides dans le nom du fichier</value>
+  </data>
+  <data name="NameAlreadyExisting" xml:space="preserve">
+    <value>Ce nom de fichier existe déjà</value>
+  </data>
+  <data name="ConfirmDeleteFile" xml:space="preserve">
+    <value>Êtes-vous sûr de vouloir supprimer ce fichier ?</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Attention</value>
+  </data>
+  <data name="FillEmptyWithDefault" xml:space="preserve">
+    <value>Compléter le dump avec des valeurs par défaut si le dump est partiel</value>
   </data>
 </root>

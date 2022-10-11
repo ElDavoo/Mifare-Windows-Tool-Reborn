@@ -4,10 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-
-using Microsoft.Win32;
-
-using MifareWindowsTool.Properties;
+using MifareWindowsTool.Common;
 
 namespace MCT_Windows.Windows
 {
@@ -16,12 +13,9 @@ namespace MCT_Windows.Windows
     /// </summary>
     public partial class EditDumpWindow : Window
     {
-        public Tools Tools { get; }
         public string FileNamePath { get; set; }
-        SaveFileDialog sfd = new SaveFileDialog();
-        OpenFileDialog ofd = new OpenFileDialog();
 
-        public EditDumpWindow(Tools t, string fileName)
+        public EditDumpWindow(string fileName)
         {
 
             InitializeComponent();
@@ -29,18 +23,12 @@ namespace MCT_Windows.Windows
             he.FileName = fileName;
             Uri iconUri = new Uri("pack://application:,,,/Resources/MWT.ico", UriKind.RelativeOrAbsolute);
             this.Icon = BitmapFrame.Create(iconUri);
-            var initialDumpDir = t.DefaultDumpPath;
-            sfd.Filter = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DumpFileFilter));
-            sfd.InitialDirectory = initialDumpDir;
-            sfd.FileName = Path.GetFileName(fileName);
-            ofd.Filter = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DumpFileFilter));
-            ofd.InitialDirectory = initialDumpDir;
-            Tools = t;
+          
             he.Foreground = Brushes.White;
             he.ForegroundSecondColor = Brushes.Orange;
             //to avoir freeze on HexEditor
             he.IsAutoRefreshOnResize = false;
-            
+
 
         }
         private void btnSaveDump_Click(object sender, RoutedEventArgs e)
@@ -52,6 +40,7 @@ namespace MCT_Windows.Windows
         {
             try
             {
+                var sfd = DumpBase.CreateSaveDialog(fileName: Path.GetFileName(he.FileName));
                 var dr = sfd.ShowDialog();
                 if (dr.Value)
                 {
@@ -100,6 +89,7 @@ namespace MCT_Windows.Windows
 
         private void btnOpenDump_Click(object sender, RoutedEventArgs e)
         {
+            var ofd = DumpBase.CreateOpenDialog();
             var dr = ofd.ShowDialog();
             if (dr.Value)
             {

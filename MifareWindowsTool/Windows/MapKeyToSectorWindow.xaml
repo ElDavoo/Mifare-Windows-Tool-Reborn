@@ -16,31 +16,35 @@
     mc:Ignorable="d">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="98*" />
-            <ColumnDefinition Width="225*" />
+            <ColumnDefinition Width="128*" />
+            <ColumnDefinition Width="205*" />
         </Grid.ColumnDefinitions>
-        <Button
-            x:Name="btnCancel"
+        <Button x:Name="btnStartMappingAndReadTag" 
+             Grid.Column="0"
             Width="auto"
             Height="26"
-            MinWidth="100"
-            Margin="20,0,0,20"
+          Margin="20,0,0,20"
             HorizontalAlignment="Left"
-            VerticalAlignment="Bottom"
-            Click="btnCancel_Click"
-            Content="{localize:Static resx:Resources.Cancel}"
-            Style="{StaticResource buttonStyle}" />
-        <Button
-            x:Name="btnStartMappingAndReadTag"
-            Grid.Column="1"
-            Width="auto"
+            VerticalAlignment="Bottom" Background="Transparent" Click="btnStartMappingAndReadTag_Click" Style="{StaticResource buttonStyle}">
+            <Border BorderBrush="White" BorderThickness="1">
+                <StackPanel Orientation="Horizontal" Background="Transparent" Width="auto">
+                    <Image ToolTip="{localize:Static resx:Resources.btnStartMappingAndReadTagContent}" Cursor="Hand" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="..\Images\Small\icons8-macos-close-64.png" Stretch="Uniform" />
+                    <Label VerticalAlignment="Center" Content="{localize:Static resx:Resources.btnStartMappingAndReadTagContent}" HorizontalAlignment="Right" Background="Transparent" Foreground="White"></Label>
+                </StackPanel>
+            </Border>
+        </Button>
+        <Button x:Name="btnCancel"  Width="auto"  Grid.Column="1"
             Height="26"
-            Margin="0,0,20,20"
+                  Margin="0,0,30,20"
             HorizontalAlignment="Right"
-            VerticalAlignment="Bottom"
-            Click="btnStartMappingAndReadTag_Click"
-            Content="{localize:Static resx:Resources.btnStartMappingAndReadTagContent}"
-            Style="{StaticResource buttonStyle}" />
+            VerticalAlignment="Bottom" Background="Transparent" Click="btnCancel_Click" Style="{StaticResource buttonStyle}">
+            <Border BorderBrush="White" BorderThickness="1">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Background="Transparent" Width="100">
+                    <Image ToolTip="{localize:Static resx:Resources.Cancel}" Cursor="Hand" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="..\Images\Small\icons8-macos-close-64.png" Stretch="Uniform" />
+                    <Label VerticalAlignment="Center" Content="{localize:Static resx:Resources.Cancel}" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Foreground="White"></Label>
+                </StackPanel>
+            </Border>
+        </Button>
         <uc:ucListKeys x:Name="ucLK" Height="180" />
         <GroupBox Grid.Column="1" Header="Advanced" Margin="10,30,10,0" Foreground="White" Height="150">
             <StackPanel Orientation="Vertical">

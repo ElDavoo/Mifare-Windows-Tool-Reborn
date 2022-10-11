@@ -1,21 +1,11 @@
-﻿using MifareWindowsTool.Properties;
-
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using MifareWindowsTool.Common;
+using MifareWindowsTool.Properties;
 
 namespace MCT_Windows
 {
@@ -38,7 +28,7 @@ namespace MCT_Windows
             Title += $" {titleContent}";
             Uri iconUri = new Uri("pack://application:,,,/Resources/MWT.ico", UriKind.RelativeOrAbsolute);
             this.Icon = BitmapFrame.Create(iconUri);
-            foreach (var f in Directory.GetFiles(tools.DefaultKeysPath, "*.keys", SearchOption.AllDirectories))
+            foreach (var f in Directory.GetFiles(DumpBase.DefaultKeysPath, "*.keys", SearchOption.AllDirectories))
             {
                 var fName = System.IO.Path.GetFileName(f);
                 ucLK.lstKeys.Items.Add(new MCTFile()

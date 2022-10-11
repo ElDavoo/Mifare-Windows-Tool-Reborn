@@ -12,145 +12,142 @@
     Background="#303030"
     WindowStyle="SingleBorderWindow"
     mc:Ignorable="d">
-
     <Grid>
-        <StackPanel
+        <StackPanel Background="#545356"
             Width="255"
             HorizontalAlignment="Left"
-            Orientation="Vertical">
+            Orientation="Vertical" >
             <StackPanel Width="auto" Orientation="Horizontal">
-                <Button
+                <Border Style="{StaticResource mainButtonBorder}">
+                    <Button
                     x:Name="btnReadTag"
-                    Width="125"
-                    Height="100"
                     Background="#5A595B"
-                    BorderBrush="White"
-                    BorderThickness="1"
                     Click="btnReadTag_Click"
-                    Cursor="Hand">
-                    <StackPanel>
-                        <Image
-                            Height="80"
+                     Style="{StaticResource buttonStyle}" >
+                        <StackPanel >
+                            <Image 
+                            Height="auto"
                             VerticalAlignment="Top"
                             Source="..\Images\read_tag.png"
-                            Stretch="Uniform" />
-                        <TextBlock
+                            Stretch="UniformToFill" />
+                            <TextBlock
                             HorizontalAlignment="Center"
                             Foreground="White"
                             Text="{localize:Static resx:Resources.ReadTag}" />
-                    </StackPanel>
-                </Button>
-                <Button
+                        </StackPanel>
+                    </Button>
+                </Border>
+                <Border Style="{StaticResource mainButtonBorder}">
+                    <Button
                     x:Name="btnWriteTag"
-                    Width="125"
-                    Height="100"
                     Background="#5A595B"
-                    BorderBrush="White"
-                    BorderThickness="1"
-                    Click="btnWriteTag_Click"
-                    Cursor="Hand">
-                    <StackPanel>
-                        <Image
+                     Style="{StaticResource buttonStyle}" 
+                    Click="btnWriteTag_Click">
+                        <StackPanel >
+                            <Image
                             Height="auto"
                             VerticalAlignment="Top"
                             Source="..\Images\write_tag.png"
-                            Stretch="Uniform" />
-                        <TextBlock
+                            Stretch="UniformToFill" />
+                            <TextBlock
                             HorizontalAlignment="Center"
                             Foreground="White"
                             Text="{localize:Static resx:Resources.WriteTag}" />
-                    </StackPanel>
-                </Button>
+                        </StackPanel>
+                    </Button>
+                </Border>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Button
+                <Border Style="{StaticResource mainButtonBorder}"
+                        Width="125"
+                    Height="100">
+                    <Button
                     x:Name="btnEditDumpFile"
-                    Width="125"
-                    Height="100"
+                     Style="{StaticResource buttonStyle}" 
                     Background="#5A595B"
-                    BorderBrush="White"
-                    BorderThickness="1"
-                    Click="btnEditDumpFile_Click"
-                    Cursor="Hand">
-                    <StackPanel>
-                        <Image
+                    Click="btnEditDumpFile_Click">
+                        <StackPanel>
+                            <Image
                             Height="60"
                             VerticalAlignment="Top"
                             Source="..\Images\edit_analyse_dump_file.png"
-                            Stretch="Uniform" />
-                        <TextBlock
-                            HorizontalAlignment="Center"
+                            Stretch="UniformToFill" />
+                            <TextBlock
+                            HorizontalAlignment="Center" 
                             Foreground="White"
                             Text="{localize:Static resx:Resources.EditAnalyzeDumpFile}"
                             TextWrapping="WrapWithOverflow" />
-                    </StackPanel>
-                </Button>
-                <Button
+                        </StackPanel>
+                    </Button>
+                </Border>
+                <Border Style="{StaticResource mainButtonBorder}"
+                        Width="125"
+                    Height="100">
+                    <Button
                     x:Name="btnEditAddKeyFile"
-                    Width="125"
-                    Height="100"
                     Background="#5A595B"
-                    BorderBrush="White"
-                    BorderThickness="1"
                     Click="btnEditAddKeyFile_Click"
-                    Cursor="Hand">
-                    <StackPanel>
-                        <Image
-                            Height="70"
+                    Style="{StaticResource buttonStyle}" >
+                        <StackPanel>
+                            <Image
+                            Height="60"
                             VerticalAlignment="Top"
                             Source="..\Images\edit_add_keyfile.png"
-                            Stretch="Uniform" />
-                        <TextBlock
+                            Stretch="UniformToFill" />
+                            <TextBlock
                             HorizontalAlignment="Center"
                             Foreground="White"
                             Text="{localize:Static resx:Resources.EditAddKeyFile}"
                             TextWrapping="WrapWithOverflow" />
-                    </StackPanel>
-                </Button>
+                        </StackPanel>
+                    </Button>
+                </Border>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Button
+                <Border Style="{StaticResource mainButtonBorder}"
+                        Width="125"
+                    Height="100">
+                    <Button
                     x:Name="btnTools"
-                    Width="125"
-                    Height="100"
                     Background="#5A595B"
                     BorderBrush="White"
+                     Style="{StaticResource buttonStyle}" 
                     BorderThickness="1"
-                    Click="btnTools_Click"
-                    Cursor="Hand">
-                    <StackPanel>
-                        <Image
+                    Click="btnTools_Click">
+                        <StackPanel>
+                            <Image
                             Height="auto"
                             VerticalAlignment="Top"
                             Source="..\Images\tools.png"
-                            Stretch="Uniform" />
-                        <TextBlock
+                            Stretch="UniformToFill" />
+                            <TextBlock
                             HorizontalAlignment="Center"
                             Foreground="White"
                             Text="{localize:Static resx:Resources.Tools}" />
-                    </StackPanel>
-                </Button>
-                <Button
+                        </StackPanel>
+                    </Button>
+                </Border>
+                <Border Style="{StaticResource mainButtonBorder}"
+                        Width="125"
+                    Height="100">
+                    <Button
                     x:Name="btnInfos"
-                    Width="125"
-                    Height="100"
                     Background="#5A595B"
-                    BorderBrush="White"
-                    BorderThickness="1"
-                    Click="btnInfos_Click"
-                    Cursor="Hand">
-                    <StackPanel>
-                        <Image
+                     Style="{StaticResource buttonStyle}" 
+                    Click="btnInfos_Click">
+                        <StackPanel>
+                            <Image
                             Height="auto"
                             VerticalAlignment="Top"
                             Source="..\Images\help_and_info.png"
-                            Stretch="Uniform" />
-                        <TextBlock
+                            Stretch="UniformToFill" />
+                            <TextBlock
                             HorizontalAlignment="Center"
                             Foreground="White"
                             Text="{localize:Static resx:Resources.HelpAndInfo}" />
-                    </StackPanel>
-                </Button>
+                        </StackPanel>
+                    </Button>
+                </Border>
             </StackPanel>
             <CheckBox
                 x:Name="ckEnablePeriodicTagScan"

@@ -172,6 +172,23 @@
                                     GroupName="tags" />
                             </StackPanel>
                         </GroupBox>
+                        <Button x:Name="btnTagGensInfo" Click="btnTagGensInfo_Click" Height="20"  VerticalAlignment="Top" Margin="0,12,0,0">
+                            <Image
+                            Height="auto"
+                            Width="auto"
+                            Source="..\Images\help_and_info.png"
+                            Stretch="Uniform">
+                                <Image.ToolTip>
+                                    <RichTextBox Name="rtbTagGensInfo" IsDocumentEnabled="True" Width="550">
+                                        <FlowDocument>
+                                            <Paragraph>
+                                                <Run Text="{localize:Static resx:Resources.TagGensInfo}" />
+                                            </Paragraph>
+                                        </FlowDocument>
+                                    </RichTextBox>
+                                </Image.ToolTip>
+                            </Image>
+                        </Button>
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
@@ -205,23 +222,24 @@
                 </StackPanel>
             </GroupBox>
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+               
+                <Button
+                    x:Name="btnWriteDump"
+                    Width="auto"
+                    Height="26" FontWeight="Bold"
+                    MinWidth="120"
+                    Margin="10"
+                    Click="btnWriteDump_Click"
+                    Content="{localize:Static resx:Resources.BtnWriteDumpContent}"
+                    Style="{StaticResource buttonStyle}" />
                 <Button
                     x:Name="btnCancel"
                     Width="auto"
                     Height="26"
                     MinWidth="100"
-                    Margin="40,0"
+                    Margin="40,10,10,10"
                     Click="btnCancel_Click"
                     Content="{localize:Static resx:Resources.Cancel}"
-                    Style="{StaticResource buttonStyle}" />
-                <Button
-                    x:Name="btnWriteDump"
-                    Width="auto"
-                    Height="26" FontWeight="Bold"
-                    MinWidth="100"
-                    Margin="10"
-                    Click="btnWriteDump_Click"
-                    Content="{localize:Static resx:Resources.BtnWriteDumpContent}"
                     Style="{StaticResource buttonStyle}" />
             </StackPanel>
         </StackPanel>

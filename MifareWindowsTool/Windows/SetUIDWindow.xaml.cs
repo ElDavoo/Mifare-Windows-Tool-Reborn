@@ -1,22 +1,13 @@
-﻿using CliWrap;
+﻿using System;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Media.Imaging;
+
+using CliWrap;
 
 using MifareWindowsTool.Common;
 using MifareWindowsTool.Properties;
-
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace MCT_Windows.Windows
 {
@@ -25,19 +16,16 @@ namespace MCT_Windows.Windows
     /// </summary>
     public partial class SetUIDWindow : Window
     {
-        Tools tools = null;
+        Tools Tools = null;
         MainWindow Main = null;
         public SetUIDWindow(MainWindow mainw, Tools t)
         {
-            tools = t;
+            Tools = t;
             Main = mainw;
             InitializeComponent();
             Uri iconUri = new Uri("pack://application:,,,/Resources/MWT.ico", UriKind.RelativeOrAbsolute);
             this.Icon = BitmapFrame.Create(iconUri);
-
         }
-
-
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -71,19 +59,21 @@ namespace MCT_Windows.Windows
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(tools.myTargetUID))
+            var uid = "";
+            if (Tools.TargetBinaryDump == null || string.IsNullOrWhiteSpace(Tools.TargetBinaryDump.StrDumpUID))
             {
                 Main.ScanCTS = new System.Threading.CancellationTokenSource();
-                var uid = await Main.RunNfcListAsync();
 
+                uid = await Main.RunNfcListAsync();
                 if (string.IsNullOrWhiteSpace(uid))
                 {
                     MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NoTagDetectedOnReader)));
+                    this.Close();
                 }
                 else
                     txtOldUID.Text = uid;
             }
-
+            btnSetUID.IsEnabled = !string.IsNullOrWhiteSpace(uid);
         }
     }
 }

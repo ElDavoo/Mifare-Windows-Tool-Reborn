@@ -143,7 +143,7 @@ namespace MifareWindowsTool.Properties {
         
         /// <summary>
         ///   Recherche une chaîne localisée semblable à This tag identifier is already known by MWT. 
-        ///Read anyway ?.
+        ///Read anyway ? (If this is a new or recently modified tag on your reader, prefer &apos;Yes&apos;).
         /// </summary>
         public static string BadgeUIDAlreadyknown {
             get {
@@ -189,7 +189,16 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Convert binary &lt;--&gt; text dump.
+        ///   Recherche une chaîne localisée semblable à Convert.
+        /// </summary>
+        public static string BtnConvert {
+            get {
+                return ResourceManager.GetString("BtnConvert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Dump conversion.
         /// </summary>
         public static string btnConvertDump {
             get {
@@ -248,6 +257,15 @@ namespace MifareWindowsTool.Properties {
         public static string btnReinstallLibUsbK {
             get {
                 return ResourceManager.GetString("btnReinstallLibUsbK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Rename key file.
+        /// </summary>
+        public static string BtnRenameKeyFileContent {
+            get {
+                return ResourceManager.GetString("BtnRenameKeyFileContent", resourceCulture);
             }
         }
         
@@ -351,6 +369,24 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Are you sure you want to delete this file?.
+        /// </summary>
+        public static string ConfirmDeleteFile {
+            get {
+                return ResourceManager.GetString("ConfirmDeleteFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Select Yes to convert this dump to Mct Dump, Or No to convert it to Flipper Dump, Or cancel.
+        /// </summary>
+        public static string ConvertToMctOrFlipperDump {
+            get {
+                return ResourceManager.GetString("ConvertToMctOrFlipperDump", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Decrypt tag.
         /// </summary>
         public static string DecryptTagTitle {
@@ -408,7 +444,7 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Dump existing.
+        ///   Recherche une chaîne localisée semblable à Dump file already existing.
         /// </summary>
         public static string DumpExisting {
             get {
@@ -417,7 +453,7 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Dump Files|*.dump;*.mfd;*.dmp;*.img|All Files|*.*.
+        ///   Recherche une chaîne localisée semblable à Dump Files|*.dump;*.mfd;*.dmp;*.img;*.nfc;*.txt|All Files|*.*.
         /// </summary>
         public static string DumpFileFilter {
             get {
@@ -499,6 +535,15 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Complete the dump with default values if the dump is partial.
+        /// </summary>
+        public static string FillEmptyWithDefault {
+            get {
+                return ResourceManager.GetString("FillEmptyWithDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à finished.
         /// </summary>
         public static string Finished {
@@ -552,6 +597,24 @@ namespace MifareWindowsTool.Properties {
         public static string InfoMessageTagToReadAndDecode {
             get {
                 return ResourceManager.GetString("InfoMessageTagToReadAndDecode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Type de Dump Source.
+        /// </summary>
+        public static string InputDumpType {
+            get {
+                return ResourceManager.GetString("InputDumpType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Invalid chars in file name.
+        /// </summary>
+        public static string InvalidCharsInFileName {
+            get {
+                return ResourceManager.GetString("InvalidCharsInFileName", resourceCulture);
             }
         }
         
@@ -638,7 +701,16 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à You need to select one source dump.
+        ///   Recherche une chaîne localisée semblable à This file name already exists.
+        /// </summary>
+        public static string NameAlreadyExisting {
+            get {
+                return ResourceManager.GetString("NameAlreadyExisting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à You need to select one source dump (MWT file format).
         /// </summary>
         public static string NeedSelectDumpKeyFileSource {
             get {
@@ -647,7 +719,7 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à You need to select one source dump and one target dump.
+        ///   Recherche une chaîne localisée semblable à You must select a source MWT file and a MWT file corresponding to the target badge.
         /// </summary>
         public static string NeedSelectDumpKeyFileSourceAndTarget {
             get {
@@ -719,6 +791,15 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Nothing to save.
+        /// </summary>
+        public static string NothingToSave {
+            get {
+                return ResourceManager.GetString("NothingToSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Old UID.
         /// </summary>
         public static string OldUID {
@@ -733,6 +814,15 @@ namespace MifareWindowsTool.Properties {
         public static string OpenDump {
             get {
                 return ResourceManager.GetString("OpenDump", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Convert to which type of dump?.
+        /// </summary>
+        public static string OutputDumpType {
+            get {
+                return ResourceManager.GetString("OutputDumpType", resourceCulture);
             }
         }
         
@@ -809,11 +899,29 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Note: before copying a badge, MWT must still know (i.e. decrypt) the badge you are going to copy to, even if it is a blank badge..
+        /// </summary>
+        public static string ReadTargetMoreInfos {
+            get {
+                return ResourceManager.GetString("ReadTargetMoreInfos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Reset.
         /// </summary>
         public static string Reset {
             get {
                 return ResourceManager.GetString("Reset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Save dump.
+        /// </summary>
+        public static string SaveDump {
+            get {
+                return ResourceManager.GetString("SaveDump", resourceCulture);
             }
         }
         
@@ -859,6 +967,24 @@ namespace MifareWindowsTool.Properties {
         public static string Sector {
             get {
                 return ResourceManager.GetString("Sector", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Choose the MWT dump file corresponding to the content of the badge to be copied.
+        /// </summary>
+        public static string SelectDumpForSourceTag {
+            get {
+                return ResourceManager.GetString("SelectDumpForSourceTag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Choose the MWT dump file corresponding to the content of the blank badge.
+        /// </summary>
+        public static string SelectDumpForTargetTag {
+            get {
+                return ResourceManager.GetString("SelectDumpForTargetTag", resourceCulture);
             }
         }
         
@@ -917,7 +1043,16 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Source dump:.
+        ///   Recherche une chaîne localisée semblable à Source and Copy are the same.
+        /// </summary>
+        public static string SourceAndCopyAreTheSame {
+            get {
+                return ResourceManager.GetString("SourceAndCopyAreTheSame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à dump file of tag to copy:.
         /// </summary>
         public static string SourceDump {
             get {
@@ -953,6 +1088,26 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Thanks to Blogmotion: https://blogmotion.fr/internet/securite/gen1-gen2-gen3-nfc-mifare-1k-18004
+        ///
+        ///[GENERATION 1] Modifiable UID:
+        ///UID can be changed multiple times: yes
+        ///All blocks can be written multiple times, including block 0
+        ///Compatible with USB drive and libNFC: yes
+        ///MCT compatible: yes, except block 0
+        ///Backdoor to rewrite regardless of ACs (magic commands): yes (Gen 1a)
+        ///Detectable as a copy: yes, because of magic commands
+        ///
+        ///[GENERATION 2] CUID :
+        ///All blocks can be written multiple times, includin [le reste de la chaîne a été tronqué]&quot;;.
+        /// </summary>
+        public static string TagGensInfo {
+            get {
+                return ResourceManager.GetString("TagGensInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Tag Type.
         /// </summary>
         public static string TagType {
@@ -971,11 +1126,20 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Target dump:.
+        ///   Recherche une chaîne localisée semblable à Blank tag dump file:.
         /// </summary>
         public static string TargetDump {
             get {
                 return ResourceManager.GetString("TargetDump", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à This file looks like a Flipper Zero dump. Do you want to try to convert it automatically to MWT dump?.
+        /// </summary>
+        public static string thisisflipperdumpfile {
+            get {
+                return ResourceManager.GetString("thisisflipperdumpfile", resourceCulture);
             }
         }
         
@@ -1031,6 +1195,25 @@ namespace MifareWindowsTool.Properties {
         public static string UseInstallDriverIf {
             get {
                 return ResourceManager.GetString("UseInstallDriverIf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à You are about to copy identical content between the source and the target, are you sure this is what you want?
+        ///(If not, select another source file to copy ).
+        /// </summary>
+        public static string WantSourceAndCopyTheSame {
+            get {
+                return ResourceManager.GetString("WantSourceAndCopyTheSame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Warning.
+        /// </summary>
+        public static string Warning {
+            get {
+                return ResourceManager.GetString("Warning", resourceCulture);
             }
         }
         
