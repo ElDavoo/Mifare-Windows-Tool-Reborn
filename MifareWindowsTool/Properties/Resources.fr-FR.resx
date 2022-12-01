@@ -393,7 +393,7 @@
   </data>
   <data name="DriverACR122NotInstalled" xml:space="preserve">
     <value>Le pilote du lecteur ACR122U ne semble pas installé.
-Cliquez sur OK pour être redirigés vers la page de téléchargement.
+Cliquez sur OK pour être redirigé vers la page de téléchargement.
 Installez la dernière version du pilote 'MSI Installer for PC / SC Driver'</value>
   </data>
   <data name="DriverLibUsbKNonInstalled" xml:space="preserve">

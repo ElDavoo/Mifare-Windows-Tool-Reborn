@@ -111,7 +111,6 @@ namespace MCT_Windows.Windows
 
         private void OpenDump(ref IDump dmp, Button btn, Label lbl, string whichDump)
         {
-
             try
             {
                 var txtOpenDump = $"{Translate.Key(nameof(MifareWindowsTool.Properties.Resources.OpenDump))} {whichDump}";

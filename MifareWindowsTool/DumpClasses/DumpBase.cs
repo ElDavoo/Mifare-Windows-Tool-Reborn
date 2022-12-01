@@ -22,15 +22,9 @@ namespace MifareWindowsTool.Common
     {
         NotSet, Mct, MWT, Flipper
     }
-    public enum CardType
-    {
-        MifareMini, Mifare1K, Mifare2K, Mifare4K, Unknown
-    }
     public interface IDump
     {
         string DumpFileFullName { get; set; }
-
-        CardType CardType { get; set; }
         string DumpFileNameWithoutExt { get; }
         string DumpFileName { get; }
         string StrDumpUID { get; set; }
@@ -40,8 +34,9 @@ namespace MifareWindowsTool.Common
         void CompareTo(IDump dump, RichTextBox rtb);
         string ShowHexAndAddDumpKeys(RichTextBox txtOutput);
         void ShowAscii(RichTextBox txtOutput);
-        int SectorCount { get; }
+        int SectorCount { get; set; }
         int BlockSplit { get; set; }
+        int BlockSize { get; }
         string StrDumpType { get; }
         string DefaultDumpExtension { get; set; }
         bool IsValid { get; }
@@ -55,29 +50,29 @@ namespace MifareWindowsTool.Common
         string TextData { get; set; }
         List<string> LstTextData { get; }
         List<byte[]> DataBlocks { get; }
+        List<byte[]> DataLines { get; }
     }
     public class Data : IData
     {
         byte[][] BufferSplit(byte[] buffer, int blockSize)
         {
-            var blocksBySector = blockSize * 4;
-
             if (buffer == null || buffer.Length == 0)
             {
                 return new byte[0][];
             }
-            byte[][] blocks = new byte[(buffer.Length + blocksBySector - 1) / blocksBySector][];
+            byte[][] blocks = new byte[(buffer.Length + blockSize - 1) / blockSize][];
 
-            for (int i = 0, j = 0; i < blocks.Length; i++, j += blocksBySector)
+            for (int i = 0, j = 0; i < blocks.Length; i++, j += blockSize)
             {
-                blocks[i] = new byte[Math.Min(blocksBySector, buffer.Length - j)];
+                blocks[i] = new byte[Math.Min(blockSize, buffer.Length - j)];
                 Array.Copy(buffer, j, blocks[i], 0, blocks[i].Length);
             }
 
             return blocks;
         }
         public byte[] HexData { get; set; }
-        public List<byte[]> DataBlocks => BufferSplit(HexData, DumpBase.BlockSize).ToList();
+        public List<byte[]> DataBlocks => BufferSplit(HexData, 16 * 4).ToList();
+        public List<byte[]> DataLines => DataBlocks.SelectMany(d => BufferSplit(d, 16)).ToList();
         public string TextData { get; set; }
         public List<string> LstTextData => TextData.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None).ToList();
         public virtual bool IsValidForThisType { get; }
@@ -85,41 +80,11 @@ namespace MifareWindowsTool.Common
 
     public abstract class DumpBase : IDump
     {
-        public string StrDumpUID { get; set; }
-        public List<string> DumpKeys { get; set; } = new List<string>();
-        public string DumpFileFullName { get; set; }
-        public IData DumpData { get; set; } = new Data();
-        public string DumpFileNameWithoutExt => Path.GetFileNameWithoutExtension(DumpFileFullName);
-        public string DumpFileName => Path.GetFileName(DumpFileFullName);
-        public string StrDumpType => this.GetType().Name.Replace("Dump", "");
-        public virtual string DefaultDumpExtension { get; set; }
-        public virtual bool IsValid => !string.IsNullOrWhiteSpace(DumpFileFullName) && System.IO.File.Exists(DumpFileFullName) && new System.IO.FileInfo(DumpFileFullName).Length > 0;
-        public abstract DumpType DumpType { get; }
-        public CardType CardType { get; set; }
-
         static byte[] DefaultBytesBLockToAppend = StringToByteArray("000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFFFFFFFFFF078069FFFFFFFFFFFF");
-        public const int BlockSize = 16;
-        public int SectorCount => GetSectorSize();
-
-        private int GetSectorSize()
-        {
-            if (this.DumpData?.HexData == null)
-            {
-                this.CardType = CardType.Unknown;
-                return 0;
-            }
-            switch (this.DumpData.HexData.Length)
-            {
-                case 320: this.CardType = CardType.MifareMini; return 5;
-                case 1024: this.CardType = CardType.Mifare1K; return 16;
-                case 2048: this.CardType = CardType.Mifare2K; return 32;
-                case 4096: this.CardType = CardType.Mifare4K; return 40;
-                default: this.CardType = CardType.Unknown; return 0;
-            }
-        }
+        public int BlockSize => 16;
         public static string CurrentUID { get; set; }
         public int BlockSplit { get; set; } = 8;
-        Brush PaleBlueBrush = new SolidColorBrush(Color.FromArgb(255, (byte)0x60, (byte)0x8D, (byte)0x88));
+      
         Brush VioletBrush = new SolidColorBrush(Color.FromArgb(255, (byte)0x95, (byte)0x33, (byte)0xF9));
         public static string DefaultWorkingDir => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         public static string DefaultNfcToolsPath { get; set; } = Path.Combine(DefaultWorkingDir, "nfctools");
@@ -128,65 +93,77 @@ namespace MifareWindowsTool.Common
         public static string FlipperNfcPath => Path.Combine(DefaultNfcToolsPath, "Template_Flipper.nfc");
         public static List<string> TemplateFlipperNfc => File.Exists(FlipperNfcPath) ? File.ReadAllText(FlipperNfcPath).Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList() : null;
 
-
         public void CompareTo(IDump dump, RichTextBox rtb)
         {
-            if (this.DumpData == null || dump.DumpData.HexData == null) return;
+            if (this.DumpData.HexData == null || dump.DumpData.HexData == null) return;
 
             rtb.Document = new System.Windows.Documents.FlowDocument();
-
+          
             var sectorName = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Sector));
             var identicalName = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Identical));
             var differentName = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Different));
 
-            var linesA = BufferSplit(this.DumpData.HexData, BlockSize).Select(l => $"{BitConverter.ToString(l).Replace("-", string.Empty)}").ToList();
-            var linesB = BufferSplit(dump.DumpData.HexData, BlockSize).Select(l => $"{BitConverter.ToString(l).Replace("-", string.Empty)}").ToList();
+            var linesA = this.DumpData.DataLines;
+            var linesB = dump.DumpData.DataLines;
 
-
-            for (int i = 0; i < Math.Max(linesA.Count, linesB.Count); i++)
+            int idx = 0;
+            var blockCpt = 0;
+            foreach (var lineA in linesA)
             {
-                if (i < linesA.Count || i < linesB.Count)
+                if (idx % 4 == 0)
                 {
-                    if (i < linesA.Count && i < linesB.Count && linesA[i] == linesB[i])
+                    rtb.AppendText($"{(blockCpt > 0 ? "\r" : "")}{sectorName}:{blockCpt}\r", Brushes.White, true);
+                    blockCpt++;
+                }
+                byte[] lineB = null;
+                if (idx < linesB.Count())
+                {
+                    lineB = linesB[idx];
+                }
+                if (ByteArrayCompare(lineA, lineB))
+                {
+                    rtb.AppendText("____________");
+                    rtb.AppendText(identicalName, Brushes.Lime);
+                    rtb.AppendText("_____________\r", Brushes.White);
+                }
+                else
+                {
+                    rtb.AppendText("____________");
+                    rtb.AppendText(differentName, Brushes.Red);
+                    rtb.AppendText("_____________\r", Brushes.White);
+
+                    for (int l = 0; l < lineA.Count(); l++)
                     {
-                        rtb.AppendText($"{i:00}____________");
-                        rtb.AppendText(identicalName, Brushes.Lime);
-                        rtb.AppendText("_____________\r", Brushes.White);
+                        if (l == 0) //skip 2 chars for "A:" or "B:"
+                        {
+                            rtb.AppendText("  ");
+                        }
+                        if (lineB != null && l < lineB.Length)
+                        {
+                            if (lineA[l] != lineB[l])
+                                rtb.AppendText("vv", Brushes.Red); //different
+                            else
+                                rtb.AppendText("  ", Brushes.White); //same
+                        }
                     }
-                    else if (i < linesB.Count && !string.IsNullOrWhiteSpace(linesB[i]))
-                    {
-                        rtb.AppendText($"{i:00}____________");
-                        rtb.AppendText(differentName, Brushes.Red);
-                        rtb.AppendText("_____________\r", Brushes.White);
-
-                        if (i < linesA.Count)
-                            for (int j = 0; j < linesA[i].Count(); j++)
-                            {
-
-
-                                if (j == 0) //skip 3 chars for " A:" or " B:"
-                                {
-                                    rtb.AppendText($"   ");
-                                }
-                                if (linesA[i][j] != linesB[i][j])
-                                    rtb.AppendText("v", Brushes.Red); //different
-                                else
-                                    rtb.AppendText(" ", Brushes.White); //same
-                            }
-                        rtb.AppendText("\r", Brushes.White); //add cr at the end of line
-                    }
+                    rtb.AppendText("\r", Brushes.White); //add cr at the end of line
                 }
-                if (i < linesA.Count)
-                {
-                    var appendCR = linesA[i].EndsWith("\r") ? "" : !linesA[i].StartsWith(sectorName) ? "\r" : "";
-                    rtb.AppendText((!string.IsNullOrWhiteSpace(linesA[i]) && !linesA[i].StartsWith(sectorName) ? " A:" : "") + linesA[i] + appendCR, linesA[i].StartsWith("\r+") ? PaleBlueBrush : Brushes.White, linesA[i].StartsWith("\r+") ? true : false);
-                }
-                if (i < linesB.Count)
-                {
-                    var appendCR = linesB[i].EndsWith("\r") ? "" : !linesB[i].StartsWith(sectorName) ? "\r" : "";
-                    rtb.AppendText((!string.IsNullOrWhiteSpace(linesB[i]) && !linesB[i].StartsWith(sectorName) ? " B:" : "") + linesB[i] + appendCR, linesB[i].StartsWith("\r+") ? PaleBlueBrush : Brushes.White, linesB[i].StartsWith("\r+") ? true : false);
-                }
+                var strLineA = BitConverter.ToString(lineA).Replace("-", string.Empty);
+                var strLineB = lineB != null ? BitConverter.ToString(lineB).Replace("-", string.Empty) : string.Empty;
+                var diff = strLineA.Length - strLineB.Length;
+                var addToB = new string('-', diff);
+
+                rtb.AppendText($"A:{strLineA}{Environment.NewLine}", Brushes.White);
+                rtb.AppendText($"B:{strLineB}", Brushes.White);
+                rtb.AppendText($"{addToB}{Environment.NewLine}", Brushes.Yellow);
+                idx++;
             }
+
+        }
+        // byte[] is implicitly convertible to ReadOnlySpan<byte>
+        bool ByteArrayCompare(ReadOnlySpan<byte> a1, ReadOnlySpan<byte> a2)
+        {
+            return a2 != null && a1.SequenceEqual(a2);
         }
         public byte[][] BufferSplit(byte[] buffer, int blockSize)
         {
@@ -200,7 +177,10 @@ namespace MifareWindowsTool.Common
 
             return blocks;
         }
+
         public int sectorCounter = 0;
+        public int blockCountInSector = 4;
+        public int SectorCount { get; set; } = 16;
         public void ShowAscii(RichTextBox txtOutput)
         {
             sectorCounter = 0;
@@ -208,7 +188,13 @@ namespace MifareWindowsTool.Common
             byte[][] chunks = BufferSplit(this.DumpData.HexData.ToArray(), BlockSize);
             for (int i = 0; i < chunks.GetLength(0); i++)
             {
-                var blockCountInSector = SetCountInSector(i);
+                if (SectorCount == 40 && i > 128)
+                {
+                    //if tag contains 40 sectors, the first 32 sectors contain 4 blocks and the last 8 sectors contain 16 blocks.
+                    blockCountInSector = 16;
+                }
+                else
+                    blockCountInSector = 4;
                 string hexString = BitConverter.ToString(chunks[i]).Replace("-", string.Empty);
                 var strAscii = hexString.HexStrToAscii();
                 if (i % blockCountInSector == 0)
@@ -219,18 +205,6 @@ namespace MifareWindowsTool.Common
                     txtOutput.AppendText($"{Environment.NewLine}", Brushes.White);
                 txtOutput.AppendText($"{strAscii}{Environment.NewLine}", Brushes.White);
             }
-
-        }
-
-        private int SetCountInSector(int i)
-        {
-            var blockCountInSector = 4;
-            if (SectorCount == 40 && i > 128)
-            {
-                //if tag (lmifare 4K) contains 40 sectors, the first 32 sectors contain 4 blocks and the last 8 sectors contain 16 blocks.
-                blockCountInSector = 16;
-            }
-            return blockCountInSector;
 
         }
 
@@ -246,22 +220,27 @@ namespace MifareWindowsTool.Common
 
             for (int i = 0; i < chunks.GetLength(0); i++)
             {
-                var blockCountInSector = SetCountInSector(i);
+                if (SectorCount == 40 && i > 128)
+                {
+                    //if tag contains 40 sectors, the first 32 sectors contain 4 blocks and the last 8 sectors contain 16 blocks.
+                    blockCountInSector = 16;
+                }
+                else
+                    blockCountInSector = 4;
                 string strBlock = $"{BitConverter.ToString(chunks[i]).Replace("-", string.Empty)}{Environment.NewLine}";
                 if (i % blockCountInSector == 0)
                 {
                     txtOutput.AppendText($"{Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Sector))}: {sectorCounter++}{Environment.NewLine}", Brushes.LightBlue);
                 }
-
-                if (i == 0) txtOutput.AppendText($"{Environment.NewLine}{i:00}:{strBlock}", VioletBrush, false);
+                if (i == 0)
+                    txtOutput.AppendText($"{Environment.NewLine}{strBlock}", VioletBrush, false);
                 else if ((i % blockCountInSector - (blockCountInSector - 1)) == 0)
                 {
                     for (int c = 0; c < BlockSize * 2; c++)
                     {
-                        if (c == 0) txtOutput.AppendText($"{i:00}:");
                         if (c <= 11)
                         {
-                            txtOutput.AppendText($"{strBlock[c]}", Brushes.Lime);
+                            txtOutput.AppendText(strBlock[c].ToString(), Brushes.Lime);
 
                         }
                         else if (c > 11 && c <= 19 && strBlock.Length > c) txtOutput.AppendText(strBlock[c].ToString(), Brushes.Orange);
@@ -281,7 +260,7 @@ namespace MifareWindowsTool.Common
                     txtOutput.AppendText(Environment.NewLine, Brushes.White);
                 }
                 else
-                    txtOutput.AppendText($"{i:00}:{strBlock}", Brushes.White);
+                    txtOutput.AppendText(strBlock, Brushes.White);
 
             }
             return string.Join(Environment.NewLine, this.DumpKeys);
@@ -318,7 +297,7 @@ namespace MifareWindowsTool.Common
             if (defaultExt != null) dlg.DefaultExt = defaultExt;
             dlg.Title = title;
             dlg.Filter = filter ?? Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DumpFileFilter));
-            dlg.InitialDirectory = initialDir ?? DefaultDumpPath;
+            if (!string.IsNullOrEmpty(initialDir)) dlg.InitialDirectory = initialDir;
             if (fileName != null) dlg.FileName = fileName;
         }
         private const string FlipperFileIdentifier = "Filetype: Flipper NFC";
@@ -390,7 +369,16 @@ namespace MifareWindowsTool.Common
             return null;
         }
 
-
+        public string StrDumpUID { get; set; }
+        public List<string> DumpKeys { get; set; } = new List<string>();
+        public string DumpFileFullName { get; set; }
+        public IData DumpData { get; set; } = new Data();
+        public string DumpFileNameWithoutExt => Path.GetFileNameWithoutExtension(DumpFileFullName);
+        public string DumpFileName => Path.GetFileName(DumpFileFullName);
+        public string StrDumpType => this.GetType().Name.Replace("Dump", "");
+        public virtual string DefaultDumpExtension { get; set; }
+        public virtual bool IsValid => !string.IsNullOrWhiteSpace(DumpFileFullName) && System.IO.File.Exists(DumpFileFullName) && new System.IO.FileInfo(DumpFileFullName).Length > 0;
+        public abstract DumpType DumpType { get; }
         public static IDump OpenCreateDump(out bool canceled, string title = null)
         {
             canceled = false;
