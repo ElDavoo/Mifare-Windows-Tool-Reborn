@@ -15,6 +15,7 @@ namespace MifareWindowsTool.DumpClasses
     {
         public override DumpType DumpType => DumpType.Flipper;
         public string StrDumpSpacedUID => StrDumpUID.Aggregate("", (result, c) => result += ((!string.IsNullOrEmpty(result) && (result.Length + 1) % 3 == 0) ? " " : "") + c.ToString());
+
         public DumpFlipper(Data data = null, string fileName = null)
         {
             DefaultDumpExtension = ".nfc";

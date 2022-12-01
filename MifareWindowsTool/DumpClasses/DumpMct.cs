@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using MifareWindowsTool.Common;
@@ -18,6 +19,11 @@ namespace MifareWindowsTool.DumpClasses
 
         }
         public override DumpType DumpType => DumpType.Mct;
+
+     
+
+       
+
         protected override byte[] CreateBinaryDataFromText(IDump dmp)
         {
             List<byte> byteData = new List<byte>();

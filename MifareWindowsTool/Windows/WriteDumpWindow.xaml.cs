@@ -95,7 +95,7 @@ namespace MCT_Windows
                              mtsWin.chkCustomProbeNb.IsChecked.HasValue && mtsWin.chkCustomProbeNb.IsChecked.Value ? mtsWin.udNbProbes.Value : 20, mtsWin.chkCustomProbeNb.IsChecked.HasValue && mtsWin.chkCustomProbeNb.IsChecked.Value ? mtsWin.udTolerance.Value : 20);
                 }
             }
-            else if (!Tools.SourceBinaryDump.IsValid) //target valid => just need source
+            else //target valid => just need source
             {
                 if (showWarning)
                 {
@@ -106,6 +106,7 @@ namespace MCT_Windows
                 SelectDump(ref dump, lblSrcDumpValue, Translate.Key(nameof(MifareWindowsTool.Properties.Resources.SelectDumpForSourceTag)));
                 Tools.SourceBinaryDump = dump;
             }
+           
 
             if (Tools.SourceBinaryDump.IsValid) showWarning = false;
             if (showWarning && !string.IsNullOrEmpty(msg)) MessageBox.Show(msg);// msg if showwarning

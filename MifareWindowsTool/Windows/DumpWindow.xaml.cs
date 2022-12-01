@@ -46,32 +46,16 @@ namespace MCT_Windows.Windows
 
         }
 
-        private void SetSectorCount(int dataLength)
+        private void SetSectorCount(IDump dmp)
         {
-            //2293 mifare 1K MCT dump (text file)
-            if (dataLength == 1024 || dataLength == 2293)
+            switch (dmp.CardType)
             {
-                dumpA.SectorCount = 16;
-                rb1K.IsChecked = true;
-                dumpA.BlockSplit = 4;
+                case CardType.MifareMini: rbmini.IsChecked = true; break;
+                case CardType.Mifare1K: rb1K.IsChecked = true; break;
+                case CardType.Mifare2K: rb2K.IsChecked = true; break;
+                case CardType.Mifare4K: rb4K.IsChecked = true; break;
 
             }
-            else if (dataLength == 320)
-            {
-                dumpA.SectorCount = 5;
-                rbmini.IsChecked = true;
-            }
-            else if (dataLength == 2048)
-            {
-                dumpA.SectorCount = 32;
-                rb2K.IsChecked = true;
-            }
-            else if (dataLength == 4096)
-            {
-                dumpA.SectorCount = 40;
-                rb4K.IsChecked = true;
-            }
-
         }
 
         private void btnSaveDump_Click(object sender, RoutedEventArgs e)
@@ -119,7 +103,7 @@ namespace MCT_Windows.Windows
             if (!CompareDumpsMode)
             {
                 Title += " " + content;
-                //SetSectorCount(dumpA.DumpData.HexData.Length);
+                SetSectorCount(dmp);
                 //txtOutput.AppendText(string.Join("\r\n", dumpA.DumpData.LstTextData));
             }
             Mouse.OverrideCursor = null;
@@ -205,14 +189,7 @@ namespace MCT_Windows.Windows
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
             if (dumpA is null) return;
-            var rb = sender as RadioButton;
-            switch (rb.Name)
-            {
-                case "rbmini": dumpA.SectorCount = 5; dumpA.ShowHexAndAddDumpKeys(txtOutput); break;
-                case "rb1K": dumpA.SectorCount = 16; dumpA.ShowHexAndAddDumpKeys(txtOutput); break;
-                case "rb2K": dumpA.SectorCount = 32; dumpA.ShowHexAndAddDumpKeys(txtOutput); break;
-                case "rb4K": dumpA.SectorCount = 40; dumpA.ShowHexAndAddDumpKeys(txtOutput); break;
-            }
+            dumpA.ShowHexAndAddDumpKeys(txtOutput);
         }
         private void btnAppendDumpKeys_Click(object sender, RoutedEventArgs e)
         {

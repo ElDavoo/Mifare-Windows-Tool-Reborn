@@ -387,7 +387,13 @@
   <ItemGroup>
     <Resource Include="MWT_square.ico" />
     <Content Include="nfc-list.exe" />
+    <Content Include="nfctools\libusb-1.0.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="nfctools\libusb0.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nfctools\mfcuk.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="nfctools\mfoc-hardnested.exe">

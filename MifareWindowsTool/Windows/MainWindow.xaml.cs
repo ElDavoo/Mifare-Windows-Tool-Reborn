@@ -573,9 +573,10 @@ namespace MCT_Windows
                 char writeMode = bWriteBlock0 == true ? 'W' : 'w';
                 char useKey = useKeyA == true ? 'A' : 'B';
                 char cHaltOnError = haltOnError == true ? useKey = char.ToLower(useKey) : char.ToUpper(useKey);
-                if (tagType == TagType.UnlockedGen1) writeMode = 'W'; else if (tagType == TagType.DirectCUIDgen2) writeMode = 'C';
+                //if (tagType == TagType.UnlockedGen1) writeMode = 'W'; else if (tagType == TagType.DirectCUIDgen2) writeMode = 'C';
                 ProcessCTS = new CancellationTokenSource();
-                var arguments = $"{writeMode} {cHaltOnError} U{targetDump.StrDumpUID} \"{sourceDump.DumpFileFullName}\" \"{targetDump.DumpFileFullName}\"";
+                //var arguments = $"{writeMode} {cHaltOnError} U{targetDump.StrDumpUID} \"{sourceDump.DumpFileFullName}\" \"{targetDump.DumpFileFullName}\"";
+                var arguments = $"{writeMode} {cHaltOnError} \"{sourceDump.DumpFileFullName}\" \"{targetDump.DumpFileFullName}\"";
                 LogAppend($"nfc-mfclassic {arguments}");
 
                 var cmd = Cli.Wrap("nfctools\\nfc-mfclassic.exe").WithArguments(arguments).WithValidation(CommandResultValidation.None)
