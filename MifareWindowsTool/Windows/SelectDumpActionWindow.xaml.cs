@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace MCT_Windows.Windows
 {
@@ -41,7 +32,7 @@ namespace MCT_Windows.Windows
                 lstDumps.Items.Clear();
                 foreach (var f in Directory.GetFiles("dumps", "*.*", SearchOption.AllDirectories))
                 {
-                    lstDumps.Items.Add(new File() { FileName = System.IO.Path.GetFileName(f), IsSelected = false });
+                    lstDumps.Items.Add(File() { FileName = System.IO.Path.GetFileName(f), IsSelected = false });
                 }
             }
             catch (Exception ex)
@@ -62,7 +53,7 @@ namespace MCT_Windows.Windows
             var selectedKeyFile = lstDumps.Items.OfType<File>().Where(k => k.IsSelected).FirstOrDefault();
             if (selectedKeyFile != null)
             {
-                EditDumpWindow edw = new EditDumpWindow(tools, selectedKeyFile.FileName);
+                EditDumpWindow edw = new EditDumpWindow(selectedKeyFile.FileName);
                 edw.ShowDialog();
             }
         }

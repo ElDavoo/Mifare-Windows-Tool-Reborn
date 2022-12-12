@@ -22,6 +22,10 @@ namespace MifareWindowsTool.Common
     {
         NotSet, Mct, MWT, Flipper
     }
+    public enum CardType
+    {
+        MifareMini,Mifare1K, Mifare2K, Mifare4K,
+    }
     public interface IDump
     {
         string DumpFileFullName { get; set; }
@@ -41,6 +45,7 @@ namespace MifareWindowsTool.Common
         string DefaultDumpExtension { get; set; }
         bool IsValid { get; }
         DumpType DumpType { get; }
+        CardType CardType { get; }
 
     }
     public interface IData
@@ -379,6 +384,9 @@ namespace MifareWindowsTool.Common
         public virtual string DefaultDumpExtension { get; set; }
         public virtual bool IsValid => !string.IsNullOrWhiteSpace(DumpFileFullName) && System.IO.File.Exists(DumpFileFullName) && new System.IO.FileInfo(DumpFileFullName).Length > 0;
         public abstract DumpType DumpType { get; }
+
+        public CardType CardType { get; }
+
         public static IDump OpenCreateDump(out bool canceled, string title = null)
         {
             canceled = false;
