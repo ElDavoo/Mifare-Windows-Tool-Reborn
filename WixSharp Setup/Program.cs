@@ -34,7 +34,7 @@ namespace WixSharp_Setup
                               );
             project.SetNetFxPrerequisite("WIX_IS_NETFRAMEWORK_462_OR_LATER_INSTALLED >= '#528040'", "requires .NET Framework 4.8 or higher.");
             project.ProductId = Guid.NewGuid();
-
+            project.InstallPrivileges = InstallPrivileges.elevated;
             project.GUID = new Guid("6fe30b47-2577-43ad-9095-1861ba25779b");
             var strAssemblyFileVersion = AssemblyName.GetAssemblyName(exepath).Version;
             project.Version = strAssemblyFileVersion;
