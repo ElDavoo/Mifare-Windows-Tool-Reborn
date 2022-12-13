@@ -345,6 +345,8 @@
     <Resource Include="Images\small\newfile.png" />
     <Resource Include="Images\small\icons8-macos-close-64.png" />
     <Resource Include="Images\small\checkOK.png" />
+    <Resource Include="bnr_MWT.png" />
+    <Resource Include="dlg_MWT.png" />
     <Content Include="keys\extended-std.keys">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -386,6 +388,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="MWT_square.ico" />
+    <Resource Include="MWT_square.png" />
     <Content Include="nfctools\api-ms-win-core-kernel32-legacy-l1-1-0.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

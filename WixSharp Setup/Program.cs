@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+
 using WixSharp;
 using WixSharp.CommonTasks;
 using WixSharp.Controls;
@@ -16,7 +17,7 @@ namespace WixSharp_Setup
         static void Main()
         {
             var selectedExe = "MifareWindowsTool.exe";
-            var solDir = System.IO.Directory.GetParent(System.IO.Directory.GetParent(System.IO.Directory.GetParent(System.IO.Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName).FullName).FullName).FullName + "\\MifareWindowsTool";
+            var solDir = @"E:\WORK\MifareWindowsTool\MifareWindowsTool";// System.IO.Directory.GetParent(System.IO.Directory.GetParent(System.IO.Directory.GetParent(System.IO.Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName).FullName).FullName).FullName + "\\MifareWindowsTool";
             var mode = "Release";
 #if DEBUG
             mode = "Debug";
@@ -33,6 +34,7 @@ namespace WixSharp_Setup
                               , new InstalledFileAction("MWT_exe", "")
                               );
             project.SetNetFxPrerequisite("WIX_IS_NETFRAMEWORK_462_OR_LATER_INSTALLED >= '#528040'", "requires .NET Framework 4.8 or higher.");
+
             project.ProductId = Guid.NewGuid();
             project.InstallPrivileges = InstallPrivileges.elevated;
             project.GUID = new Guid("6fe30b47-2577-43ad-9095-1861ba25779b");
@@ -49,6 +51,10 @@ namespace WixSharp_Setup
             project.RemoveDialogsBetween(NativeDialogs.WelcomeDlg, NativeDialogs.InstallDirDlg);
 
             var IconFilename = System.IO.Path.Combine(solDir, "MWT_square.ico");
+            project.BannerImage = Path.Combine(solDir, "bnr_MWT.png"); ;
+            project.BackgroundImage = Path.Combine(solDir, "dlg_MWT.png"); 
+            project.ValidateBackgroundImage = true;
+           
             var desktopShortcut = new FileShortcut(selectedExe, "%Desktop%")
             {
                 Name = pName
