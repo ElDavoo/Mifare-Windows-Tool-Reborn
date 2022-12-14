@@ -25,8 +25,6 @@ using ICSharpCode.AvalonEdit.Rendering;
 
 using MCT_Windows.Windows;
 
-using Microsoft.Win32;
-
 using MifareWindowsTool.Common;
 using MifareWindowsTool.Properties;
 
@@ -38,6 +36,7 @@ namespace MCT_Windows
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         public bool ForceReReadTag { get; set; } = false;
+        public bool DisplayLog { get; set; } = true;
         public readonly string ACSDriversPage = "https://www.acs.com.hk/en/driver/3/acr122u-usb-nfc-reader/";
         private readonly string Github_MWT_WikiPage = "https://github.com/xavave/Mifare-Windows-Tool/wiki";
         public bool TagFound = false;
@@ -86,7 +85,7 @@ namespace MCT_Windows
             this.Icon = BitmapFrame.Create(iconUri);
             MainTitle += $" v{version}";
             this.Title = $"{MainTitle}";
-
+            btnPauseDisplay.Content = $"{Translate.Key(nameof(MifareWindowsTool.Properties.Resources.PauseOff))}";
             //ShowPauseButton(task != null);
             Tools = new Tools();
             var newVersion = Tools.CheckNewVersion();
@@ -181,7 +180,7 @@ namespace MCT_Windows
                 {
                     ScanCTS.Token.Register(() => ScanTagRunning = false);
                     if (!ckEnablePeriodicTagScan.IsChecked.HasValue || ckEnablePeriodicTagScan.IsChecked.Value == false) return;
-                    editor.AppendText($"{DateTime.Now} -  {Translate.Key(nameof(MifareWindowsTool.Properties.Resources.AutoScanTagRunning))}...\n");
+                    if (DisplayLog) editor.AppendText($"{DateTime.Now} -  {Translate.Key(nameof(MifareWindowsTool.Properties.Resources.AutoScanTagRunning))}...\n");
                     await RunNfcListAsync();
                 });
             }, ScanCTS.Token);
@@ -340,16 +339,30 @@ namespace MCT_Windows
             }
             else
                 btnAbortCurrentTask.Visibility = Visibility.Hidden;
+
         }
-        public void ShowPauseButton(bool show = true)
+        public void ShowPauseButton(bool? display = true)
         {
-            //if (show && task != null)
-            //{
-            //    btnPauseCurrentTask.Content = (task.Task.Status != TaskStatus.RanToCompletion) ? $"{Translate.Key(nameof(MifareWindowsTool.Properties.Resources.PauseOn))}" : $"{Translate.Key(nameof(MifareWindowsTool.Properties.Resources.PauseOff))}";
-            //    btnPauseCurrentTask.Visibility = Visibility.Visible;
-            //}
-            //else
-            //    btnPauseCurrentTask.Visibility = Visibility.Hidden;
+
+            if (display.HasValue)
+            {
+                DisplayLog = display.Value;
+                if (display.Value)
+                {
+                    btnPauseDisplay.Content = $"{Translate.Key(nameof(MifareWindowsTool.Properties.Resources.PauseOff))}";
+                    btnPauseDisplay.Visibility = Visibility.Visible;
+                }
+                else if (!display.Value)
+                {
+                    btnPauseDisplay.Content = $"{Translate.Key(nameof(MifareWindowsTool.Properties.Resources.PauseOn))}";
+                }
+            }
+            else
+            {
+                DisplayLog = true;
+                btnPauseDisplay.Visibility = Visibility.Hidden;
+            }
+
 
         }
 
@@ -515,6 +528,7 @@ namespace MCT_Windows
             StopScanTag();
             ValidateActions(false);
             ShowAbortButton();
+            ShowPauseButton();
             try
             {
                 string args = "";
@@ -548,9 +562,8 @@ namespace MCT_Windows
                 //ProcessCTS.Dispose();
                 ValidateActions(true);
                 ShowAbortButton(false);
+                ShowPauseButton(null);
             }
-
-
 
         }
         //[DllImport(@"C:\work\libnfc_test\build\utils\Debug\nfc-list.exe")]
@@ -594,8 +607,8 @@ namespace MCT_Windows
                 //ProcessCTS.Dispose();
                 ValidateActions(true);
                 ShowAbortButton(false);
+                ShowPauseButton(null);
             }
-
 
         }
         public async Task RunMfocAsync(List<MCTFile> keys, string tmpFileMfd, TagAction act, int? nbProbes = 20, int? tolerance = 20)
@@ -671,6 +684,7 @@ namespace MCT_Windows
             {
                 ValidateActions(true);
                 ShowAbortButton(false);
+                ShowPauseButton(null);
                 Mouse.OverrideCursor = null;
                 //ProcessCTS.Dispose();
             }
@@ -691,7 +705,7 @@ namespace MCT_Windows
         {
             Dispatcher.Invoke(() =>
             {
-                ColorizeLine(msg, Brushes.Orange);
+                if (DisplayLog) ColorizeLine(msg, Brushes.Orange);
             }, DispatcherPriority.Normal);
         }
 
@@ -708,7 +722,7 @@ namespace MCT_Windows
         {
             Dispatcher.Invoke(() =>
             {
-                ColorizeLine(msg, Brushes.Lime);
+                if (DisplayLog) ColorizeLine(msg, Brushes.Lime);
             }, DispatcherPriority.Normal);
         }
 
@@ -766,32 +780,15 @@ namespace MCT_Windows
                 PeriodicScanTag();
         }
 
-        private void btnPauseCurrentTask_Click(object sender, RoutedEventArgs e)
-        {
-            //if (task == null || task.Task.Status != TaskStatus.Running) ShowPauseButton(false);
-            //else
-            //{
-
-            //    var process = Process.GetProcessById(task.ProcessId);
-            //    if (task.Task.Status == TaskStatus.Running)
-            //    {
-            //        process.Suspend();
-
-            //    }
-            //    else
-            //    {
-            //        if (task.Task.Status == TaskStatus.RanToCompletion)
-            //            process.Resume();
-
-            //    }
-            //    ShowPauseButton(task != null);
-            //}
-        }
-
-
         private void editor_TextChanged(object sender, EventArgs e)
         {
             (sender as ICSharpCode.AvalonEdit.TextEditor).ScrollToEnd();
+        }
+
+        private void btnPauseDisplay_Click(object sender, RoutedEventArgs e)
+        {
+            ShowPauseButton(!DisplayLog);
+
         }
     }
     public class LineColorizer : DocumentColorizingTransformer

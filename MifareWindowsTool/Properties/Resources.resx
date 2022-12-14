@@ -200,7 +200,7 @@
     <value>Dump file already existing</value>
   </data>
   <data name="DumpFileFilter" xml:space="preserve">
-    <value>Dump Files|*.dump;*.mfd;*.dmp;*.img;*.nfc;*.txt|All Files|*.*</value>
+    <value>Dump Files|*.dump;*.mfd;*.dmp;*.img;*.nfc;*.txt;*.bin|All Files|*.*</value>
   </data>
   <data name="DumpWindowTitle" xml:space="preserve">
     <value>Dump</value>
@@ -449,10 +449,10 @@ After installing this driver, unplug and replug your ACR122U</value>
     <value>Dump conversion</value>
   </data>
   <data name="PauseOff" xml:space="preserve">
-    <value>Suspend current task</value>
+    <value>Suspend display</value>
   </data>
   <data name="PauseOn" xml:space="preserve">
-    <value>Resume current task</value>
+    <value>Resume display</value>
   </data>
   <data name="thisisflipperdumpfile" xml:space="preserve">
     <value>This file looks like a Flipper Zero dump. Do you want to try to convert it automatically to MWT dump?</value>

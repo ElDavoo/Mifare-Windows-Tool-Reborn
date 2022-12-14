@@ -196,7 +196,7 @@
     <value>Fichier de dump déjà existant</value>
   </data>
   <data name="DumpFileFilter" xml:space="preserve">
-    <value>Fichiers de Dump|*.dump;*.mfd;*.dmp;*.img;*.nfc;*.txt|Tous les fichiers|*.*</value>
+    <value>Fichiers de Dump|*.dump;*.mfd;*.dmp;*.img;*.nfc;*.txt;*.bin|Tous les fichiers|*.*</value>
   </data>
   <data name="DumpWindowTitle" xml:space="preserve">
     <value>Dump</value>
@@ -453,10 +453,10 @@ La led restera éteinte mais c'est normal
     <value>Ce fichier de dump semble provenir de MCT (Mifare classic tool). Voulez-vous essayer de le convertir automatiquement vers le format de dump MWT ?</value>
   </data>
   <data name="PauseOff" xml:space="preserve">
-    <value>Mettre la tâche en pause</value>
+    <value>Stopper le rafraîchissement des infos</value>
   </data>
   <data name="PauseOn" xml:space="preserve">
-    <value>Reprendre la tâche</value>
+    <value>Reprendre le rafraîchissement des infos</value>
   </data>
   <data name="thisisflipperdumpfile" xml:space="preserve">
     <value>Ce fichier de dump semble provenir d'un Flipper Zéro. Voulez-vous essayer de le convertir automatiquement vers le format de dump MWT ?</value>

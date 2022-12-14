@@ -453,7 +453,7 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Dump Files|*.dump;*.mfd;*.dmp;*.img;*.nfc;*.txt|All Files|*.*.
+        ///   Recherche une chaîne localisée semblable à Dump Files|*.dump;*.mfd;*.dmp;*.img;*.nfc;*.txt;*.bin|All Files|*.*.
         /// </summary>
         public static string DumpFileFilter {
             get {
@@ -827,7 +827,7 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Suspend current task.
+        ///   Recherche une chaîne localisée semblable à Suspend display.
         /// </summary>
         public static string PauseOff {
             get {
@@ -836,7 +836,7 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Resume current task.
+        ///   Recherche une chaîne localisée semblable à Resume display.
         /// </summary>
         public static string PauseOn {
             get {

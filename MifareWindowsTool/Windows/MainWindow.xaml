@@ -189,20 +189,20 @@
             ScrollViewer.VerticalScrollBarVisibility="Auto" Background="Black" Foreground="Lime"
             />
         <Button
-            x:Name="btnPauseCurrentTask"
+            x:Name="btnPauseDisplay"
             Width="auto"
             Height="20"
             Margin="5,0,20,0"
             HorizontalAlignment="Center"
             VerticalAlignment="Bottom"
             Background="#5A595B"
-            Click="btnPauseCurrentTask_Click"
-            Content="Pause Current Task"
+            Click="btnPauseDisplay_Click"
+            Content="Pause Display"
             Cursor="Hand"
             FontSize="11"
             FontWeight="Bold"
             Foreground="Green"
-            Visibility="Hidden" />
+            Visibility="Visible" />
         <Button
             x:Name="btnAbortCurrentTask"
             Width="auto"
