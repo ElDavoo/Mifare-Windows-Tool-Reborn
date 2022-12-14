@@ -345,6 +345,8 @@
     <Resource Include="Images\small\newfile.png" />
     <Resource Include="Images\small\icons8-macos-close-64.png" />
     <Resource Include="Images\small\checkOK.png" />
+    <Resource Include="bnr_MWT.png" />
+    <Resource Include="dlg_MWT.png" />
     <Content Include="keys\extended-std.keys">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -386,16 +388,56 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="MWT_square.ico" />
+    <Resource Include="MWT_square.png" />
+    <Content Include="nfctools\api-ms-win-core-kernel32-legacy-l1-1-0.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nfctools\api-ms-win-core-libraryloader-l1-2-0.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nfctools\api-ms-win-core-localization-l1-2-0.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nfctools\api-ms-win-core-processthreads-l1-1-1.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nfctools\api-ms-win-core-synch-l1-2-0.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nfctools\api-ms-win-core-timezone-l1-1-0.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nfctools\api-ms-win-security-cryptoapi-l1-1-0.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nfctools\libcrypto.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nfctools\libfreefare.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nfctools\liblzma-5.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nfctools\libnfc.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="nfctools\libusb-1.0.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="nfctools\libusb0.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="nfctools\libwinpthread-1.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="nfctools\mfcuk.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="nfctools\mfoc-hardnested.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nfctools\msys-2.0.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="nfctools\nfc-anticol.exe">
