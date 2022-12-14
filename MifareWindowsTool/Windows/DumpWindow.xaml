@@ -80,7 +80,7 @@
                         </Style>
                     </RichTextBox.Resources>
                 </RichTextBox>
-                <StackPanel Orientation="Vertical" VerticalAlignment="Top" Margin="5" Width="auto" x:Name="spKeys">
+                <StackPanel Orientation="Vertical" VerticalAlignment="Top" Margin="5,40,5,5" Width="auto" x:Name="spKeys">
                     <Label Foreground="White" x:Name="lblKeys" Content="Keys from this dump" HorizontalAlignment="Left"></Label>
                     <TextBox  ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" x:Name="txtKeys" Height="auto" FontSize="13" Width="350"  IsReadOnly="True"></TextBox>
                 </StackPanel>
