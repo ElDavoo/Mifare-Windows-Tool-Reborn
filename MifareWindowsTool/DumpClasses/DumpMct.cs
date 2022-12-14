@@ -17,12 +17,10 @@ namespace MifareWindowsTool.DumpClasses
             this.DumpData = data;
             this.DumpData.HexData = CreateBinaryDataFromText(this);
 
+            SetCardType();
+
         }
         public override DumpType DumpType => DumpType.Mct;
-
-     
-
-       
 
         protected override byte[] CreateBinaryDataFromText(IDump dmp)
         {

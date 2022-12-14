@@ -19,6 +19,9 @@
                 <RadioButton x:Name="rb1K" GroupName="tagsize" Checked="RadioButton_Checked" Foreground="White" ToolTip="Tag contains 16 sectors, each with 4 blocks." IsChecked="True">1K</RadioButton>
                 <RadioButton x:Name="rb2K" GroupName="tagsize" Checked="RadioButton_Checked" Foreground="White" ToolTip="Tag contains 32 sectors, each with 4 blocks.">2K</RadioButton>
                 <RadioButton x:Name="rb4K" GroupName="tagsize" Checked="RadioButton_Checked" Foreground="White" ToolTip="Tag contains 40 sectors. The first 32 sectors contain 4 blocks and the last 8 sectors contain 16 blocks.">4K</RadioButton>
+                <RadioButton x:Name="rbNTag213" GroupName="tagsize" Checked="RadioButton_Checked" Foreground="White" ToolTip="Tag contains 45 pages of 4 bytes per page (total:180 bytes). 26 bytes reserved for manufacturer and configuration data.34 bits used for the read-only locking mechanism.4 bytes available as capability container.144 bytes user programmable read/write memory.">NTag213</RadioButton>
+                <RadioButton x:Name="rbNTag215" GroupName="tagsize" Checked="RadioButton_Checked" Foreground="White" ToolTip="Tag contains 135 pages of 4 bytes per page (total:540 bytes). 26 bytes reserved for manufacturer and configuration data.28 bits used for the read-only locking mechanism.4 bytes available as capability container.504 bytes user programmable read/write memory.">NTag215</RadioButton>
+                <RadioButton x:Name="rbNTag216" GroupName="tagsize" Checked="RadioButton_Checked" Foreground="White" ToolTip="Tag contains 231 pages of 4 bytes per page (total:924 bytes). 26 bytes reserved for manufacturer and configuration data.37 bits used for the read-only locking mechanism.4 bytes available as capability container.888 bytes user programmable read/write memory.">NTag216</RadioButton>
             </StackPanel>
         </GroupBox>
         <StackPanel Margin="3"

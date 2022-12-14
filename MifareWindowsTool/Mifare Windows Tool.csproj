@@ -366,8 +366,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="app.manifest" />
-    <None Include="nfctools\Template_Flipper.nfc">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="nfctools\Template_Flipper_1K.nfc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="nfctools\Template_Flipper_NTAG213.nfc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

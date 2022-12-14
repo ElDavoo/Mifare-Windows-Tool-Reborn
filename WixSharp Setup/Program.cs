@@ -17,7 +17,7 @@ namespace WixSharp_Setup
         static void Main()
         {
             var selectedExe = "MifareWindowsTool.exe";
-            var solDir = @"E:\WORK\MifareWindowsTool\MifareWindowsTool";// System.IO.Directory.GetParent(System.IO.Directory.GetParent(System.IO.Directory.GetParent(System.IO.Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName).FullName).FullName).FullName + "\\MifareWindowsTool";
+            var solDir = @"G:\work\Mifare-Windows-Tool\MifareWindowsTool"; //@"E:\WORK\MifareWindowsTool\MifareWindowsTool";// System.IO.Directory.GetParent(System.IO.Directory.GetParent(System.IO.Directory.GetParent(System.IO.Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName).FullName).FullName).FullName + "\\MifareWindowsTool";
             var mode = "Release";
 #if DEBUG
             mode = "Debug";

@@ -24,7 +24,7 @@ namespace MifareWindowsTool.Common
     }
     public enum CardType
     {
-        MifareMini,Mifare1K, Mifare2K, Mifare4K,
+        MifareMini, Mifare1K, Mifare2K, Mifare4K, NTag213, NTag215, NTag216, Unknown
     }
     public interface IDump
     {
@@ -40,7 +40,7 @@ namespace MifareWindowsTool.Common
         void ShowAscii(RichTextBox txtOutput);
         int SectorCount { get; set; }
         int BlockSplit { get; set; }
-        int BlockSize { get; }
+        int BlockOrPageSize { get; set; }
         string StrDumpType { get; }
         string DefaultDumpExtension { get; set; }
         bool IsValid { get; }
@@ -86,24 +86,26 @@ namespace MifareWindowsTool.Common
     public abstract class DumpBase : IDump
     {
         static byte[] DefaultBytesBLockToAppend = StringToByteArray("000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFFFFFFFFFF078069FFFFFFFFFFFF");
-        public int BlockSize => 16;
+        public int BlockOrPageSize { get; set; } = 16;
         public static string CurrentUID { get; set; }
         public int BlockSplit { get; set; } = 8;
-      
+
         Brush VioletBrush = new SolidColorBrush(Color.FromArgb(255, (byte)0x95, (byte)0x33, (byte)0xF9));
         public static string DefaultWorkingDir => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         public static string DefaultNfcToolsPath { get; set; } = Path.Combine(DefaultWorkingDir, "nfctools");
         public static string DefaultDumpPath { get; set; } = Path.Combine(DefaultWorkingDir, "dumps");
         public static string DefaultKeysPath { get; set; } = Path.Combine(DefaultWorkingDir, "keys");
-        public static string FlipperNfcPath => Path.Combine(DefaultNfcToolsPath, "Template_Flipper.nfc");
-        public static List<string> TemplateFlipperNfc => File.Exists(FlipperNfcPath) ? File.ReadAllText(FlipperNfcPath).Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList() : null;
+        public static string FlipperNfc1KPath => Path.Combine(DefaultNfcToolsPath, "Template_Flipper_1K.nfc");
+        public static string FlipperNfcNTag213Path => Path.Combine(DefaultNfcToolsPath, "Template_Flipper_NTAG213.nfc");
+        public static List<string> TemplateFlipperNfc1k => File.Exists(FlipperNfc1KPath) ? File.ReadAllText(FlipperNfc1KPath).Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList() : null;
+        public static List<string> TemplateFlipperNfcNTag213 => File.Exists(FlipperNfcNTag213Path) ? File.ReadAllText(FlipperNfcNTag213Path).Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList() : null;
 
         public void CompareTo(IDump dump, RichTextBox rtb)
         {
             if (this.DumpData.HexData == null || dump.DumpData.HexData == null) return;
 
             rtb.Document = new System.Windows.Documents.FlowDocument();
-          
+
             var sectorName = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Sector));
             var identicalName = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Identical));
             var differentName = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Different));
@@ -190,7 +192,7 @@ namespace MifareWindowsTool.Common
         {
             sectorCounter = 0;
             txtOutput.Document = new System.Windows.Documents.FlowDocument();
-            byte[][] chunks = BufferSplit(this.DumpData.HexData.ToArray(), BlockSize);
+            byte[][] chunks = BufferSplit(this.DumpData.HexData.ToArray(), BlockOrPageSize);
             for (int i = 0; i < chunks.GetLength(0); i++)
             {
                 if (SectorCount == 40 && i > 128)
@@ -212,7 +214,21 @@ namespace MifareWindowsTool.Common
             }
 
         }
-
+        protected void SetCardType()
+        {
+            if (this.DumpData == null || this.DumpData.HexData == null) return;
+            switch (this.DumpData.HexData.Length)
+            {
+                case 320: this.CardType = CardType.MifareMini; break;
+                case 1024: this.CardType = CardType.Mifare1K; break;
+                case 2048: this.CardType = CardType.Mifare2K; break;
+                case 4096: this.CardType = CardType.Mifare4K; break;
+                case 180: this.CardType = CardType.NTag213; break;
+                case 540: this.CardType = CardType.NTag215; break;
+                case 924: this.CardType = CardType.NTag216; break;
+                default: break;
+            }
+        }
         public string ShowHexAndAddDumpKeys(RichTextBox txtOutput)
         {
             if (txtOutput == null) return null;
@@ -221,7 +237,7 @@ namespace MifareWindowsTool.Common
             sectorCounter = 0;
             txtOutput.Document = new System.Windows.Documents.FlowDocument();
 
-            byte[][] chunks = BufferSplit(this.DumpData.HexData.ToArray(), BlockSize);
+            byte[][] chunks = BufferSplit(this.DumpData.HexData.ToArray(), BlockOrPageSize);
 
             for (int i = 0; i < chunks.GetLength(0); i++)
             {
@@ -241,25 +257,26 @@ namespace MifareWindowsTool.Common
                     txtOutput.AppendText($"{Environment.NewLine}{strBlock}", VioletBrush, false);
                 else if ((i % blockCountInSector - (blockCountInSector - 1)) == 0)
                 {
-                    for (int c = 0; c < BlockSize * 2; c++)
+                    for (int c = 0; c < BlockOrPageSize * 2; c++)
                     {
+                        if (strBlock.Length <= c) continue;
                         if (c <= 11)
                         {
                             txtOutput.AppendText(strBlock[c].ToString(), Brushes.Lime);
 
                         }
-                        else if (c > 11 && c <= 19 && strBlock.Length > c) txtOutput.AppendText(strBlock[c].ToString(), Brushes.Orange);
-                        else if (strBlock.Length > c)
+                        else if (c > 11 && c <= 19) txtOutput.AppendText(strBlock[c].ToString(), Brushes.Orange);
+                        else
                         {
                             txtOutput.AppendText(strBlock[c].ToString(), Brushes.Green);
                         }
                     }
                     //add keys to dump
-                    var keyA = strBlock.Substring(0, 12);
-                    if (!this.DumpKeys.Contains(keyA))
+                    var keyA =strBlock.Length > 12 ? strBlock.Substring(0, 12) : string.Empty;
+                    if (!string.IsNullOrEmpty(keyA) && !this.DumpKeys.Contains(keyA))
                         this.DumpKeys.Add(keyA);
-                    var keyB = strBlock.Length >= 32 ? strBlock.Substring(20, 12) : "";
-                    if (keyB != "" && !this.DumpKeys.Contains(keyB))
+                    var keyB = strBlock.Length >= 32 ? strBlock.Substring(20, 12) : string.Empty;
+                    if (!string.IsNullOrEmpty(keyB) && !this.DumpKeys.Contains(keyB))
                         this.DumpKeys.Add(keyB);
 
                     txtOutput.AppendText(Environment.NewLine, Brushes.White);
@@ -305,16 +322,31 @@ namespace MifareWindowsTool.Common
             if (!string.IsNullOrEmpty(initialDir)) dlg.InitialDirectory = initialDir;
             if (fileName != null) dlg.FileName = fileName;
         }
+
         private const string FlipperFileIdentifier = "Filetype: Flipper NFC";
-        private static bool IsFlipperMifareClassic1K(string data) => IsValidTemplateFlipperNfc && data.IndexOf("ATQA: ") > 0 && data.StartsWith(FlipperFileIdentifier) && data.Substring(data.IndexOf("ATQA: ") + "ATQA: ".Length, 5) == "04 00";
-        public static bool IsValidTemplateFlipperNfc => TemplateFlipperNfc != null && TemplateFlipperNfc.Any() && !string.IsNullOrWhiteSpace(string.Join("", TemplateFlipperNfc)) && TemplateFlipperNfc[0].StartsWith(FlipperFileIdentifier);
+        private static List<string> FlipperAtqas = new List<string>() { "04 00", "44 00" };
+
+        protected DumpBase()
+        {
+
+        }
+
+        private static bool IsFlipperMifareClassic(string textData) =>
+
+                 (IsValidTemplateFlipperNfc1k || IsValidTemplateFlipperNfcNtag213) &&
+                      textData.IndexOf("ATQA: ") > 0 && textData.StartsWith(FlipperFileIdentifier)
+                      && FlipperAtqas.Contains(textData.Substring(textData.IndexOf("ATQA: ") + "ATQA: ".Length, 5));
+
+
+        public static bool IsValidTemplateFlipperNfc1k => TemplateFlipperNfc1k != null && TemplateFlipperNfc1k.Any() && !string.IsNullOrWhiteSpace(string.Join("", TemplateFlipperNfc1k)) && TemplateFlipperNfc1k[0].StartsWith(FlipperFileIdentifier);
+        public static bool IsValidTemplateFlipperNfcNtag213 => TemplateFlipperNfcNTag213 != null && TemplateFlipperNfcNTag213.Any() && !string.IsNullOrWhiteSpace(string.Join("", TemplateFlipperNfcNTag213)) && TemplateFlipperNfcNTag213[0].StartsWith(FlipperFileIdentifier);
         private static IDump CreateTypedDump(Data data, string fileName)
         {
             if (data.TextData.StartsWith("+Sect"))// || (fi.Length != 1024 && fi.Length != 4096 && fi.Length != 320))
             {
                 return new DumpMct(data, fileName);
             }
-            else if (IsFlipperMifareClassic1K(data.TextData))
+            else if (IsFlipperMifareClassic(data.TextData))
             {
                 return new DumpFlipper(data, fileName);
             }
@@ -333,19 +365,19 @@ namespace MifareWindowsTool.Common
         protected abstract void LocalConvertFrom(string tmpString);
         private string PrepareTextFromHex(IDump originDump, bool fillWithEmptyDefault)
         {
-            var lineSize = 16;
-            var blockSize = lineSize * 4;
-            var bytesData = originDump.DumpData.HexData;
-            var dumpSize = blockSize * 16;
-            if (fillWithEmptyDefault)
+            int lineSize, dumpSize;
+            byte[] bytesData;
+            SetDumpSizes(originDump, out lineSize, out bytesData, out dumpSize);
+            var isNTag = originDump.CardType == CardType.NTag213 || originDump.CardType == CardType.NTag215 || originDump.CardType == CardType.NTag216;
+            if (fillWithEmptyDefault && !isNTag)
             {
                 //fill until block is complete
-                while (bytesData.Length % blockSize != 0)
+                while (bytesData.Length % BlockOrPageSize != 0)
                 {
                     var partialFill = FillHexDataLine(lineSize, bytesData);
                     if (partialFill == null)
                     {
-                        bytesData = FillHexDataLine(blockSize, bytesData);
+                        bytesData = FillHexDataLine(BlockOrPageSize, bytesData);
                         break;
                     }
                     bytesData = partialFill;
@@ -356,9 +388,42 @@ namespace MifareWindowsTool.Common
                     bytesData = bytesData.Concat(DefaultBytesBLockToAppend).ToArray();
                 }
             }
+            var strUidLength = isNTag ? 16 : 8;
             string hex = BitConverter.ToString(bytesData).Replace("-", string.Empty);
-            if (hex.Length >= 8) this.StrDumpUID = hex.Substring(0, 8);
-            return string.Join("\r\n", Split(hex, 32));
+            if (hex.Length >= strUidLength) this.StrDumpUID = hex.Substring(0, strUidLength);
+            var splitLength = isNTag ? 8 : 32;
+            return string.Join("\r\n", Split(hex, splitLength));
+        }
+
+        private void SetDumpSizes(IDump originDump, out int lineSize, out byte[] bytesData, out int dumpSize)
+        {
+            lineSize = 16;
+            BlockOrPageSize = lineSize * 4;
+            bytesData = originDump.DumpData.HexData;
+            dumpSize = BlockOrPageSize * 16;
+            switch (originDump.CardType)
+            {
+                case CardType.NTag213:
+                    BlockOrPageSize = 4;
+                    lineSize = 4;
+                    dumpSize = 180;
+                    break;
+                case CardType.NTag215:
+                    BlockOrPageSize = 4;
+                    lineSize = 4;
+                    dumpSize = 540;
+                    break;
+                case CardType.NTag216:
+                    BlockOrPageSize = 4;
+                    lineSize = 4;
+                    dumpSize = 924;
+                    break;
+
+                case CardType.Unknown:
+                    break;
+
+            }
+
         }
 
         private byte[] FillHexDataLine(int dataSize, byte[] bytesData)
@@ -385,7 +450,7 @@ namespace MifareWindowsTool.Common
         public virtual bool IsValid => !string.IsNullOrWhiteSpace(DumpFileFullName) && System.IO.File.Exists(DumpFileFullName) && new System.IO.FileInfo(DumpFileFullName).Length > 0;
         public abstract DumpType DumpType { get; }
 
-        public CardType CardType { get; }
+        public CardType CardType { get; internal set; } = CardType.Unknown;
 
         public static IDump OpenCreateDump(out bool canceled, string title = null)
         {

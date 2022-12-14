@@ -25,9 +25,9 @@
         </GroupBox>
         <GroupBox Foreground="White" Header="{localize:Static resx:Resources.OutputDumpType}" FontSize="14" Height="auto" Width="auto" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="4" ToolTip="Convert to which dump type?">
             <StackPanel x:Name="rbOutputDumps" Orientation="Vertical" Margin="5">
-                <RadioButton x:Name="rbMwt" GroupName="outputDumps" Checked="RadioButton_Checked" Foreground="White" FontSize="12" IsChecked="True" Margin="2">MWT (Libnfc)</RadioButton>
-                <RadioButton x:Name="rbMct" GroupName="outputDumps" Checked="RadioButton_Checked" Foreground="White" FontSize="12" Margin="2">MCT (Android Mifare Classic Tool)</RadioButton>
-                <RadioButton x:Name="rbFlipper" GroupName="outputDumps" Checked="RadioButton_Checked" Foreground="White" FontSize="12" Margin="2">Flipper Mifare Classic 1K</RadioButton>
+                <RadioButton x:Name="rbMwt" GroupName="outputDumps" Checked="RadioButton_Checked" Foreground="White" FontSize="12" IsChecked="True" Margin="2">MWT binary dump (Libnfc)</RadioButton>
+                <RadioButton x:Name="rbMct" GroupName="outputDumps" Checked="RadioButton_Checked" Foreground="White" FontSize="12" Margin="2">MCT text dump (Android Mifare Classic Tool)</RadioButton>
+                <RadioButton x:Name="rbFlipper" GroupName="outputDumps" Checked="RadioButton_Checked" Foreground="White" FontSize="12" Margin="2">Flipper text dump (Mifare Classic)</RadioButton>
             </StackPanel>
         </GroupBox>
         <CheckBox x:Name="ckFillEmptyWithDefault" Margin="40,2,40,2" Content="{localize:Static resx:Resources.FillEmptyWithDefault}" FontSize="12" Foreground="White" IsChecked="true"></CheckBox>

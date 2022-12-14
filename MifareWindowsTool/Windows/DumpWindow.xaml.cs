@@ -51,6 +51,9 @@ namespace MCT_Windows.Windows
             switch (dmp.CardType)
             {
                 case CardType.MifareMini: rbmini.IsChecked = true; break;
+                case CardType.NTag213: rbNTag213.IsChecked = true; break;
+                case CardType.NTag215: rbNTag213.IsChecked = true; break;
+                case CardType.NTag216: rbNTag213.IsChecked = true; break;
                 case CardType.Mifare1K: rb1K.IsChecked = true; break;
                 case CardType.Mifare2K: rb2K.IsChecked = true; break;
                 case CardType.Mifare4K: rb4K.IsChecked = true; break;

@@ -17,6 +17,8 @@ namespace MifareWindowsTool.DumpClasses
             this.DumpData = data;
             this.StrDumpUID = BitConverter.ToString(this.DumpData.HexData.Take(4).ToArray()).Replace("-", "");
 
+            SetCardType();
+
         }
         public override bool IsValid => base.IsValid && DumpType == DumpType.MWT;
         public override DumpType DumpType => DumpType.MWT;
@@ -25,11 +27,13 @@ namespace MifareWindowsTool.DumpClasses
             List<byte> byteData = new List<byte>();
             foreach (var line in dmp.DumpData.LstTextData)
             {
-                byteData.AddRange(StringToByteArray(line.Replace("-", "F")));
+                var byteArray = StringToByteArray(line.Replace("-", "F"));
+                byteData.AddRange(byteArray);
             }
-            if (dmp.DumpData.LstTextData[0].Length >= 8)
+            var strUidLength =  8;
+            if (dmp.DumpData.LstTextData[0].Length >= strUidLength)
             {
-                var uid = dmp.DumpData.LstTextData[0].Substring(0, 8);
+                var uid = dmp.DumpData.LstTextData[0].Substring(0, strUidLength);
                 dmp.StrDumpUID = uid;
             }
             return byteData.ToArray();

@@ -22,24 +22,40 @@ namespace MifareWindowsTool.DumpClasses
             if (fileName != null) this.DumpFileFullName = fileName;
             if (data == null) return;
             this.DumpData = data;
+
             this.DumpData.HexData = CreateBinaryDataFromText(this);
+            SetCardType();
+            SetUID(this);
         }
+
+        private void SetUID(IDump dmp)
+        {
+            var strUidLength = 2*4+4-1;
+            if (dmp.CardType == CardType.NTag213) strUidLength = 2 * 7 + 7 - 1;
+            const string flipperUid = "UID: ";
+            var uidIndex = dmp.DumpData.TextData.IndexOf(flipperUid) + flipperUid.Length;
+            if (uidIndex > 0 && dmp.DumpData.TextData.Substring(uidIndex).Length >= strUidLength)
+            {
+                dmp.StrDumpUID = dmp.DumpData.TextData.Substring(uidIndex, strUidLength).Replace(" ", "");
+            }
+        }
+
         protected override byte[] CreateBinaryDataFromText(IDump dmp)
         {
             List<byte> byteData = new List<byte>();
-            foreach (var line in dmp.DumpData.LstTextData.Where(l => l.StartsWith("Block ")))
+            var loopString = "Block ";
+            if (dmp.DumpData.LstTextData.Count(l => l.Contains("Page ")) >= 45)
+            {
+                loopString = "Page ";
+            }
+            foreach (var line in dmp.DumpData.LstTextData.Where(l => l.StartsWith(loopString)))
             {
                 var colonCharIndex = line.IndexOf(':');
                 if (colonCharIndex <= 0) continue;
                 var lineDataTrim = line.Substring(colonCharIndex + 1);
                 byteData.AddRange(StringToByteArray(lineDataTrim.Replace(" ", "")));
             }
-            const string flipperUid = "UID: ";
-            var uidIndex = dmp.DumpData.TextData.IndexOf(flipperUid) + flipperUid.Length;
-            if (uidIndex > 0 && dmp.DumpData.TextData.Substring(uidIndex).Length >= 11)
-            {
-                dmp.StrDumpUID = dmp.DumpData.TextData.Substring(uidIndex, 11).Replace(" ", "");
-            }
+
             return byteData.ToArray();
         }
 
@@ -47,7 +63,7 @@ namespace MifareWindowsTool.DumpClasses
         {
             this.DumpData.TextData = tmpString;
 
-            var ft = TemplateFlipperNfc;
+            var ft = TemplateFlipperNfc1k;
             var flipperBlockStartRow = 12;
             ft[5] = ft[5].Replace("UID:", $"UID: {this.StrDumpSpacedUID}");
             for (int i = 0; i < this.DumpData.LstTextData.Count; i++)
