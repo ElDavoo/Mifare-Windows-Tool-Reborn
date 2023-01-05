@@ -267,9 +267,9 @@ namespace MCT_Windows
                         else
                         {
                             Mouse.OverrideCursor = null;
-                            return true;
+                            
                         }
-
+                        return true;
                     }
 
                 }

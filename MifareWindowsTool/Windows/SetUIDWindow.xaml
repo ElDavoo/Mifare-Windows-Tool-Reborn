@@ -14,7 +14,7 @@
     mc:Ignorable="d">
     <StackPanel
         Height="auto"
-        Margin="0,30,0,0"
+        Margin="0,10,0,0"
         VerticalAlignment="Top"
         Background="#303030"
         Orientation="Vertical">
@@ -27,18 +27,18 @@
                 Background="#5A595B"
                 Foreground="Gray" />
         </StackPanel>
-        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-            <Label Content="{localize:Static resx:Resources.NewUID}" Foreground="White" />
+        <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
+            <Label Content="{localize:Static resx:Resources.NewUIDOrBlock0}" Foreground="White" />
             <TextBox
                 x:Name="txtnewUID"
-                Width="100"
+                Width="233"
                 VerticalAlignment="Center"
                 Background="#5A595B"
                 BorderBrush="Wheat"
                 CharacterCasing="Upper"
                 FontSize="13"
                 Foreground="White"
-                MaxLength="8" />
+                MaxLength="32" />
         </StackPanel>
         <CheckBox
             x:Name="ckFormatTag"

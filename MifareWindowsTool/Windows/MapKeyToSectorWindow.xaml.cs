@@ -25,7 +25,7 @@ namespace MCT_Windows
             {
                 lblChooseKeyFile.Content += $"\n{lblContent}";
             }
-            Title += $" {titleContent}";
+            Title += $" ({titleContent})";
             Uri iconUri = new Uri("pack://application:,,,/Resources/MWT.ico", UriKind.RelativeOrAbsolute);
             this.Icon = BitmapFrame.Create(iconUri);
             foreach (var f in Directory.GetFiles(DumpBase.DefaultKeysPath, "*.keys", SearchOption.AllDirectories))

@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
+
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MifareWindowsTool.Common
 {
@@ -10,8 +13,7 @@ namespace MifareWindowsTool.Common
     {
         public static bool OnlyHex(this string str)
         {
-            // For C-style hex notation (0xFF) you can use @"\A\b(0[xX])?[0-9a-fA-F]+\b\Z"
-            return System.Text.RegularExpressions.Regex.IsMatch(str, @"\A\b[0-9a-fA-F]+\b\Z");
+          return str.ToUpper().All("0123456789ABCDEF".Contains);
         }
         public static string HexStrToAscii(this string hexString)
         {

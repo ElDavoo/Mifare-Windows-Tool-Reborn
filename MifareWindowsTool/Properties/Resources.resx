@@ -363,7 +363,7 @@ DUMP FILE</value>
     <value>Set new tag UID</value>
   </data>
   <data name="InvalidUID" xml:space="preserve">
-    <value>Invalid UID (valid UID : 8 hex digits)</value>
+    <value>Invalid UID (4 bytes = 8 hex digits) or BLOCK 0 (16 bytes - 32 hex digits)</value>
   </data>
   <data name="NewUID" xml:space="preserve">
     <value>New UID</value>
@@ -495,10 +495,10 @@ Backdoor to rewrite regardless of ACs (magic commands) : no
 Detectable as a copy : very difficult (does not respond to magic commands)</value>
   </data>
   <data name="SelectDumpForSourceTag" xml:space="preserve">
-    <value>Choose the MWT dump file corresponding to the content of the badge to be copied</value>
+    <value>Choose the MWT dump file corresponding to the content of the badge to be copied (source)</value>
   </data>
   <data name="SelectDumpForTargetTag" xml:space="preserve">
-    <value>Choose the MWT dump file corresponding to the content of the blank badge</value>
+    <value>Choose the MWT dump file corresponding to the content of the blank badge (target)</value>
   </data>
   <data name="SourceDump" xml:space="preserve">
     <value>dump file of tag to copy:</value>
@@ -536,5 +536,8 @@ Detectable as a copy : very difficult (does not respond to magic commands)</valu
   </data>
   <data name="FillEmptyWithDefault" xml:space="preserve">
     <value>Complete the dump with default values if the dump is partial</value>
+  </data>
+  <data name="NewUIDOrBlock0" xml:space="preserve">
+    <value>New UID (4 bytes) or full BLOCK 0 (16 bytes)</value>
   </data>
 </root>

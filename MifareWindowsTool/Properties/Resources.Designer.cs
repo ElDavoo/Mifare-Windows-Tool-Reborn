@@ -628,7 +628,7 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Invalid UID (valid UID : 8 hex digits).
+        ///   Recherche une chaîne localisée semblable à Invalid UID (4 bytes = 8 hex digits) or BLOCK 0 (16 bytes - 32 hex digits).
         /// </summary>
         public static string InvalidUID {
             get {
@@ -769,6 +769,15 @@ namespace MifareWindowsTool.Properties {
         public static string NewUIDFound {
             get {
                 return ResourceManager.GetString("NewUIDFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à New UID (4 bytes) or full BLOCK 0 (16 bytes).
+        /// </summary>
+        public static string NewUIDOrBlock0 {
+            get {
+                return ResourceManager.GetString("NewUIDOrBlock0", resourceCulture);
             }
         }
         
@@ -971,7 +980,7 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Choose the MWT dump file corresponding to the content of the badge to be copied.
+        ///   Recherche une chaîne localisée semblable à Choose the MWT dump file corresponding to the content of the badge to be copied (source).
         /// </summary>
         public static string SelectDumpForSourceTag {
             get {
@@ -980,7 +989,7 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Choose the MWT dump file corresponding to the content of the blank badge.
+        ///   Recherche une chaîne localisée semblable à Choose the MWT dump file corresponding to the content of the blank badge (target).
         /// </summary>
         public static string SelectDumpForTargetTag {
             get {

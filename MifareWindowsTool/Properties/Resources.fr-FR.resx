@@ -365,7 +365,7 @@
     <value>Changer l'UID du badge</value>
   </data>
   <data name="InvalidUID" xml:space="preserve">
-    <value>UID non valide (UID valide : 8 caractères hexadécimaux)</value>
+    <value>UID  (UID valide : 4 octets soit 8 caractères hexa) ou BLOCK0 (16 octets soit 32 caractères hexa) incorrect</value>
   </data>
   <data name="NewUID" xml:space="preserve">
     <value>Nouvel UID</value>
@@ -500,10 +500,10 @@ Détectable comme copie : très difficilement (ne répond pas aux commandes magi
 </value>
   </data>
   <data name="SelectDumpForSourceTag" xml:space="preserve">
-    <value>Choisir le fichier dump MWT correspondant au contenu du badge à copier</value>
+    <value>Choisir le fichier dump MWT correspondant au contenu du badge à copier (source)</value>
   </data>
   <data name="SelectDumpForTargetTag" xml:space="preserve">
-    <value>Choisir le fichier dump MWT correspondant au contenu du badge vierge</value>
+    <value>Choisir le fichier dump MWT correspondant au contenu du badge vierge (cible)</value>
   </data>
   <data name="ReadTargetMoreInfos" xml:space="preserve">
     <value>Remarque : avant de copier un badge, MWT doit quand même connaître (donc décrypter) le badge sur lequel vous allez copier, même si c'est un badge vierge.</value>
@@ -538,5 +538,8 @@ Détectable comme copie : très difficilement (ne répond pas aux commandes magi
   </data>
   <data name="FillEmptyWithDefault" xml:space="preserve">
     <value>Compléter le dump avec des valeurs par défaut si le dump est partiel</value>
+  </data>
+  <data name="NewUIDOrBlock0" xml:space="preserve">
+    <value>Nouvel UID (4 octets) ou BLOCK 0 complet (16 octets)</value>
   </data>
 </root>

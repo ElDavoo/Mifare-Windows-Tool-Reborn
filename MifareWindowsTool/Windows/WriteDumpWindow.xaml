@@ -13,7 +13,11 @@
     WindowStyle="SingleBorderWindow"
     mc:Ignorable="d">
     <Grid>
-        <StackPanel Orientation="Vertical">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="9*"/>
+            <ColumnDefinition Width="61*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Vertical" Grid.ColumnSpan="2">
 
             <GroupBox
                 x:Name="gbActions"
@@ -222,7 +226,7 @@
                 </StackPanel>
             </GroupBox>
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-               
+
                 <Button
                     x:Name="btnWriteDump"
                     Width="auto"
