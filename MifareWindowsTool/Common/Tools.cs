@@ -225,7 +225,7 @@ namespace MCT_Windows
                     }
                     List<GitRelease> gitReleases = JsonConvert.DeserializeObject<List<GitRelease>>(data);
                     if (gitReleases == null || !gitReleases.Any()) return (null, null);
-                    var latestVersionTagName = gitReleases.First().tag_name;
+                    var latestVersionTagName = gitReleases.Where(r => r.prerelease == false).Select(s => s.tag_name).FirstOrDefault();
                     var latestVersion = new Version(latestVersionTagName);
                     var latestPreRelease = gitReleases.Where(r => r.prerelease == true).Select(s => s.tag_name).FirstOrDefault();
                     if (latestPreRelease == null) return (latestVersion, null);

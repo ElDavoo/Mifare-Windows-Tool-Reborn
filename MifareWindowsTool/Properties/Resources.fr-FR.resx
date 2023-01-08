@@ -553,7 +553,7 @@ Veuillez vérifier si votre antivirus n'a pas bloqué ce fichier après l'instal
     <value>Voulez-vous aller sur la page de téléchargement (GitHub) ?</value>
   </data>
   <data name="GoOnGitHubPageBeta" xml:space="preserve">
-    <value>Voulez-vous aller sur la page de téléchargement gitHhub des pré-versions  (Oui) ou des versions stables (Non) ou annuler ?</value>
+    <value>Voulez-vous aller sur la page de téléchargement gitHub des pré-versions  (Oui) ou des versions stables (Non) ou annuler ?</value>
   </data>
   <data name="NewerBetaVersionExists" xml:space="preserve">
     <value>Une nouvelle pré-version est disponible.</value>
