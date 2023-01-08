@@ -542,4 +542,14 @@ Détectable comme copie : très difficilement (ne répond pas aux commandes magi
   <data name="NewUIDOrBlock0" xml:space="preserve">
     <value>Nouvel UID (4 octets) ou BLOCK 0 complet (16 octets)</value>
   </data>
+  <data name="MissingMandatoryExeFiles" xml:space="preserve">
+    <value>Des fichiers nécessaires au bon fonctionnement de MWT sont manquants.
+Veuillez vérifier si votre antivirus n'aurait pas bloqué des fichiers après l'installation de MWT.
+Fichier(s) manquant(s) dans </value>
+  </data>
+  <data name="MissingExeFile" xml:space="preserve">
+    <value>Le fichier {1} est manquant dans le dossier {0}.
+MWT Ne peut pas fonctionner correctement.
+Veuillez vérifier si votre antivirus n'a pas bloqué ce fichier après l'installation. </value>
+  </data>
 </root>

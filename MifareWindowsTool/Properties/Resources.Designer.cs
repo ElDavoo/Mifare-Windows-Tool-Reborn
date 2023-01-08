@@ -691,6 +691,29 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Following file is missing: {1} in folder {0}
+        ///MWT cannot run properly.
+        ///Please check if your antivirus has not blocked this file after MWT install..
+        /// </summary>
+        public static string MissingExeFile {
+            get {
+                return ResourceManager.GetString("MissingExeFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Some mandatory executable files are missing.
+        ///MWT may not run properly.
+        ///Please check if your antivirus has not blocked some files after MWT install.
+        ///Missing file(s) in .
+        /// </summary>
+        public static string MissingMandatoryExeFiles {
+            get {
+                return ResourceManager.GetString("MissingMandatoryExeFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Icon semblable à (Icône).
         /// </summary>
         public static System.Drawing.Icon MWT {

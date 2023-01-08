@@ -540,4 +540,15 @@ Detectable as a copy : very difficult (does not respond to magic commands)</valu
   <data name="NewUIDOrBlock0" xml:space="preserve">
     <value>New UID (4 bytes) or full BLOCK 0 (16 bytes)</value>
   </data>
+  <data name="MissingMandatoryExeFiles" xml:space="preserve">
+    <value>Some mandatory executable files are missing.
+MWT may not run properly.
+Please check if your antivirus has not blocked some files after MWT install.
+Missing file(s) in </value>
+  </data>
+  <data name="MissingExeFile" xml:space="preserve">
+    <value>Following file is missing: {1} in folder {0}
+MWT cannot run properly.
+Please check if your antivirus has not blocked this file after MWT install.</value>
+  </data>
 </root>

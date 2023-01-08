@@ -45,6 +45,8 @@ namespace MCT_Windows
         //CommandTask<CommandResult> task = null;
         string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         public string MainTitle { get; set; } = $"Mifare Windows Tool";
+
+
         Tools Tools { get; }
         public List<MCTFile> SelectedKeys = new List<MCTFile>();
         Uri BaseUri = null;
@@ -102,6 +104,23 @@ namespace MCT_Windows
                 }
 
             }
+            SetDefaultPaths();
+
+            var ofd = DumpBase.CreateOpenDialog();
+            //ofd.InitialDirectory = DumpBase.DefaultDumpPath;
+
+            if (!Tools.TestWritePermission(ofd.InitialDirectory))
+            {
+                MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.PleaseRestartAsAdmin)));
+                Application.Current.Shutdown();
+            }
+            if (CheckSetDriver() && Tools.CheckNfcToolsFolder()) PeriodicScanTag();
+        }
+
+        private void SetDefaultPaths()
+        {
+            Directory.SetCurrentDirectory(DumpBase.DefaultWorkingDir);
+
             var defaultPath = Tools.GetSetting("DefaultDumpPath");
             if (!string.IsNullOrWhiteSpace(defaultPath) && Directory.Exists(defaultPath))
                 DumpBase.DefaultDumpPath = defaultPath;
@@ -113,17 +132,10 @@ namespace MCT_Windows
                 DumpBase.DefaultKeysPath = defaultKeysPath;
             else
                 DumpBase.DefaultKeysPath = Path.Combine(DumpBase.DefaultWorkingDir, "keys");
-
-            var ofd = DumpBase.CreateOpenDialog();
-            //ofd.InitialDirectory = DumpBase.DefaultDumpPath;
-
-            if (!Tools.TestWritePermission(ofd.InitialDirectory))
-            {
-                MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.PleaseRestartAsAdmin)));
-                Application.Current.Shutdown();
-            }
-            if (CheckSetDriver()) PeriodicScanTag();
         }
+
+
+
         private bool CheckSetDriver()
         {
             try
@@ -135,7 +147,7 @@ namespace MCT_Windows
                     var libusbkState = Tools.DriverState("LibUsbk");
                     if (acrState != "running" && libusbkState == "stopped")
                     {
-                        MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.BadgeReaderAcr122NotFound)), "Attention", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.BadgeReaderAcr122NotFound)), Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Warning)), MessageBoxButton.OK, MessageBoxImage.Warning);
                         return false;
                     }
                     if (libusbkState != "running")
@@ -267,7 +279,7 @@ namespace MCT_Windows
                         else
                         {
                             Mouse.OverrideCursor = null;
-                            
+
                         }
                         return true;
                     }
@@ -391,10 +403,11 @@ namespace MCT_Windows
 
             using (var cts = new CancellationTokenSource())
             {
+                var exeFile = "pcsc_scan.exe";
                 bool IsACR122 = false;
                 ProcessCTS = new CancellationTokenSource();
                 cts.CancelAfter(TimeSpan.FromSeconds(10)); // e.g. timeout of 5 seconds
-                var cmd = Cli.Wrap("nfctools\\pcsc_scan.exe");
+                var cmd = Cli.Wrap($"{DumpBase.DefaultNfcToolsPath}\\{exeFile}");
 
 
                 await foreach (CommandEvent cmdEvent in cmd.ListenAsync(cts.Token))
@@ -418,11 +431,13 @@ namespace MCT_Windows
 
         public async Task<string> RunNfcListAsync()
         {
-
             try
             {
+                var exeFile = "nfc-list.exe";
+                if (!Tools.CheckNfcToolsFolder(exeFile)) return string.Empty;
+
                 var stdOutFull = "";
-                var cmd = Cli.Wrap("nfctools\\nfc-list.exe").WithValidation(CommandResultValidation.None);
+                var cmd = Cli.Wrap($"{DumpBase.DefaultNfcToolsPath}\\{exeFile}").WithValidation(CommandResultValidation.None);
                 //task = cmd.ExecuteAsync();
                 //ShowPauseButton(task != null);
                 await foreach (CommandEvent cmdEvent in cmd.ListenAsync(ScanCTS.Token))
@@ -531,12 +546,14 @@ namespace MCT_Windows
             ShowPauseButton();
             try
             {
+                var exeFile = "mifare-classic-format.exe";
+                if (!Tools.CheckNfcToolsFolder(exeFile)) return;
                 string args = "";
                 if (System.IO.File.Exists(Tools.TargetBinaryDump.DumpFileFullName)) args += $" \"{Tools.TargetBinaryDump.DumpFileFullName}\"";
                 ProcessCTS = new CancellationTokenSource();
                 var arguments = $"-y {args}";
                 LogAppend($"mifare-classic-format {arguments}");
-                var cmd = Cli.Wrap("nfctools\\mifare-classic-format.exe").WithArguments(arguments).WithValidation(withoutValidation ? CommandResultValidation.None : CommandResultValidation.ZeroExitCode);
+                var cmd = Cli.Wrap($"{DumpBase.DefaultNfcToolsPath}\\{exeFile}").WithArguments(arguments).WithValidation(withoutValidation ? CommandResultValidation.None : CommandResultValidation.ZeroExitCode);
                 //task = cmd.ExecuteAsync();
                 //ShowPauseButton(task != null);
                 await foreach (CommandEvent cmdEvent in cmd.ListenAsync(ProcessCTS.Token))
@@ -572,6 +589,8 @@ namespace MCT_Windows
         {
             try
             {
+                var exeFile = "nfc-mfclassic.exe";
+                if (!Tools.CheckNfcToolsFolder(exeFile)) return;
                 StopScanTag();
                 ValidateActions(false);
                 ShowAbortButton();
@@ -586,7 +605,7 @@ namespace MCT_Windows
                 var arguments = $"{writeMode} {cHaltOnError} \"{sourceDump.DumpFileFullName}\" \"{targetDump.DumpFileFullName}\"";
                 LogAppend($"nfc-mfclassic {arguments}");
 
-                var cmd = Cli.Wrap("nfctools\\nfc-mfclassic.exe").WithArguments(arguments).WithValidation(CommandResultValidation.None)
+                var cmd = Cli.Wrap($"{DumpBase.DefaultNfcToolsPath}\\{exeFile}").WithArguments(arguments).WithValidation(CommandResultValidation.None)
                     .WithStandardOutputPipe(PipeTarget.ToDelegate(LogAppend))
                     .WithStandardErrorPipe(PipeTarget.ToDelegate(ErrorAppend));
                 //task = cmd.ExecuteAsync();
@@ -615,6 +634,8 @@ namespace MCT_Windows
         {
             try
             {
+                var exeFile = "mfoc-hardnested.exe";
+                if (!Tools.CheckNfcToolsFolder(exeFile)) return;
                 Mouse.OverrideCursor = Cursors.Wait;
                 bool showDump = false;
                 StopScanTag();
@@ -637,7 +658,7 @@ namespace MCT_Windows
                 arguments += $" -O\"{tmpFileMfd}\"";
                 ProcessCTS = new CancellationTokenSource();
                 LogAppend($"mfoc-hardnested {arguments}");
-                var cmd = Cli.Wrap("nfctools\\mfoc-hardnested.exe").WithArguments(arguments).WithWorkingDirectory(DumpBase.DefaultWorkingDir).WithValidation(CommandResultValidation.None);
+                var cmd = Cli.Wrap($"{DumpBase.DefaultNfcToolsPath}\\{exeFile}").WithArguments(arguments).WithWorkingDirectory(DumpBase.DefaultWorkingDir).WithValidation(CommandResultValidation.None);
                 //task = cmd.ExecuteAsync();
                 //ShowPauseButton(task != null);
                 await foreach (CommandEvent cmdEvent in cmd.ListenAsync(ProcessCTS.Token))

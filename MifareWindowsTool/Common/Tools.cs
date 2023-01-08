@@ -50,7 +50,14 @@ namespace MCT_Windows
         MediaPlayer Player = null;
         public bool lprocess = false;
         public bool running = false;
-
+        private List<string> NfcToolsMandatoryExeListToCheck = new List<string>()
+           {
+               "nfc-list.exe",
+               "mifare-classic-format.exe",
+               "nfc-mfclassic.exe",
+               "mfoc-hardnested.exe",
+               "nfc-mfsetuid.exe"
+           };
         public Tools()
         {
 
@@ -115,7 +122,38 @@ namespace MCT_Windows
             }
             return null;
         }
+        public bool CheckNfcToolsFolder(string fileToCheck = null)
+        {
+            var filesToCheck = new List<string>();
+            if (!string.IsNullOrEmpty(fileToCheck))
+            {
+                filesToCheck.Add(fileToCheck);
+            }
+            else
+            {
+                filesToCheck = NfcToolsMandatoryExeListToCheck;
+            }
+            var existingFiles = Directory.EnumerateFiles(DumpBase.DefaultNfcToolsPath, "*.exe", SearchOption.TopDirectoryOnly).Select(p => Path.GetFileName(p)).ToList();
+            var comparelst = filesToCheck.Except(existingFiles).ToList();
+            if (comparelst.Any())
+            {
+                var message = "";
+                if (string.IsNullOrEmpty(fileToCheck))
+                {
+                    message = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.MissingMandatoryExeFiles)) +
+                      DumpBase.DefaultNfcToolsPath + ":\n"
+                      + string.Join("\n", comparelst);
+                }
+                else
+                {
+                    message = string.Format(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.MissingExeFile)), DumpBase.DefaultNfcToolsPath, fileToCheck);
+                }
+                MessageBox.Show(message, Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Warning)), MessageBoxButton.OK, MessageBoxImage.Warning);
 
+                return false;
+            }
+            return true;
+        }
         public bool InstallLibUsbKDriver()
         {
             var startInfo = new ProcessStartInfo();

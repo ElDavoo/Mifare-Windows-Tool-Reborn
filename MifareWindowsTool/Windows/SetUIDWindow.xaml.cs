@@ -32,6 +32,7 @@ namespace MCT_Windows.Windows
 
         private async void btnSetUID_Click(object sender, RoutedEventArgs e)
         {
+         
             if (!txtnewUID.Text.Trim().OnlyHex() || (txtnewUID.Text.Trim().Length != 8 && txtnewUID.Text.Trim().Length != 32))
             {
                 MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.InvalidUID)));
@@ -42,13 +43,14 @@ namespace MCT_Windows.Windows
         }
         private async Task RunSetUidAsync(string newUID)
         {
+            var exeFile = "nfc-mfsetuid.exe";
             var arguments = "";
             if (ckFormatTag.IsChecked.Value)
                 arguments += "-f ";
             arguments += newUID;
 
             Main.LogAppend($"nfc-mfsetuid {arguments}");
-            var cmd = Cli.Wrap(@"nfctools\\nfc-mfsetuid.exe").WithArguments(arguments)
+            var cmd = Cli.Wrap(@$"{DumpBase.DefaultNfcToolsPath}\\{exeFile}").WithArguments(arguments)
                     .WithStandardOutputPipe(PipeTarget.ToDelegate(Main.LogAppend))
                     .WithStandardErrorPipe(PipeTarget.ToDelegate(Main.ErrorAppend));
 
@@ -59,6 +61,8 @@ namespace MCT_Windows.Windows
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             var uid = "";
+            var exeFile = "nfc-mfsetuid.exe";
+            if (!Tools.CheckNfcToolsFolder(exeFile)) return;
             if (Tools.TargetBinaryDump == null || string.IsNullOrWhiteSpace(Tools.TargetBinaryDump.StrDumpUID))
             {
                 Main.ScanCTS = new System.Threading.CancellationTokenSource();
