@@ -135,10 +135,6 @@
   <data name="AutoScanTagStopped" xml:space="preserve">
     <value>Auto scan tag stopped</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Beep_ACR122U" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Beep_ACR122U.m4a;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="BtnDeleteKeyFileContent" xml:space="preserve">
     <value>Delete Key File</value>
   </data>
@@ -236,6 +232,7 @@ DUMP FILE</value>
   <data name="MapKeyToSectorWindowTitle" xml:space="preserve">
     <value>Map Keys</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="MWT" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MWT.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

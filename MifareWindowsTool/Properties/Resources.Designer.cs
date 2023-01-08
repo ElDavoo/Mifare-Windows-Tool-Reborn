@@ -152,16 +152,6 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
-        ///   Recherche une ressource localisée de type System.Byte[].
-        /// </summary>
-        public static byte[] Beep_ACR122U {
-            get {
-                object obj = ResourceManager.GetObject("Beep_ACR122U", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Recherche une chaîne localisée semblable à Browse.
         /// </summary>
         public static string Browse {

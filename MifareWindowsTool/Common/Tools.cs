@@ -7,7 +7,6 @@ using System.Linq;
 using System.Management;
 using System.Net.Http;
 using System.Windows;
-using System.Windows.Media;
 
 using MifareWindowsTool.Common;
 using MifareWindowsTool.DumpClasses;
@@ -47,13 +46,11 @@ namespace MCT_Windows
     }
     public class Tools
     {
-        MediaPlayer Player = null;
         public bool lprocess = false;
         public bool running = false;
         private List<string> NfcToolsMandatoryExeListToCheck = new List<string>()
            {
                "nfc-list.exe",
-               "mifare-classic-format.exe",
                "nfc-mfclassic.exe",
                "mfoc-hardnested.exe",
                "nfc-mfsetuid.exe"
@@ -258,20 +255,6 @@ namespace MCT_Windows
                     throw;
                 else
                     return false;
-            }
-        }
-
-        public void PlayBeep(Uri baseUri)
-        {
-            try
-            {
-                Player = new MediaPlayer();
-                Player.Open(new Uri("Beep_ACR122U.m4a", UriKind.RelativeOrAbsolute));
-                Player.Play();
-
-            }
-            catch (Exception)
-            {
             }
         }
 

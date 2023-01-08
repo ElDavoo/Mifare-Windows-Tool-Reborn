@@ -144,22 +144,13 @@ namespace MCT_Windows
 
                 if (acrState != "")
                 {
-                    var libusbkState = Tools.DriverState("LibUsbk");
-                    if (acrState != "running" && libusbkState == "stopped")
+                   
+                    if (acrState != "running")
                     {
                         MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.BadgeReaderAcr122NotFound)), Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Warning)), MessageBoxButton.OK, MessageBoxImage.Warning);
                         return false;
                     }
-                    if (libusbkState != "running")
-                    {
-                        var dr = MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DriverLibUsbKNonInstalled)), "LibUsbK", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-                        if (dr == MessageBoxResult.OK)
-                        {
-                            return Tools.InstallLibUsbKDriver();
-                        }
-                    }
-                    else
-                        return true;
+                    return true;
                 }
                 else
                 {
@@ -168,7 +159,6 @@ namespace MCT_Windows
                     if (dr == MessageBoxResult.OK)
                     {
                         Process.Start(ACSDriversPage);
-
                     }
                 }
                 return false;
@@ -511,8 +501,6 @@ namespace MCT_Windows
                     DumpBase.CurrentUID = newUID;
                     this.Title = $"{MainTitle}: {Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NewUIDFound))}: {DumpBase.CurrentUID}";
 
-                    Tools.PlayBeep(BaseUri);
-
                     TagFound = true;
                 }
             }
@@ -538,50 +526,39 @@ namespace MCT_Windows
                     LogAppend(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.AutoScanTagStopped)));
             }
         }
-        public async Task RunMifareClassicFormatAsync(bool withoutValidation = false)
+      
+
+
+        public async Task RunSetUidAsync(string newUID, bool format)
         {
-            StopScanTag();
-            ValidateActions(false);
-            ShowAbortButton();
-            ShowPauseButton();
             try
             {
-                var exeFile = "mifare-classic-format.exe";
-                if (!Tools.CheckNfcToolsFolder(exeFile)) return;
-                string args = "";
-                if (System.IO.File.Exists(Tools.TargetBinaryDump.DumpFileFullName)) args += $" \"{Tools.TargetBinaryDump.DumpFileFullName}\"";
-                ProcessCTS = new CancellationTokenSource();
-                var arguments = $"-y {args}";
-                LogAppend($"mifare-classic-format {arguments}");
-                var cmd = Cli.Wrap($"{DumpBase.DefaultNfcToolsPath}\\{exeFile}").WithArguments(arguments).WithValidation(withoutValidation ? CommandResultValidation.None : CommandResultValidation.ZeroExitCode);
-                //task = cmd.ExecuteAsync();
-                //ShowPauseButton(task != null);
-                await foreach (CommandEvent cmdEvent in cmd.ListenAsync(ProcessCTS.Token))
-                {
-                    switch (cmdEvent)
-                    {
-                        case StandardOutputCommandEvent stdOut:
-                            LogAppend(stdOut.Text);
-                            break;
-                        case StandardErrorCommandEvent stdErr:
-                            ErrorAppend(stdErr.Text);
-                            break;
-                        default: break;
-                    }
-                }
+                var exeFile = "nfc-mfsetuid.exe";
+                var arguments = "";
+                if (format)
+                    arguments += "-f ";
+                arguments += newUID;
 
+                LogAppend($"nfc-mfsetuid {arguments}");
+                var cmd = Cli.Wrap(@$"{DumpBase.DefaultNfcToolsPath}\\{exeFile}").WithArguments(arguments)
+                        .WithStandardOutputPipe(PipeTarget.ToDelegate(LogAppend))
+                        .WithStandardErrorPipe(PipeTarget.ToDelegate(ErrorAppend));
+
+                var result = await cmd.ExecuteAsync(ProcessCTS.Token);
             }
             catch (OperationCanceledException)
             {
             }
+            catch (Exception)
+            {
+                throw;
+            }
             finally
             {
-                //ProcessCTS.Dispose();
                 ValidateActions(true);
                 ShowAbortButton(false);
                 ShowPauseButton(null);
             }
-
         }
         //[DllImport(@"C:\work\libnfc_test\build\utils\Debug\nfc-list.exe")]
         //public static extern int nfclist();

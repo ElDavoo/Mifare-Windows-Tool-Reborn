@@ -40,7 +40,7 @@ namespace MCT_Windows
         {
             if (rbFactoryFormat.IsChecked.HasValue && rbFactoryFormat.IsChecked.Value)
             {
-                await main.RunMifareClassicFormatAsync(true);
+                await main.RunSetUidAsync("",true);
                 //this.DialogResult = true;
                 this.Close();
             }

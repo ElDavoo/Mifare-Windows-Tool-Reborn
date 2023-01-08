@@ -7,12 +7,12 @@ using System.Windows;
 // Les informations générales relatives à un assembly dépendent de
 // l'ensemble d'attributs suivant. Pour modifier les informations
 // associées à un assembly.
-[assembly: AssemblyTitle("MCT Windows")]
+[assembly: AssemblyTitle("MWT")]
 [assembly: AssemblyDescription("Mifare Windows Tool")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("AVXTEC")]
-[assembly: AssemblyProduct("MCT Windows")]
-[assembly: AssemblyCopyright("Copyright ©AVXTEC 2020")]
+[assembly: AssemblyProduct("MWT")]
+[assembly: AssemblyCopyright("Copyright ©AVXTEC 2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("en")]
@@ -52,5 +52,5 @@ using System.Windows;
 // Vous pouvez spécifier toutes les valeurs ou indiquer les numéros de build et de révision par défaut
 // en utilisant '*', comme indiqué ci-dessous :
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.5.*")]
-[assembly: AssemblyFileVersion("1.5.0.0")]
+[assembly: AssemblyVersion("1.6.*")]
+[assembly: AssemblyFileVersion("1.6.0.0")]

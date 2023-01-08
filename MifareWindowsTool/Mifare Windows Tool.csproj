@@ -333,9 +333,6 @@
     <Content Include="ACR122_LibUsbK_Driver\x86\WdfCoInstaller01009.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Beep_ACR122U.m4a">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Resource Include="Images\Folder Explorer-01.png" />
     <Resource Include="Images\utilities_reset.png" />
     <Resource Include="Images\donate.gif" />
@@ -366,11 +363,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="app.manifest" />
-    <None Include="nfctools\Template_Flipper_1K.nfc">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Include="nfctools_pcsc\Template_Flipper_1K.nfc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="nfctools\Template_Flipper_NTAG213.nfc">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Include="nfctools_pcsc\Template_Flipper_NTAG213.nfc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -392,139 +389,97 @@
   <ItemGroup>
     <Resource Include="MWT_square.ico" />
     <Resource Include="MWT_square.png" />
-    <Content Include="nfctools\api-ms-win-core-kernel32-legacy-l1-1-0.dll">
+    <Content Include="nfctools_pcsc\libnfc.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools\api-ms-win-core-libraryloader-l1-2-0.dll">
+    <Content Include="nfctools_pcsc\libusb-1.0.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools\api-ms-win-core-localization-l1-2-0.dll">
+    <Content Include="nfctools_pcsc\libusb0.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools\api-ms-win-core-processthreads-l1-1-1.dll">
+    <Content Include="nfctools_pcsc\mfcuk.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools\api-ms-win-core-synch-l1-2-0.dll">
+    <Content Include="nfctools_pcsc\mfoc-hardnested.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools\api-ms-win-core-timezone-l1-1-0.dll">
+    <Content Include="nfctools_pcsc\nfc-anticol.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools\api-ms-win-security-cryptoapi-l1-1-0.dll">
+    <Content Include="nfctools_pcsc\nfc-barcode.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools\libcrypto.dll">
+    <Content Include="nfctools_pcsc\nfc-dep-initiator.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools\libfreefare.dll">
+    <Content Include="nfctools_pcsc\nfc-dep-target.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools\liblzma-5.dll">
+    <Content Include="nfctools_pcsc\nfc-emulate-forum-tag2.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools\libnfc.dll">
+    <Content Include="nfctools_pcsc\nfc-emulate-forum-tag4.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools\libusb-1.0.dll">
+    <Content Include="nfctools_pcsc\nfc-emulate-tag.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools\libusb0.dll">
+    <Content Include="nfctools_pcsc\nfc-emulate-uid.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools\libwinpthread-1.dll">
+    <Content Include="nfctools_pcsc\nfc-jewel.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools\mfcuk.exe">
+    <Content Include="nfctools_pcsc\nfc-list.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools\mfoc-hardnested.exe">
+    <Content Include="nfctools_pcsc\nfc-mfclassic.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools\msys-2.0.dll">
+    <Content Include="nfctools_pcsc\nfc-mfsetuid.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools\nfc-anticol.exe">
+    <Content Include="nfctools_pcsc\nfc-mfultralight.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools\nfc-barcode.exe">
+    <Content Include="nfctools_pcsc\nfc-poll.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools\nfc-dep-initiator.exe">
+    <Content Include="nfctools_pcsc\nfc-read-forum-tag3.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools\nfc-dep-target.exe">
+    <Content Include="nfctools_pcsc\nfc-relay-picc.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools\nfc-emulate-forum-tag2.exe">
+    <Content Include="nfctools_pcsc\nfc-relay.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools\nfc-emulate-forum-tag4.exe">
+    <Content Include="nfctools_pcsc\nfc-scan-device.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools\nfc-emulate-tag.exe">
+    <Content Include="nfctools_pcsc\nfc-st25tb.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools\nfc-emulate-uid.exe">
+    <Content Include="nfctools_pcsc\nfc.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools\nfc-jewel.exe">
+    <Content Include="nfctools_pcsc\pcsc_scan.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools\nfc-mfsetuid.exe">
+    <Content Include="nfctools_pcsc\pn53x-diagnose.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools\nfc-mfultralight.exe">
+    <Content Include="nfctools_pcsc\pn53x-sam.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools\nfc-poll.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools\nfc-read-forum-tag3.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools\nfc-relay-picc.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools\nfc-relay.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools\nfc-scan-device.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools\nfc-st25tb.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools\nfc.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools\pcsc_scan.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools\pn53x-diagnose.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools\pn53x-sam.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools\pn53x-tamashell.exe">
+    <Content Include="nfctools_pcsc\pn53x-tamashell.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\MWT.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="MWT.ico" />
-    <Content Include="nfctools\libnfc_crypto1_crack.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools\mifare-classic-format.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools\nfc-list.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools\nfc-mfclassic.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\Gu.Localization.Analyzers.6.5.1\analyzers\dotnet\cs\Gu.Localization.Analyzers.dll" />

@@ -92,7 +92,7 @@ namespace MifareWindowsTool.Common
 
         Brush VioletBrush = new SolidColorBrush(Color.FromArgb(255, (byte)0x95, (byte)0x33, (byte)0xF9));
         public static string DefaultWorkingDir => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        public static string DefaultNfcToolsPath { get; set; } = Path.Combine(DefaultWorkingDir, "nfctools");
+        public static string DefaultNfcToolsPath { get; set; } = Path.Combine(DefaultWorkingDir, "nfctools_pcsc");
         public static string DefaultDumpPath { get; set; } = Path.Combine(DefaultWorkingDir, "dumps");
         public static string DefaultKeysPath { get; set; } = Path.Combine(DefaultWorkingDir, "keys");
         public static string FlipperNfc1KPath => Path.Combine(DefaultNfcToolsPath, "Template_Flipper_1K.nfc");
