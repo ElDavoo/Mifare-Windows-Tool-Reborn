@@ -90,20 +90,7 @@ namespace MCT_Windows
             btnPauseDisplay.Content = $"{Translate.Key(nameof(MifareWindowsTool.Properties.Resources.PauseOff))}";
             //ShowPauseButton(task != null);
             Tools = new Tools();
-            var newVersion = Tools.CheckNewVersion();
-            if (newVersion != null)
-            {
-                var comp = Assembly.GetExecutingAssembly().GetName().Version.CompareTo(newVersion);
-                if (comp < 0)
-                {
-                    var ret = MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NewerVersionExists)), "Version", MessageBoxButton.YesNo, MessageBoxImage.Information);
-                    if (ret == MessageBoxResult.Yes)
-                    {
-                        Process.Start("https://github.com/xavave/Mifare-Windows-Tool/releases/latest");
-                    }
-                }
-
-            }
+            CheckNewVersions();
             SetDefaultPaths();
 
             var ofd = DumpBase.CreateOpenDialog();
@@ -116,7 +103,73 @@ namespace MCT_Windows
             }
             if (CheckSetDriver() && Tools.CheckNfcToolsFolder()) PeriodicScanTag();
         }
+        private static void DisplayVersionPageChoice(string messageNewVersion, string url)
+        {
+            var ret = MessageBox.Show(messageNewVersion, "Version", MessageBoxButton.YesNo, MessageBoxImage.Information);
+            if (ret == MessageBoxResult.Yes)
+            {
+                Process.Start(url);
+            }
+        }
+        private void CheckNewVersions()
+        {
+            var newVersions = Tools.CheckNewVersion();
+            var hasNewRelease = false;
+            var hasNewPreRelease = false;
+            var messageNewVersion = string.Empty;
+            var urlLatest = "https://github.com/xavave/Mifare-Windows-Tool/releases/latest";
+            var urlLatestBeta = string.Empty;
+            var goOnGithubPage = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.GoOnGitHubPage));
+            var goOnGithubPageBeta = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.GoOnGitHubPageBeta));
+            if (newVersions.Item1 != null)
+            {
+                var comp = Assembly.GetExecutingAssembly().GetName().Version.CompareTo(newVersions.Item1);
+                hasNewRelease = comp < 0;
 
+            }
+            if (newVersions.Item2 != null)
+            {
+                var comp = Assembly.GetExecutingAssembly().GetName().Version.CompareTo(newVersions.Item2);
+                hasNewPreRelease = comp < 0;
+                urlLatestBeta = $"https://github.com/xavave/Mifare-Windows-Tool/releases/tag/{newVersions.Item2}";
+
+            }
+            if (!hasNewRelease && !hasNewPreRelease) return;
+
+            if (hasNewRelease)
+            {
+                messageNewVersion = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NewerVersionExists));
+            }
+            if (hasNewPreRelease)
+            {
+                messageNewVersion = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NewerBetaVersionExists));
+            }
+
+            if (hasNewRelease && !hasNewPreRelease)
+            {
+                messageNewVersion += goOnGithubPage;
+                DisplayVersionPageChoice(messageNewVersion, urlLatest);
+            }
+            else if (!hasNewRelease && hasNewPreRelease)
+            {
+                messageNewVersion += goOnGithubPage;
+                DisplayVersionPageChoice(messageNewVersion, urlLatestBeta);
+            }
+            else if (hasNewRelease && hasNewPreRelease)
+            {
+                messageNewVersion += goOnGithubPageBeta;
+                var ret = MessageBox.Show(messageNewVersion, "Version", MessageBoxButton.YesNoCancel, MessageBoxImage.Information);
+                if (ret == MessageBoxResult.Yes)
+                {
+                    Process.Start(urlLatestBeta);
+                }
+                else if (ret == MessageBoxResult.No)
+                {
+                    Process.Start(urlLatest);
+                }
+            }
+
+        }
         private void SetDefaultPaths()
         {
             Directory.SetCurrentDirectory(DumpBase.DefaultWorkingDir);
@@ -144,7 +197,7 @@ namespace MCT_Windows
 
                 if (acrState != "")
                 {
-                   
+
                     if (acrState != "running")
                     {
                         MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.BadgeReaderAcr122NotFound)), Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Warning)), MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -526,7 +579,7 @@ namespace MCT_Windows
                     LogAppend(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.AutoScanTagStopped)));
             }
         }
-      
+
 
 
         public async Task RunSetUidAsync(string newUID, bool format)

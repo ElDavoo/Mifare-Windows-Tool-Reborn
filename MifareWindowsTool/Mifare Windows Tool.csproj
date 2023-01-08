@@ -167,6 +167,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Common\GitRelease.cs" />
     <Compile Include="DumpClasses\DumpBase.cs" />
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\File.cs" />

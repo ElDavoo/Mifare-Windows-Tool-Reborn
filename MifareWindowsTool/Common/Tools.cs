@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Management;
 using System.Net.Http;
+using System.Reflection;
 using System.Windows;
 
 using MifareWindowsTool.Common;
@@ -199,18 +200,19 @@ namespace MCT_Windows
 
             return "";
         }
-        internal Version CheckNewVersion()
+        internal (Version, Version) CheckNewVersion()
         {
             using (var client = new HttpClient())
             {
                 try
                 {
+                    var urlReleases = "https://api.github.com/repos/xavave/Mifare-Windows-Tool/releases";
                     client.DefaultRequestHeaders.Add("User-Agent", "C# App");
                     // Create the HttpContent for the form to be posted.
                     var requestContent = new FormUrlEncodedContent(new[] { new KeyValuePair<string, string>("username", "xavave") });
 
                     // Get the response.
-                    HttpResponseMessage response = client.GetAsync("https://api.github.com/repos/xavave/Mifare-Windows-Tool/releases/latest").Result;
+                    HttpResponseMessage response = client.GetAsync(urlReleases).Result;
 
                     // Get the response content.
                     HttpContent responseContent = response.Content;
@@ -221,18 +223,91 @@ namespace MCT_Windows
                         // Write the output.
                         data = reader.ReadToEnd();
                     }
-                    var definition = new { tag_name = "" };
-                    var latestVersionTagName = JsonConvert.DeserializeAnonymousType(data, definition);
-                    var latestVersion = new Version(latestVersionTagName.tag_name);
-                    return latestVersion;
+                    List<GitRelease> gitReleases = JsonConvert.DeserializeObject<List<GitRelease>>(data);
+                    if (gitReleases == null || !gitReleases.Any()) return (null, null);
+                    var latestVersionTagName = gitReleases.First().tag_name;
+                    var latestVersion = new Version(latestVersionTagName);
+                    var latestPreRelease = gitReleases.Where(r => r.prerelease == true).Select(s => s.tag_name).FirstOrDefault();
+                    if (latestPreRelease == null) return (latestVersion, null);
+                    var latestPreReleaseVersion = new Version(latestPreRelease);
+                    return (latestVersion, latestPreReleaseVersion);
                 }
                 catch (Exception)
                 {
-                    return null;
+                    return (null, null);
                 }
 
             }
         }
+        private void CheckNewVersions()
+        {
+            var newVersions = CheckNewVersion();
+            var hasNewRelease = false;
+            var hasNewPreRelease = false;
+            var messageNewVersion = string.Empty;
+            var urlLatest = "https://github.com/xavave/Mifare-Windows-Tool/releases/latest";
+            var urlLatestBeta = string.Empty;
+            var goOnGithubPage = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.GoOnGitHubPage));
+            var goOnGithubPageBeta = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.GoOnGitHubPageBeta));
+            if (newVersions.Item1 != null)
+            {
+                var comp = Assembly.GetExecutingAssembly().GetName().Version.CompareTo(newVersions.Item1);
+                hasNewRelease = comp < 0;
+
+            }
+            if (newVersions.Item2 != null)
+            {
+                var comp = Assembly.GetExecutingAssembly().GetName().Version.CompareTo(newVersions.Item2);
+                hasNewPreRelease = comp < 0;
+                urlLatestBeta = $"https://github.com/xavave/Mifare-Windows-Tool/releases/tag/{newVersions.Item2}";
+
+            }
+            if (!hasNewRelease && !hasNewPreRelease) return;
+
+            if (hasNewRelease)
+            {
+                messageNewVersion = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NewerVersionExists));
+            }
+            if (hasNewPreRelease)
+            {
+                messageNewVersion = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NewerBetaVersionExists));
+            }
+
+            if (hasNewRelease && !hasNewPreRelease)
+            {
+                messageNewVersion += goOnGithubPage;
+                DisplayVersionPageChoice(messageNewVersion, urlLatest);
+            }
+            else if (!hasNewRelease && hasNewPreRelease)
+            {
+                messageNewVersion += goOnGithubPage;
+                DisplayVersionPageChoice(messageNewVersion, urlLatestBeta);
+            }
+            else if (hasNewRelease && hasNewPreRelease)
+            {
+                messageNewVersion += goOnGithubPageBeta;
+                var ret = MessageBox.Show(messageNewVersion, "Version", MessageBoxButton.YesNoCancel, MessageBoxImage.Information);
+                if (ret == MessageBoxResult.Yes)
+                {
+                    Process.Start(urlLatestBeta);
+                }
+                else if (ret == MessageBoxResult.No)
+                {
+                    Process.Start(urlLatest);
+                }
+            }
+
+        }
+
+        private static void DisplayVersionPageChoice(string messageNewVersion, string url)
+        {
+            var ret = MessageBox.Show(messageNewVersion, "Version", MessageBoxButton.YesNo, MessageBoxImage.Information);
+            if (ret == MessageBoxResult.Yes)
+            {
+                Process.Start(url);
+            }
+        }
+
 
         internal bool TestWritePermission(string dirPath, bool throwIfFails = false)
         {

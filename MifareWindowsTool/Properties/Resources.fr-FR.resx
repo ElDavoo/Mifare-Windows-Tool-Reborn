@@ -403,9 +403,6 @@ Cliquez sur OK pour l'installer</value>
   <data name="BadgeReaderAcr122NotFound" xml:space="preserve">
     <value>Le Lecteur de badges ACR122U ne semble pas branché !</value>
   </data>
-  <data name="NewerVersionExists" xml:space="preserve">
-    <value>Une nouvelle version est disponible. Voulez-vous aller sur la page de téléchargement (GitHub) ?</value>
-  </data>
   <data name="BadgeUIDAlreadyknown" xml:space="preserve">
     <value>L'identifiant de ce badge est déjà connu par MWT. 
 Relire quand même ? (Si c'est un nouveau badge sur le lecteur ou un badge modifié récemment, il vaut mieux répondre 'Oui')</value>
@@ -551,5 +548,17 @@ Fichier(s) manquant(s) dans </value>
     <value>Le fichier {1} est manquant dans le dossier {0}.
 MWT Ne peut pas fonctionner correctement.
 Veuillez vérifier si votre antivirus n'a pas bloqué ce fichier après l'installation. </value>
+  </data>
+  <data name="GoOnGitHubPage" xml:space="preserve">
+    <value>Voulez-vous aller sur la page de téléchargement (GitHub) ?</value>
+  </data>
+  <data name="GoOnGitHubPageBeta" xml:space="preserve">
+    <value>Voulez-vous aller sur la page de téléchargement gitHhub des pré-versions  (Oui) ou des versions stables (Non) ou annuler ?</value>
+  </data>
+  <data name="NewerBetaVersionExists" xml:space="preserve">
+    <value>Une nouvelle pré-version est disponible.</value>
+  </data>
+  <data name="NewerVersionExists" xml:space="preserve">
+    <value>Une nouvelle version est disponible.</value>
   </data>
 </root>

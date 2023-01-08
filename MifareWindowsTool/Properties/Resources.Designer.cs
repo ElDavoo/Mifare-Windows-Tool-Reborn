@@ -561,6 +561,24 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Do you want to go on github page? .
+        /// </summary>
+        public static string GoOnGitHubPage {
+            get {
+                return ResourceManager.GetString("GoOnGitHubPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Do you want to go on github prerelease version page (Yes) or stable version page (No) or Cancel ? .
+        /// </summary>
+        public static string GoOnGitHubPageBeta {
+            get {
+                return ResourceManager.GetString("GoOnGitHubPageBeta", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à HELP/INFO.
         /// </summary>
         public static string HelpAndInfo {
@@ -759,7 +777,16 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à A newer version exists. Do you want to go on github page?.
+        ///   Recherche une chaîne localisée semblable à A newer prerelease version exists..
+        /// </summary>
+        public static string NewerBetaVersionExists {
+            get {
+                return ResourceManager.GetString("NewerBetaVersionExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à A newer version exists..
         /// </summary>
         public static string NewerVersionExists {
             get {
