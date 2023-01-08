@@ -202,18 +202,19 @@ namespace MCT_Windows
 
             return "";
         }
-        internal Version CheckNewVersion()
+        internal (Version, Version) CheckNewVersion()
         {
             using (var client = new HttpClient())
             {
                 try
                 {
+                    var urlReleases = "https://api.github.com/repos/xavave/Mifare-Windows-Tool/releases";
                     client.DefaultRequestHeaders.Add("User-Agent", "C# App");
                     // Create the HttpContent for the form to be posted.
                     var requestContent = new FormUrlEncodedContent(new[] { new KeyValuePair<string, string>("username", "xavave") });
 
                     // Get the response.
-                    HttpResponseMessage response = client.GetAsync("https://api.github.com/repos/xavave/Mifare-Windows-Tool/releases/latest").Result;
+                    HttpResponseMessage response = client.GetAsync(urlReleases).Result;
 
                     // Get the response content.
                     HttpContent responseContent = response.Content;
@@ -224,14 +225,18 @@ namespace MCT_Windows
                         // Write the output.
                         data = reader.ReadToEnd();
                     }
-                    var definition = new { tag_name = "" };
-                    var latestVersionTagName = JsonConvert.DeserializeAnonymousType(data, definition);
-                    var latestVersion = new Version(latestVersionTagName.tag_name);
-                    return latestVersion;
+                    List<GitRelease> gitReleases = JsonConvert.DeserializeObject<List<GitRelease>>(data);
+                    if (gitReleases == null || !gitReleases.Any()) return (null, null);
+                    var latestVersionTagName = gitReleases.First().tag_name;
+                    var latestVersion = new Version(latestVersionTagName);
+                    var latestPreRelease = gitReleases.Where(r => r.prerelease == true).Select(s => s.tag_name).FirstOrDefault();
+                    if (latestPreRelease == null) return (latestVersion, null);
+                    var latestPreReleaseVersion = new Version(latestPreRelease);
+                    return (latestVersion, latestPreReleaseVersion);
                 }
                 catch (Exception)
                 {
-                    return null;
+                    return (null, null);
                 }
 
             }

@@ -405,7 +405,7 @@ Click OK to install it</value>
     <value>ACR122U tag reader not found!</value>
   </data>
   <data name="NewerVersionExists" xml:space="preserve">
-    <value>A newer version exists. Do you want to go on github page?</value>
+    <value>A newer version exists.</value>
   </data>
   <data name="BadgeUIDAlreadyknown" xml:space="preserve">
     <value>This tag identifier is already known by MWT. 
@@ -550,5 +550,14 @@ Missing file(s) in </value>
     <value>Following file is missing: {1} in folder {0}
 MWT cannot run properly.
 Please check if your antivirus has not blocked this file after MWT install.</value>
+  </data>
+  <data name="NewerBetaVersionExists" xml:space="preserve">
+    <value>A newer prerelease version exists.</value>
+  </data>
+  <data name="GoOnGitHubPage" xml:space="preserve">
+    <value>Do you want to go on github page? </value>
+  </data>
+  <data name="GoOnGitHubPageBeta" xml:space="preserve">
+    <value>Do you want to go on github prerelease version page (Yes) or stable version page (No) or Cancel ? </value>
   </data>
 </root>

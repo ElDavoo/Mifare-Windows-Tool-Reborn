@@ -68,14 +68,19 @@ namespace MCT_Windows.Windows
                 Main.ScanCTS = new System.Threading.CancellationTokenSource();
 
                 uid = await Main.RunNfcListAsync();
-                if (string.IsNullOrWhiteSpace(uid))
-                {
-                    MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NoTagDetectedOnReader)));
-                    this.Close();
-                }
-                else
-                    txtOldUID.Text = uid;
             }
+            else
+            {
+                uid = Tools.TargetBinaryDump.StrDumpUID;
+            }
+            if (string.IsNullOrWhiteSpace(uid))
+            {
+                MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NoTagDetectedOnReader)));
+                this.Close();
+            }
+            else
+                txtOldUID.Text = uid;
+
             btnSetUID.IsEnabled = !string.IsNullOrWhiteSpace(uid);
         }
     }
