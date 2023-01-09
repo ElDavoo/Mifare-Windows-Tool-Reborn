@@ -389,7 +389,7 @@
     <value>Français</value>
   </data>
   <data name="ACR122NotPlugged" xml:space="preserve">
-    <value>Le Lecteur de badges ACR122U ne semble pas branché !</value>
+    <value>Le lecteur de badges ACR122U ne semble pas branché !</value>
   </data>
   <data name="DriverACR122NotInstalled" xml:space="preserve">
     <value>Le pilote du lecteur ACR122U ne semble pas installé.
@@ -401,7 +401,7 @@ Installez la dernière version du pilote 'MSI Installer for PC / SC Driver'</val
 Cliquez sur OK pour l'installer</value>
   </data>
   <data name="BadgeReaderAcr122NotFound" xml:space="preserve">
-    <value>Le Lecteur de badges ACR122U ne semble pas branché !</value>
+    <value>Le lecteur de badges ACR122U est introuvable !</value>
   </data>
   <data name="BadgeUIDAlreadyknown" xml:space="preserve">
     <value>L'identifiant de ce badge est déjà connu par MWT. 

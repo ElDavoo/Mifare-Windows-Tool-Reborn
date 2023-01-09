@@ -298,42 +298,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Resource Include="ACR122_LibUsbK_Driver\ACR122U_PICC_Interface.inf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="ACR122_LibUsbK_Driver\dpinst.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Content Include="ACR122_LibUsbK_Driver\amd64\libusb0.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ACR122_LibUsbK_Driver\amd64\libusbK.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ACR122_LibUsbK_Driver\amd64\WdfCoInstaller01009.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ACR122_LibUsbK_Driver\dpinst32.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ACR122_LibUsbK_Driver\dpinst64.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ACR122_LibUsbK_Driver\dpscat.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ACR122_LibUsbK_Driver\InstallDriver.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ACR122_LibUsbK_Driver\x86\libusb0_x86.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ACR122_LibUsbK_Driver\x86\libusbK_x86.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ACR122_LibUsbK_Driver\x86\WdfCoInstaller01009.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Resource Include="Images\Folder Explorer-01.png" />
     <Resource Include="Images\utilities_reset.png" />
     <Resource Include="Images\donate.gif" />
@@ -357,12 +321,6 @@
     <Content Include="dumps\blank_tag.dump">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="ACR122_LibUsbK_Driver\amd64\libusbK.sys">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="ACR122_LibUsbK_Driver\x86\libusbK.sys">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="app.manifest" />
     <None Include="nfctools_pcsc\Template_Flipper_1K.nfc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -390,19 +348,16 @@
   <ItemGroup>
     <Resource Include="MWT_square.ico" />
     <Resource Include="MWT_square.png" />
-    <Content Include="nfctools_pcsc\libnfc.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="nfctools_pcsc\libusb-1.0.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools_pcsc\libusb0.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="nfctools_pcsc\mfcuk.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="nfctools_pcsc\mfoc-hardnested.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nfctools_pcsc\msys-2.0.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="nfctools_pcsc\nfc-anticol.exe">

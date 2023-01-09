@@ -58,11 +58,6 @@ namespace MCT_Windows.Windows
 
         }
 
-        private void btnReinstallLibUsbK_Click(object sender, RoutedEventArgs e)
-        {
-            Tools.InstallLibUsbKDriver();
-        }
-
         private void btnChangeDefaultDumpPath_Click(object sender, RoutedEventArgs e)
         {
             var tmpPath = Tools.ChangeDefaultDumpPath();

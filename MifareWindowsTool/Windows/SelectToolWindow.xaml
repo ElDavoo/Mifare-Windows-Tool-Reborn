@@ -45,16 +45,6 @@
             Content="{localize:Static resx:Resources.btnChangeUID}"
             Style="{StaticResource buttonStyle}" />
         <Separator />
-        <Button
-            x:Name="btnReinstallLibUsbK"
-            Height="26"
-            Margin="10"
-            Click="btnReinstallLibUsbK_Click"
-            Content="{localize:Static resx:Resources.btnReinstallLibUsbK}"
-            Style="{StaticResource buttonStyle}"
-            ToolTip="{localize:Static resx:Resources.UseInstallDriverIf}" />
-       
-        <Separator />
         <Label Height="24" HorizontalAlignment="Center" Foreground="White" x:Name="lblDumpsPath" Content="{localize:Static resx:Resources.LabelDumpsPath}"></Label>
         <StackPanel
         Width="auto" Margin="10"
