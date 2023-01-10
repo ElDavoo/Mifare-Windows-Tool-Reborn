@@ -49,6 +49,7 @@ namespace MCT_Windows
     {
         public bool lprocess = false;
         public bool running = false;
+        public bool nfcDeviceFound { get; set; } = true;
         private List<string> NfcToolsMandatoryExeListToCheck = new List<string>()
            {
                "nfc-list.exe",

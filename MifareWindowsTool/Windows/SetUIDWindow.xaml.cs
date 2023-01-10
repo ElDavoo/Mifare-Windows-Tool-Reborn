@@ -41,7 +41,7 @@ namespace MCT_Windows.Windows
             Main.ProcessCTS = new System.Threading.CancellationTokenSource();
             await Main.RunSetUidAsync(txtnewUID.Text.Trim(), ckFormatTag.IsChecked.Value);
         }
-       
+
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -60,7 +60,9 @@ namespace MCT_Windows.Windows
             }
             if (string.IsNullOrWhiteSpace(uid))
             {
-                MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NoTagDetectedOnReader)));
+                var message = Tools.nfcDeviceFound ? Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NoTagDetectedOnReader)) :
+                    Translate.Key(nameof(MifareWindowsTool.Properties.Resources.BadgeReaderAcr122NotFound));
+                MessageBox.Show(message);
                 this.Close();
             }
             else

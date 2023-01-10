@@ -346,7 +346,10 @@ namespace MCT_Windows
                 }
                 else
                 {
-                    LogAppend(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NoTagDetectedOnReader)));
+                    if (Tools.nfcDeviceFound)
+                    {
+                        LogAppend(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NoTagDetectedOnReader)));
+                    }
                 }
                 return false;
 
@@ -518,6 +521,7 @@ namespace MCT_Windows
                         case ExitedCommandEvent exited:
                             if (exited.ExitCode != 0)
                             {
+
                                 if (cptFail < 1)
                                 {
                                     var dr = MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.BadgeReaderAcr122NotFound)), "Badge reader", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
@@ -528,11 +532,14 @@ namespace MCT_Windows
                                 }
                                 DumpBase.CurrentUID = "";
                             }
-                            else if (stdOutFull.Contains("No NFC device found."))
+                            else
                             {
-
-                                ScanTagRunning = false;
-                                ScanCTS.Cancel();
+                                if (stdOutFull.Contains("No NFC device found."))
+                                {
+                                    Tools.nfcDeviceFound = false;
+                                    ScanTagRunning = false;
+                                    ScanCTS.Cancel();
+                                }
                             }
                             break;
                         default: break;
