@@ -197,7 +197,7 @@ namespace MCT_Windows
                 var libusbkState = Tools.DriverState("LibUsbk");
                 if ((string.IsNullOrEmpty(acrState) || acrState == "stopped") && !string.IsNullOrEmpty(libusbkState) && libusbkState != "stopped")
                 {
-                    MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.UnsinstallLibUsbKDriver)), "LibUsbK", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.UnInstallLibUsbKDriver)), "LibUsbK", MessageBoxButton.OK, MessageBoxImage.Information);
 
                     if (!Tools.UninstallLibUsbKDriver())
                     {

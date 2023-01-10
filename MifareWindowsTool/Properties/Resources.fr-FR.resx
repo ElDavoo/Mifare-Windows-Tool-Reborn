@@ -561,7 +561,7 @@ Veuillez vérifier si votre antivirus n'a pas bloqué ce fichier après l'instal
   <data name="NewerVersionExists" xml:space="preserve">
     <value>Une nouvelle version est disponible.</value>
   </data>
-  <data name="UnsinstallLibUsbKDriver" xml:space="preserve">
+  <data name="UnInstallLibUsbKDriver" xml:space="preserve">
     <value>Le pilote LibUsbK a été détecté et doit être désinstallé.
 Cliquez sur 'OK' pour tenter de le désinstaller.
 Ensuite, débranchez puis rebranchez le lecteur.

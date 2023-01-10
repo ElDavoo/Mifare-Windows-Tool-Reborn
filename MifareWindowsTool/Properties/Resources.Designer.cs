@@ -1245,9 +1245,9 @@ namespace MifareWindowsTool.Properties {
         ///Then, unplug and replug the drive.
         ///If the LED on the drive is lit, the uninstallation was successful, otherwise try to uninstall the LibusbK driver manually..
         /// </summary>
-        public static string UnsinstallLibUsbKDriver {
+        public static string UnInstallLibUsbKDriver {
             get {
-                return ResourceManager.GetString("UnsinstallLibUsbKDriver", resourceCulture);
+                return ResourceManager.GetString("UnInstallLibUsbKDriver", resourceCulture);
             }
         }
         

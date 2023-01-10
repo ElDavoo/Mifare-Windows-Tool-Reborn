@@ -557,7 +557,7 @@ Please check if your antivirus has not blocked this file after MWT install.</val
   <data name="NewerVersionExists" xml:space="preserve">
     <value>A newer version exists.</value>
   </data>
-  <data name="UnsinstallLibUsbKDriver" xml:space="preserve">
+  <data name="UnInstallLibUsbKDriver" xml:space="preserve">
     <value>The LibUsbK driver has been detected and should be uninstalled.
 Click on 'OK' to try to uninstall it.
 Then, unplug and replug the drive.
