@@ -399,7 +399,7 @@ Click OK to install it</value>
     <value>This file looks like a MCT (Mifare classic tool) dump. Do you want to try to convert it automatically to MWT dump?</value>
   </data>
   <data name="BadgeReaderAcr122NotFound" xml:space="preserve">
-    <value>ACR122U tag reader not found!</value>
+    <value>The tag reader cannot be found!</value>
   </data>
   <data name="BadgeUIDAlreadyknown" xml:space="preserve">
     <value>This tag identifier is already known by MWT. 
@@ -556,5 +556,19 @@ Please check if your antivirus has not blocked this file after MWT install.</val
   </data>
   <data name="NewerVersionExists" xml:space="preserve">
     <value>A newer version exists.</value>
+  </data>
+  <data name="UnsinstallLibUsbKDriver" xml:space="preserve">
+    <value>The LibUsbK driver has been detected and should be uninstalled.
+Click on 'OK' to try to uninstall it.
+Then, unplug and replug the drive.
+If the LED on the drive is lit, the uninstallation was successful, otherwise try to uninstall the LibusbK driver manually.</value>
+  </data>
+  <data name="ACR122StatusStopped" xml:space="preserve">
+    <value>The ACR122 reader is detected but stopped.
+Try unplugging and replugging it, then restarting MWT.</value>
+  </data>
+  <data name="GetInfoForManualDriverUninstall" xml:space="preserve">
+    <value>The LibUsbK driver could not be uninstalled automatically.
+Do you want to display the help page to uninstall it manually?</value>
   </data>
 </root>

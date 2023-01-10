@@ -167,6 +167,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Common\DeviceHelper.cs" />
     <Compile Include="Common\GitRelease.cs" />
     <Compile Include="DumpClasses\DumpBase.cs" />
     <Compile Include="Common\Extensions.cs" />
@@ -309,6 +310,9 @@
     <Resource Include="Images\small\checkOK.png" />
     <Resource Include="bnr_MWT.png" />
     <Resource Include="dlg_MWT.png" />
+    <Content Include="ACR122_LibUsbK_Driver\dpinst64.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="keys\extended-std.keys">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

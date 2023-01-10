@@ -88,6 +88,16 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à The ACR122 reader is detected but stopped.
+        ///Try unplugging and replugging it, then restarting MWT..
+        /// </summary>
+        public static string ACR122StatusStopped {
+            get {
+                return ResourceManager.GetString("ACR122StatusStopped", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à A dump file.
         /// </summary>
         public static string ADumpFile {
@@ -133,7 +143,7 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à ACR122U tag reader not found!.
+        ///   Recherche une chaîne localisée semblable à The tag reader cannot be found!.
         /// </summary>
         public static string BadgeReaderAcr122NotFound {
             get {
@@ -557,6 +567,16 @@ namespace MifareWindowsTool.Properties {
         public static string French {
             get {
                 return ResourceManager.GetString("French", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The LibUsbK driver could not be uninstalled automatically.
+        ///Do you want to display the help page to uninstall it manually?.
+        /// </summary>
+        public static string GetInfoForManualDriverUninstall {
+            get {
+                return ResourceManager.GetString("GetInfoForManualDriverUninstall", resourceCulture);
             }
         }
         
@@ -1216,6 +1236,18 @@ namespace MifareWindowsTool.Properties {
         public static string ttAcsDefaultValue {
             get {
                 return ResourceManager.GetString("ttAcsDefaultValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The LibUsbK driver has been detected and should be uninstalled.
+        ///Click on &apos;OK&apos; to try to uninstall it.
+        ///Then, unplug and replug the drive.
+        ///If the LED on the drive is lit, the uninstallation was successful, otherwise try to uninstall the LibusbK driver manually..
+        /// </summary>
+        public static string UnsinstallLibUsbKDriver {
+            get {
+                return ResourceManager.GetString("UnsinstallLibUsbKDriver", resourceCulture);
             }
         }
         

@@ -152,11 +152,47 @@ namespace MCT_Windows
             }
             return true;
         }
+
+
+        public void ToggleACR122Enabled()
+        {
+            ToggleDeviceEnabled(new Guid("{50dd5230-ba8a-11d1-bf5d-0000f805f530}"), @"USB\VID_072F&PID_2200\7&AEC7C26&0&4");
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="deviceGuid"> every type of device has a hard-coded GUID</param>
+        /// <param name="instancePath">get this from the properties dialog box of this device in Device Manager</param>
+        private void ToggleDeviceEnabled(Guid deviceGuid, string instancePath)
+        {
+            DeviceHelper.ToggleDeviceEnabled(deviceGuid, instancePath);
+        }
         public bool InstallLibUsbKDriver()
         {
             var startInfo = new ProcessStartInfo();
             startInfo.WorkingDirectory = "ACR122_LibUsbK_Driver";
             startInfo.FileName = "InstallDriver.exe";
+            Process proc = Process.Start(startInfo);
+            proc.WaitForExit();
+            return proc.ExitCode == 0;
+        }
+        public bool UninstallLibUsbKDriver()
+        {
+            var oemAcrInfFilePath = @"C:\Windows\INF\oem71.inf";
+            if (!File.Exists(oemAcrInfFilePath))
+            {
+                var message = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.GetInfoForManualDriverUninstall));
+                var dr = MessageBox.Show(message, Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Warning)), MessageBoxButton.YesNo, MessageBoxImage.Information);
+                if (dr == MessageBoxResult.Yes)
+                {
+                    Process.Start("https://github.com/xavave/Mifare-Windows-Tool/releases/tag/1.6.8408.42890");
+                }
+                return false;
+            }
+            var startInfo = new ProcessStartInfo();
+            startInfo.WorkingDirectory = "ACR122_LibUsbK_Driver";
+            startInfo.FileName = "dpinst64.exe";
+            startInfo.Arguments = $@"/U  {oemAcrInfFilePath} /S";
             Process proc = Process.Start(startInfo);
             proc.WaitForExit();
             return proc.ExitCode == 0;

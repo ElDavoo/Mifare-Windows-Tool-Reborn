@@ -194,16 +194,32 @@ namespace MCT_Windows
             try
             {
                 var acrState = Tools.DriverState("ACR122U");
-
-                if (acrState != "")
+                var libusbkState = Tools.DriverState("LibUsbk");
+                if ((string.IsNullOrEmpty(acrState) || acrState == "stopped") && !string.IsNullOrEmpty(libusbkState) && libusbkState != "stopped")
                 {
+                    MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.UnsinstallLibUsbKDriver)), "LibUsbK", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    if (acrState != "running")
+                    if (!Tools.UninstallLibUsbKDriver())
                     {
-                        MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.BadgeReaderAcr122NotFound)), Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Warning)), MessageBoxButton.OK, MessageBoxImage.Warning);
                         return false;
                     }
-                    return true;
+
+                }
+                acrState = Tools.DriverState("ACR122U");
+                if (!string.IsNullOrEmpty(acrState))
+                {
+
+                    if (acrState == "stopped")
+                    {
+                        Tools.ToggleACR122Enabled();
+                        acrState = Tools.DriverState("ACR122U");
+                    }
+                    if (acrState != "running")
+                    {
+                        MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.ACR122StatusStopped)), Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Warning)), MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return false;
+                    }
+                    return acrState == "running";
                 }
                 else
                 {
@@ -504,11 +520,10 @@ namespace MCT_Windows
                             {
                                 if (cptFail < 1)
                                 {
-                                    var dr = MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DriverLibUsbKNonInstalled)), "LibUsbK", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                                    var dr = MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.BadgeReaderAcr122NotFound)), "Badge reader", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
                                     if (dr == MessageBoxResult.OK)
                                     {
-                                        if (Tools.InstallLibUsbKDriver())
-                                            cptFail++;
+                                        cptFail++;
                                     }
                                 }
                                 DumpBase.CurrentUID = "";
@@ -519,8 +534,6 @@ namespace MCT_Windows
                                 ScanTagRunning = false;
                                 ScanCTS.Cancel();
                             }
-
-
                             break;
                         default: break;
                     }

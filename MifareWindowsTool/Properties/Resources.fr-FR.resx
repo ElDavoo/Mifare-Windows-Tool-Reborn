@@ -401,7 +401,7 @@ Installez la dernière version du pilote 'MSI Installer for PC / SC Driver'</val
 Cliquez sur OK pour l'installer</value>
   </data>
   <data name="BadgeReaderAcr122NotFound" xml:space="preserve">
-    <value>Le lecteur de badges ACR122U est introuvable !</value>
+    <value>Le lecteur de badges est introuvable !</value>
   </data>
   <data name="BadgeUIDAlreadyknown" xml:space="preserve">
     <value>L'identifiant de ce badge est déjà connu par MWT. 
@@ -560,5 +560,19 @@ Veuillez vérifier si votre antivirus n'a pas bloqué ce fichier après l'instal
   </data>
   <data name="NewerVersionExists" xml:space="preserve">
     <value>Une nouvelle version est disponible.</value>
+  </data>
+  <data name="UnsinstallLibUsbKDriver" xml:space="preserve">
+    <value>Le pilote LibUsbK a été détecté et doit être désinstallé.
+Cliquez sur 'OK' pour tenter de le désinstaller.
+Ensuite, débranchez puis rebranchez le lecteur.
+Si la LED du lecteur est allumée, la désinstallation a réussi, sinon tentez de désinstaller le pilote LibusbK manuellement.</value>
+  </data>
+  <data name="ACR122StatusStopped" xml:space="preserve">
+    <value>Le lecteur ACR122 est détecté mais arrêté.
+Essayez de le débrancher et de le rebrancher, puis redémarrez MWT.</value>
+  </data>
+  <data name="GetInfoForManualDriverUninstall" xml:space="preserve">
+    <value>Le pilote LibUsbK n'a pas pu être désinstallé automatiquement.
+Voulez-vous afficher la page d'aide pour le désinstaller manuellement ?</value>
   </data>
 </root>
