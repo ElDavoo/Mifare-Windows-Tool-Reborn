@@ -25,6 +25,10 @@ MIFARE® is a registered trademark of NXP Semiconductors.
 
 #### GENERAL INFORMATION / INFOS GENERALES
 
+Update January 2023:
+- In order to update and fix MWT, I would need new tag readers like ACR122U-A9 and other device: if someone wants to participate and help me to release new versions, he can send me some new tag readers that you would like to be included in MWT, and I will see if it's possible or not.
+Contact me if you are interested. Thanks
+
 You can donate for this Windows fork :
 
 [Donate with Paypal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=V5ZP47AVFHRVY) [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=V5ZP47AVFHRVY)
