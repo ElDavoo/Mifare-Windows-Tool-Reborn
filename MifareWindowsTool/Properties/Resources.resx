@@ -150,7 +150,7 @@
   <data name="btnOpenDumpBContent" xml:space="preserve">
     <value>Open Dump B</value>
   </data>
-  <data name="BtnSelectDumpContent" xml:space="preserve">
+  <data name="BtnSelectSourceDumpContent" xml:space="preserve">
     <value>Select Source Dump</value>
   </data>
   <data name="btnStartMappingAndReadTagContent" xml:space="preserve">
@@ -300,7 +300,7 @@ DUMP FILE</value>
     <value>started</value>
   </data>
   <data name="TargetDump" xml:space="preserve">
-    <value>Blank tag dump file:</value>
+    <value>Target tag dump file</value>
   </data>
   <data name="Tools" xml:space="preserve">
     <value>TOOLS / OPTIONS</value>
@@ -495,7 +495,7 @@ Detectable as a copy : very difficult (does not respond to magic commands)</valu
     <value>Choose the MWT dump file corresponding to the content of the blank badge (target)</value>
   </data>
   <data name="SourceDump" xml:space="preserve">
-    <value>dump file of tag to copy:</value>
+    <value>Source dump</value>
   </data>
   <data name="ReadTargetMoreInfos" xml:space="preserve">
     <value>Note: before copying a badge, MWT must still know (i.e. decrypt) the badge you are going to copy to, even if it is a blank badge.</value>
@@ -510,7 +510,7 @@ Detectable as a copy : very difficult (does not respond to magic commands)</valu
     <value>Source and Copy are the same</value>
   </data>
   <data name="WantSourceAndCopyTheSame" xml:space="preserve">
-    <value>You are about to copy identical content between the source and the target, are you sure this is what you want?
+    <value>The source and the target have same UID identifer, are you sure you want to copy this source on that target?
 (If not, select another source file to copy )</value>
   </data>
   <data name="BtnRenameKeyFileContent" xml:space="preserve">
@@ -570,5 +570,8 @@ Try unplugging and replugging it, then restarting MWT.</value>
   <data name="GetInfoForManualDriverUninstall" xml:space="preserve">
     <value>The LibUsbK driver could not be uninstalled automatically.
 Do you want to display the help page to uninstall it manually?</value>
+  </data>
+  <data name="BtnSelectTargetDumpContent" xml:space="preserve">
+    <value>Select Target Dump</value>
   </data>
 </root>

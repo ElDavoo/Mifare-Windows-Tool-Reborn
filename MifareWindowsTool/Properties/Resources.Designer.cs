@@ -272,9 +272,18 @@ namespace MifareWindowsTool.Properties {
         /// <summary>
         ///   Recherche une chaîne localisée semblable à Select Source Dump.
         /// </summary>
-        public static string BtnSelectDumpContent {
+        public static string BtnSelectSourceDumpContent {
             get {
-                return ResourceManager.GetString("BtnSelectDumpContent", resourceCulture);
+                return ResourceManager.GetString("BtnSelectSourceDumpContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Select Target Dump.
+        /// </summary>
+        public static string BtnSelectTargetDumpContent {
+            get {
+                return ResourceManager.GetString("BtnSelectTargetDumpContent", resourceCulture);
             }
         }
         
@@ -1121,7 +1130,7 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à dump file of tag to copy:.
+        ///   Recherche une chaîne localisée semblable à Source dump.
         /// </summary>
         public static string SourceDump {
             get {
@@ -1195,7 +1204,7 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Blank tag dump file:.
+        ///   Recherche une chaîne localisée semblable à Target tag dump file.
         /// </summary>
         public static string TargetDump {
             get {
@@ -1280,7 +1289,7 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à You are about to copy identical content between the source and the target, are you sure this is what you want?
+        ///   Recherche une chaîne localisée semblable à The source and the target have same UID identifer, are you sure you want to copy this source on that target?
         ///(If not, select another source file to copy ).
         /// </summary>
         public static string WantSourceAndCopyTheSame {

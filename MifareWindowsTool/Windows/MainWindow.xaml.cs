@@ -371,7 +371,10 @@ namespace MCT_Windows
             else if (act == TagAction.ReadTarget) dump = Tools.TargetBinaryDump;
             if (dump == null) return false;
             dump.StrDumpUID = DumpBase.CurrentUID;
-            if (dump.DumpFileFullName == null) dump.DumpFileFullName = System.IO.Path.Combine(DumpBase.DefaultDumpPath, $"Dump_{DumpBase.CurrentUID}.mfd");
+            if (string.IsNullOrEmpty(dump.DumpFileFullName) || !dump.DumpFileFullName.Contains(dump.StrDumpUID))
+            {
+                dump.DumpFileFullName = System.IO.Path.Combine(DumpBase.DefaultDumpPath, $"Dump_{DumpBase.CurrentUID}.mfd");
+            }
             Tools.TMPFILE_UNK = $"mfc_{dump.StrDumpUID}_unknownMfocSectorInfo.txt";
             Tools.TMPFILE_FND = $"mfc_{dump.StrDumpUID}_foundKeys.txt";
             if (Tools.CheckAndUseDumpIfExists(dump, act, out bool forceReRead, EasyMode))
@@ -460,36 +463,36 @@ namespace MCT_Windows
         //                                          new Action(delegate { }));
         //}
 
-        public async Task<bool> RunPcscScanACR122()
-        {
+        //public async Task<bool> RunPcscScanACR122()
+        //{
 
-            using (var cts = new CancellationTokenSource())
-            {
-                var exeFile = "pcsc_scan.exe";
-                bool IsACR122 = false;
-                ProcessCTS = new CancellationTokenSource();
-                cts.CancelAfter(TimeSpan.FromSeconds(10)); // e.g. timeout of 5 seconds
-                var cmd = Cli.Wrap($"{DumpBase.DefaultNfcToolsPath}\\{exeFile}");
+        //    using (var cts = new CancellationTokenSource())
+        //    {
+        //        var exeFile = "pcsc_scan.exe";
+        //        bool IsACR122 = false;
+        //        ProcessCTS = new CancellationTokenSource();
+        //        cts.CancelAfter(TimeSpan.FromSeconds(10)); // e.g. timeout of 5 seconds
+        //        var cmd = Cli.Wrap($"{DumpBase.DefaultNfcToolsPath}\\{exeFile}");
 
 
-                await foreach (CommandEvent cmdEvent in cmd.ListenAsync(cts.Token))
-                {
-                    switch (cmdEvent)
-                    {
-                        case StandardOutputCommandEvent stdOut:
-                            LogAppend(stdOut.Text);
-                            if (stdOut.Text.Contains("ACR122")) IsACR122 = true;
-                            break;
-                        case StandardErrorCommandEvent stdErr:
-                            ErrorAppend(stdErr.Text);
-                            break;
-                        default: break;
-                    }
-                }
+        //        await foreach (CommandEvent cmdEvent in cmd.ListenAsync(cts.Token))
+        //        {
+        //            switch (cmdEvent)
+        //            {
+        //                case StandardOutputCommandEvent stdOut:
+        //                    LogAppend(stdOut.Text);
+        //                    if (stdOut.Text.Contains("ACR122")) IsACR122 = true;
+        //                    break;
+        //                case StandardErrorCommandEvent stdErr:
+        //                    ErrorAppend(stdErr.Text);
+        //                    break;
+        //                default: break;
+        //            }
+        //        }
 
-                return IsACR122;
-            }
-        }
+        //        return IsACR122;
+        //    }
+        //}
 
         public async Task<string> RunNfcListAsync()
         {
@@ -536,6 +539,7 @@ namespace MCT_Windows
                             {
                                 if (stdOutFull.Contains("No NFC device found."))
                                 {
+                                    DumpBase.CurrentUID = "";
                                     Tools.nfcDeviceFound = false;
                                     ScanTagRunning = false;
                                     ScanCTS.Cancel();
@@ -560,7 +564,23 @@ namespace MCT_Windows
                 return "";
             }
         }
+        public async Task<bool> RunDetectChineseMagicCardAsync()
+        {
+            try
+            {
+                var exeFile = "nfc-detect-chinese-magic-card.exe";
+                if (!Tools.CheckNfcToolsFolder(exeFile)) return false;
 
+
+                var result = await Cli.Wrap($"{DumpBase.DefaultNfcToolsPath}\\{exeFile}").WithArguments("-s").ExecuteAsync();
+                return result.ExitCode == 0;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+        }
         private string SetCurrentUID(string text)
         {
             var newUID = "";
@@ -572,6 +592,7 @@ namespace MCT_Windows
                 if (DumpBase.CurrentUID != newUID)
                 {
                     DumpBase.CurrentUID = newUID;
+
                     this.Title = $"{MainTitle}: {Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NewUIDFound))}: {DumpBase.CurrentUID}";
 
                     TagFound = true;
@@ -612,7 +633,7 @@ namespace MCT_Windows
                     arguments += "-f ";
                 arguments += newUID;
 
-                LogAppend($"nfc-mfsetuid {arguments}");
+                LogAppend($"nfc-mfsetuid {arguments}{Environment.NewLine}");
                 var cmd = Cli.Wrap(@$"{DumpBase.DefaultNfcToolsPath}\\{exeFile}").WithArguments(arguments)
                         .WithStandardOutputPipe(PipeTarget.ToDelegate(LogAppend))
                         .WithStandardErrorPipe(PipeTarget.ToDelegate(ErrorAppend));
@@ -650,10 +671,12 @@ namespace MCT_Windows
                 char useKey = useKeyA == true ? 'A' : 'B';
                 char cHaltOnError = haltOnError == true ? useKey = char.ToLower(useKey) : char.ToUpper(useKey);
                 //if (tagType == TagType.UnlockedGen1) writeMode = 'W'; else if (tagType == TagType.DirectCUIDgen2) writeMode = 'C';
+                var argUID = $"U{sourceDump.StrDumpUID}";
+                var forceKeyFile = "f";
                 ProcessCTS = new CancellationTokenSource();
                 //var arguments = $"{writeMode} {cHaltOnError} U{targetDump.StrDumpUID} \"{sourceDump.DumpFileFullName}\" \"{targetDump.DumpFileFullName}\"";
-                var arguments = $"{writeMode} {cHaltOnError} \"{sourceDump.DumpFileFullName}\" \"{targetDump.DumpFileFullName}\"";
-                LogAppend($"nfc-mfclassic {arguments}");
+                var arguments = $"{writeMode} {cHaltOnError} {argUID} \"{sourceDump.DumpFileFullName}\" \"{targetDump.DumpFileFullName}\" {forceKeyFile}";
+                LogAppend($"nfc-mfclassic {arguments}{Environment.NewLine}");
 
                 var cmd = Cli.Wrap($"{DumpBase.DefaultNfcToolsPath}\\{exeFile}").WithArguments(arguments).WithValidation(CommandResultValidation.None)
                     .WithStandardOutputPipe(PipeTarget.ToDelegate(LogAppend))
@@ -707,7 +730,7 @@ namespace MCT_Windows
                 }
                 arguments += $" -O\"{tmpFileMfd}\"";
                 ProcessCTS = new CancellationTokenSource();
-                LogAppend($"mfoc-hardnested {arguments}");
+                LogAppend($"mfoc-hardnested {arguments}{Environment.NewLine}");
                 var cmd = Cli.Wrap($"{DumpBase.DefaultNfcToolsPath}\\{exeFile}").WithArguments(arguments).WithWorkingDirectory(DumpBase.DefaultWorkingDir).WithValidation(CommandResultValidation.None);
                 //task = cmd.ExecuteAsync();
                 //ShowPauseButton(task != null);

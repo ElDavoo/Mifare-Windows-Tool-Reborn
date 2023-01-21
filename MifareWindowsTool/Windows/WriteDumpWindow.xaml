@@ -11,7 +11,7 @@
     Height="400"
     Background="#303030"
     WindowStyle="SingleBorderWindow"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="9*"/>
@@ -204,23 +204,30 @@
                 Foreground="Wheat"
                 Header="Dumps">
                 <StackPanel Orientation="Vertical">
-                    <Button
-                        x:Name="btnSelectDump"
-                        Width="auto"
-                        Height="22"
-                        MinWidth="150"
-                        Margin="0"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Top"
-                        Click="btnSelectDump_Click"
-                        Content="{localize:Static resx:Resources.BtnSelectDumpContent}"
-                        Style="{StaticResource buttonStyle}" />
                     <StackPanel Orientation="Horizontal">
-                        <Label Content="{localize:Static resx:Resources.SourceDump}" Foreground="White" />
+                        <Label Content="{localize:Static resx:Resources.SourceDump}" MinWidth="160" Foreground="White" />
+                        <Button   Width="auto" x:Name="btnSelectsourceDump" Click="btnSelectsourceDump_Click">
+                            <StackPanel  Background="#303030" >
+                                <Image ToolTip="{localize:Static resx:Resources.BtnSelectSourceDumpContent}"  Cursor="Hand"   
+                            Height="20" 
+                            VerticalAlignment="Top"
+                            Source="..\Images\small\loadfile.png"
+                            Stretch="Uniform" />
+                            </StackPanel>
+                        </Button>
                         <Label x:Name="lblSrcDumpValue" Foreground="Wheat" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <Label Content="{localize:Static resx:Resources.TargetDump}" Foreground="White" />
+                        <Label Content="{localize:Static resx:Resources.TargetDump}" MinWidth="160"  Foreground="White" />
+                        <Button Width="auto" x:Name="btnSelectTargetDump" Click="btnSelectTargetDump_Click">
+                            <StackPanel  Background="#303030" >
+                                <Image ToolTip="{localize:Static resx:Resources.BtnSelectTargetDumpContent}"  Cursor="Hand"   
+                            Height="20" 
+                            VerticalAlignment="Top"
+                            Source="..\Images\small\loadfile.png"
+                            Stretch="Uniform" />
+                            </StackPanel>
+                        </Button>
                         <Label x:Name="lblTargetDumpValue" Foreground="Wheat" />
                     </StackPanel>
                 </StackPanel>

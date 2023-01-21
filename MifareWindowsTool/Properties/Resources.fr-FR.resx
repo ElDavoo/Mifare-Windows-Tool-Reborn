@@ -150,8 +150,8 @@
   <data name="btnOpenDumpBContent" xml:space="preserve">
     <value>Ouvrir le dump B</value>
   </data>
-  <data name="BtnSelectDumpContent" xml:space="preserve">
-    <value>Sélectionner le dump Source</value>
+  <data name="BtnSelectSourceDumpContent" xml:space="preserve">
+    <value>Sélectionner le fichier dump Source</value>
   </data>
   <data name="btnStartMappingAndReadTagContent" xml:space="preserve">
     <value>Décoder et lire le badge</value>
@@ -296,7 +296,7 @@
     <value>Afficher en Hexa</value>
   </data>
   <data name="SourceDump" xml:space="preserve">
-    <value>fichier du dump MWT du badge à copier :</value>
+    <value>Fichier dump source</value>
   </data>
   <data name="StartCloning" xml:space="preserve">
     <value>Ecrire sur le badge</value>
@@ -305,7 +305,7 @@
     <value>démarré</value>
   </data>
   <data name="TargetDump" xml:space="preserve">
-    <value>fichier du dump MWT du badge vierge :</value>
+    <value>Fichier dump du badge cible</value>
   </data>
   <data name="Tools" xml:space="preserve">
     <value>OUTILS / OPTIONS</value>
@@ -515,7 +515,7 @@ Détectable comme copie : très difficilement (ne répond pas aux commandes magi
     <value>Source et cible identiques</value>
   </data>
   <data name="WantSourceAndCopyTheSame" xml:space="preserve">
-    <value>Vous vous apprêtez à copier un contenu identique entre la source et la cible, êtes-vous sûr que c'est ce que voulez ?
+    <value>Le badge cible a le même identifiant (UID) que le badge d'origine, êtes-vous sûr que vous voulez copier le badge d'origine vers ce badge cible ?
 (Dans le cas contraire, sélectionnez un autre fichier source à copier)</value>
   </data>
   <data name="BtnRenameKeyFileContent" xml:space="preserve">
@@ -574,5 +574,8 @@ Essayez de le débrancher et de le rebrancher, puis redémarrez MWT.</value>
   <data name="GetInfoForManualDriverUninstall" xml:space="preserve">
     <value>Le pilote LibUsbK n'a pas pu être désinstallé automatiquement.
 Voulez-vous afficher la page d'aide pour le désinstaller manuellement ?</value>
+  </data>
+  <data name="BtnSelectTargetDumpContent" xml:space="preserve">
+    <value>Sélectionner le fichier dump du badge Cible</value>
   </data>
 </root>

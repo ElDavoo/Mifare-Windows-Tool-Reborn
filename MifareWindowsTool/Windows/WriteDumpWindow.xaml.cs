@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Data;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection.Emit;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -29,6 +27,7 @@ namespace MCT_Windows
             rbClone.IsChecked = true;
             lblSrcDumpValue.Content = Tools.SourceBinaryDump.DumpFileName != null ? $"{Tools.SourceBinaryDump.DumpFileName.Replace("_", "__")} ({Tools.SourceBinaryDump.StrDumpType})" : "";
             lblTargetDumpValue.Content = Tools.TargetBinaryDump.DumpFileName != null ? $"{Tools.TargetBinaryDump.DumpFileName.Replace("_", "__")} ({Tools.TargetBinaryDump.StrDumpType})" : "";
+
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -40,21 +39,24 @@ namespace MCT_Windows
         {
             if (rbFactoryFormat.IsChecked.HasValue && rbFactoryFormat.IsChecked.Value)
             {
-                await main.RunSetUidAsync("",true);
+                await main.RunSetUidAsync("", true);
                 //this.DialogResult = true;
                 this.Close();
             }
             else if (rbClone.IsChecked.HasValue && rbClone.IsChecked.Value)
             {
-                if (!Tools.SourceBinaryDump.IsValid || !Tools.TargetBinaryDump.IsValid)
+                if (!Tools.TargetBinaryDump.IsValid)
                 {
-                    await SelectSourceOrTargetDump();
-
+                    await SelectTargetDump(true);
+                }
+                if (!Tools.SourceBinaryDump.IsValid)
+                {
+                    await SelectSourceDump(true);
                 }
 
                 if (Tools.SourceBinaryDump.IsValid && Tools.TargetBinaryDump.IsValid)
                 {
-                    if (Tools.SourceBinaryDump.DumpFileFullName == Tools.TargetBinaryDump.DumpFileFullName)
+                    if (Tools.SourceBinaryDump.StrDumpUID == Tools.TargetBinaryDump.StrDumpUID)
                     {
                         var dr = MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.WantSourceAndCopyTheSame)), Translate.Key(nameof(MifareWindowsTool.Properties.Resources.SourceAndCopyAreTheSame)), MessageBoxButton.YesNoCancel, MessageBoxImage.Warning, MessageBoxResult.Cancel);
                         if (dr != MessageBoxResult.Yes) return;
@@ -63,7 +65,6 @@ namespace MCT_Windows
                 }
             }
         }
-
         private async Task WriteDumpAction()
         {
             TagType tt = TagType.Not0Writable;
@@ -73,47 +74,39 @@ namespace MCT_Windows
             await main.RunNfcMfclassicAsync(TagAction.Clone, ckEnableBlock0Writing.IsChecked.HasValue && ckEnableBlock0Writing.IsChecked.Value,
                   rbUseKeyA.IsChecked.HasValue && rbUseKeyA.IsChecked.Value, rbHaltOnError.IsChecked.HasValue && rbHaltOnError.IsChecked.Value, tt);
 
+            await main.RunNfcListAsync();
+
             this.DialogResult = true;
             this.Close();
         }
-
-        private async Task SelectSourceOrTargetDump(bool showWarning = true)
+        private async Task SelectSourceDump(bool showWarning = true)
         {
-            var msg = "";
-            if (!Tools.TargetBinaryDump.IsValid) // need target
-            {
-                var dump = Tools.TargetBinaryDump;
-                if (showWarning) MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NeedSelectDumpKeyFileTarget)));
-                SelectDump(ref dump, lblTargetDumpValue, Translate.Key(nameof(MifareWindowsTool.Properties.Resources.SelectDumpForTargetTag)));
-                Tools.TargetBinaryDump = dump;
-                if (string.IsNullOrEmpty(Tools.TargetBinaryDump.DumpFileFullName))
-                {
-                    MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(main, Tools, Translate.Key(nameof(MifareWindowsTool.Properties.Resources.UsedForTargetMapping)), Translate.Key(nameof(MifareWindowsTool.Properties.Resources.TargetDump)));
-                    var ret = mtsWin.ShowDialog();
-                    if (ret.HasValue && ret.Value)
-                        await main.RunMfocAsync(main.SelectedKeys, Tools.TargetBinaryDump.DumpFileName, TagAction.ReadTarget,
-                             mtsWin.chkCustomProbeNb.IsChecked.HasValue && mtsWin.chkCustomProbeNb.IsChecked.Value ? mtsWin.udNbProbes.Value : 20, mtsWin.chkCustomProbeNb.IsChecked.HasValue && mtsWin.chkCustomProbeNb.IsChecked.Value ? mtsWin.udTolerance.Value : 20);
-                }
-            }
-            else //target valid => just need source
-            {
-                if (showWarning)
-                {
-                    msg = Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NeedSelectDumpKeyFileSource));
-                    //!det.HasValue && !des.HasValue ? Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NeedSelectDumpKeyFileSourceAndTarget)) : "";
-                }
-                var dump = Tools.SourceBinaryDump;
-                SelectDump(ref dump, lblSrcDumpValue, Translate.Key(nameof(MifareWindowsTool.Properties.Resources.SelectDumpForSourceTag)));
-                Tools.SourceBinaryDump = dump;
-            }
-           
+            var msg = showWarning ? Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NeedSelectDumpKeyFileSource)) : string.Empty;
 
+            var dump = Tools.SourceBinaryDump;
+            SelectDump(ref dump, lblSrcDumpValue, Translate.Key(nameof(MifareWindowsTool.Properties.Resources.SelectDumpForSourceTag)));
+            Tools.SourceBinaryDump = dump;
             if (Tools.SourceBinaryDump.IsValid) showWarning = false;
             if (showWarning && !string.IsNullOrEmpty(msg)) MessageBox.Show(msg);// msg if showwarning
         }
-        private async void btnSelectDump_Click(object sender, RoutedEventArgs e)
+        private async Task SelectTargetDump(bool showWarning = true)
         {
-            await SelectSourceOrTargetDump(false);
+            var msg = showWarning ? Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NeedSelectDumpKeyFileTarget)) : string.Empty;
+
+            var dump = Tools.TargetBinaryDump;
+            if (showWarning) MessageBox.Show(msg);
+            SelectDump(ref dump, lblTargetDumpValue, Translate.Key(nameof(MifareWindowsTool.Properties.Resources.SelectDumpForTargetTag)));
+            Tools.TargetBinaryDump = dump;
+            if (string.IsNullOrEmpty(Tools.TargetBinaryDump.DumpFileFullName))
+            {
+                MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(main, Tools, Translate.Key(nameof(MifareWindowsTool.Properties.Resources.UsedForTargetMapping)),
+                    Translate.Key(nameof(MifareWindowsTool.Properties.Resources.TargetDump)));
+                var ret = mtsWin.ShowDialog();
+                if (ret.HasValue && ret.Value)
+                    await main.RunMfocAsync(main.SelectedKeys, Tools.TargetBinaryDump.DumpFileName, TagAction.ReadTarget,
+                         mtsWin.chkCustomProbeNb.IsChecked.HasValue && mtsWin.chkCustomProbeNb.IsChecked.Value ? mtsWin.udNbProbes.Value : 20,
+                         mtsWin.chkCustomProbeNb.IsChecked.HasValue && mtsWin.chkCustomProbeNb.IsChecked.Value ? mtsWin.udTolerance.Value : 20);
+            }
         }
 
         private void SelectDump(ref IDump dump, System.Windows.Controls.Label lbl, string dlgTitle)
@@ -176,5 +169,20 @@ namespace MCT_Windows
         {
             Process.Start("https://blogmotion.fr/internet/securite/gen1-gen2-gen3-nfc-mifare-1k-18004");
         }
+
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            ckEnableBlock0Writing.IsChecked = await main.RunDetectChineseMagicCardAsync();
+        }
+        private async void btnSelectsourceDump_Click(object sender, RoutedEventArgs e)
+        {
+            await SelectSourceDump(false);
+        }
+        private async void btnSelectTargetDump_Click(object sender, RoutedEventArgs e)
+        {
+            await SelectTargetDump(false);
+        }
+
+
     }
 }

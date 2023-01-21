@@ -55,7 +55,8 @@ namespace MCT_Windows
                "nfc-list.exe",
                "nfc-mfclassic.exe",
                "mfoc-hardnested.exe",
-               "nfc-mfsetuid.exe"
+               "nfc-mfsetuid.exe",
+               "nfc-detect-chinese-magic-card.exe"
            };
         public Tools()
         {
@@ -157,7 +158,11 @@ namespace MCT_Windows
 
         public void ToggleACR122Enabled()
         {
-            ToggleDeviceEnabled(new Guid("{50dd5230-ba8a-11d1-bf5d-0000f805f530}"), @"USB\VID_072F&PID_2200\7&AEC7C26&0&4");
+            //USB\VID_072F&PID_2200\5&DE3B74C&0&2
+             ToggleDeviceEnabled(new Guid("{50dd5230-ba8a-11d1-bf5d-0000f805f530}"), @"USB\VID_072F&PID_2200\7&AEC7C26&0&4");
+            //ToggleDeviceEnabled(new Guid("{50dd5230-ba8a-11d1-bf5d-0000f805f530}"), @"USB\VID_072F&PID_2200");
+            //
+
         }
         /// <summary>
         /// 

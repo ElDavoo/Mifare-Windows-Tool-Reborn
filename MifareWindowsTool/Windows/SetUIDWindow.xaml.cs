@@ -40,6 +40,8 @@ namespace MCT_Windows.Windows
             }
             Main.ProcessCTS = new System.Threading.CancellationTokenSource();
             await Main.RunSetUidAsync(txtnewUID.Text.Trim(), ckFormatTag.IsChecked.Value);
+            MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Finished)));
+            this.Close();
         }
 
 
