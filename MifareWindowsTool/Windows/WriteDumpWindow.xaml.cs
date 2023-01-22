@@ -198,8 +198,9 @@ namespace MCT_Windows
             if (defaultACL)
             {
                 txtACsValue.Text = Tools.DefaultAccessConditions;
-                txtACsValue.IsReadOnly = true;
             }
+            txtACsValue.IsReadOnly = defaultACL;
+
         }
 
         private void ckWritePartialBlocks_Checked(object sender, RoutedEventArgs e)
@@ -229,7 +230,7 @@ namespace MCT_Windows
 
         private void upDownEndBlock_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            var upDown = sender as  Xceed.Wpf.Toolkit.IntegerUpDown;
+            var upDown = sender as Xceed.Wpf.Toolkit.IntegerUpDown;
             if (upDown == null || upDownStartBlock == null) return;
             if (upDown.Value < upDownStartBlock.Value)
             {
