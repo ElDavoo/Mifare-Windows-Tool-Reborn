@@ -79,6 +79,15 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Click here to go on MIFARE Classic 1K Access Bits Calculator page.
+        /// </summary>
+        public static string ACLCalculator {
+            get {
+                return ResourceManager.GetString("ACLCalculator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à ACR122U tag reader doesn&apos;t seem to be plugged in!.
         /// </summary>
         public static string ACR122NotPlugged {
@@ -315,7 +324,7 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Use these Access Conditions for all sectors.
+        ///   Recherche une chaîne localisée semblable à Use default Access Conditions for all sectors.
         /// </summary>
         public static string CkACsContent {
             get {
@@ -842,7 +851,7 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à New UID (4 bytes) or full BLOCK 0 (16 bytes).
+        ///   Recherche une chaîne localisée semblable à New UID (4 or 7 bytes) or full BLOCK 0 (16 bytes).
         /// </summary>
         public static string NewUIDOrBlock0 {
             get {
@@ -901,6 +910,24 @@ namespace MifareWindowsTool.Properties {
         public static string OutputDumpType {
             get {
                 return ResourceManager.GetString("OutputDumpType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Last block to write.
+        /// </summary>
+        public static string PartialBlockEnd {
+            get {
+                return ResourceManager.GetString("PartialBlockEnd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à First block to write.
+        /// </summary>
+        public static string PartialBlockStart {
+            get {
+                return ResourceManager.GetString("PartialBlockStart", resourceCulture);
             }
         }
         
@@ -1231,6 +1258,15 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à to block.
+        /// </summary>
+        public static string ToBlock {
+            get {
+                return ResourceManager.GetString("ToBlock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à TOOLS / OPTIONS.
         /// </summary>
         public static string Tools {
@@ -1322,6 +1358,24 @@ namespace MifareWindowsTool.Properties {
         public static string WriteDumpWindowTitle {
             get {
                 return ResourceManager.GetString("WriteDumpWindowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Write from block.
+        /// </summary>
+        public static string WriteFromBlock {
+            get {
+                return ResourceManager.GetString("WriteFromBlock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Write on specific blocks only.
+        /// </summary>
+        public static string WritePartialBlocks {
+            get {
+                return ResourceManager.GetString("WritePartialBlocks", resourceCulture);
             }
         }
         

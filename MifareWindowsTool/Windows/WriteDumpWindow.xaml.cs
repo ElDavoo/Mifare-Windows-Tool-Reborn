@@ -3,10 +3,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
 using MifareWindowsTool.Common;
 using MifareWindowsTool.Properties;
+
 
 namespace MCT_Windows
 {
@@ -71,8 +73,13 @@ namespace MCT_Windows
             if (rbtagGen1.IsChecked.Value) tt = TagType.UnlockedGen1;
             else if (rbtagGen2.IsChecked.Value) tt = TagType.DirectCUIDgen2;
 
-            await main.RunNfcMfclassicAsync(TagAction.Clone, ckEnableBlock0Writing.IsChecked.HasValue && ckEnableBlock0Writing.IsChecked.Value,
-                  rbUseKeyA.IsChecked.HasValue && rbUseKeyA.IsChecked.Value, rbHaltOnError.IsChecked.HasValue && rbHaltOnError.IsChecked.Value, tt);
+            bool bWritePartialBlocks = ckWritePartialBlocks.IsChecked.HasValue && ckWritePartialBlocks.IsChecked.Value;
+            var forceStartBlockValue = bWritePartialBlocks && upDownStartBlock.Value.HasValue ? upDownStartBlock.Value.Value : 0;
+            var forceEndBlockValue = bWritePartialBlocks && upDownEndBlock.Value.HasValue ? upDownEndBlock.Value.Value : -1;
+
+            await main.RunNfcMfclassicAsync(ckEnableBlock0Writing.IsChecked.HasValue && ckEnableBlock0Writing.IsChecked.Value,
+                  rbUseKeyA.IsChecked.HasValue && rbUseKeyA.IsChecked.Value, rbHaltOnError.IsChecked.HasValue && rbHaltOnError.IsChecked.Value
+                  , txtACsValue.Text, string.Empty, forceStartBlockValue, forceEndBlockValue, 0);
 
             await main.RunNfcListAsync();
 
@@ -183,6 +190,52 @@ namespace MCT_Windows
             await SelectTargetDump(false);
         }
 
+        private void ckACs_Checked(object sender, RoutedEventArgs e)
+        {
+            var ck = sender as CheckBox;
+            if (txtACsValue == null) return;
+            var defaultACL = ck.IsChecked.HasValue && ck.IsChecked.Value;
+            if (defaultACL)
+            {
+                txtACsValue.Text = Tools.DefaultAccessConditions;
+                txtACsValue.IsReadOnly = true;
+            }
+        }
 
+        private void ckWritePartialBlocks_Checked(object sender, RoutedEventArgs e)
+        {
+            var ck = sender as CheckBox;
+            var active = ck.IsChecked.HasValue && ck.IsChecked.Value;
+            upDownStartBlock.IsEnabled = active;
+            upDownEndBlock.IsEnabled = active;
+        }
+
+        private void btnACLCalculator_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("http://calc.gmss.ru/Mifare1k/");
+        }
+
+        private void upDownStartBlock_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            var upDown = sender as Xceed.Wpf.Toolkit.IntegerUpDown;
+            if (upDown == null || upDownEndBlock == null) return;
+
+            if (upDown.Value > upDownEndBlock.Value)
+            {
+                upDown.Value = upDownEndBlock.Value;
+                e.Handled = true;
+            }
+        }
+
+        private void upDownEndBlock_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            var upDown = sender as  Xceed.Wpf.Toolkit.IntegerUpDown;
+            if (upDown == null || upDownStartBlock == null) return;
+            if (upDown.Value < upDownStartBlock.Value)
+            {
+                upDown.Value = upDownStartBlock.Value;
+                e.Handled = true;
+            }
+        }
     }
 }

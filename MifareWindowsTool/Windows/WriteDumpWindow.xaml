@@ -6,6 +6,7 @@
     xmlns:localize="http://gu.se/Localization"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:resx="clr-namespace:MifareWindowsTool.Properties"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     Title="{localize:Static resx:Resources.WriteDumpWindowTitle}"
     Width="560"
     Height="400"
@@ -29,9 +30,9 @@
                 <StackPanel Orientation="Vertical">
                     <RadioButton
                         x:Name="rbFactoryFormat"
-                        Width="150"
-                        Margin="0,5"
-                        HorizontalAlignment="Center"
+                        Width="170"
+                        Margin="200,5,0,0"
+                        HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Checked="rbFactoryFormat_Checked"
                         Content="{localize:Static resx:Resources.FactoryFormat}"
@@ -41,8 +42,9 @@
                     <RadioButton
                         x:Name="rbClone"
                         Width="auto"
-                        MinWidth="150"
-                        HorizontalAlignment="Center"
+                          Margin="200,5,0,0"
+                        MinWidth="170"
+                        HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Checked="rbClone_Checked"
                         Content="{localize:Static resx:Resources.WriteDumpClone}"
@@ -61,18 +63,20 @@
                 Foreground="Wheat"
                 Header="Options">
                 <StackPanel Orientation="Vertical">
-                    <CheckBox
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox
                         x:Name="ckACs"
                         Margin="20,5,0,0"
                         Content="{localize:Static resx:Resources.CkACsContent}"
                         Foreground="White"
-                        IsChecked="True"
-                        IsEnabled="False" />
-                    <TextBox
+                        IsChecked="True" Checked="ckACs_Checked" Unchecked="ckACs_Checked"
+                        IsEnabled="True" />
+                        <TextBox
                         x:Name="txtACsValue"
                         Width="80"
                         Height="auto"
-                        Margin="40,5,0,0"
+                        Margin="20,5,0,0"
+                        MaxLength="8"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Background="#303030"
@@ -82,13 +86,60 @@
                         Text="FF078069"
                         TextWrapping="Wrap"
                         ToolTip="{localize:Static resx:Resources.ttAcsDefaultValue}" />
+                        <Button x:Name="btnACLCalculator" Click="btnACLCalculator_Click" Height="20" Margin="37,5,0,0" VerticalAlignment="Top" >
+                            <Image
+                            Height="auto"
+                            Width="auto"
+                            Source="..\Images\help_and_info.png"
+                                ToolTip="{localize:Static resx:Resources.ACLCalculator}"
+                            Stretch="Uniform">
+                            </Image>
+                        </Button>
+                    </StackPanel>
                     <CheckBox
                         x:Name="ckEnableBlock0Writing"
-                        Margin="30,5"
+                        Margin="20,5"
                         Checked="CkEnableBlock0Writing_Checked"
                         Content="{localize:Static resx:Resources.CkEnableBlock0WritingContent}"
                         Foreground="White"
                         Unchecked="CkEnableBlock0Writing_Unchecked" />
+                    <GroupBox
+                            x:Name="gbPartialBlocks"
+                            Height="auto"
+                            BorderThickness="1"
+                            Foreground="Wheat"
+                            Header="{localize:Static resx:Resources.WritePartialBlocks}">
+                        <StackPanel Orientation="Horizontal" Width="auto" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <CheckBox x:Name="ckWritePartialBlocks"
+                        Margin="10,5"
+                        Checked="ckWritePartialBlocks_Checked"
+                        Content="{localize:Static resx:Resources.WriteFromBlock}"
+                        Foreground="White"
+                                IsChecked="False"
+                        Unchecked="ckWritePartialBlocks_Checked" />
+                            <xctk:IntegerUpDown x:Name="upDownStartBlock" 
+                                      FormatString="N0"
+                                                Width="90"
+                                                Increment="4"
+                                    Minimum="0"
+                                    Maximum="255"
+                                    Value="0"
+                                    IsEnabled="False" ValueChanged="upDownStartBlock_ValueChanged"
+                                    Text="{localize:Static resx:Resources.PartialBlockStart}"
+                                   />
+                            <Label Content="{localize:Static resx:Resources.ToBlock}" Width="auto" Foreground="White" />
+                            <xctk:IntegerUpDown x:Name="upDownEndBlock" 
+                                    FormatString="N0"
+                                                Width="90"
+                                                Increment="4"
+                                    Minimum="0"
+                                    Maximum="63"
+                                    Value="63"
+                                    IsEnabled="False" ValueChanged="upDownEndBlock_ValueChanged"
+                                    Text="{localize:Static resx:Resources.PartialBlockEnd}"
+                                   />
+                        </StackPanel>
+                    </GroupBox>
                     <StackPanel Margin="10,0,0,0" Orientation="Horizontal">
                         <GroupBox
                             x:Name="gbSelectKey"

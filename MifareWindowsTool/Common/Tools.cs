@@ -70,6 +70,7 @@ namespace MCT_Windows
         //public string TMPFILE_TARGETMFD { get; set; } = "";
         public string TMPFILE_UNK { get; set; } = "";
         public string TMPFILE_FND { get; set; } = "";
+        public string DefaultAccessConditions => "FF078069";
 
         public string GetSetting(string key)
         {

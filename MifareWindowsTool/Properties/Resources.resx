@@ -163,7 +163,7 @@
     <value>Cancel</value>
   </data>
   <data name="CkACsContent" xml:space="preserve">
-    <value>Use these Access Conditions for all sectors</value>
+    <value>Use default Access Conditions for all sectors</value>
   </data>
   <data name="CkEnableBlock0WritingContent" xml:space="preserve">
     <value>Advanced: Enable writing to manufacturer block</value>
@@ -532,7 +532,7 @@ Detectable as a copy : very difficult (does not respond to magic commands)</valu
     <value>Complete the dump with default values if the dump is partial</value>
   </data>
   <data name="NewUIDOrBlock0" xml:space="preserve">
-    <value>New UID (4 bytes) or full BLOCK 0 (16 bytes)</value>
+    <value>New UID (4 or 7 bytes) or full BLOCK 0 (16 bytes)</value>
   </data>
   <data name="MissingMandatoryExeFiles" xml:space="preserve">
     <value>Some mandatory executable files are missing.
@@ -573,5 +573,23 @@ Do you want to display the help page to uninstall it manually?</value>
   </data>
   <data name="BtnSelectTargetDumpContent" xml:space="preserve">
     <value>Select Target Dump</value>
+  </data>
+  <data name="PartialBlockEnd" xml:space="preserve">
+    <value>Last block to write</value>
+  </data>
+  <data name="PartialBlockStart" xml:space="preserve">
+    <value>First block to write</value>
+  </data>
+  <data name="WritePartialBlocks" xml:space="preserve">
+    <value>Write on specific blocks only</value>
+  </data>
+  <data name="ToBlock" xml:space="preserve">
+    <value>to block</value>
+  </data>
+  <data name="WriteFromBlock" xml:space="preserve">
+    <value>Write from block</value>
+  </data>
+  <data name="ACLCalculator" xml:space="preserve">
+    <value>Click here to go on MIFARE Classic 1K Access Bits Calculator page</value>
   </data>
 </root>

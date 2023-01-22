@@ -33,7 +33,8 @@ namespace MCT_Windows.Windows
         private async void btnSetUID_Click(object sender, RoutedEventArgs e)
         {
 
-            if (!txtnewUID.Text.Trim().OnlyHex() || (txtnewUID.Text.Trim().Length != 8 && txtnewUID.Text.Trim().Length != 32))
+            if (!txtnewUID.Text.Trim().OnlyHex() || (txtnewUID.Text.Trim().Length != 8)
+                || (txtnewUID.Text.Trim().Length != 14) || (txtnewUID.Text.Trim().Length != 32))
             {
                 MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.InvalidUID)));
                 return;

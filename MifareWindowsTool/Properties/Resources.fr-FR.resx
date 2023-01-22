@@ -163,7 +163,7 @@
     <value>Annuler</value>
   </data>
   <data name="CkACsContent" xml:space="preserve">
-    <value>Utiliser ces conditions d'accès pour tous les secteurs</value>
+    <value>Utiliser les conditions d'accès par défaut pour tous les secteurs</value>
   </data>
   <data name="CkEnableBlock0WritingContent" xml:space="preserve">
     <value>Avançé : Autoriser l'écriture sur le bloc 0</value>
@@ -537,7 +537,7 @@ Détectable comme copie : très difficilement (ne répond pas aux commandes magi
     <value>Compléter le dump avec des valeurs par défaut si le dump est partiel</value>
   </data>
   <data name="NewUIDOrBlock0" xml:space="preserve">
-    <value>Nouvel UID (4 octets) ou BLOCK 0 complet (16 octets)</value>
+    <value>Nouvel UID (4 ou 7 octets) ou BLOCK 0 complet (16 octets)</value>
   </data>
   <data name="MissingMandatoryExeFiles" xml:space="preserve">
     <value>Des fichiers nécessaires au bon fonctionnement de MWT sont manquants.
@@ -577,5 +577,23 @@ Voulez-vous afficher la page d'aide pour le désinstaller manuellement ?</value>
   </data>
   <data name="BtnSelectTargetDumpContent" xml:space="preserve">
     <value>Sélectionner le fichier dump du badge Cible</value>
+  </data>
+  <data name="PartialBlockEnd" xml:space="preserve">
+    <value>Dernier bloc à écrire</value>
+  </data>
+  <data name="PartialBlockStart" xml:space="preserve">
+    <value>Premier bloc à écrire</value>
+  </data>
+  <data name="ToBlock" xml:space="preserve">
+    <value>au bloc</value>
+  </data>
+  <data name="WriteFromBlock" xml:space="preserve">
+    <value>Ecrire du bloc</value>
+  </data>
+  <data name="WritePartialBlocks" xml:space="preserve">
+    <value>Ecrire sur des secteurs spécifiques</value>
+  </data>
+  <data name="ACLCalculator" xml:space="preserve">
+    <value>Cliquez ici pour acccéder à la page MIFARE Classic 1K Access Bits Calculator</value>
   </data>
 </root>

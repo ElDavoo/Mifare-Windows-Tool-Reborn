@@ -28,6 +28,8 @@ using MCT_Windows.Windows;
 using MifareWindowsTool.Common;
 using MifareWindowsTool.Properties;
 
+using WpfHexaEditorCustom.Core.MethodExtention;
+
 namespace MCT_Windows
 {
     /// <summary>
@@ -457,44 +459,8 @@ namespace MCT_Windows
                     PeriodicScanTag();
             });
         }
-        //public static void DoEvents()
-        //{
-        //    Application.Current.Dispatcher.Invoke(DispatcherPriority.Background,
-        //                                          new Action(delegate { }));
-        //}
 
-        //public async Task<bool> RunPcscScanACR122()
-        //{
-
-        //    using (var cts = new CancellationTokenSource())
-        //    {
-        //        var exeFile = "pcsc_scan.exe";
-        //        bool IsACR122 = false;
-        //        ProcessCTS = new CancellationTokenSource();
-        //        cts.CancelAfter(TimeSpan.FromSeconds(10)); // e.g. timeout of 5 seconds
-        //        var cmd = Cli.Wrap($"{DumpBase.DefaultNfcToolsPath}\\{exeFile}");
-
-
-        //        await foreach (CommandEvent cmdEvent in cmd.ListenAsync(cts.Token))
-        //        {
-        //            switch (cmdEvent)
-        //            {
-        //                case StandardOutputCommandEvent stdOut:
-        //                    LogAppend(stdOut.Text);
-        //                    if (stdOut.Text.Contains("ACR122")) IsACR122 = true;
-        //                    break;
-        //                case StandardErrorCommandEvent stdErr:
-        //                    ErrorAppend(stdErr.Text);
-        //                    break;
-        //                default: break;
-        //            }
-        //        }
-
-        //        return IsACR122;
-        //    }
-        //}
-
-        public async Task<string> RunNfcListAsync()
+        public async Task<string> RunNfcListAsync(int forceIntrusiveScan = 0)
         {
             try
             {
@@ -505,7 +471,7 @@ namespace MCT_Windows
                 var cmd = Cli.Wrap($"{DumpBase.DefaultNfcToolsPath}\\{exeFile}").WithValidation(CommandResultValidation.None);
                 //task = cmd.ExecuteAsync();
                 //ShowPauseButton(task != null);
-                await foreach (CommandEvent cmdEvent in cmd.ListenAsync(ScanCTS.Token))
+                await foreach (CommandEvent cmdEvent in cmd.ListenAsync(ScanCTS.Token).WithCancellation(ScanCTS.Token))
                 {
                     switch (cmdEvent)
                     {
@@ -551,7 +517,7 @@ namespace MCT_Windows
                 }
                 return DumpBase.CurrentUID;
             }
-            catch (TaskCanceledException)
+            catch (OperationCanceledException)
             {
                 ckEnablePeriodicTagScan.IsChecked = false;
                 ScanTagRunning = false;
@@ -564,7 +530,7 @@ namespace MCT_Windows
                 return "";
             }
         }
-        public async Task<bool> RunDetectChineseMagicCardAsync()
+        public async Task<bool> RunDetectChineseMagicCardAsync(int forceIntrusiveScan = 0)
         {
             try
             {
@@ -623,12 +589,12 @@ namespace MCT_Windows
 
 
 
-        public async Task RunSetUidAsync(string newUID, bool format)
+        public async Task RunSetUidAsync(string newUID, bool format, int forceIntrusiveScan = 0)
         {
             try
             {
                 var exeFile = "nfc-mfsetuid.exe";
-                var arguments = "";
+                var arguments = $"-i {forceIntrusiveScan} ";
                 if (format)
                     arguments += "-f ";
                 arguments += newUID;
@@ -656,7 +622,7 @@ namespace MCT_Windows
         }
         //[DllImport(@"C:\work\libnfc_test\build\utils\Debug\nfc-list.exe")]
         //public static extern int nfclist();
-        public async Task RunNfcMfclassicAsync(TagAction act, bool bWriteBlock0, bool useKeyA, bool haltOnError, TagType tagType)
+        public async Task RunNfcMfclassicAsync(bool bWriteBlock0, bool useKeyA, bool haltOnError, string customACL, string customUID, int startWriteBlock = 0, int endWriteblock = -1, int forceIntrusiveScan = 0)
         {
             try
             {
@@ -670,12 +636,31 @@ namespace MCT_Windows
                 char writeMode = bWriteBlock0 == true ? 'W' : 'w';
                 char useKey = useKeyA == true ? 'A' : 'B';
                 char cHaltOnError = haltOnError == true ? useKey = char.ToLower(useKey) : char.ToUpper(useKey);
+                var forceCustomACL = string.Empty;
+                var forceStartWriteBlock = string.Empty;
+                if (startWriteBlock > 0)
+                {
+                    forceStartWriteBlock = $"-s {startWriteBlock}";
+                }
+                var forceEndWriteBlock = string.Empty;
+                if (endWriteblock > -1)
+                {
+                    forceEndWriteBlock = $"-t {endWriteblock}";
+                }
+                if (!string.IsNullOrEmpty(customACL) && customACL.ToUpper() != Tools.DefaultAccessConditions)
+                {
+                    forceCustomACL = $"-a {customACL}";
+                }
+
+                if (string.IsNullOrEmpty(customUID)) customUID = "0";
+                var forceCustomUID = $"-u {customUID}";
                 //if (tagType == TagType.UnlockedGen1) writeMode = 'W'; else if (tagType == TagType.DirectCUIDgen2) writeMode = 'C';
-                var argUID = $"U{sourceDump.StrDumpUID}";
-                var forceKeyFile = "f";
+                //var argUID = $"{sourceDump.StrDumpUID}";
+                var forceKeyFile = "-f";
+                var verbose = "-v";
                 ProcessCTS = new CancellationTokenSource();
                 //var arguments = $"{writeMode} {cHaltOnError} U{targetDump.StrDumpUID} \"{sourceDump.DumpFileFullName}\" \"{targetDump.DumpFileFullName}\"";
-                var arguments = $"{writeMode} {cHaltOnError} {argUID} \"{sourceDump.DumpFileFullName}\" \"{targetDump.DumpFileFullName}\" {forceKeyFile}";
+                var arguments = $"-p {writeMode} -e {cHaltOnError} {forceCustomUID} -d \"{sourceDump.DumpFileFullName}\" -k \"{targetDump.DumpFileFullName}\" {forceKeyFile} -i {forceIntrusiveScan} {forceCustomACL} {forceStartWriteBlock} {forceEndWriteBlock}";
                 LogAppend($"nfc-mfclassic {arguments}{Environment.NewLine}");
 
                 var cmd = Cli.Wrap($"{DumpBase.DefaultNfcToolsPath}\\{exeFile}").WithArguments(arguments).WithValidation(CommandResultValidation.None)
@@ -703,7 +688,7 @@ namespace MCT_Windows
             }
 
         }
-        public async Task RunMfocAsync(List<MCTFile> keys, string tmpFileMfd, TagAction act, int? nbProbes = 20, int? tolerance = 20)
+        public async Task RunMfocAsync(List<MCTFile> keys, string tmpFileMfd, TagAction act, int? nbProbes = 20, int? tolerance = 20, int forceIntrusiveScan = 0)
         {
             try
             {
@@ -722,7 +707,7 @@ namespace MCT_Windows
                 if (System.IO.File.Exists(tmpFileUnk))
                     arguments += $" -D \"{tmpFileUnk}\"";
 
-                arguments += $"-P {nbProbes} -T {tolerance} ";
+                arguments += $"-P {nbProbes} -T {tolerance} -I {forceIntrusiveScan}";
 
                 foreach (var key in keys.Select(k => k.FileName))
                 {
