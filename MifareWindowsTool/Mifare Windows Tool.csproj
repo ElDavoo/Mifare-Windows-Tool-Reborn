@@ -327,7 +327,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="app.manifest" />
-    <None Include="nfctools_pcsc\libnfc.conf" />
+    <None Include="nfctools_pcsc\libnfc.conf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="nfctools_pcsc\Template_Flipper_1K.nfc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
