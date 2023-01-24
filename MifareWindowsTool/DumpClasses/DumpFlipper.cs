@@ -30,7 +30,7 @@ namespace MifareWindowsTool.DumpClasses
 
         private void SetUID(IDump dmp)
         {
-            var strUidLength = 2*4+4-1;
+            var strUidLength = 2 * 4 + 4 - 1;
             if (dmp.CardType == CardType.NTag213) strUidLength = 2 * 7 + 7 - 1;
             const string flipperUid = "UID: ";
             var uidIndex = dmp.DumpData.TextData.IndexOf(flipperUid) + flipperUid.Length;
@@ -66,10 +66,20 @@ namespace MifareWindowsTool.DumpClasses
             var ft = TemplateFlipperNfc1k;
             var flipperBlockStartRow = 12;
             ft[5] = ft[5].Replace("UID:", $"UID: {this.StrDumpSpacedUID}");
+            bool is4K = this.DumpData.LstTextData.Count == 256;
+            if (is4K && !string.IsNullOrEmpty(ft[9]) && ft[9].ToUpper().Contains("MIFARE CLASSIC TYPE:"))
+            {
+                ft[9] = "Mifare Classic type: 4K";
+            }
             for (int i = 0; i < this.DumpData.LstTextData.Count; i++)
             {
                 var spacedData = this.DumpData.LstTextData[i].Aggregate("", (result, c) => result += ((!string.IsNullOrEmpty(result) && (result.Length + 1) % 3 == 0) ? " " : "") + c.ToString());
-                ft[flipperBlockStartRow + i] = ft[flipperBlockStartRow + i].Replace(":", $": {spacedData}");
+                if ((ft.Count - 1) < (flipperBlockStartRow + i))
+                {
+                    ft.Add($"Block {(flipperBlockStartRow + i):00}: {spacedData}");
+                }
+                else
+                    ft[flipperBlockStartRow + i] = ft[flipperBlockStartRow + i].Replace(":", $": {spacedData}");
             }
 
             this.DumpData.TextData = String.Join("\n", ft) + "\n";

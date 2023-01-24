@@ -18,6 +18,7 @@ using System.Windows.Threading;
 
 using CliWrap;
 using CliWrap.EventStream;
+using CliWrap.Exceptions;
 
 using Dasync.Collections;
 
@@ -517,7 +518,7 @@ namespace MCT_Windows
                 }
                 return DumpBase.CurrentUID;
             }
-          
+
             catch (Exception ex)
             {
                 if (ex is TaskCanceledException || ex is OperationCanceledException)
@@ -538,7 +539,7 @@ namespace MCT_Windows
                 if (!Tools.CheckNfcToolsFolder(exeFile)) return false;
 
 
-                var result = await Cli.Wrap($"{DumpBase.DefaultNfcToolsPath}\\{exeFile}").WithArguments("-s").ExecuteAsync();
+                var result = await Cli.Wrap($"{DumpBase.DefaultNfcToolsPath}\\{exeFile}").WithArguments("-s").WithValidation(CommandResultValidation.None).ExecuteAsync();
                 return result.ExitCode == 0;
             }
             catch (Exception)
@@ -600,18 +601,18 @@ namespace MCT_Windows
                 arguments += newUID;
 
                 LogAppend($"nfc-mfsetuid {arguments}{Environment.NewLine}");
-                var cmd = Cli.Wrap(@$"{DumpBase.DefaultNfcToolsPath}\\{exeFile}").WithArguments(arguments)
+                var cmd = Cli.Wrap(@$"{DumpBase.DefaultNfcToolsPath}\\{exeFile}").WithArguments(arguments).WithValidation(CommandResultValidation.None)
                         .WithStandardOutputPipe(PipeTarget.ToDelegate(LogAppend))
                         .WithStandardErrorPipe(PipeTarget.ToDelegate(ErrorAppend));
 
                 var result = await cmd.ExecuteAsync(ProcessCTS.Token);
             }
-            catch (OperationCanceledException)
+
+            catch (Exception ex)
             {
-            }
-            catch (Exception)
-            {
-                throw;
+                if (!(ex is CommandExecutionException || ex is OperationCanceledException))
+                    throw;
+
             }
             finally
             {

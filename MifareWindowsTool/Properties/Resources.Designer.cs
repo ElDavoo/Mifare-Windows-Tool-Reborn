@@ -562,7 +562,7 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à finished.
+        ///   Recherche une chaîne localisée semblable à Finished.
         /// </summary>
         public static string Finished {
             get {

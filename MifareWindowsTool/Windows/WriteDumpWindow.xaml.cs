@@ -42,6 +42,7 @@ namespace MCT_Windows
             if (rbFactoryFormat.IsChecked.HasValue && rbFactoryFormat.IsChecked.Value)
             {
                 await main.RunSetUidAsync("", true);
+                await main.RunNfcListAsync();
                 //this.DialogResult = true;
                 this.Close();
             }

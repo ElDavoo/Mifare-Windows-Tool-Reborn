@@ -17,6 +17,7 @@ namespace MCT_Windows.Windows
     {
         Tools Tools = null;
         MainWindow Main = null;
+        string currentUID = "";
         public SetUIDWindow(MainWindow mainw, Tools t)
         {
             Tools = t;
@@ -34,34 +35,39 @@ namespace MCT_Windows.Windows
         {
 
             if (!txtnewUID.Text.Trim().OnlyHex() || (txtnewUID.Text.Trim().Length != 8)
-                || (txtnewUID.Text.Trim().Length != 14) || (txtnewUID.Text.Trim().Length != 32))
+                && (txtnewUID.Text.Trim().Length != 14) && (txtnewUID.Text.Trim().Length != 32))
             {
                 MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.InvalidUID)));
                 return;
             }
+            string oldUID = await Main.RunNfcListAsync();
             Main.ProcessCTS = new System.Threading.CancellationTokenSource();
             await Main.RunSetUidAsync(txtnewUID.Text.Trim(), ckFormatTag.IsChecked.Value);
-            MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Finished)));
+            string newUID = await Main.RunNfcListAsync();
+           
+            MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Finished)
+                +Environment.NewLine
+                +$"UID:{oldUID} --> {newUID}"),"UID");
             this.Close();
         }
 
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            var uid = "";
+
             var exeFile = "nfc-mfsetuid.exe";
             if (!Tools.CheckNfcToolsFolder(exeFile)) return;
             if (Tools.TargetBinaryDump == null || string.IsNullOrWhiteSpace(Tools.TargetBinaryDump.StrDumpUID))
             {
                 Main.ScanCTS = new System.Threading.CancellationTokenSource();
 
-                uid = await Main.RunNfcListAsync();
+                currentUID = await Main.RunNfcListAsync();
             }
             else
             {
-                uid = Tools.TargetBinaryDump.StrDumpUID;
+                currentUID = Tools.TargetBinaryDump.StrDumpUID;
             }
-            if (string.IsNullOrWhiteSpace(uid))
+            if (string.IsNullOrWhiteSpace(currentUID))
             {
                 var message = Tools.nfcDeviceFound ? Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NoTagDetectedOnReader)) :
                     Translate.Key(nameof(MifareWindowsTool.Properties.Resources.BadgeReaderAcr122NotFound));
@@ -69,9 +75,9 @@ namespace MCT_Windows.Windows
                 this.Close();
             }
             else
-                txtOldUID.Text = uid;
+                txtOldUID.Text = currentUID;
 
-            btnSetUID.IsEnabled = !string.IsNullOrWhiteSpace(uid);
+            btnSetUID.IsEnabled = !string.IsNullOrWhiteSpace(currentUID);
         }
     }
 }

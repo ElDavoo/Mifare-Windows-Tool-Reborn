@@ -99,16 +99,18 @@ namespace MCT_Windows.Windows
 
         private void ShowDump(IDump dmp, Label lbl)
         {
+            if (dmp == null) return;
             Mouse.OverrideCursor = Cursors.Wait;
+           
             txtKeys.Text = dmp.ShowHexAndAddDumpKeys(txtOutput);
             var content = $"{dmp.DumpFileName} ({dmp.StrDumpType})";
             lbl.Content = content.Replace("_", "__");
             if (!CompareDumpsMode)
             {
                 Title += " " + content;
-                SetSectorCount(dmp);
                 //txtOutput.AppendText(string.Join("\r\n", dumpA.DumpData.LstTextData));
             }
+            SetSectorCount(dmp);
             Mouse.OverrideCursor = null;
         }
 
@@ -151,6 +153,7 @@ namespace MCT_Windows.Windows
         {
             Mouse.OverrideCursor = Cursors.Wait;
             dumpA.CompareTo(dumpB, txtOutput);
+            SetSectorCount(dumpA);
             Mouse.OverrideCursor = null;
 
         }
