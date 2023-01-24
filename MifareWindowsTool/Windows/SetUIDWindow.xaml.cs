@@ -55,7 +55,7 @@ namespace MCT_Windows.Windows
             {
                 Main.ScanCTS = new System.Threading.CancellationTokenSource();
 
-                uid = await Main.RunNfcListAsync();
+              //TODO  uid = await Main.RunNfcListAsync();
             }
             else
             {

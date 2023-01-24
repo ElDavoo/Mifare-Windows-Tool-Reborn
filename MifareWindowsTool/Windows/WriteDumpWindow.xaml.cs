@@ -81,7 +81,7 @@ namespace MCT_Windows
                   rbUseKeyA.IsChecked.HasValue && rbUseKeyA.IsChecked.Value, rbHaltOnError.IsChecked.HasValue && rbHaltOnError.IsChecked.Value
                   , txtACsValue.Text, string.Empty, forceStartBlockValue, forceEndBlockValue, 0);
 
-            await main.RunNfcListAsync();
+           //TODO await main.RunNfcListAsync();
 
             this.DialogResult = true;
             this.Close();

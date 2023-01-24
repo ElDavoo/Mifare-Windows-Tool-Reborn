@@ -88,15 +88,6 @@ namespace MifareWindowsTool.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à ACR122U tag reader doesn&apos;t seem to be plugged in!.
-        /// </summary>
-        public static string ACR122NotPlugged {
-            get {
-                return ResourceManager.GetString("ACR122NotPlugged", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Recherche une chaîne localisée semblable à The ACR122 reader is detected but stopped.
         ///Try unplugging and replugging it, then restarting MWT..
         /// </summary>
@@ -1209,6 +1200,15 @@ namespace MifareWindowsTool.Properties {
         public static string TagGensInfo {
             get {
                 return ResourceManager.GetString("TagGensInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à No tag reader is detected!.
+        /// </summary>
+        public static string TagReaderNotDetected {
+            get {
+                return ResourceManager.GetString("TagReaderNotDetected", resourceCulture);
             }
         }
         

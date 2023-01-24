@@ -28,7 +28,8 @@ using MCT_Windows.Windows;
 using MifareWindowsTool.Common;
 using MifareWindowsTool.Properties;
 
-using WpfHexaEditorCustom.Core.MethodExtention;
+using PCSC;
+using PCSC.Monitoring;
 
 namespace MCT_Windows
 {
@@ -47,9 +48,14 @@ namespace MCT_Windows
         //CommandTask<CommandResult> task = null;
         string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         public string MainTitle { get; set; } = $"Mifare Windows Tool";
+        List<string> tagReaders = new List<string>();
 
+        Tools tools { get; }
+        PcscTools pcscTools { get; }
 
-        Tools Tools { get; }
+        public readonly ISCardMonitor monitor;
+        private readonly IMonitorFactory monitorFactory = MonitorFactory.Instance;
+
         public List<MCTFile> SelectedKeys = new List<MCTFile>();
         Uri BaseUri = null;
         int cptFail = 0;
@@ -91,19 +97,34 @@ namespace MCT_Windows
             this.Title = $"{MainTitle}";
             btnPauseDisplay.Content = $"{Translate.Key(nameof(MifareWindowsTool.Properties.Resources.PauseOff))}";
             //ShowPauseButton(task != null);
-            Tools = new Tools();
+            tools = new Tools();
+            pcscTools = new PcscTools();
+
             CheckNewVersions();
             SetDefaultPaths();
 
             var ofd = DumpBase.CreateOpenDialog();
             //ofd.InitialDirectory = DumpBase.DefaultDumpPath;
 
-            if (!Tools.TestWritePermission(ofd.InitialDirectory))
+            if (!tools.TestWritePermission(ofd.InitialDirectory))
             {
                 MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.PleaseRestartAsAdmin)));
                 Application.Current.Shutdown();
             }
-            if (CheckSetDriver() && Tools.CheckNfcToolsFolder()) PeriodicScanTag();
+
+
+            if (tools.CheckNfcToolsFolder())
+
+
+                monitor = monitorFactory.Create(SCardScope.System);
+            // connect events here..
+            monitor.StatusChanged += (sender, args) =>
+            {
+                LogAppend($"{args.NewState}");
+            };
+            PeriodicScanTag();
+
+
         }
         private static void DisplayVersionPageChoice(string messageNewVersion, string url)
         {
@@ -115,7 +136,7 @@ namespace MCT_Windows
         }
         private void CheckNewVersions()
         {
-            var newVersions = Tools.CheckNewVersion();
+            var newVersions = tools.CheckNewVersion();
             var hasNewRelease = false;
             var hasNewPreRelease = false;
             var messageNewVersion = string.Empty;
@@ -176,13 +197,13 @@ namespace MCT_Windows
         {
             Directory.SetCurrentDirectory(DumpBase.DefaultWorkingDir);
 
-            var defaultPath = Tools.GetSetting("DefaultDumpPath");
+            var defaultPath = tools.GetSetting("DefaultDumpPath");
             if (!string.IsNullOrWhiteSpace(defaultPath) && Directory.Exists(defaultPath))
                 DumpBase.DefaultDumpPath = defaultPath;
             else
                 DumpBase.DefaultDumpPath = Path.Combine(DumpBase.DefaultWorkingDir, "dumps");
 
-            var defaultKeysPath = Tools.GetSetting("DefaultKeysPath");
+            var defaultKeysPath = tools.GetSetting("DefaultKeysPath");
             if (!string.IsNullOrWhiteSpace(defaultKeysPath) && Directory.Exists(defaultKeysPath))
                 DumpBase.DefaultKeysPath = defaultKeysPath;
             else
@@ -191,73 +212,107 @@ namespace MCT_Windows
 
 
 
-        private bool CheckSetDriver()
-        {
-            try
-            {
-                var acrState = Tools.DriverState("ACR122U");
-                var libusbkState = Tools.DriverState("LibUsbk");
-                if ((string.IsNullOrEmpty(acrState) || acrState == "stopped") && !string.IsNullOrEmpty(libusbkState) && libusbkState != "stopped")
-                {
-                    MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.UnInstallLibUsbKDriver)), "LibUsbK", MessageBoxButton.OK, MessageBoxImage.Information);
+        //private bool CheckSetDriver()
+        //{
+        //    try
+        //    {
+        //        var acrState = tools.DriverState("ACR122U");
+        //        var libusbkState = tools.DriverState("LibUsbk");
+        //        if ((string.IsNullOrEmpty(acrState) || acrState == "stopped") && !string.IsNullOrEmpty(libusbkState) && libusbkState != "stopped")
+        //        {
+        //            MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.UnInstallLibUsbKDriver)), "LibUsbK", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    if (!Tools.UninstallLibUsbKDriver())
-                    {
-                        return false;
-                    }
+        //            if (!tools.UninstallLibUsbKDriver())
+        //            {
+        //                return false;
+        //            }
 
-                }
-                acrState = Tools.DriverState("ACR122U");
-                if (!string.IsNullOrEmpty(acrState))
-                {
+        //        }
+        //        acrState = tools.DriverState("ACR122U");
+        //        if (!string.IsNullOrEmpty(acrState))
+        //        {
 
-                    if (acrState == "stopped")
-                    {
-                        Tools.ToggleACR122Enabled();
-                        acrState = Tools.DriverState("ACR122U");
-                    }
-                    if (acrState != "running")
-                    {
-                        MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.ACR122StatusStopped)), Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Warning)), MessageBoxButton.OK, MessageBoxImage.Warning);
-                        return false;
-                    }
-                    return acrState == "running";
-                }
-                else
-                {
+        //            if (acrState == "stopped")
+        //            {
+        //                tools.ToggleACR122Enabled();
+        //                acrState = tools.DriverState("ACR122U");
+        //            }
+        //            if (acrState != "running")
+        //            {
+        //                MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.ACR122StatusStopped)), Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Warning)), MessageBoxButton.OK, MessageBoxImage.Warning);
+        //                return false;
+        //            }
+        //            return acrState == "running";
+        //        }
+        //        else
+        //        {
 
-                    var dr = MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DriverACR122NotInstalled)), "ACR122U", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-                    if (dr == MessageBoxResult.OK)
-                    {
-                        Process.Start(ACSDriversPage);
-                    }
-                }
-                return false;
-            }
-            catch (Exception)
-            {
-                return true;
-            }
-        }
+        //            var dr = MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.DriverACR122NotInstalled)), "ACR122U", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+        //            if (dr == MessageBoxResult.OK)
+        //            {
+        //                Process.Start(ACSDriversPage);
+        //            }
+        //        }
+        //        return false;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return true;
+        //    }
+        //}
         public void PeriodicScanTag()
         {
             if (ScanTagRunning) return;
 
+
+            if (!tagReaders.Any())
+            {
+                tagReaders = pcscTools.GetReaders();
+                //MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.TagReaderNotDetected)));
+            }
+            if (!tagReaders.Any()) return;
+
+            monitor.Start(tagReaders.First());
             ObservableScan = Observable.Interval(TimeSpan.FromSeconds(3));
             // Token for cancelation
             ScanCTS = new CancellationTokenSource();
             // Subscribe the observable to the task on execution.
             ObservableScan.Subscribe(x =>
             {
-                Application.Current?.Dispatcher.Invoke(async () =>
+                Application.Current?.Dispatcher.Invoke(() =>
                 {
+
+
                     ScanCTS.Token.Register(() => ScanTagRunning = false);
                     if (!ckEnablePeriodicTagScan.IsChecked.HasValue || ckEnablePeriodicTagScan.IsChecked.Value == false) return;
                     if (DisplayLog) editor.AppendText($"{DateTime.Now} -  {Translate.Key(nameof(MifareWindowsTool.Properties.Resources.AutoScanTagRunning))}...\n");
-                    await RunNfcListAsync();
+                    DumpBase.CurrentUID = GetTagATR();
                 });
             }, ScanCTS.Token);
             ScanTagRunning = true;
+        }
+
+        private string GetTagATR()
+        {
+            if (!tagReaders.Any()) return string.Empty;
+            try
+            {
+                using (var ctx = ContextFactory.Instance.Establish(SCardScope.System))
+                {
+                    using (var reader = ctx.ConnectReader(tagReaders.First(), SCardShareMode.Shared, SCardProtocol.Any))
+                    {
+                        var cardAtr = reader.GetAttrib(SCardAttribute.AtrString);
+                        LogAppend($"ATR: {BitConverter.ToString(cardAtr)}");
+                        return BitConverter.ToString(cardAtr);
+                    }
+                }
+
+            }
+            catch (Exception)
+            {
+                tagReaders = pcscTools.GetReaders();
+            }
+            return string.Empty;
         }
 
         private async void btnReadTag_Click(object sender, RoutedEventArgs e)
@@ -276,7 +331,7 @@ namespace MCT_Windows
 
         private async Task<bool> ReadTagAsync(TagAction act)
         {
-            if (Tools.running) return false;
+            if (tools.running) return false;
             //DumpFound = false;
             if (!TagFound && !ScanTagRunning)
                 PeriodicScanTag();
@@ -286,7 +341,7 @@ namespace MCT_Windows
                 Mouse.OverrideCursor = Cursors.Wait;
                 if (!ckEnablePeriodicTagScan.IsChecked.HasValue || !ckEnablePeriodicTagScan.IsChecked.Value)
                 {
-                    await RunNfcListAsync();
+                    //TODO   await RunNfcListAsync();
                 }
 
                 if (!string.IsNullOrWhiteSpace(DumpBase.CurrentUID))
@@ -301,12 +356,12 @@ namespace MCT_Windows
                     {
                         if (!DumpFound)
                         {
-                            MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(this, Tools, Translate.Key(nameof(MifareWindowsTool.Properties.Resources.UsedForSourceMapping)), Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Source)));
+                            MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(this, tools, Translate.Key(nameof(MifareWindowsTool.Properties.Resources.UsedForSourceMapping)), Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Source)));
                             Mouse.OverrideCursor = null;
                             var ret = mtsWin.ShowDialog();
                             if (ret.HasValue && ret.Value)
                             {
-                                await RunMfocAsync(SelectedKeys, Tools.SourceBinaryDump.DumpFileName, act,
+                                await RunMfocAsync(SelectedKeys, tools.SourceBinaryDump.DumpFileName, act,
                                     mtsWin.chkCustomProbeNb.IsChecked.HasValue && mtsWin.chkCustomProbeNb.IsChecked.Value ? mtsWin.udNbProbes.Value : 20, mtsWin.chkCustomProbeNb.IsChecked.HasValue && mtsWin.chkCustomProbeNb.IsChecked.Value ? mtsWin.udTolerance.Value : 20);
 
                             }
@@ -316,7 +371,7 @@ namespace MCT_Windows
                         else
                         {
                             Mouse.OverrideCursor = null;
-                            ShowDump(Tools.SourceBinaryDump);
+                            ShowDump(tools.SourceBinaryDump);
                         }
                     }
                     else if (act == TagAction.ReadTarget)
@@ -325,11 +380,11 @@ namespace MCT_Windows
                         {
                             Mouse.OverrideCursor = null;
                             if (!ForceReReadTag) MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.InfoMessageTagToReadAndDecode)), "Information");
-                            MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(this, Tools, Translate.Key(nameof(MifareWindowsTool.Properties.Resources.UsedForTargetMapping)), Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Target)));
+                            MapKeyToSectorWindow mtsWin = new MapKeyToSectorWindow(this, tools, Translate.Key(nameof(MifareWindowsTool.Properties.Resources.UsedForTargetMapping)), Translate.Key(nameof(MifareWindowsTool.Properties.Resources.Target)));
                             var ret = mtsWin.ShowDialog();
                             if (ret.HasValue && ret.Value)
                             {
-                                await RunMfocAsync(SelectedKeys, Tools.TargetBinaryDump.DumpFileName, act,
+                                await RunMfocAsync(SelectedKeys, tools.TargetBinaryDump.DumpFileName, act,
                                         mtsWin.chkCustomProbeNb.IsChecked.HasValue && mtsWin.chkCustomProbeNb.IsChecked.Value ? mtsWin.udNbProbes.Value : 20, mtsWin.chkCustomProbeNb.IsChecked.HasValue && mtsWin.chkCustomProbeNb.IsChecked.Value ? mtsWin.udTolerance.Value : 20);
 
                             }
@@ -348,7 +403,7 @@ namespace MCT_Windows
                 }
                 else
                 {
-                    if (Tools.nfcDeviceFound)
+                    if (tools.nfcDeviceFound)
                     {
                         LogAppend(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.NoTagDetectedOnReader)));
                     }
@@ -369,17 +424,17 @@ namespace MCT_Windows
         private bool ReadDump(TagAction act)
         {
             IDump dump = null;
-            if (act == TagAction.ReadSource) dump = Tools.SourceBinaryDump;
-            else if (act == TagAction.ReadTarget) dump = Tools.TargetBinaryDump;
+            if (act == TagAction.ReadSource) dump = tools.SourceBinaryDump;
+            else if (act == TagAction.ReadTarget) dump = tools.TargetBinaryDump;
             if (dump == null) return false;
             dump.StrDumpUID = DumpBase.CurrentUID;
             if (string.IsNullOrEmpty(dump.DumpFileFullName) || !dump.DumpFileFullName.Contains(dump.StrDumpUID))
             {
                 dump.DumpFileFullName = System.IO.Path.Combine(DumpBase.DefaultDumpPath, $"Dump_{DumpBase.CurrentUID}.mfd");
             }
-            Tools.TMPFILE_UNK = $"mfc_{dump.StrDumpUID}_unknownMfocSectorInfo.txt";
-            Tools.TMPFILE_FND = $"mfc_{dump.StrDumpUID}_foundKeys.txt";
-            if (Tools.CheckAndUseDumpIfExists(dump, act, out bool forceReRead, EasyMode))
+            tools.TMPFILE_UNK = $"mfc_{dump.StrDumpUID}_unknownMfocSectorInfo.txt";
+            tools.TMPFILE_FND = $"mfc_{dump.StrDumpUID}_foundKeys.txt";
+            if (tools.CheckAndUseDumpIfExists(dump, act, out bool forceReRead, EasyMode))
             {
                 ForceReReadTag = forceReRead;
                 GetDumpBinaryOutput(dump.DumpFileFullName, act);
@@ -394,7 +449,7 @@ namespace MCT_Windows
 
         private void OpenWriteDumpWindow()
         {
-            WriteDumpWindow wdw = new WriteDumpWindow(this, Tools);
+            WriteDumpWindow wdw = new WriteDumpWindow(this, tools);
             var ret = wdw.ShowDialog();
             if (!ret.HasValue || !ret.Value)
                 PeriodicScanTag();
@@ -460,82 +515,82 @@ namespace MCT_Windows
             });
         }
 
-        public async Task<string> RunNfcListAsync(int forceIntrusiveScan = 0)
-        {
-            try
-            {
-                var exeFile = "nfc-list.exe";
-                if (!Tools.CheckNfcToolsFolder(exeFile)) return string.Empty;
+        //public async Task<string> RunNfcListAsync(int forceIntrusiveScan = 0)
+        //{
+        //    try
+        //    {
+        //        var exeFile = "nfc-list.exe";
+        //        if (!Tools.CheckNfcToolsFolder(exeFile)) return string.Empty;
 
-                var stdOutFull = "";
-                var cmd = Cli.Wrap($"{DumpBase.DefaultNfcToolsPath}\\{exeFile}").WithValidation(CommandResultValidation.None);
-                //task = cmd.ExecuteAsync();
-                //ShowPauseButton(task != null);
-                await foreach (CommandEvent cmdEvent in cmd.ListenAsync(ScanCTS.Token).WithCancellation(ScanCTS.Token))
-                {
-                    switch (cmdEvent)
-                    {
-                        case StandardOutputCommandEvent stdOut:
-                            stdOutFull += stdOut.Text;
-                            LogAppend(stdOut.Text);
-                            if (stdOut.Text.Contains("UID"))
-                            {
-                                DumpBase.CurrentUID = SetCurrentUID(stdOutFull);
-                            }
+        //        var stdOutFull = "";
+        //        var cmd = Cli.Wrap($"{DumpBase.DefaultNfcToolsPath}\\{exeFile}").WithValidation(CommandResultValidation.None);
+        //        //task = cmd.ExecuteAsync();
+        //        //ShowPauseButton(task != null);
+        //        await foreach (CommandEvent cmdEvent in cmd.ListenAsync(ScanCTS.Token).WithCancellation(ScanCTS.Token))
+        //        {
+        //            switch (cmdEvent)
+        //            {
+        //                case StandardOutputCommandEvent stdOut:
+        //                    stdOutFull += stdOut.Text;
+        //                    LogAppend(stdOut.Text);
+        //                    if (stdOut.Text.Contains("UID"))
+        //                    {
+        //                        DumpBase.CurrentUID = SetCurrentUID(stdOutFull);
+        //                    }
 
-                            break;
-                        case StandardErrorCommandEvent stdErr:
-                            ErrorAppend(stdErr.Text);
-                            break;
-                        case ExitedCommandEvent exited:
-                            if (exited.ExitCode != 0)
-                            {
+        //                    break;
+        //                case StandardErrorCommandEvent stdErr:
+        //                    ErrorAppend(stdErr.Text);
+        //                    break;
+        //                case ExitedCommandEvent exited:
+        //                    if (exited.ExitCode != 0)
+        //                    {
 
-                                if (cptFail < 1)
-                                {
-                                    var dr = MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.BadgeReaderAcr122NotFound)), "Badge reader", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-                                    if (dr == MessageBoxResult.OK)
-                                    {
-                                        cptFail++;
-                                    }
-                                }
-                                DumpBase.CurrentUID = "";
-                            }
-                            else
-                            {
-                                if (stdOutFull.Contains("No NFC device found."))
-                                {
-                                    DumpBase.CurrentUID = "";
-                                    Tools.nfcDeviceFound = false;
-                                    ScanTagRunning = false;
-                                    ScanCTS.Cancel();
-                                }
-                            }
-                            break;
-                        default: break;
-                    }
-                }
-                return DumpBase.CurrentUID;
-            }
-          
-            catch (Exception ex)
-            {
-                if (ex is TaskCanceledException || ex is OperationCanceledException)
-                {
-                    ckEnablePeriodicTagScan.IsChecked = false;
-                    ScanTagRunning = false;
-                    return "";
-                }
-                MessageBox.Show(ex.ToString());
-                return "";
-            }
-        }
+        //                        if (cptFail < 1)
+        //                        {
+        //                            var dr = MessageBox.Show(Translate.Key(nameof(MifareWindowsTool.Properties.Resources.BadgeReaderAcr122NotFound)), "Badge reader", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+        //                            if (dr == MessageBoxResult.OK)
+        //                            {
+        //                                cptFail++;
+        //                            }
+        //                        }
+        //                        DumpBase.CurrentUID = "";
+        //                    }
+        //                    else
+        //                    {
+        //                        if (stdOutFull.Contains("No NFC device found."))
+        //                        {
+        //                            DumpBase.CurrentUID = "";
+        //                            Tools.nfcDeviceFound = false;
+        //                            ScanTagRunning = false;
+        //                            ScanCTS.Cancel();
+        //                        }
+        //                    }
+        //                    break;
+        //                default: break;
+        //            }
+        //        }
+        //        return DumpBase.CurrentUID;
+        //    }
+
+        //    catch (Exception ex)
+        //    {
+        //        if (ex is TaskCanceledException || ex is OperationCanceledException)
+        //        {
+        //            ckEnablePeriodicTagScan.IsChecked = false;
+        //            ScanTagRunning = false;
+        //            return "";
+        //        }
+        //        MessageBox.Show(ex.ToString());
+        //        return "";
+        //    }
+        //}
         public async Task<bool> RunDetectChineseMagicCardAsync(int forceIntrusiveScan = 0)
         {
             try
             {
                 var exeFile = "nfc-detect-chinese-magic-card.exe";
-                if (!Tools.CheckNfcToolsFolder(exeFile)) return false;
+                if (!tools.CheckNfcToolsFolder(exeFile)) return false;
 
 
                 var result = await Cli.Wrap($"{DumpBase.DefaultNfcToolsPath}\\{exeFile}").WithArguments("-s").ExecuteAsync();
@@ -627,12 +682,12 @@ namespace MCT_Windows
             try
             {
                 var exeFile = "nfc-mfclassic.exe";
-                if (!Tools.CheckNfcToolsFolder(exeFile)) return;
+                if (!tools.CheckNfcToolsFolder(exeFile)) return;
                 StopScanTag();
                 ValidateActions(false);
                 ShowAbortButton();
-                var sourceDump = Tools.SourceBinaryDump;
-                var targetDump = Tools.TargetBinaryDump;
+                var sourceDump = tools.SourceBinaryDump;
+                var targetDump = tools.TargetBinaryDump;
                 char writeMode = bWriteBlock0 == true ? 'W' : 'w';
                 char useKey = useKeyA == true ? 'A' : 'B';
                 char cHaltOnError = haltOnError == true ? useKey = char.ToLower(useKey) : char.ToUpper(useKey);
@@ -647,7 +702,7 @@ namespace MCT_Windows
                 {
                     forceEndWriteBlock = $"-t {endWriteblock}";
                 }
-                if (!string.IsNullOrEmpty(customACL) && customACL.ToUpper() != Tools.DefaultAccessConditions)
+                if (!string.IsNullOrEmpty(customACL) && customACL.ToUpper() != tools.DefaultAccessConditions)
                 {
                     forceCustomACL = $"-a {customACL}";
                 }
@@ -693,7 +748,7 @@ namespace MCT_Windows
             try
             {
                 var exeFile = "mfoc-hardnested.exe";
-                if (!Tools.CheckNfcToolsFolder(exeFile)) return;
+                if (!tools.CheckNfcToolsFolder(exeFile)) return;
                 Mouse.OverrideCursor = Cursors.Wait;
                 bool showDump = false;
                 StopScanTag();
@@ -702,7 +757,7 @@ namespace MCT_Windows
                 string arguments = "";
                 tmpFileMfd = Path.Combine(DumpBase.DefaultDumpPath, tmpFileMfd);
 
-                var tmpFileUnk = Path.Combine(DumpBase.DefaultDumpPath, Tools.TMPFILE_UNK);
+                var tmpFileUnk = Path.Combine(DumpBase.DefaultDumpPath, tools.TMPFILE_UNK);
 
                 if (System.IO.File.Exists(tmpFileUnk))
                     arguments += $" -D \"{tmpFileUnk}\"";
@@ -743,7 +798,7 @@ namespace MCT_Windows
                             ErrorAppend(stdErr.Text);
                             break;
                         case ExitedCommandEvent exited:
-                            if (showDump) ShowDump(Tools.SourceBinaryDump);
+                            if (showDump) ShowDump(tools.SourceBinaryDump);
                             GetDumpBinaryOutput(tmpFileMfd, act);
                             break;
                     }
@@ -774,10 +829,10 @@ namespace MCT_Windows
         {
             if (!File.Exists(tmpFileMfd)) return;
             var binary = File.ReadAllBytes(tmpFileMfd);
-            if (act == TagAction.ReadSource && (Tools.SourceBinaryDump.DumpData.HexData == null || !Tools.SourceBinaryDump.DumpData.HexData.SequenceEqual(binary)))
-                Tools.SourceBinaryDump.DumpData.HexData = binary;
-            else if (act == TagAction.ReadTarget && (Tools.TargetBinaryDump.DumpData.HexData == null || !Tools.TargetBinaryDump.DumpData.HexData.SequenceEqual(binary)))
-                Tools.TargetBinaryDump.DumpData.HexData = binary;
+            if (act == TagAction.ReadSource && (tools.SourceBinaryDump.DumpData.HexData == null || !tools.SourceBinaryDump.DumpData.HexData.SequenceEqual(binary)))
+                tools.SourceBinaryDump.DumpData.HexData = binary;
+            else if (act == TagAction.ReadTarget && (tools.TargetBinaryDump.DumpData.HexData == null || !tools.TargetBinaryDump.DumpData.HexData.SequenceEqual(binary)))
+                tools.TargetBinaryDump.DumpData.HexData = binary;
         }
 
         public void ErrorAppend(string msg)
@@ -808,7 +863,7 @@ namespace MCT_Windows
         private void btnEditAddKeyFile_Click(object sender, RoutedEventArgs e)
         {
             StopScanTag();
-            SelectKeyFilesWindow ekf = new SelectKeyFilesWindow(this, Tools);
+            SelectKeyFilesWindow ekf = new SelectKeyFilesWindow(this, tools);
             ekf.ShowDialog();
             PeriodicScanTag();
         }
@@ -840,7 +895,7 @@ namespace MCT_Windows
 
         private void btnTools_Click(object sender, RoutedEventArgs e)
         {
-            var stw = new SelectToolWindow(this, Tools);
+            var stw = new SelectToolWindow(this, tools);
             stw.Show();
         }
 

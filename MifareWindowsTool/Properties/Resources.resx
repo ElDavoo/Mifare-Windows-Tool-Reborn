@@ -383,8 +383,8 @@ DUMP FILE</value>
   <data name="French" xml:space="preserve">
     <value>French</value>
   </data>
-  <data name="ACR122NotPlugged" xml:space="preserve">
-    <value>ACR122U tag reader doesn't seem to be plugged in!</value>
+  <data name="TagReaderNotDetected" xml:space="preserve">
+    <value>No tag reader is detected!</value>
   </data>
   <data name="DriverACR122NotInstalled" xml:space="preserve">
     <value>ACR122U Tag reader driver doesn't seem to be installed.

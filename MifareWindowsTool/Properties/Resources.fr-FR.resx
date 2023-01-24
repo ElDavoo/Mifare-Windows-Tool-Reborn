@@ -388,8 +388,8 @@
   <data name="French" xml:space="preserve">
     <value>Français</value>
   </data>
-  <data name="ACR122NotPlugged" xml:space="preserve">
-    <value>Le lecteur de badges ACR122U ne semble pas branché !</value>
+  <data name="TagReaderNotDetected" xml:space="preserve">
+    <value>Aucun lecteur de badges détecté !</value>
   </data>
   <data name="DriverACR122NotInstalled" xml:space="preserve">
     <value>Le pilote du lecteur ACR122U ne semble pas installé.
