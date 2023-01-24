@@ -517,15 +517,15 @@ namespace MCT_Windows
                 }
                 return DumpBase.CurrentUID;
             }
-            catch (OperationCanceledException)
-            {
-                ckEnablePeriodicTagScan.IsChecked = false;
-                ScanTagRunning = false;
-                return "";
-            }
-
+          
             catch (Exception ex)
             {
+                if (ex is TaskCanceledException || ex is OperationCanceledException)
+                {
+                    ckEnablePeriodicTagScan.IsChecked = false;
+                    ScanTagRunning = false;
+                    return "";
+                }
                 MessageBox.Show(ex.ToString());
                 return "";
             }
