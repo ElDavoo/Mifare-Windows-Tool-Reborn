@@ -327,6 +327,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="app.manifest" />
+    <None Include="nfctools_pcsc\libnfc.conf" />
     <None Include="nfctools_pcsc\Template_Flipper_1K.nfc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -353,10 +354,7 @@
   <ItemGroup>
     <Resource Include="MWT_square.ico" />
     <Resource Include="MWT_square.png" />
-    <Content Include="nfctools_pcsc\concrt140.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools_pcsc\kernel32.dll">
+    <Content Include="nfctools_pcsc\liblzma.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="nfctools_pcsc\libusb-1.0.dll">
@@ -366,21 +364,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="nfctools_pcsc\mfoc-hardnested.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools_pcsc\msvcp140.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools_pcsc\msvcp140_1.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools_pcsc\msvcp140_2.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools_pcsc\msvcp140_atomic_wait.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools_pcsc\msvcp140_codecvt_ids.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="nfctools_pcsc\nfc-anticol.exe">
@@ -455,22 +438,7 @@
     <Content Include="nfctools_pcsc\pn53x-tamashell.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="nfctools_pcsc\ucrtbase.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools_pcsc\ucrtbased.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools_pcsc\vcruntime140.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools_pcsc\vcruntime140d.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools_pcsc\vcruntime140_1.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nfctools_pcsc\WinSCard.dll">
+    <Content Include="nfctools_pcsc\pthreadVSE3.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\MWT.ico">
