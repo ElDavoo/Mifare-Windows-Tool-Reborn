@@ -327,6 +327,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="app.manifest" />
+    <None Include="nfctools_pcsc\confs\libnfc1.conf.sample">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="nfctools_pcsc\libnfc.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
