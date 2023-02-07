@@ -1,4 +1,12 @@
-﻿# Mifare Windows Tool - MWT 
+﻿# Mifare Windows Tool Reborn - MWTR
+
+## Important
+
+As xavave suddenly deleted the repository, the project is now on life support. Maintainer needed!  
+
+Original readme below.
+
+# Mifare Windows Tool - MWT 
  ![MWT_small](https://user-images.githubusercontent.com/3501675/73345370-3cb78d80-4284-11ea-8c17-e67fa8b54adc.png)
  
 ### [EN] This is a Windows NFC-App for reading, writing, analyzing, cloning, etc. MIFARE® Classic RFID-Tags
@@ -25,14 +33,6 @@ MIFARE® is a registered trademark of NXP Semiconductors.
 
 #### GENERAL INFORMATION / INFOS GENERALES
 
-Update January 2023:
-- In order to update and fix MWT, I would need new tag readers like ACR122U-A9 and other device like ACR1255U or ACR1311: if someone wants to participate and help me to release new versions, he can send me some new tag readers that you would like to be included in MWT, and I will see if it's possible or not.
-Contact me if you are interested. Thanks
-
-You can donate for this Windows fork :
-
-[Donate with Paypal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=V5ZP47AVFHRVY) [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=V5ZP47AVFHRVY)
-
 This app was originally made on Android by ikarus23. Please check it out!
 https://github.com/ikarus23/MifareClassicTool
 You can also donate to them as a thank you.
@@ -43,13 +43,13 @@ You can also donate to them as a thank you.
 
 It is designed for users who have at least basic familiarity with the MIFARE Classic technology.
 
-More information in <a href="https://github.com/xavave/Mifare-Windows-Tool/wiki">WIKI<a/> 
+More information in <a href="https://github.com/ElDavoo/Mifare-Windows-Tool-Reborn/wiki">WIKI<a/> 
  
 [FR] Cette outil propose différentes fonctionnalités pour interagir avec les badges RFID MIFARE Classic, à l'aide d'un lecteur de badges ACR-122U.
 
 Il est conçu pour des utilisateurs aillant au moins un minimum de connaissances sur cette technologie.
 
-Plus d'infos sur le wiki ici : https://github.com/xavave/Mifare-Windows-Tool/wiki/Home-fr-FR
+Plus d'infos sur le wiki ici : https://github.com/ElDavoo/Mifare-Windows-Tool-Reborn/wiki/Home-fr-FR
 
 #### PREREQUISITES / PREREQUIS
 
@@ -62,12 +62,12 @@ Plus d'infos sur le wiki ici : https://github.com/xavave/Mifare-Windows-Tool/wik
 
 #### [EN] DOWNLOAD [FR] TELECHARGEMENT / INSTALLATION
 
-[EN] Windows x64 : With MSI Setup provided here : https://github.com/xavave/Mifare-Windows-Tool/releases
+[EN] Windows x64 : With MSI Setup provided here : https://github.com/ElDavoo/Mifare-Windows-Tool-Reborn/releases
 
-[![image](https://user-images.githubusercontent.com/3501675/73595182-df3a6f80-4515-11ea-915a-011c9f363317.png)](https://github.com/xavave/Mifare-Windows-Tool/releases)
+[![image](https://user-images.githubusercontent.com/3501675/73595182-df3a6f80-4515-11ea-915a-011c9f363317.png)](https://github.com/ElDavoo/Mifare-Windows-Tool-Reborn/releases)
 
 
-[FR] Installation sur Windows 64 bits avec le fichier de setup fourni ici : https://github.com/xavave/Mifare-Windows-Tool/releases
+[FR] Installation sur Windows 64 bits avec le fichier de setup fourni ici : https://github.com/ElDavoo/Mifare-Windows-Tool-Reborn/releases
 
 #### LANGUAGES / LANGUES
 
@@ -98,9 +98,9 @@ These tags will not work.
 
 - Remember this when you are shopping for special tags!
 
-#### [EN] IF YOU ENCOUNTER A PROBLEM PLEASE REPORT IT <a href="https://github.com/xavave/Mifare-Windows-Tool/issues">HERE</a> 
+#### [EN] IF YOU ENCOUNTER A PROBLEM PLEASE REPORT IT <a href="https://github.com/ElDavoo/Mifare-Windows-Tool-Reborn/issues">HERE</a> 
 
-#### [FR] SI VOUS RENCONTREZ DES PROBLEMES D'INSTALLATION ET/OU D'UTILISATION, SIGNALEZ LES <a href="https://github.com/xavave/Mifare-Windows-Tool/issues">ICI</a>  :
+#### [FR] SI VOUS RENCONTREZ DES PROBLEMES D'INSTALLATION ET/OU D'UTILISATION, SIGNALEZ LES <a href="https://github.com/ElDavoo/Mifare-Windows-Tool-Reborn/issues">ICI</a>  :
 
 | <img src="https://user-images.githubusercontent.com/3501675/73281623-8c4c7980-41f0-11ea-967b-f649b0147f0a.png" width="300" height="auto" /> | <img src="https://user-images.githubusercontent.com/3501675/73309783-3f35cb00-4223-11ea-9df6-73375f301b28.png" width="600" height="auto" /> |
 |---|---|
@@ -109,4 +109,4 @@ These tags will not work.
 | <img src="https://user-images.githubusercontent.com/3501675/73311455-b91b8380-4226-11ea-8ff7-c53153d2ab51.png" width="600" height="auto" /> | <img src="https://user-images.githubusercontent.com/3501675/73455790-073c9e00-4371-11ea-8d52-8b9b7bde8c3d.png" width="500" height="auto" /> |  
 |---|---|
 
-update january 2022: updated libusbK 3.1.0.0 installation guide: https://github.com/xavave/Mifare-Windows-Tool/issues/27#issuecomment-1013957721
+update january 2022: updated libusbK 3.1.0.0 installation guide: https://github.com/ElDavoo/Mifare-Windows-Tool-Reborn/issues/27#issuecomment-1013957721
